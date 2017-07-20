@@ -1,0 +1,79 @@
+[{
+        "group_name": 1,
+        "group_description": 1,
+        "latitude": 37.504301537,
+        "longitude": 127.0248342127
+    },
+    {
+        "group_name": 2,
+        "group_description": 2,
+        "latitude": 37.504080237,
+        "longitude": 127.0275807127
+    },
+    {
+        "group_name": 3,
+        "group_description": 3,
+        "latitude": 37.504454737,
+        "longitude": 127.0319581127
+    },
+    {
+        "group_name": 4,
+        "group_description": 4,
+        "latitude": 37.504761137,
+        "longitude": 127.0225596127
+    },
+    {
+        "group_name": 5,
+        "group_description": 5,
+        "latitude": 37.508352837,
+        "longitude": 127.0307565127
+    },
+    {
+        "group_name": 6,
+        "group_description": 6,
+        "latitude": 37.509629437,
+        "longitude": 127.0248342127
+    },
+    {
+        "group_name": 7,
+        "group_description": 7,
+        "latitude": 37.507388237,
+        "longitude": 127.0235324127
+    },
+    {
+        "group_name": 8,
+        "group_description": 8,
+        "latitude": 37.507822337,
+        "longitude": 127.0257640127
+    },
+    {
+        "group_name": 9,
+        "group_description": 9,
+        "latitude": 37.508818037,
+        "longitude": 127.0220518127
+    },
+    {
+        "group_name": 10,
+        "group_description": 10,
+        "latitude": 37.509047837,
+        "longitude": 127.0284677127
+    },
+    {
+        "group_name": 11,
+        "group_description": 11,
+        "latitude": 37.509047837,
+        "longitude": 127.0284677127
+    },
+    {
+        "group_name": 12,
+        "group_description": 12,
+        "latitude": 37.506469037,
+        "longitude": 127.0260215127
+    },
+    {
+        "group_name": 13,
+        "group_description": 13,
+        "latitude": 37.505873337,
+        "longitude": 127.0278454127
+    }
+]

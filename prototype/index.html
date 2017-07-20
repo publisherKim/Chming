@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style type="text/css">
+        .header {
+            min-height: 80px;
+        }
+        
+        .header select {
+            min-width: 30%;
+        }
+        
+        .header input {
+            min-width: 30%;
+        }
+        
+        .hambuger {
+            position: absolute;
+            right: 10px;
+            top: 10px;
+        }
+        
+        .button-next {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <select>
+              <option>서현/야탑</option>
+              <option>서현/야탑1</option>
+              <option>서현/야탑2</option>
+              <option>서현/야탑3</option>
+        </select>
+        <input type="text">
+        <button type="button">검색</button>
+        <button class="hambuger" type="button">햄버거메뉴</button>
+        <div>
+            <button class="button-next" type="button">다음</button>
+        </div>
+    </div>
+    <div class="map-wrap">
+        <div id="map" style="width:100%; height:100vh;"></div>
+    </div>
+    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=ae1014ad112b042fd91beca4a63e6e02"></script>
+    <script>
+        var mapContainer = document.getElementById('map'), // 지도를 표시할 div  
+            mapOption = {
+                center: new daum.maps.LatLng(37.504301537, 127.0248342127), // 지도의 중심좌표
+                level: 3 // 지도의 확대 레벨
+            };
+
+        var map = new daum.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
+
+        // 마커를 표시할 위치와 title 객체 배열입니다 
+        var positions = [{
+            title: '카카오',
+            text: '우리 모임은 사랑해요 입니다.',
+            latlng: new daum.maps.LatLng(37.504301537, 127.0248342127)
+        }, {
+            title: '생태연못',
+            text: '우리 모임은 생태연못 입니다.',
+            latlng: new daum.maps.LatLng(37.504080237, 127.0275807127)
+        }, {
+            title: '텃밭',
+            text: '우리 모임은 텃밭 입니다.',
+            latlng: new daum.maps.LatLng(37.504454737, 127.0319581127)
+        }, {
+            title: '근린공원',
+            text: '우리 모임은 근린공원 입니다.',
+            latlng: new daum.maps.LatLng(37.504761137, 127.0307565127)
+        }, {
+            title: '야구',
+            text: '우리 모임은 야구 입니다.',
+            latlng: new daum.maps.LatLng(37.508352837, 127.0307565127)
+        }, {
+            title: '축구',
+            text: '우리 모임은 축구 입니다.',
+            latlng: new daum.maps.LatLng(37.509629437, 127.0248342127)
+        }, {
+            title: '농구',
+            text: '우리 모임은 농구 입니다.',
+            latlng: new daum.maps.LatLng(37.507388237, 127.0235324127)
+        }, {
+            title: '배구',
+            text: '우리 모임은 배구 입니다.',
+            latlng: new daum.maps.LatLng(37.507822337, 127.0257640127)
+        }, {
+            title: '농촌사랑',
+            text: '우리 모임은 농촌사랑 입니다.',
+            latlng: new daum.maps.LatLng(37.508818037, 127.0220518127)
+        }, {
+            title: '메롱',
+            text: '우리 모임은 메롱 입니다.',
+            latlng: new daum.maps.LatLng(37.509047837, 127.0284677127)
+        }];
+
+        // 마커 이미지의 이미지 주소입니다
+        var imageSrc = "http://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png";
+
+        for (var i = 0; i < positions.length; i++) {
+
+            // 마커 이미지의 이미지 크기 입니다
+            var imageSize = new daum.maps.Size(24, 35);
+
+            // 마커 이미지를 생성합니다    
+            var markerImage = new daum.maps.MarkerImage(imageSrc, imageSize);
+
+            // 마커를 생성합니다
+            var marker = new daum.maps.Marker({
+                map: map, // 마커를 표시할 지도
+                position: positions[i].latlng, // 마커를 표시할 위치
+                title: positions[i].title + '\n' + positions[i].text, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
+                image: markerImage // 마커 이미지 
+            });
+        }
+
+        var btnNext = document.querySelector('.button-next');
+        btnNext.addEventListener('click', panTo);
+
+        count = 0;
+
+        function panTo() {
+
+            console.log(positions);
+            console.log(positions[count].latlng.hb, positions[count].latlng.ib);
+            count++;
+            console.log(count);
+            if (count > 9) {
+                count = 0;
+            }
+            // 이동할 위도 경도 위치를 생성합니다 
+            var moveLatLon = new daum.maps.LatLng(positions[count].latlng.ib, positions[count].latlng.hb);
+
+            // 지도 중심을 부드럽게 이동시킵니다
+            // 만약 이동할 거리가 지도 화면보다 크면 부드러운 효과 없이 이동합니다
+            map.panTo(moveLatLon);
+        }
+    </script>
+</body>
+
+</html>
