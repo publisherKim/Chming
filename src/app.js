@@ -22,7 +22,10 @@
 
   function setEventListener() {
     var btnNext = document.querySelector('.button-next');
-    btnNext.addEventListener('click', showMyLocation);
+    btnNext.addEventListener('click', panTo);
+
+    var btnMyLocation = document.querySelector('.button-my-location');
+    btnMyLocation.addEventListener('click', showMyLocation);
 
     // daum.maps.event.addListener(map, 'center_changed', function() {
     //   map.setCenter(center);
