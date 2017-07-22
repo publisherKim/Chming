@@ -15,7 +15,7 @@
     center = map.getCenter();
     global.map = map;
 
-    console.log('test');
+    console.log('testrereer');
     
     setEventListener();
     getInitialData();
