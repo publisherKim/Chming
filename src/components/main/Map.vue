@@ -8,7 +8,11 @@ export default {
   data() {
     return {
       msg: 'Welcome Map',
+      test: 'test',
     };
+  },
+  methods: {
+
   },
 };
 </script>
