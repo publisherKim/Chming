@@ -9,10 +9,12 @@ import groupRoutes from './partials/group';
 
 Vue.use(Router);
 
-export default new Router({
+const router = new Router({
   routes: [
     mainRoutes,
     userRoutes,
     groupRoutes,
   ],
 });
+
+export default router;
