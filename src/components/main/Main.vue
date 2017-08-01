@@ -1,46 +1,25 @@
 <template lang="pug">
-  div
-    h2 {{ msg }}
-    MainMap
+  .main-container
+    h2 {{msg}}
+    .foo
+      span test
 </template>
 
 <script>
-import MainMap from '../../components/common/Map';
-
 export default {
-  name: 'Map',
+  name: 'Main',
   data() {
     return {
-      msg: 'Welcome Map',
-      test: 'test',
+      msg: 'Welcome Main',
     };
-  },
-  components: {
-    MainMap,
-  },
-  methods: {
-
   },
 };
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style>
-h1, h2 {
-  font-weight: normal;
-}
-
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-
-a {
-  color: #42b983;
-}
+<style lang="sass" scoped>
+@import "~chming"
+@import "~susy/sass/susy"
+.foo
+  width: span(5 of 12) 
 </style>
