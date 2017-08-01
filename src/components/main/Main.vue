@@ -1,8 +1,12 @@
-<template>
-  <h2>{{ msg }}</h2>
+<template lang="pug">
+  div
+    h2 {{ msg }}
+    MainMap
 </template>
 
 <script>
+import MainMap from '../../components/common/Map';
+
 export default {
   name: 'Map',
   data() {
@@ -11,6 +15,9 @@ export default {
       test: 'test',
     };
   },
+  components: {
+    MainMap,
+  },
   methods: {
 
   },
@@ -18,7 +25,7 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
+<style>
 h1, h2 {
   font-weight: normal;
 }
