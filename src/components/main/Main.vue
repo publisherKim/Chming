@@ -21,5 +21,5 @@ export default {
 @import "~chming"
 @import "~susy/sass/susy"
 .foo
-  width: span(5 of 12)
+  width: span(5 of 12) 
 </style>
