@@ -1,18 +1,18 @@
 <template lang="pug">
   .container
-    Header
-    MainMap
+    main-header
+    main-map
 </template>
 
 <script>
-import Header from '@/components/header/Header';
+import MainHeader from '@/components/header/Header';
 import MainMap from '@/components/common/Map';
 
 export default {
   name: 'Main',
   components: {
     MainMap,
-    Header,
+    MainHeader,
   },
   data() {
     return {
