@@ -1,5 +1,6 @@
 <template lang="pug">
   #app
+    router-view(name="menu")
     router-view
 </template>
 
@@ -7,4 +8,4 @@
 export default {
   name: 'app',
 };
-</script>
+
