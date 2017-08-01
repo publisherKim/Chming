@@ -27,8 +27,4 @@ export default {
   #map
     width: 100%
     height: 70vh
-<<<<<<< HEAD
-=======
-
->>>>>>> b5b98f951a9673959016b9f8c4b8e28e9b2e4575
 </style>
