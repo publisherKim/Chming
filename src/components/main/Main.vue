@@ -2,7 +2,7 @@
   .main-container
     h2 {{msg}}
     .foo
-      span test
+      span {{msg}}
 </template>
 
 <script>
