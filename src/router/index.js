@@ -1,13 +1,19 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import Map from '@/components/main/Map';
+// Main
+import mainRoutes from './main';
+// User
+import userRoutes from './user';
+// Group
+import groupRoutes from './group';
+
 
 Vue.use(Router);
 
 export default new Router({
-  routes: [{
-    path: '/',
-    name: 'Map',
-    component: Map,
-  }],
+  routes: [
+    mainRoutes,
+    userRoutes,
+    groupRoutes,
+  ],
 });
