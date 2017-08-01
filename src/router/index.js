@@ -7,7 +7,6 @@ import userRoutes from './user';
 // Group
 import groupRoutes from './group';
 
-
 Vue.use(Router);
 
 export default new Router({
