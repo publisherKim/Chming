@@ -1,6 +1,6 @@
 <template lang="pug">
   .filter-wrap
-
+    
 </template>
 
 <script>
