@@ -1,11 +1,14 @@
 <template lang="pug">
-  #app
-    router-view(name="menu")
-    router-view
+  .filter-wrap
+
 </template>
 
 <script>
 export default {
-  name: 'app',
-};
+  
+}
 </script>
+
+<style lang="sass">
+  
+</style>
