@@ -1,4 +1,5 @@
 <template lang="pug">
+<<<<<<< HEAD
   div
     JoinMap
 </template>
@@ -13,3 +14,7 @@ export default {
 };
 
 </script>
+=======
+  h2 Join.vue
+</template>
+>>>>>>> 7ff0b167cb28d2ddd8b9a4bdcc1139c5377894f4
