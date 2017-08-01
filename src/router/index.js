@@ -1,11 +1,11 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 // Main
-import mainRoutes from './main';
+import mainRoutes from './partials/main';
 // User
-import userRoutes from './user';
+import userRoutes from './partials/user';
 // Group
-import groupRoutes from './group';
+import groupRoutes from './partials/group';
 
 Vue.use(Router);
 
