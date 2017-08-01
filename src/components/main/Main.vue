@@ -1,19 +1,22 @@
 <template lang="pug">
-  .main-container
-    h2 {{msg}}
-    .container
-      .is-test
-        span {{msg}}
-      .is-test
-        span {{msg}}
+  .container
+    Header
+    MainMap
 </template>
 
 <script>
+import Header from '@/components/header/Header';
+import MainMap from '@/components/common/Map';
+
 export default {
   name: 'Main',
+  components: {
+    MainMap,
+    Header,
+  },
   data() {
     return {
-      msg: 'Welcome Main',
+
     };
   },
 };
@@ -23,9 +26,4 @@ export default {
 <style lang="sass" scoped>
 @import "~chming"
 
-.container
-  +container(1000px)
-.is-test
-  +span(isolate 3 at 2)
-  background: red
 </style>
