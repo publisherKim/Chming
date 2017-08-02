@@ -1,3 +1,3 @@
 <template lang="pug">
-  h2 User.vue
+  router-view
 </template>
