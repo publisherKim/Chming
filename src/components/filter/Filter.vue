@@ -11,21 +11,32 @@
     button.interest-button(
       @click="filterToggle('interest')"
       type="button"
-    ) 필터
+    ) 관심사
+    .filter(ref="filter" :is="filter")
 </template>
 
 <script>
+import SortFilter from './SortFilter';
+import InterestFilter from './InterestFilter';
+import MylocationFilter from './MylocationFilter';
+
 export default {
   data() {
     return {
-      sortFilterActive: false,
-      mylocationFilterActive: false,
-      interestFilterActive: false,
+      filter: null
     };
+  },
+  components: {
+    SortFilter,
+    InterestFilter,
+    MylocationFilter,
   },
   methods: {
     filterToggle(filter) {
-      this[filter + 'FilterActive'] = !this[filter + 'FilterActive'];
+      this.filter = filter + '-filter';
+      let refFilter = this.$refs.filter;
+
+      refFilter && refFilter.$options._componentTag.includes(filter) && (this.filter = null);
     },
   },
 };
@@ -33,22 +44,28 @@ export default {
 
 <style lang="sass" scoped>
   @import "~chming"
-  $filter-background-color: rgb(248, 248, 248)
 
   .filter-wrap
     +container()
-    background: $filter-background-color
+    background: rgb(248, 248, 248)
     button
       font-size: 1.2rem
       padding: 3px 5px
-      background: none
   .sort-button
     border: 0
     text-decoration: underline
+    background: none
   .mylocation-button
-    border: 1px solid #000
+    border: 0
+    background: rgb(230, 230, 230)
     border-radius: 1rem
   .interest-button
     border: 1px solid #000
+    background: none
     border-radius: 1rem
+  .filter
+    +full
+    position: absolute
+    bottom: 0
+    left: 0
 </style>
