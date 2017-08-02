@@ -1,17 +1,20 @@
 <template lang="pug">
   .container
     main-header
+    main-filter
     main-map
 </template>
 
 <script>
 import MainHeader from '@/components/header/Header';
+import MainFilter from '@/components/filter/Filter';
 import MainMap from '@/components/common/Map';
 
 export default {
   name: 'Main',
   components: {
     MainMap,
+    MainFilter,
     MainHeader,
   },
   data() {
