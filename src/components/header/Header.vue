@@ -1,8 +1,8 @@
 <template lang="pug">
   .header-wrap
     .current-location-wrap
-      form 
-        h2.tit-header 지금 보고있는 지역은
+      form
+        h2 지금 보고있는 지역은
         button(type="button") 서현/야탑
     .search-keyword-wrap
       form
@@ -19,13 +19,15 @@
   };
 </script>
 
-<style lang="sass">
+<style lang="sass" scoped>
   @import "~chming"
   .header-wrap
     +container()
     width: calc(100% - 10px)
+  .title
+    aldfljf
   // current-location
-  .current-location-wrap
+  .current-location-wrap 
     +span(isolate 3 at 1)
     h2
       font-size: 14px
@@ -33,7 +35,7 @@
 
   // search-keyword-wrap
   .search-keyword-wrap
-    +span(isolate 5 at 3)
+    +span(isolate 5 at 4)
     input
       display: inline-block
       width : span( 3 of 5)
