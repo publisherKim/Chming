@@ -25,14 +25,12 @@
     +container()
     width: calc(100% - 10px)
   .title
-    aldfljf
   // current-location
   .current-location-wrap 
     +span(isolate 3 at 1)
     h2
       font-size: 14px
       margin: 0px
-
   // search-keyword-wrap
   .search-keyword-wrap
     +span(isolate 5 at 4)

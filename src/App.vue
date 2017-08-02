@@ -8,4 +8,9 @@
 export default {
   name: 'app',
 };
+</script>
+
+<style lang="sass">
+  @import "~chming"
+</style>
 

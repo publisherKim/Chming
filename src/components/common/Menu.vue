@@ -1,6 +1,6 @@
 <template lang="pug">
   .container
-    LoginMenu
+    login-menu
 </template>
 
 <script>
@@ -13,3 +13,6 @@
   };
 </script>
 
+<style lang="sass" scoped>
+
+</style>
