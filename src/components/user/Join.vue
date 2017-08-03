@@ -21,9 +21,25 @@
           aria-label="비밀번호"
         )
       p
-        input.year(type="number" placeholder="1993" min="1900" :max="maxYear" aria-label="birth")
-        input.month(type="number" placeholder="07" min="1" max="12" aria-label="month")
-        input.day(type="number" placeholder="07" min="1" max="31" aria-label="day")
+        input.year(
+          type="number" 
+          placeholder="1993" 
+          min="1900" 
+          :max="maxYear" 
+          aria-label="생년"
+        )
+        input.month(
+          type="number" 
+          placeholder="07" 
+          min="1" max="12" 
+          aria-label="월"
+        )
+        input.day(
+          type="number" 
+          placeholder="07" 
+          min="1" max="31" 
+          aria-label="일"
+        )
       p
         input#man(type="radio" name="gender" checked)
         label(for="man") 남자
@@ -51,10 +67,8 @@ export default {
 
 <style lang="sass" scoped>
   @import "~chming"
-  .join-wrap
-    +span(isolate 1 at 12 last)
   .join-user-wrap
-    +span(width 100%)
+    +span(width 100% nest)
     background: #e1e1e1
     border: 1px solid #ccc
     min-height: 100vh
