@@ -1,14 +1,22 @@
 <template lang="pug">
   .menu-wrap
-    a(@click="memberAuth") menu
-
+    a(@click="viewMenu") menu
 </template>
 
 <script>  
   export default {
-    methods:{
-      memberAuth(e) {
-        this.$router.push({name: 'user_login'});
+    data() {
+      return {
+        isLogin: true
+      };
+    },
+    methods: {
+      viewMenu(e) {
+        this.isLogin && this.changeRoute({name: 'user_info', params: {id: 1}} );
+        !this.isLogin && this.changeRoute({name: 'user_login'});
+      },
+      changeRoute(route) {
+        this.$router.push(route);
       },
     },
   };

@@ -13,12 +13,12 @@
           input(type="text" id="keyword")
           button(type="button") 검색
     div(:is="locationListActive")
-    Menu
+    main-menu
 </template>
 
 <script>
   import LocationList from './LocationList';
-  import Menu from '@/components/common/Menu';
+  import MainMenu from '@/components/common/Menu';
 
   export default {
     data() {  
@@ -28,7 +28,7 @@
     },
     components: {
       LocationList,
-      Menu
+      MainMenu
     },
     methods: {
       viewLocationList() {
@@ -60,7 +60,7 @@
 
     .search-keyword-wrap
       float: left
-      width: calc(100% - 15rem)
+      width: calc(100% - 12rem)
       position: relative
       input
         width: calc(100% - 5rem)
