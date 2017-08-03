@@ -1,5 +1,3 @@
-// Common
-import Menu from '@/components/common/Menu';
 // Group
 import Group from '@/components/group/Group';
 import GroupInfo from '@/components/group/Info';
@@ -16,10 +14,7 @@ import GroupEdit from '@/components/group/Edit';
 export default {
   path: '/group',
   name: 'group',
-  components: {
-    default: Group,
-    menu: Menu,
-  },
+  component: Group,
   children: [
     {
       path: 'info/:id',
