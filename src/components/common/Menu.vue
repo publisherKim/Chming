@@ -4,13 +4,11 @@
 
 </template>
 
-<script>
-  import LoginMenu from '@/components/common/LoginMenu';
-  
+<script>  
   export default {
     methods:{
       memberAuth(e) {
-        this.$router.push({name: 'user_join'});
+        this.$router.push({name: 'user_login'});
       },
     },
   };
