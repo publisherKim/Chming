@@ -10,6 +10,7 @@ import groupRoutes from './partials/group';
 Vue.use(Router);
 
 const router = new Router({
+  mode: 'history',
   routes: [
     mainRoutes,
     userRoutes,
