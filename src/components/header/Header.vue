@@ -13,10 +13,12 @@
           input(type="text" id="keyword")
           button(type="button") 검색
     div(:is="locationListActive")
+    Menu
 </template>
 
 <script>
   import LocationList from './LocationList';
+  import Menu from '@/components/common/Menu';
 
   export default {
     data() {  
@@ -26,6 +28,7 @@
     },
     components: {
       LocationList,
+      Menu
     },
     methods: {
       viewLocationList() {
@@ -41,11 +44,12 @@
   
   +mobile
     .header-wrap
+      +clearfix
       +container()
     .title
     // current-location
-    .current-location-wrap 
-      background: red
+    .current-location-wrap
+      float: left
       h2
         font-size: 14px
         margin: 0px
@@ -55,10 +59,16 @@
         font-size: 1.2rem
     // search-keyword-wrap
     .search-keyword-wrap
-      background: blue
+      float: left
+      width: calc(100% - 15rem)
+      position: relative
       input
+        width: calc(100% - 5rem)
+        margin-left: 0.5rem
         display: inline-block
       button
-        margin-left: 10px
+        position: absolute
+        top: 0 
+        right: 0
   
 </style>
