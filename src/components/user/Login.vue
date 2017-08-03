@@ -14,17 +14,23 @@
           placeholder="비밀번호" 
           aria-label="비밀번호"
         )
-    button(class="button-close" @click="loginClose") 닫기
     ul.join-user_find-list
       li
         a 아이디 / 비밀번호 찾기
       li
-        a 회원가입
-    button(class="button-login" @click="login") 로그인
+        a(@click="join") 회원가입
+    button.button-login(@click="login") 로그인
+    button.button-close(@click="loginClose") 닫기
+    user-interest
 </template>
 
 <script>
+import UserInterest from './user/interest';
+
 export default {
+  components: {
+    UserInterest
+  },
   methods: {
     loginClose() {
       this.$router.push({
@@ -33,6 +39,11 @@ export default {
     },
     login() {
       console.log('로그인 성공시 : true, 로그인 실패시 : 실패 메시지');
+    },
+    join() {
+      this.$router.push({
+        name: 'user_join'
+      });
     }
   }
 };
@@ -41,13 +52,12 @@ export default {
 <style lang="sass" scoped>
   @import "~chming"
   
-  +mobile
-    .join-user-wrap
-      +span(width 100% nest)
-      background: #e1e1e1
-      border: 1px solid #ccc
-      min-height: 100vh
-      padding: 3rem
+  .join-user-wrap
+    +span(width 100% nest)
+    background: #e1e1e1
+    border: 1px solid #ccc
+    min-height: 100vh
+    padding: 3rem
     .active 
       display: block
     h3
@@ -70,5 +80,7 @@ export default {
       top: 1rem
       right: 3rem
     .button-login
+
+    
 
 </style>
