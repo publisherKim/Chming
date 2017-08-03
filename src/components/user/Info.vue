@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import EditButton from '../common/EditButton';
+import EditButton from '@/components/common/EditButton';
 export default {
   components: {
     EditButton,

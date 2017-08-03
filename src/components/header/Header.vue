@@ -17,7 +17,7 @@
 </template>
 
 <script>
-  import LocationList from './LocationList';
+  import LocationList from '@/components/header/LocationList';
   import MainMenu from '@/components/common/Menu';
 
   export default {
