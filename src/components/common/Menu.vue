@@ -19,5 +19,5 @@
 
   +mobile
     .menu-wrap
-      +span(isolate 1 at 12 last)
+      
 </style>
