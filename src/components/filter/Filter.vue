@@ -1,15 +1,15 @@
 <template lang="pug">
   .filter-wrap
     button.sort-button(
-      @click="filterToggle('sort')"
+      @click="viewFilter('sort')"
       type="button"
     ) 거리순
     button.mylocation-button(
-      @click="filterToggle('mylocation')"
+      @click="viewFilter('mylocation')"
       type="button"
     ) 내주변
     button.interest-button(
-      @click="filterToggle('interest')"
+      @click="viewFilter('interest')"
       type="button"
     ) 관심사
     .filter(ref="filter" :is="filter")
@@ -32,7 +32,7 @@ export default {
     MylocationFilter,
   },
   methods: {
-    filterToggle(filter) {
+    viewFilter(filter) {
       this.filter = filter + '-filter';
       let refFilter = this.$refs.filter;
 
