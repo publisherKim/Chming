@@ -25,7 +25,7 @@
 </template>
 
 <script>
-import UserInterest from './user/interest';
+import UserInterest from '@/components/user/Interest';
 
 export default {
   components: {

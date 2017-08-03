@@ -16,9 +16,9 @@
 </template>
 
 <script>
-import SortFilter from './SortFilter';
-import InterestFilter from './InterestFilter';
-import MylocationFilter from './MylocationFilter';
+import SortFilter from '@/components/filter/SortFilter';
+import InterestFilter from '@/components/filter/InterestFilter';
+import MylocationFilter from '@/components/filter/MylocationFilter';
 
 export default {
   data() {
