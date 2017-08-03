@@ -63,21 +63,22 @@ export default {
 
 <style lang="sass" scoped>
   @import "~chming"
-
-  .location-list-wrap
-    +full
-    position: absolute
-    background: red
-    z-index: 10
-    bottom: 0
-    left: 0
-    h2
-      margin: 0
-      @extend %a11y-hidden
-  .location-list
-    @extend %clearfix
-    border-bottom: 1px solid #000
-  .location-list-item
-    float: left
-    margin-right: gutter()
+  
+  +mobile
+    .location-list-wrap
+      +full
+      position: absolute
+      background: red
+      z-index: 10
+      bottom: 0
+      left: 0
+      h2
+        margin: 0
+        +a11y-hidden
+    .location-list
+      +clearfix
+      border-bottom: 1px solid #000
+    .location-list-item
+      float: left
+      margin-right: gutter()
 </style>

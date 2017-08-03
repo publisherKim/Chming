@@ -40,6 +40,7 @@ export default {
 
 <style lang="sass" scoped>
   @import "~chming"
+  
   +mobile
     .join-user-wrap
       +span(width 100% nest)

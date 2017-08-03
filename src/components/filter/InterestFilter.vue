@@ -34,28 +34,30 @@ export default {
 
 <style lang="sass" scoped>
   @import "~chming"
-  button
-    background: none
-    font-size: 1.2rem
-  .interest-filter-wrap
-    z-index: 10
-  .filter-title
-    @extend %a11y-hidden
-  .filter-header-wrap
-    background: rgb(248, 248, 248)
+
+  +mobile
     button
-      border: 0
-  .filter-content-wrap
-    background: #fff
-  .interest-list-wrap
-    @extend %clearfix
-    h2
-      margin: 0
-    li
-      float: left
-      margin-right: gutter()
-    button
-      border: 1px solid #000
-      border-radius: 1rem
-      padding: 3px 5px
+      background: none
+      font-size: 1.2rem
+    .interest-filter-wrap
+      z-index: 10
+    .filter-title
+      +a11y-hidden
+    .filter-header-wrap
+      background: rgb(248, 248, 248)
+      button
+        border: 0
+    .filter-content-wrap
+      background: #fff
+    .interest-list-wrap
+      +clearfix
+      h2
+        margin: 0
+      li
+        float: left
+        margin-right: gutter()
+      button
+        border: 1px solid #000
+        border-radius: 1rem
+        padding: 3px 5px
 </style>

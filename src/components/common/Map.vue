@@ -24,7 +24,10 @@ export default {
 </script>
 
 <style lang="sass">
-  #map
-    width: 100%
-    height: 70vh
+  @import "~chming"
+  
+  +mobile
+    #map
+      width: 100%
+      height: 70vh
 </style>

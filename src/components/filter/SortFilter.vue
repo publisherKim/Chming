@@ -28,15 +28,17 @@ export default {
 
 <style lang="sass" scoped>
   @import "~chming"
-  .sort-filter-wrap
-    z-index: 10
-    background: #fff
-    h2
-      text-align: center
-    button
-      background: none
-      border: 1px solid #000
-      border-radius: 1rem
-      font-size: 1.2rem
-      padding: 3px 5px
+  
+  +mobile
+    .sort-filter-wrap
+      z-index: 10
+      background: #fff
+      h2
+        text-align: center
+      button
+        background: none
+        border: 1px solid #000
+        border-radius: 1rem
+        font-size: 1.2rem
+        padding: 3px 5px
 </style>

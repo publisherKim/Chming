@@ -67,27 +67,29 @@ export default {
 
 <style lang="sass" scoped>
   @import "~chming"
-  .join-user-wrap
-    +span(width 100% nest)
-    background: #e1e1e1
-    border: 1px solid #ccc
-    min-height: 100vh
-  .active 
-    display: block
-  h3
-    title 1.4rem
-    padding-left: 1.5rem
-    border-bottom: solid 1px #b1b1b1
-    line-height: 3rem
-  p
-    padding: 0 1.5rem
-    input 
-      width: 100%
-      line-height: 2rem
-    input[type="radio"],
-    input[type="number"]
-      &:first-child
-        margin-left: 0
-      width: auto
-      margin-left: 1rem
+
+  +mobile
+    .join-user-wrap
+      +span(width 100% nest)
+      background: #e1e1e1
+      border: 1px solid #ccc
+      min-height: 100vh
+    .active 
+      display: block
+    h3
+      title 1.4rem
+      padding-left: 1.5rem
+      border-bottom: solid 1px #b1b1b1
+      line-height: 3rem
+    p
+      padding: 0 1.5rem
+      input 
+        width: 100%
+        line-height: 2rem
+      input[type="radio"],
+      input[type="number"]
+        &:first-child
+          margin-left: 0
+        width: auto
+        margin-left: 1rem
 </style>
