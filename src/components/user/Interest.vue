@@ -1,3 +1,15 @@
 <template lang="pug">
-  h2 Interest.vue
+  div()
+    h2 test
+    button(@click="back")
 </template>
+
+<script>
+export default {
+  methods: {
+    back() {
+      this.$router.push({name: 'user_join', params: {show: true}});
+    },
+  }
+};
+</script>
