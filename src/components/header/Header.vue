@@ -38,27 +38,27 @@
 
 <style lang="sass" scoped>
   @import "~chming"
-  .header-wrap
-    +container()
-    width: calc(100% - 10px)
-  .title
-  // current-location
-  .current-location-wrap 
-    +span(isolate 3 at 1)
-    h2
-      font-size: 14px
-      margin: 0px
-    .select-location
-      background: none
-      border: 0
-      font-size: 1.2rem
-  // search-keyword-wrap
-  .search-keyword-wrap
-    +span(isolate 5 at 4)
-    input
-      display: inline-block
-      width : span( 3 of 5)
-    button
-      margin-left: 10px
+  
+  +mobile
+    .header-wrap
+      +container()
+    .title
+    // current-location
+    .current-location-wrap 
+      background: red
+      h2
+        font-size: 14px
+        margin: 0px
+      .select-location
+        background: none
+        border: 0
+        font-size: 1.2rem
+    // search-keyword-wrap
+    .search-keyword-wrap
+      background: blue
+      input
+        display: inline-block
+      button
+        margin-left: 10px
   
 </style>

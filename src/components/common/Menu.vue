@@ -16,6 +16,8 @@
 
 <style lang="sass" scoped>
   @import "~chming"
-  .menu-wrap
-    +span(isolate 1 at 12 last)
+
+  +mobile
+    .menu-wrap
+      +span(isolate 1 at 12 last)
 </style>

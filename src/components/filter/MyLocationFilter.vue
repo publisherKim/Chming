@@ -12,12 +12,15 @@ export default {
 </script>
 
 <style lang="sass" scoped>
-  .mylocation-filter-wrap
-    z-index: 10
-    background: #fff
-    text-align: center
-    h2
-      margin: 0
-    span
-      display: block
+  @import "~chming"
+  
+  +mobile
+    .mylocation-filter-wrap
+      z-index: 10
+      background: #fff
+      text-align: center
+      h2
+        margin: 0
+      span
+        display: block
 </style>

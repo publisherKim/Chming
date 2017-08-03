@@ -45,27 +45,28 @@ export default {
 <style lang="sass" scoped>
   @import "~chming"
 
-  .filter-wrap
-    +container()
-    background: rgb(248, 248, 248)
-    button
-      font-size: 1.2rem
-      padding: 3px 5px
-  .sort-button
-    border: 0
-    text-decoration: underline
-    background: none
-  .mylocation-button
-    border: 0
-    background: rgb(230, 230, 230)
-    border-radius: 1rem
-  .interest-button
-    border: 1px solid #000
-    background: none
-    border-radius: 1rem
-  .filter
-    +full
-    position: absolute
-    bottom: 0
-    left: 0
+  +mobile
+    .filter-wrap
+      +container()
+      background: rgb(248, 248, 248)
+      button
+        font-size: 1.2rem
+        padding: 3px 5px
+    .sort-button
+      border: 0
+      text-decoration: underline
+      background: none
+    .mylocation-button
+      border: 0
+      background: rgb(230, 230, 230)
+      border-radius: 1rem
+    .interest-button
+      border: 1px solid #000
+      background: none
+      border-radius: 1rem
+    .filter
+      +full
+      position: absolute
+      bottom: 0
+      left: 0
 </style>
