@@ -46,18 +46,18 @@
     .header-wrap
       +clearfix
       +container()
-    .title
-    // current-location
+          
     .current-location-wrap
       float: left
+      
       h2
-        font-size: 14px
+        font-size: 10px
         margin: 0px
       .select-location
         background: none
         border: 0
         font-size: 1.2rem
-    // search-keyword-wrap
+
     .search-keyword-wrap
       float: left
       width: calc(100% - 15rem)
@@ -70,5 +70,6 @@
         position: absolute
         top: 0 
         right: 0
+
   
 </style>

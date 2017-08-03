@@ -4,7 +4,5 @@ import Main from '@/components/main/Main';
 export default {
   path: '/',
   name: 'main',
-  components: {
-    default: Main,
-  },
+  component: Main,
 };

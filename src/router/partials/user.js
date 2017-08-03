@@ -1,5 +1,3 @@
-// Common
-import Menu from '@/components/common/Menu';
 // User
 import User from '@/components/user/User';
 import UserLogin from '@/components/user/Login';
@@ -16,10 +14,7 @@ import UserFavoriteList from '@/components/user/FavoriteList';
 export default {
   path: '/user',
   name: 'user',
-  components: {
-    default: User,
-    menu: Menu,
-  },
+  component: User,
   children: [
     {
       path: 'login',
