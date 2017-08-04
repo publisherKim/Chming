@@ -1,5 +1,5 @@
 <template lang="pug">
-  .location-list-wrap
+  .location-list-container
     h2 지역 선택 메뉴
 
     ul.location-list(role="tablist")
@@ -51,7 +51,7 @@ export default {
 
   $location-list-height: 40px
   
-  .location-list-wrap
+  .location-list-container
     position: absolute
     z-index: 10
     bottom: 0
@@ -63,13 +63,16 @@ export default {
       +a11y-hidden
   .location-list
     +clearfix
+    width: 95%
     height: $location-list-height
+    margin: 0 auto
     padding: 0 10px
     border-bottom: 1px solid #000
   .location-list-item
     float: left
     line-height: $location-list-height
     cursor: pointer
+    font-weight: bold
   .tab-contents
     section
       display: none
@@ -85,7 +88,8 @@ export default {
       border-radius: 1000px
       background: none
       width: 70%
-      padding: 5px 0
+      padding: 4px 0
+      font-size: 1.3rem
 
   +mobile
     .location-list-wrap
