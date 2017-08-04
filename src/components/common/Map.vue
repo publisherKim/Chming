@@ -29,5 +29,5 @@ export default {
   +mobile
     #map
       width: 100%
-      height: 70vh
+      height: calc(100vh - 100px)
 </style>
