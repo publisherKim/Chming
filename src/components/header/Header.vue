@@ -1,75 +1,90 @@
 <template lang="pug">
   .header-wrap
-    .current-location-wrap
-      form
-        h2 지금 보고있는 지역은
-        button.select-location(
-          type="button"
-          @click="viewLocationList"
-        ) 서현/야탑
-    .search-keyword-wrap
-      form
-        label(for="keyword")
-          input(type="text" id="keyword")
-          button(type="button") 검색
-    div(:is="locationListActive")
-    main-menu
+    h1.header-title
+      a(href="/")
+        img.logo-image(src="../../assets/logo.svg", alt="취밍")
+    form.search-form
+      input(
+        type="text"
+        id="keyword"
+        placeholder="지역, 모임 또는 관심사"
+      )
+      button.search-button(
+        type="submit"
+        aria-label="검색"
+      )
+        i.fa.fa-search(aria-hidden='true')
+    main-menu.menu-wrap
 </template>
 
 <script>
-  import LocationList from '@/components/header/LocationList';
   import MainMenu from '@/components/common/Menu';
 
   export default {
     data() {  
       return {
-        locationListActive: '',
       };
     },
     components: {
-      LocationList,
-      MainMenu
-    },
-    methods: {
-      viewLocationList() {
-        if(this.locationListActive === '') this.locationListActive = 'location-list';
-        else this.locationListActive = '';
-      },
+      MainMenu,
     },
   };
 </script>
 
 <style lang="sass" scoped>
   @import "~chming"
+
+  $search-input-width: 97%
+
+  .header-wrap
+    height: 50px
+  .header-title
+    height: 100%
+    text-align: right
+    a
+      display: block
+      height: 100%
+      width: 100%
+    .logo-image
+      position: relative
+      +align-vertical-middle
+      display: inline-block
+      height: 60%
+  .search-form
+    position: relative
+    height: 100%
+    padding-left: 1rem
+    font-size: 1.7rem
+    line-height: 50px
+    input
+      position: absolute
+      +align-vertical-middle
+      display: block
+      width: $search-input-width
+      height: 60%
+      padding-left: 1rem
+      border-radius: 0.5rem
+      border: 0.5px solid #999
+      box-shadow: 1px 1px 3px #888888
+    button
+      position: absolute
+      +align-vertical-middle
+      right: calc(100% - #{$search-input-width})
+      background: none
+      border: 0
+      color: #666
+      text-align: right
+  .menu-wrap
+    height: 100%
+  
   
   +mobile
     .header-wrap
-      +clearfix
       +container()
-          
-    .current-location-wrap
-      float: left
-      
-      h2
-        font-size: 10px
-        margin: 0px
-      .select-location
-        background: none
-        border: 0
-        font-size: 1.2rem
-
-    .search-keyword-wrap
-      float: left
-      width: calc(100% - 12rem)
-      position: relative
-      input
-        width: calc(100% - 5rem)
-        margin-left: 0.5rem
-        display: inline-block
-      button
-        position: absolute
-        top: 0 
-        right: 0
-
-  
+    .header-title
+      +span(isolate 1 of 8 at 1)
+    .search-form
+      +span(isolate 6 of 8 at 2)
+    .menu-wrap
+      +span(isolate 1 of 8 at 8)
 </style>
