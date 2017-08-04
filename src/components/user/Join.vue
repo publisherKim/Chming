@@ -27,9 +27,9 @@
               img(src="" alt="관심사1")
         div
           h4.title 지역 선택 
-            button(@click="" type="button") 설정
+            button(@click="changeRoute('user_join_location')" type="button") 설정
           p.address 경기도 성남시 분당구 정자동 11-2
-        button(class="join-confirm" type="submit") 완료
+        button.join-confirm(@click="confirm" type="submit") 완료
     router-view
 </template>
 
@@ -39,7 +39,7 @@
   export default {
     data() {  
       return {
-        menuToggle: false,
+        isMap: false,
         maxYear: new Date().getFullYear()
       };
     },
@@ -47,20 +47,19 @@
       UserInterest
     },
     methods: {
-      toggleMenu() {
-        console.log(11);
-      },
       changeRoute(name) {
-        console.log(name);
         this.$router.push({
-          name: name
+          name
         });
+      },
+      confirm() {
+        this.$router.push('/');
       }
     }
   };
 </script>
 
-<style lang="sass" scoped>
+<style lang="sass">
   @import "~chming"
 
   .interest-list, .address
@@ -71,7 +70,6 @@
     display: block
     height: 100vh
     padding-top: 2rem
-    +span(width 100% nest)
     padding: 0 1.5rem
     background: #e1e1e1
     border: 1px solid #ccc
@@ -101,6 +99,5 @@
   .join-confirm
     display: block
     margin: 1rem auto      
-
 
 </style>

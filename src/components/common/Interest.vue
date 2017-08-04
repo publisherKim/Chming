@@ -20,7 +20,9 @@ export default {
   },
   methods: {
     interestConfirm(){
-
+      this.$router.push({
+        name: 'user_join'
+      });
     },
   },
 };
@@ -37,30 +39,33 @@ export default {
     height: 100vh
     padding: 2rem
     background: #e1e1e1
+
   .title
     +subTitle
+
   .interest_list
     +clearfix
     margin-top: 1.5rem
     li
       float: left
-      margin-left: 10px
+      margin-left: 1rem
       width: calc(25% - 1rem)
       text-align: center
     label
       display: block
       text-align: center
       line-height: 3rem
-      border: solid 1px #666
-      border-radius: 15px
+      border: solid 0.1rem #666
+      border-radius: 1.5rem
       cursor: pointer
     input
       visibility: hidden
-      width: 0rem
-      height: 0rem
+      width: 0
+      height: 0
     input:checked + label
       color: #fff
       background: #000
+      
   .confirm
     display: block
     margin: 1rem auto
