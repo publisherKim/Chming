@@ -1,15 +1,13 @@
 <template lang="pug">
-  div()
-    h2 test
-    button(@click="back")
+  .interest-wrap
+    ul.interest_list
+      li
+        a(href="")
 </template>
 
 <script>
 export default {
   methods: {
-    back() {
-      this.$router.push({name: 'user_join', params: {show: true}});
-    },
   }
 };
 </script>

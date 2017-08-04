@@ -1,4 +1,5 @@
 <template lang="pug">
+  .container
     .join-user-wrap
       h3.title 회원가입
       form.join-user_form
@@ -66,20 +67,28 @@
         button(
           class="join-confirm" 
           type="submit") 완료
+    user-interest(@click="toggleMenu")
 </template>
 
 <script>
-export default {
-  data() {  
-    return {
-      menuToggle: false,
-      maxYear: new Date().getFullYear()
-    };
-  },
-  methods: {
+  import UserInterest from '@/components/user/Interest';
 
-  }
-};
+  export default {
+    data() {  
+      return {
+        menuToggle: false,
+        maxYear: new Date().getFullYear()
+      };
+    },
+    components: {
+      UserInterest
+    },
+    methods: {
+      toggleMenu() {
+        console.log(11);
+      }
+    }
+  };
 </script>
 
 <style lang="sass" scoped>
@@ -90,6 +99,7 @@ export default {
     padding-left: 1.5rem
       
   .join-user-wrap
+    padding-top: 2rem
     +span(width 100% nest)
     padding: 0 1.5rem
     background: #e1e1e1
