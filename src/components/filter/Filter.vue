@@ -1,9 +1,8 @@
 <template lang="pug">
   .filter-container
     .location-filter-wrap
-      div
-        h2 지금 보고있는 지역은
-        button(@click="viewFilter('location')" type="button") 서현/야탑&dtrif;
+      h2 지금 보고있는 지역은
+      button(@click="viewFilter('location')" type="button") 서현/야탑&dtrif;
     .filter-button-wrap
       button.sort-button(@click="viewFilter('sort')" type="button") 거리순&dtrif;
       button.interest-button(@click="viewFilter('interest')" type="button") 관심사&dtrif;

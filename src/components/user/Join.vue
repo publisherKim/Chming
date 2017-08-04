@@ -4,16 +4,16 @@
       h3.title 회원가입
       form.join-user_form
         p  
-          input.name(type="text" placeholder="이름" aria-label="이름")
+          input.form_name(type="text" placeholder="이름" aria-label="이름")
         p  
-          input.email(type="email" placeholder="이메일" aria-label="이메일")
+          input.form_email(type="email" placeholder="이메일" aria-label="이메일")
         p  
-          input.password(type="password" placeholder="비밀번호" aria-label="비밀번호")
+          input.form_password(type="password" placeholder="비밀번호" aria-label="비밀번호")
         p 
-          label(class="birth" for="birth") 생년월일
-          input.year(id="birth" type="number" placeholder="1993" min="1900" :max="maxYear" aria-label="생년")
-          input.month(type="number" placeholder="07" min="1" max="12" aria-label="월")
-          input.day(type="number" placeholder="07" min="1" max="31" aria-label="일")
+          label.form_birth(class="birth" for="birth") 생년월일
+          input.form_year(id="birth" type="number" placeholder="1993" min="1900" :max="maxYear" aria-label="생년")
+          input.form_month(type="number" placeholder="07" min="1" max="12" aria-label="월")
+          input.form_day(type="number" placeholder="07" min="1" max="31" aria-label="일")
         p
           input#man(type="radio" name="gender" checked)
           label(for="man") 남자
@@ -29,7 +29,7 @@
           h4.title 지역 선택 
             button(@click="changeRoute('user_join_location')" type="button") 설정
           p.address 경기도 성남시 분당구 정자동 11-2
-        button.join-confirm(@click="confirm" type="submit") 완료
+        button.form_confirm(@click="confirm" type="submit") 완료
     router-view
 </template>
 
@@ -91,12 +91,12 @@
           margin-left: 0
         width: auto
         margin-left: 1rem
-    label.birth 
+    label.form_birth 
       display: block
       line-height: 3rem
   h4.title
     margin-top: 1.5rem
-  .join-confirm
+  .form_confirm
     display: block
     margin: 1rem auto      
 

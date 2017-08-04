@@ -1,9 +1,9 @@
 <template lang="pug">
-  .user-location-wrap
+  .user-location-container
     h3.title 지역선택
-    form.search-form
+    form.user-location_search-form
       input(type="text" id="keyword" placeholder="지역찾기")
-      button.search-button(type="submit" aria-label="검색")
+      button.search-form_button(type="submit" aria-label="검색")
         i.fa.fa-search(aria-hidden='true') 
     user-map.user-map
     button.confirm(@click="confirm" type="button") 완료
@@ -27,7 +27,7 @@
 <style lang="sass" scoped>
   @import "~chming"
 
-  .user-location-wrap 
+  .user-location-container 
     position: absolute
     top: 0
     right: 0
@@ -39,7 +39,7 @@
   .title
     +subTitle
   
-  .search-form
+  .user-location_search-form
     margin-top: 1rem
     input
       padding: 0 1rem

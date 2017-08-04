@@ -1,5 +1,5 @@
 <template lang="pug">
-  .interest-wrap
+  .interest-container
     h3.title 운동/스포츠
     ul.interest_list
       li
@@ -8,7 +8,7 @@
       li
         input(v-model="selectList" id="item2"  type="checkbox" value="2")
         label(for="item2") 배드민턴
-    button.confirm(@click="interestConfirm" type="button") 선택완료
+    button.interest_confirm(@click="interestConfirm" type="button") 선택완료
 </template>
 
 <script>
@@ -31,7 +31,7 @@ export default {
 <style lang="sass" scoped>
   @import "~chming"
 
-  .interest-wrap
+  .interest-container
     position: absolute
     top: 0
     left: 0
@@ -66,7 +66,7 @@ export default {
       color: #fff
       background: #000
       
-  .confirm
+  .interest_confirm
     display: block
     margin: 1rem auto
 </style>
