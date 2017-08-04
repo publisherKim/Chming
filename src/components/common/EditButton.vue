@@ -1,8 +1,5 @@
 <template lang="pug">
-  button(
-    type="button"
-    @click="changeRoute"
-  ) 수정
+  button(@click="changeRoute" type="button") 수정
 </template>
 
 <script>
