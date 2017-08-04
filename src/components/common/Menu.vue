@@ -1,6 +1,10 @@
 <template lang="pug">
-  .menu-wrap
-    a(@click="viewMenu") menu
+  div
+    a.hamburger-menu(
+      role="button"
+      @click="viewMenu"
+    )
+      i.fa.fa-bars(aria-hidden='true')
 </template>
 
 <script>  
@@ -26,6 +30,14 @@
   @import "~chming"
 
   +mobile
-    .menu-wrap
+    .hamburger-menu
+      display: block
+      position: relative
+      top: 50%
+      transform: translateY(-50%)
+      // height: 100%
+      font-size: 2rem
+      color: #666
+      text-align: center
       
 </style>

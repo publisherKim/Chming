@@ -15,3 +15,14 @@
 	margin: -1px
 	border: 0
 	padding: 0
+
+@mixin align-vertical-middle()
+	top: 50%
+	transform: translateY(-50%)
+
+@mixin align-horizontal-middle()
+	right: 50%
+	transform: translateX(-50%)
+
+@function leading()
+	@return $leading
