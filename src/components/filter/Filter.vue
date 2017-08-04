@@ -104,6 +104,4 @@ export default {
       +span(2)
     .filter-button-wrap
       +span(2)
-    .filter
-      +full
 </style>

@@ -28,12 +28,10 @@
   @import "~chming"
 
   $search-input-width: 97%
-
+  
   .header-wrap
-    +container()
     height: 50px
   .header-title
-    +span(isolate 1 of 8 at 1)
     height: 100%
     text-align: right
     a
@@ -46,7 +44,6 @@
       display: inline-block
       height: 60%
   .search-form
-    +span(isolate 6 of 8 at 2)
     position: relative
     height: 100%
     padding-left: 1rem
@@ -71,7 +68,16 @@
       color: #666
       text-align: right
   .menu-wrap
-    +span(isolate 1 of 8 at 8)
     height: 100%
+
+  +mobile()
+    .header-wrap
+      +container()
+    .header-title
+      +span(1 of 8)
+    .search-form
+      +span(6 of 8)
+    .menu-wrap
+      +span(1 of 8)
   
 </style>
