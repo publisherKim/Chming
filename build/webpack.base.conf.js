@@ -22,7 +22,7 @@ module.exports = {
     extensions: ['.js', '.vue', '.json'],
     alias: {
       'vue$': 'vue/dist/vue.esm.js',
-      'chming': path.resolve(__dirname, './src/lib/chming/_index.sass'),
+      'chming$': resolve('src/lib/') + '_index.sass',
       '@': resolve('src')
     }
   },

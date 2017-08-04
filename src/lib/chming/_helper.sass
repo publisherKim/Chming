@@ -1,0 +1,32 @@
+@mixin clearfix()
+	&:before, &:after
+		content: ""
+		display: table
+	&:after
+		clear: both
+
+@mixin a11y-hidden()
+	overflow: hidden
+	position: absolute
+	clip: rect(0 0 0 0)
+	clip: rect(0, 0, 0, 0)
+	width: 1px
+	height: 1px
+	margin: -1px
+	border: 0
+	padding: 0
+
+@mixin align-vertical-middle()
+	top: 50%
+	transform: translateY(-50%)
+
+@mixin align-horizontal-middle()
+	right: 50%
+	transform: translateX(-50%)
+
+@function leading()
+	@return $leading
+
+@mixin subTitle()
+  border-bottom: solid 1px #b1b1b1
+  line-height: 3rem

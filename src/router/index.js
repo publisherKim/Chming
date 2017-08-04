@@ -1,15 +1,21 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import Hello from '@/components/Hello';
+// Main
+import mainRoutes from './partials/main';
+// User
+import userRoutes from './partials/user';
+// Group
+import groupRoutes from './partials/group';
 
 Vue.use(Router);
 
-export default new Router({
+const router = new Router({
+  mode: 'history',
   routes: [
-    {
-      path: '/',
-      name: 'Hello',
-      component: Hello,
-    },
+    mainRoutes,
+    userRoutes,
+    groupRoutes,
   ],
 });
+
+export default router;
