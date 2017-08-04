@@ -64,6 +64,7 @@ export default {
   .location-list
     +clearfix
     height: $location-list-height
+    padding: 0 10px
     border-bottom: 1px solid #000
   .location-list-item
     float: left

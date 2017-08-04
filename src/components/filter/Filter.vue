@@ -1,5 +1,5 @@
 <template lang="pug">
-  .filter-wrap
+  .filter-container
     .location-filter-wrap
       div
         h2 지금 보고있는 지역은
@@ -46,7 +46,7 @@ export default {
 
   $filter-wrap-height: 50px
 
-  .filter-wrap
+  .filter-container
     height: $filter-wrap-height
     background: rgb(238, 238, 238)
   .location-filter-wrap

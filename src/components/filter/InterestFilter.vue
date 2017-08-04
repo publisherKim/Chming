@@ -1,11 +1,11 @@
 <template lang="pug">
-  .interest-filter-wrap
-    h2.filter-title 관심사 필터
-    .filter-header-wrap
+  .interest-container
+    h2.interest_title 관심사 필터
+    .interest_header-wrap
       button(type="button" @click="") 취소
       button(type="button" @click="") 필터 적용
-    .filter-content-wrap
-      .interest-list-wrap
+    .interest_content-wrap
+      .interest_list-wrap
         h2 운동/스포츠
         ul
           li 
@@ -33,17 +33,17 @@ export default {
     button
       background: none
       font-size: 1.2rem
-    .interest-filter-wrap
+    .interest-container
       z-index: 10
-    .filter-title
+    .interest_title
       +a11y-hidden
-    .filter-header-wrap
+    .interest_header-wrap
       background: rgb(248, 248, 248)
       button
         border: 0
-    .filter-content-wrap
+    .interest_content-wrap
       background: #fff
-    .interest-list-wrap
+    .interest_list-wrap
       +clearfix
       h2
         margin: 0
