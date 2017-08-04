@@ -1,14 +1,8 @@
 <template lang="pug">
   .sort-filter-wrap
     h2 정렬
-    button(
-      type="button"
-      @click=""
-    ) 거리순
-    button(
-      type="button"
-      @click=""
-    ) 인원순
+    button(type="button" @click="") 거리순
+    button(type="button" @click="") 인원순
     
 </template>
 

@@ -1,8 +1,9 @@
 <template lang="pug">
   div
     a.hamburger-menu(
+      href=""
       role="button"
-      @click="viewMenu"
+      @click.prevent="viewMenu"
     )
       i.fa.fa-bars(aria-hidden='true')
 </template>
@@ -11,7 +12,7 @@
   export default {
     data() {
       return {
-        isLogin: true
+        isLogin: false
       };
     },
     methods: {

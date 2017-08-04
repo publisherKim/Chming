@@ -3,25 +3,12 @@
     .location-filter-wrap
       div
         h2 지금 보고있는 지역은
-        button(
-          type="button"
-          @click="viewFilter('location')"
-        ) 서현/야탑&dtrif;
+        button(@click="viewFilter('location')" type="button") 서현/야탑&dtrif;
     .filter-button-wrap
-      button.sort-button(
-        @click="viewFilter('sort')"
-        type="button"
-      ) 거리순&dtrif;
-      button.mylocation-button(
-        @click="viewFilter('mylocation')"
-        type="button"
-        aria-label="내 주변 검색"
-      )
+      button.sort-button(@click="viewFilter('sort')" type="button") 거리순&dtrif;
+      button.interest-button(@click="viewFilter('interest')" type="button") 관심사&dtrif;
+      button.mylocation-button(@click="viewFilter('mylocation')" type="button" aria-label="내 주변 검색")
         i.fa.fa-street-view(aria-hidden='true')
-      button.interest-button(
-        @click="viewFilter('interest')"
-        type="button"
-      ) 관심사&dtrif;
     .filter(ref="filter" :is="filter")
 </template>
 

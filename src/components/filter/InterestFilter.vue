@@ -2,14 +2,8 @@
   .interest-filter-wrap
     h2.filter-title 관심사 필터
     .filter-header-wrap
-      button(
-        type="button"
-        @click=""
-      ) 취소
-      button(
-        type="button"
-        @click=""
-      ) 필터 적용
+      button(type="button" @click="") 취소
+      button(type="button" @click="") 필터 적용
     .filter-content-wrap
       .interest-list-wrap
         h2 운동/스포츠
