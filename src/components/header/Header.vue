@@ -2,17 +2,10 @@
   .header-wrap
     h1.header-title
       a(href="/")
-        img.logo-image(src="../../assets/logo.svg", alt="취밍")
+        img.logo-image(src="../../assets/logo.svg" alt="취밍")
     form.search-form
-      input(
-        type="text"
-        id="keyword"
-        placeholder="지역, 모임 또는 관심사"
-      )
-      button.search-button(
-        type="submit"
-        aria-label="검색"
-      )
+      input(type="text" id="keyword" placeholder="지역, 모임 또는 관심사")
+      button.search-button(type="submit" aria-label="검색")
         i.fa.fa-search(aria-hidden='true')
     main-menu.menu-wrap
 </template>
