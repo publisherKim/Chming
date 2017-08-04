@@ -1,11 +1,11 @@
 <template lang="pug">
-  .join-user-wrap
+  .join-user-container
     h3.title 로그인
     form.join-user_form
       p  
-        input.email(type="email" placeholder="이메일" aria-label="이메일")
+        input.form_email(type="email" placeholder="이메일" aria-label="이메일")
       p  
-        input.password(type="password" placeholder="비밀번호" aria-label="비밀번호")
+        input.form_password(type="password" placeholder="비밀번호" aria-label="비밀번호")
     ul.join-user_find-list
       li
         a 아이디 / 비밀번호 찾기
@@ -39,7 +39,7 @@
 <style lang="sass" scoped>
   @import "~chming"
   
-  .join-user-wrap
+  .join-user-container
     +span(width 100% nest)
     background: #e1e1e1
     border: 1px solid #ccc
