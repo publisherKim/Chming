@@ -30,7 +30,7 @@
             button(@click="changeRoute('user_join_location')" type="button") 설정
           p.address 경기도 성남시 분당구 정자동 11-2
         button.form_confirm(@click="confirm" type="submit") 완료
-    router-view
+    router-view.join-user_interest
 </template>
 
 <script>

@@ -31,7 +31,7 @@ export default {
 <style lang="sass" scoped>
   @import "~chming"
 
-  .interest-container
+  .join-user_interest
     position: absolute
     top: 0
     left: 0
