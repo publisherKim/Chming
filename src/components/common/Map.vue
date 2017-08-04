@@ -1,6 +1,5 @@
 <template lang="pug">
-  .map-wrap
-    #map(ref="map")
+  #map(ref="map")
 </template>
 
 <script>
@@ -23,11 +22,7 @@ export default {
 };
 </script>
 
-<style lang="sass">
+<style lang="sass" scoped>
   @import "~chming"
-  
-  +mobile
-    #map
-      width: 100%
-      height: calc(100vh - 100px)
+
 </style>
