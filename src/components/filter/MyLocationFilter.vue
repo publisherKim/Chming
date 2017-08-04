@@ -1,5 +1,5 @@
 <template lang="pug">
-  .mylocation-filter-wrap
+  .mylocation-filter-container
     h2 내 위치에서 검색 반경 선택
     span 500m
     .range-slider slider
@@ -15,7 +15,7 @@ export default {
   @import "~chming"
   
   +mobile
-    .mylocation-filter-wrap
+    .mylocation-filter-container
       z-index: 10
       background: #fff
       text-align: center
