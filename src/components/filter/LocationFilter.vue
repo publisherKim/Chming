@@ -84,12 +84,7 @@ export default {
     text-align: center
     padding: 5px 0
     button
-      border: 1px solid #666
-      border-radius: 1000px
-      background: none
-      width: 70%
-      padding: 4px 0
-      font-size: 1.3rem
+      +rounded-rect-button(70%)
 
   +mobile
     .location-list-wrap

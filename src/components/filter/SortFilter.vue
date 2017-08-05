@@ -41,13 +41,9 @@ export default {
       font-size: 1.4rem
       text-align: center
   .sort-filter_content-wrap
-    line-height: $sort-header-height
+    padding: 10px 0
     button
-      background: none
-      border: 1px solid #000
-      border-radius: 1rem
-      font-size: 1.2rem
-      padding: 3px 5px
+      +rounded-rect-button(8rem)
       &:not(:last-child)
         margin-right: 2rem
 </style>
