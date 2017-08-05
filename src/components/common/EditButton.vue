@@ -1,23 +1,31 @@
 <template lang="pug">
-  button(@click="changeRoute" type="button") 수정
+  button.edit-button(@click="changeRoute" type="button")
+    i.fa.fa-pencil-square-o(aria-hidden="true")
 </template>
 
 <script>
 export default {
   props: {
-    edit: {
+    route: {
       type: String,
       required: true
     },
   },
   methods: {
     changeRoute() {
-      if(this.edit === 'user') this.$router.push({name: 'user_edit'});
+      this.$router.push({name: this.route});
     },
   },
 };
 </script>
 
 <style lang="sass" scoped>
-  
+  .edit_button
+    position: absolute
+    top: 0
+    right: 0
+    padding: 2px
+    font-size: 1.7rem
+    background: none
+    border: 0
 </style>
