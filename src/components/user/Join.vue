@@ -3,31 +3,30 @@
     .join-user-wrap
       h3.title 회원가입
       form.join-user_form
-        p  
+        p
           input.form_name(type="text" placeholder="이름" aria-label="이름")
-        p  
+        p
           input.form_email(type="email" placeholder="이메일" aria-label="이메일")
-        p  
+        p
           input.form_password(type="password" placeholder="비밀번호" aria-label="비밀번호")
-        p 
+        p
           label.form_birth(class="birth" for="birth") 생년월일
           input.form_year(id="birth" type="number" placeholder="1993" min="1900" :max="maxYear" aria-label="생년")
           input.form_month(type="number" placeholder="07" min="1" max="12" aria-label="월")
           input.form_day(type="number" placeholder="07" min="1" max="31" aria-label="일")
-        p
           input#man(type="radio" name="gender" checked)
-          label(for="man") 남자
+          label(for="man") 남
           input#woman(type="radio" name="gender")
-          label(for="woman") 여자
-        div
-          h4.title 관심사 설정 
-            button(@click="changeRoute('user_join_interest')" type="button") 설정
+          label(for="woman") 여
+        .form_interest
+          button.interest_button(@click="changeRoute('user_join_interest')" type="button") 관심사 설정
+            i.fa.fa-cog(aria-hidden='true')
           ul.interest-list
             li
               img(src="" alt="관심사1")
-        div
-          h4.title 지역 선택 
-            button(@click="changeRoute('user_join_location')" type="button") 설정
+        .form_location
+          button.location_button(@click="changeRoute('user_join_location')" type="button") 지역선택
+            i.fa.fa-map-marker(aria-hidden='true')
           p.address 경기도 성남시 분당구 정자동 11-2
         button.form_confirm(@click="confirm" type="submit") 완료
     router-view.join-user_interest
@@ -73,35 +72,58 @@
     display: block
     height: 100vh
     padding: 3rem
-    background: #e1e1e1
+    background: #fff
     border: 1px solid #ccc
-  .active 
-    display: block
+
   h3.title
     +sub-title
+
   .join-user_form
     .address
       margin-top: 1rem
     p
       margin-top: 1.5rem
-      input 
-        width: 100%
-        padding: 0 1rem
-        line-height: 2rem
-      input[type="radio"],
-      input[type="number"]
-        &:nth-child(-n + 2)
-          margin-left: 0
-        width: auto
-        margin-left: 1rem
-    label.form_birth 
+    .form_name,
+    .form_email,
+    .form_password,
+      +text-input(100%)
+    input[type="number"]
+      +text-input(27%)
+      &:not(:nth-of-type(1))
+        width: 23%
+        margin-left: 0.5rem
+    input[type="radio"]
+      visibility: hidden
+      position: absolute
+      & + label
+        padding: 2px 5px
+        margin-left: 0.5rem
+        vertical-align: middle
+        cursor: pointer
+      &:checked + label
+        background: #000
+        color: #fff
+    .form_birth, .form_gender
       display: block
       line-height: 3rem
-  h4.title
+      font-weight: bold
+  .form_interest,
+  .form_location
     margin-top: 1.5rem
+  
+  .interest_button,
+  .location_button
+    & > .fa
+      margin-left: 0.5rem
+      font-size: 1.5rem
+    font-weight: bold
+    background: none
+    border: 0
+
   .form_confirm
     display: block
-    margin: 1rem auto      
+    margin: 2rem auto
+    +confirm-button(5rem, 3rem)
 
   .user-info_interest-wrap
     .title

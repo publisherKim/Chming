@@ -6,14 +6,13 @@
         input.form_email(type="email" placeholder="이메일" aria-label="이메일")
       p  
         input.form_password(type="password" placeholder="비밀번호" aria-label="비밀번호")
+      button.login-button(@click="login") 확인
     ul.join-user_find-list
       li
-        a 아이디 / 비밀번호 찾기
+        a(href @click.prevent="") 아이디 / 비밀번호 찾기
       li
-        a(@click="chageRoute") 회원가입
-    button.button-login(@click="login") 로그인
-    cancel-button.button-close(route="main")
-    //- button.button-close(@click="loginClose") 닫기
+        a(href @click.prevent="chageRoute") 회원가입
+    cancel-button(route="main")
 
 </template>
 
@@ -25,11 +24,6 @@
       CancelButton,
     },
     methods: {
-      // loginClose() {
-      //   this.$router.push({
-      //     name: 'main'
-      //   });
-      // },
       login() {
         console.log('로그인 성공시 : true, 로그인 실패시 : 실패 메시지');
       },
@@ -47,31 +41,32 @@
   
   .join-user-container
     +span(width 100% nest)
-    background: #e1e1e1
+    // background: #e1e1e1
+    background: #fff
     border: 1px solid #ccc
     min-height: 100vh
     padding: 3rem
-    .active 
-      display: block
     h3.title
       +sub-title
-    p
-      margin-top: 1.5rem
-      input 
-        width: 100%
-        line-height: 2rem
-        padding: 0 1rem
-      input[type="radio"],
-      input[type="number"]
-        &:first-child
-          margin-left: 0
-        width: auto
-        margin-left: 1rem
-    .button-login
+
+  p
+    margin-top: 1.5rem
+
+  .join-user_form
+    position: relative
+    .form_email, .form_password
+      display: block
+      +text-input(100%)
+    .login-button
+      position: absolute
+      bottom: -1.5rem
+      right: 0
+      transform: translateY(100%)
+      +confirm-button(5rem, 4rem)
 
   .join-user_find-list
     margin-top: 1.5rem
     li
-      line-height: 2rem
+      margin-top: 0.5rem
 
 </style>

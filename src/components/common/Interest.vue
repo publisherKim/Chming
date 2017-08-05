@@ -42,10 +42,11 @@ export default {
     width: 100%
     height: 100vh
     padding: 2rem
-    background: #e1e1e1
+    background: #fff
     .interest_confirm
       display: block
-      margin: 1rem auto
+      margin: 2rem auto
+      +confirm-button(5rem, 3rem)
   .title
     +sub-title
 

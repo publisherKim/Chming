@@ -71,8 +71,9 @@ export default {
   .location-list-item
     float: left
     line-height: $location-list-height
-    cursor: pointer
+    font-size: 1.5rem
     font-weight: bold
+    cursor: pointer
   .tab-contents
     section
       display: none

@@ -38,7 +38,7 @@ export default {
     border-bottom: 1px solid #000
     h2
       line-height: $sort-header-height
-      font-size: 1.4rem
+      font-size: 1.5rem
       text-align: center
   .sort-filter_content-wrap
     padding: 10px 0
