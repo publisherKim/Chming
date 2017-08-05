@@ -18,7 +18,10 @@
     },
     methods: {
       confirm() {
-        this.$router.go(-1);     
+        this.changeRoute();       
+      },
+      changeRoute() {
+        this.$router.go(-1);
       }
     }
   };
