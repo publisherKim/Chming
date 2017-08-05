@@ -48,7 +48,7 @@
     .active 
       display: block
     h3.title
-      +subTitle
+      +sub-title
     p
       margin-top: 1.5rem
       input 
