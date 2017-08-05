@@ -77,7 +77,7 @@
   .active 
     display: block
   h3.title
-    +subTitle
+    +sub-title
   .join-user_form
     .address
       margin-top: 1rem

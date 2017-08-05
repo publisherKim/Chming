@@ -27,6 +27,16 @@
 @function leading()
 	@return $leading
 
-@mixin subTitle()
-  border-bottom: solid 1px #b1b1b1
-  line-height: 3rem
+@mixin sub-title()
+	font-size: 1.4rem
+	padding: 3px 0
+	line-height: 3rem
+	border-bottom: 1px solid #b1b1b1
+
+@mixin rounded-rect-button($width: auto)
+	border: 1px solid #666
+	border-radius: 1000px
+	background: none
+	padding: 4px 0
+	width: $width
+	font-size: 1.3rem

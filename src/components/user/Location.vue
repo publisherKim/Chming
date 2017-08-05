@@ -37,7 +37,7 @@
     background: #e1e1e1
 
   .title
-    +subTitle
+    +sub-title
   
   .user-location_search-form
     margin-top: 1rem

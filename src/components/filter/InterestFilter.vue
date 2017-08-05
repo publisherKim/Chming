@@ -5,7 +5,7 @@
       button.header_cancel-button(type="button" @click="") 취소
       button.header_apply-button(type="button" @click="") 필터 적용
     .interest_content-wrap
-      interest
+      interest.interest-filter-wrap
 </template>
 
 <script>
@@ -65,4 +65,7 @@ export default {
       border: 1px solid #000
       border-radius: 1rem
       padding: 3px 5px
+  .interest-filter-wrap
+    width: 95%
+    margin: 0 auto
 </style>
