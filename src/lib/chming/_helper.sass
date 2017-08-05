@@ -28,7 +28,7 @@
 	@return $leading
 
 @mixin sub-title()
-	font-size: 1.4rem
+	font-size: 1.5rem
 	padding: 3px 0
 	line-height: 3rem
 	border-bottom: 1px solid #b1b1b1
@@ -40,3 +40,20 @@
 	padding: 4px 0
 	width: $width
 	font-size: 1.3rem
+
+@mixin text-input($width: auto)
+	width: $width
+	padding: 5px 1rem
+	border-radius: 0.5rem
+	border: 0.5px solid #999
+
+@mixin confirm-button($width: auto, $height: auto)
+	width: $width
+	height: $height
+	padding: 2px
+	background: none
+	border: 1px solid #000
+	border-radius: 4px
+	&:hover
+		background: #000
+		color: #fff

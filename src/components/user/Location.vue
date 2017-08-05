@@ -6,7 +6,7 @@
       button.search-form_button(type="submit" aria-label="검색")
         i.fa.fa-search(aria-hidden='true') 
     user-map.user-map
-    button.confirm(@click="confirm" type="button") 완료
+    button.confirm-button(@click="confirm" type="button") 완료
 </template>
 
 <script>
@@ -37,24 +37,34 @@
     padding: 2rem
     width: 100%
     height: 100vh
-    background: #e1e1e1
+    background: #fff
 
   .title
     +sub-title
   
   .user-location_search-form
+    position: relative
     margin-top: 1rem
     input
-      padding: 0 1rem
-      width: calc(100% - 3rem)
-      line-height: 2rem
+      +text-input(100%)
     button
-      width: 3rem 
-      .fa-search
-        height: 2rem
-    
-  .confirm 
+      position: absolute
+      top: 0
+      right: 0.5rem
+      +align-vertical-middle
+      padding: 0.5rem
+      font-size: 1.5rem
+      background: none
+      border: 0
+  
+  .user-map
+    margin-top: 1rem
+    width: 100%
+    height: calc(100vh - 18rem)
+
+  .confirm-button
     display: block
-    margin: 1rem auto
+    margin: 2rem auto
+    +confirm-button(5rem, 3rem)
 
 </style>
