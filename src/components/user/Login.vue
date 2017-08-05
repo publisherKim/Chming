@@ -67,10 +67,6 @@
           margin-left: 0
         width: auto
         margin-left: 1rem
-    .button-close
-      position: absolute
-      top: 1rem
-      right: 3rem
     .button-login
 
   .join-user_find-list

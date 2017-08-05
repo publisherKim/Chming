@@ -20,13 +20,17 @@
           a 관심모임
         li
           a 모임개설
+    cancel-button.button-close(route="main")
 </template>
 
 <script>
 import EditButton from '@/components/common/EditButton';
+import CancelButton from '@/components/common/CancelButton';
+
 export default {
   components: {
     EditButton,
+    CancelButton
   },
 };
 </script>
@@ -38,6 +42,7 @@ export default {
     width: 100%
     height: 100vh
     padding: 2rem
+    
     background: #e1e1e1
   .user-info_profile-wrap
     +clearfix
