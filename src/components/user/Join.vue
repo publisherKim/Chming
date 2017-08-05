@@ -31,6 +31,7 @@
           p.address 경기도 성남시 분당구 정자동 11-2
         button.form_confirm(@click="confirm" type="submit") 완료
     router-view.join-user_interest
+    
 </template>
 
 <script>
@@ -100,4 +101,7 @@
     display: block
     margin: 1rem auto      
 
+  .user-info_interest-wrap
+    .title
+      border: none
 </style>

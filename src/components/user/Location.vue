@@ -53,4 +53,5 @@
   .confirm 
     display: block
     margin: 1rem auto
+
 </style>
