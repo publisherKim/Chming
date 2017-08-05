@@ -12,6 +12,7 @@
       h3.title 관심사
       .interest_list
         li.item 배드민턴
+    edit-button(route="user_edit")     
     .user-info_group-wrap
       ul.group_list
         li
@@ -20,7 +21,8 @@
           a 관심모임
         li
           a 모임개설
-    cancel-button.button-close(route="main")
+         
+    cancel-button.button-close
 </template>
 
 <script>
@@ -31,7 +33,7 @@ export default {
   components: {
     EditButton,
     CancelButton
-  },
+  }
 };
 </script>
 
@@ -41,9 +43,13 @@ export default {
   .user-info-container
     width: 100%
     height: 100vh
-    padding: 2rem
+    padding: 3rem
     
     background: #e1e1e1
+    .edit-button
+      position: absolute
+      top: 4rem
+      right: 3rem
   .user-info_profile-wrap
     +clearfix
     img
