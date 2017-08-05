@@ -13,7 +13,7 @@ export default {
   },
   methods: {
     changeRoute() {
-      this.$router.push({name: this.route});
+      this.$router.go(-1);
     },
   },
 };
