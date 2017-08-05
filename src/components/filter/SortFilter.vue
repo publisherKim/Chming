@@ -1,8 +1,10 @@
 <template lang="pug">
-  .sort-filter-wrap
-    h2 정렬
-    button(type="button" @click="") 거리순
-    button(type="button" @click="") 인원순
+  .sort-filter-container
+    .sort-filter_header-wrap
+      h2 정렬
+    .sort-filter_content-wrap
+      button(type="button" @click="") 거리순
+      button(type="button" @click="") 인원순
     
 </template>
 
@@ -22,23 +24,26 @@ export default {
 
 <style lang="sass" scoped>
   @import "~chming"
+
+  $sort-header-height: 40px
   
-  +mobile
-    .sort-filter-wrap
-      +container()
-      width: 100%
-      z-index: 10
-      background: #fff
+  .sort-filter-container
+    width: 100%
+    z-index: 10
+    background: #fff
+    text-align: center
+  .sort-filter_header-wrap
+    width: 95%
+    margin: 0 auto
+    border-bottom: 1px solid #000
+    h2
+      line-height: $sort-header-height
+      font-size: 1.4rem
       text-align: center
-      h2
-        font-size: 1.4rem
-        text-align: center
-      button
-        background: none
-        border: 1px solid #000
-        border-radius: 1rem
-        font-size: 1.2rem
-        padding: 3px 5px
-        &:not(:last-child)
-          margin-right: 5px
+  .sort-filter_content-wrap
+    padding: 10px 0
+    button
+      +rounded-rect-button(8rem)
+      &:not(:last-child)
+        margin-right: 2rem
 </style>

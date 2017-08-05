@@ -1,8 +1,9 @@
 <template lang="pug">
-  .filter-wrap
+  .filter-container
     .location-filter-wrap
-      h2 지금 보고있는 지역은
-      button(@click="viewFilter('location')" type="button") 서현/야탑&dtrif;
+      .location-filter
+        h2 지금 보고있는 지역은
+        button(@click="viewFilter('location')" type="button") 서현/야탑&dtrif;
     .filter-button-wrap
       button.sort-button(@click="viewFilter('sort')" type="button") 거리순&dtrif;
       button.interest-button(@click="viewFilter('interest')" type="button") 관심사&dtrif;
@@ -45,12 +46,12 @@ export default {
 
   $filter-wrap-height: 50px
 
-  .filter-wrap
+  .filter-container
     height: $filter-wrap-height
     background: rgb(238, 238, 238)
   .location-filter-wrap
     height: 100%
-    div
+    .location-filter
       position: relative
       +align-vertical-middle
     h2

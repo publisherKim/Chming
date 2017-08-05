@@ -37,7 +37,7 @@
     background: #e1e1e1
 
   .title
-    +subTitle
+    +sub-title
   
   .user-location_search-form
     margin-top: 1rem
@@ -49,13 +49,9 @@
       width: 3rem 
       .fa-search
         height: 2rem
-
-  .user-map
-    margin-top: 1rem
-    width: 100%
-    height: calc(100vh - 15rem)
     
   .confirm 
     display: block
     margin: 1rem auto
+
 </style>

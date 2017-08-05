@@ -31,7 +31,10 @@ export default {
 <style lang="sass" scoped>
   @import "~chming"
 
-  .interest-container
+  .interest_confirm
+    display: none
+
+  .join-user_interest
     position: absolute
     top: 0
     left: 0
@@ -39,26 +42,29 @@ export default {
     height: 100vh
     padding: 2rem
     background: #e1e1e1
-
+    .interest_confirm
+      display: block
+      margin: 1rem auto
   .title
-    +subTitle
+    +sub-title
 
   .interest_list
+    padding: 10px 0
     +clearfix
-    margin-top: 1.5rem
     li
       float: left
-      margin-left: 1rem
       width: calc(25% - 1rem)
       text-align: center
+      &:not(:last-child)
+        margin-right: 2rem
+      font-size: 1.2rem
     label
+      +rounded-rect-button
       display: block
       text-align: center
-      line-height: 3rem
-      border: solid 0.1rem #666
-      border-radius: 1.5rem
       cursor: pointer
     input
+      position: absolute
       visibility: hidden
       width: 0
       height: 0
@@ -66,8 +72,5 @@ export default {
       color: #fff
       background: #000
       
-  .interest_confirm
-    display: block
-    margin: 1rem auto
 </style>
 

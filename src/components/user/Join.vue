@@ -30,11 +30,13 @@
             button(@click="changeRoute('user_join_location')" type="button") 설정
           p.address 경기도 성남시 분당구 정자동 11-2
         button.form_confirm(@click="confirm" type="submit") 완료
-    router-view
+    router-view.join-user_interest
+    cancel-button.button-close(route="main")
 </template>
 
 <script>
   import UserInterest from '@/components/common/Interest';
+  import CancelButton from '@/components/common/CancelButton';
 
   export default {
     data() {  
@@ -44,7 +46,8 @@
       };
     },
     components: {
-      UserInterest
+      UserInterest,
+      CancelButton
     },
     methods: {
       changeRoute(name) {
@@ -55,7 +58,7 @@
       confirm() {
         this.$router.push('/');
       }
-    }
+    },
   };
 </script>
 
@@ -76,7 +79,7 @@
   .active 
     display: block
   h3.title
-    +subTitle
+    +sub-title
   .join-user_form
     .address
       margin-top: 1rem
@@ -100,4 +103,7 @@
     display: block
     margin: 1rem auto      
 
+  .user-info_interest-wrap
+    .title
+      border: none
 </style>

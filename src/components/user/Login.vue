@@ -12,18 +12,24 @@
       li
         a(@click="chageRoute") 회원가입
     button.button-login(@click="login") 로그인
-    button.button-close(@click="loginClose") 닫기
+    cancel-button.button-close(route="main")
+    //- button.button-close(@click="loginClose") 닫기
+
 </template>
 
 <script>
+  import CancelButton from '../common/CancelButton';
 
   export default {
+    components: {
+      CancelButton,
+    },
     methods: {
-      loginClose() {
-        this.$router.push({
-          name: 'main'
-        });
-      },
+      // loginClose() {
+      //   this.$router.push({
+      //     name: 'main'
+      //   });
+      // },
       login() {
         console.log('로그인 성공시 : true, 로그인 실패시 : 실패 메시지');
       },
@@ -48,7 +54,7 @@
     .active 
       display: block
     h3.title
-      +subTitle
+      +sub-title
     p
       margin-top: 1.5rem
       input 
@@ -61,10 +67,6 @@
           margin-left: 0
         width: auto
         margin-left: 1rem
-    .button-close
-      position: absolute
-      top: 1rem
-      right: 3rem
     .button-login
 
   .join-user_find-list

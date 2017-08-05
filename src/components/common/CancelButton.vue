@@ -1,6 +1,6 @@
 <template lang="pug">
-  button.edit-button(@click="changeRoute" type="button")
-    i.fa.fa-pencil-square-o(aria-hidden="true")
+  button.cancel_button(@click="changeRoute" type="button")
+    i.fa.fa-times(aria-hidden="true")
 </template>
 
 <script>
@@ -13,14 +13,15 @@ export default {
   },
   methods: {
     changeRoute() {
-      this.$router.push({name: this.route});
+      this.$router.go(-1);
     },
   },
 };
+
 </script>
 
 <style lang="sass" scoped>
-  .edit_button
+  .cancel_button
     position: absolute
     top: 0
     right: 0
