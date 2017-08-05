@@ -19,9 +19,12 @@ export default {
     };
   },
   methods: {
-    interestConfirm(){
-      this.$router.go(-1);
+    interestConfirm() {
+      this.changeRoute();
     },
+    changeRoute() {
+      this.$router.go(-1);
+    }
   },
 };
 </script>
