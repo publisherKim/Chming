@@ -18,7 +18,10 @@
     },
     methods: {
       confirm() {
-        this.$router.push({name: 'user_join'});      
+        this.changeRoute();       
+      },
+      changeRoute() {
+        this.$router.go(-1);
       }
     }
   };

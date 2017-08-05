@@ -42,7 +42,7 @@
     data() {  
       return {
         isMap: false,
-        maxYear: new Date().getFullYear()
+        maxYear: new Date().getFullYear(),
       };
     },
     components: {
@@ -72,8 +72,7 @@
   .join-user-wrap
     display: block
     height: 100vh
-    padding-top: 2rem
-    padding: 0 1.5rem
+    padding: 3rem
     background: #e1e1e1
     border: 1px solid #ccc
   .active 
@@ -87,6 +86,7 @@
       margin-top: 1.5rem
       input 
         width: 100%
+        padding: 0 1rem
         line-height: 2rem
       input[type="radio"],
       input[type="number"]
