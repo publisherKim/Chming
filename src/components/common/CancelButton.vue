@@ -5,12 +5,6 @@
 
 <script>
 export default {
-  props: {
-    route: {
-      type: String,
-      required: true
-    },
-  },
   methods: {
     changeRoute() {
       this.$router.go(-1);
@@ -23,8 +17,8 @@ export default {
 <style lang="sass" scoped>
   .cancel_button
     position: absolute
-    top: 0
-    right: 0
+    top: 1rem
+    right: 3rem
     padding: 2px
     font-size: 1.7rem
     background: none

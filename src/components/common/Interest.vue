@@ -8,7 +8,7 @@
       li
         input(v-model="selectList" id="item2"  type="checkbox" value="2")
         label(for="item2") 배드민턴
-    button.interest_confirm(@click="interestConfirm" type="button") 선택완료
+    button.interest_confirm(@click="interestConfirm" type="button") 완료
 </template>
 
 <script>
@@ -20,9 +20,7 @@ export default {
   },
   methods: {
     interestConfirm(){
-      this.$router.push({
-        name: 'user_join'
-      });
+      this.$router.go(-1);
     },
   },
 };

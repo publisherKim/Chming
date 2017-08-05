@@ -18,7 +18,7 @@
     },
     methods: {
       confirm() {
-        this.$router.push({name: 'user_join'});      
+        this.$router.go(-1);     
       }
     }
   };
