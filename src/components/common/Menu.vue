@@ -1,14 +1,14 @@
 <template lang="pug">
   div
     a.hamburger-menu(href="" role="button" @click.prevent="viewMenu")
-      i.fa.fa-bars(aria-hidden='true')
+      i.fa.fa-bars(aria-hidden="true")
 </template>
 
 <script>  
   export default {
     data() {
       return {
-        isLogin: false
+        isLogin: true
       };
     },
     methods: {

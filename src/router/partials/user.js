@@ -71,12 +71,12 @@ export default {
       component: UserFindPw,
     },
     {
-      path: 'groupList',
+      path: 'groupList/:id',
       name: 'user_groupList',
       component: UserGroupList,
     },
     {
-      path: 'favoriteList',
+      path: 'favoriteList/:id',
       name: 'user_favoriteList',
       component: UserFavoriteList,
     },
