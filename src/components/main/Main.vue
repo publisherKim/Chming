@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import MainHeader from '@/components/header/Header';
+import MainHeader from '@/components/common/Header';
 import MainFilter from '@/components/filter/Filter';
 import MainMap from '@/components/common/Map';
 
