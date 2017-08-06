@@ -2,16 +2,20 @@
   .board-container
     group-header
     tab-menu
+    BoardList
+    button.write(type="button") 글작성
 </template>
 
 <script>
   import GroupHeader from '@/components/common/Header';
   import TabMenu from '@/components/group/TabMenu';
+  import BoardList from '@/components/group/BoardList';
 
   export default {
     components: {
       GroupHeader,
-      TabMenu
+      TabMenu,
+      BoardList
     },
   };
 
@@ -20,4 +24,11 @@
 <style lang="sass" scoped>
   @import "~chming"
 
+  .write 
+    display: block
+    margin: 1rem auto
+    padding: 0.5rem 1rem
+    color: #fff
+    background: #ff6600
+    border: none
 </style>
