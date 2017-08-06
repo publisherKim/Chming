@@ -59,8 +59,9 @@ export default {
         height: 80%
         +align-vertical-middle
     .group-description_link
-      +align-vertical-middle
+      display: block
       position: relative
+      +align-vertical-middle
       padding-right: 2.5rem
       span
         display: block
