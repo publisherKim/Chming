@@ -16,9 +16,9 @@
     .user-info_group-wrap
       ul.group_list
         li
-          a(href @click.prevent="changeRoute('user_groupList')") 내모임
+          a(href @click.prevent="changeRoute('user_myGroupList')") 내모임
         li
-          a(href @click.prevent="changeRoute('user_favoriteList')") 관심모임
+          a(href @click.prevent="changeRoute('user_myFavoriteList')") 관심모임
         li
           a(href @click.prevent="changeRoute('group_create')") 모임개설
     cancel-button.button-close
