@@ -1,5 +1,5 @@
 <template lang="pug">
-  button(@click="changeRoute" type="button")
+  button.edit-button(@click="changeRoute" type="button")
     i.fa.fa-pencil-square-o(aria-hidden="true")
 </template>
 
@@ -20,7 +20,7 @@ export default {
 </script>
 
 <style lang="sass" scoped>
-  button
+  .edit-button
     position: absolute
     top: 0
     right: 0

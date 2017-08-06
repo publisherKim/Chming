@@ -28,9 +28,9 @@
           button.location_button(@click="changeRoute('user_join_location')" type="button") 지역선택
             i.fa.fa-map-marker(aria-hidden='true')
           p.location-address 경기도 성남시 분당구 정자동 11-2
-        button.form_confirm(@click="confirm" type="submit") 완료
+        button.form_confirm(@click="changeRoute('main')" type="submit") 완료
     router-view.user_interest
-    cancel-button.button-close(route="main")
+    cancel-button(route="main")
 </template>
 
 <script>
@@ -50,9 +50,6 @@
       changeRoute(route) {
         this.$router.push({name: route});
       },
-      confirm() {
-        this.$router.push('/');
-      }
     },
   };
 </script>

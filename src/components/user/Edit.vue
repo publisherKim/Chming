@@ -1,7 +1,7 @@
 <template lang="pug">
   .edit-container
     .user-edit-wrap
-      h3.title 정보수정
+      h3.title 사용자 정보 수정
       form.user-edit_form
         p {{ `이메일 : ${user.email}` }}
         p
@@ -29,7 +29,7 @@
           p.location-address 경기도 성남시 분당구 정자동 11-2
         button.form_confirm(@click="confirm" type="submit") 완료
     router-view.user_interest
-    cancel-button.button-close(route="main")
+    cancel-button(route="main")
 </template>
 
 <script>

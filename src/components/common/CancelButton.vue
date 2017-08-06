@@ -1,5 +1,5 @@
 <template lang="pug">
-  button(@click="changeRoute" type="button")
+  button.cancel-button(@click="changeRoute" type="button")
     i.fa.fa-times(aria-hidden="true")
 </template>
 
@@ -15,7 +15,7 @@ export default {
 </script>
 
 <style lang="sass" scoped>
-  button
+  .cancel-button
     position: absolute
     top: 1rem
     right: 3rem
