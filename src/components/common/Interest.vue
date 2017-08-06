@@ -35,7 +35,7 @@ export default {
   .interest_confirm
     display: none
 
-  .join-user_interest
+  .user_interest
     position: absolute
     top: 0
     left: 0
@@ -47,6 +47,7 @@ export default {
       display: block
       margin: 2rem auto
       +confirm-button(5rem, 3rem)
+
   .title
     +sub-title
 

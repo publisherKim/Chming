@@ -3,13 +3,13 @@ import User from '@/components/user/User';
 import UserLogin from '@/components/user/Login';
 import UserJoin from '@/components/user/Join';
 import UserInterest from '@/components/common/Interest';
-import UserLocation from '@/components/user/Location';
+import UserLocation from '@/components/common/Location';
 import UserEdit from '@/components/user/Edit';
 import UserInfo from '@/components/user/Info';
 import UserFindId from '@/components/user/FindId';
 import UserFindPw from '@/components/user/FindPw';
-import UserGroupList from '@/components/user/GroupList';
-import UserFavoriteList from '@/components/user/FavoriteList';
+import UserMyGroupList from '@/components/user/MyGroupList';
+import UserMyFavoriteList from '@/components/user/MyFavoriteList';
 
 export default {
   path: '/user',
@@ -71,14 +71,14 @@ export default {
       component: UserFindPw,
     },
     {
-      path: 'groupList/:id',
-      name: 'user_groupList',
-      component: UserGroupList,
+      path: 'myGroupList/:id',
+      name: 'user_myGroupList',
+      component: UserMyGroupList,
     },
     {
-      path: 'favoriteList/:id',
-      name: 'user_favoriteList',
-      component: UserFavoriteList,
+      path: 'myFavoriteList/:id',
+      name: 'user_myFavoriteList',
+      component: UserMyFavoriteList,
     },
   ],
 };
