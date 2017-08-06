@@ -1,26 +1,39 @@
 <template lang="pug">
-  .container
+  .info-container
     group-header
-    group-tab-menu
-    .introduce-group-wrap
+    tab-menu
+    .introduce-info-wrap
       img(src="/assets/" alt="groupIntroduce") 
       p testtesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttest
       p.address 경기도 성남시 분당구 265-2
-    .news-wrap
-      h3 새소식
-      ul.news-list
-        li
-          
+    .info_news-wrap
+      h3.title 새소식
+      board-list
+    button.info_join(type="button") 가입하기
+    button.info_join(type="button") 수정하기
+    .info_member-wrap
+      h3.title 모임멤버 
+        span.member-number 57 명
+      ul.member-list
+        li.list-item
+          img(src="/assets/" alt="profileName")
+          span.item-name 홍길동
+          span.item-position 모임장
+        li.list-item
+          img(src="/assets/" alt="profileName")
+          span.item-name 홍길동
 </template>
 
 <script>
   import GroupHeader from '@/components/common/Header';
-  import GroupTabMenu from '@/components/group/TabMenu';
+  import TabMenu from '@/components/group/TabMenu';
+  import BoardList from '@/components/group/BoardList';
 
   export default {
     components: {
       GroupHeader,
-      GroupTabMenu
+      TabMenu,
+      BoardList
     },
     data() {  
       return {
@@ -32,9 +45,28 @@
 
 <style lang="sass" scoped>
   @import "~chming"
-  
-  .introduce-group-wrap
+  .info-container
+    li
+      +clearfix()
+      +sideSpace()
+      position: relative
+      margin-top: 1.5rem
+      padding-bottom : 1rem
+      border-bottom: solid 1px #ccc
+  .introduce-info-wrap
     p
       padding: 1rem 3rem
       line-height: 2.6rem
+  .title
+    +sub-title_group()
+
+  .info_join
+    display: block
+    margin: 1rem auto
+    padding: 0.5rem 1rem
+    color: #fff
+    background: #ff6600
+    border: none
+  .item-position
+    float: right      
 </style>
