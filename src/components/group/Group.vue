@@ -1,3 +1,4 @@
 <template lang="pug">
-  h2 Group.vue
+  router-view
+    p 12345
 </template>
