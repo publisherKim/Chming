@@ -27,6 +27,7 @@
   @import "~chming"
   .tab-menu-list
     padding: 1rem 0
+    background: #e1e1e1
     li
       text-align: center
     button

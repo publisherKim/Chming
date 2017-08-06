@@ -27,11 +27,20 @@
 @function leading()
 	@return $leading
 
+@mixin sideSpace()
+  padding: 0 2rem
+
 @mixin sub-title()
 	font-size: 1.5rem
-	padding: 3px 0
-	line-height: 3rem
+  padding: 3px 0
+  line-height: 3rem
 	border-bottom: 1px solid #b1b1b1
+
+@mixin sub-title_group()
+  padding: 0 1.5rem
+  font-size: 1.5rem
+  line-height: 3rem
+  background: #e1e1e1
 
 @mixin rounded-rect-button($width: auto)
 	border: 1px solid #666
