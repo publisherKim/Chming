@@ -68,5 +68,10 @@
     margin-top: 1.5rem
     li
       margin-top: 0.5rem
+      
+  .form_confirm
+    display: block
+    margin: 2rem auto
+    +confirm-button(5rem, 3rem)
 
 </style>

@@ -64,7 +64,7 @@ export default {
       ],
     },
     {
-      path: 'edit',
+      path: 'edit/:id',
       name: 'group_edit',
       component: GroupEdit,
       children: [

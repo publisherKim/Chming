@@ -14,14 +14,18 @@
         ul.interest-list
           li
             img(src="" alt="관심사1")
+      button.form_confirm(@click="changeRoute('main')" type="submit") 완료
+    cancel-button
 </template>
 
 <script>
   import GroupHeader from '@/components/common/Header';
+  import CancelButton from '@/components/common/CancelButton';
 
   export default {
     components: {
       GroupHeader,
+      CancelButton,
     },
     methods: {
       changeRoute(route) {
@@ -49,7 +53,7 @@
     +text-input(100%)
   
   .form_description
-    +text-input(100%, 80px)
+    +text-input(100%, 100px)
 
   .form_interest-wrap,
   .form_location-wrap
@@ -67,4 +71,9 @@
   .interest-list, .location-address
     margin-top: 1rem
     padding-left: 1.5rem
+  
+  .form_confirm
+    display: block
+    margin: 2rem auto
+    +confirm-button(5rem, 3rem)
 </style>

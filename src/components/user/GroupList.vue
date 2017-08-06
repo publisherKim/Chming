@@ -46,35 +46,36 @@ export default {
 <style lang="sass" scoped>
   @import "~chming"
   
-  +mobile
-    .list_item
-      height: 65px
-      padding: 3px 0
-      border-bottom: 1px solid #000
-    .group-image_wrap
-      height: 100%
-      text-align: center
-      img
-        position: relative
-        height: 80%
-        +align-vertical-middle
-    .group-description_link
-      +align-vertical-middle
-      position: relative
-      padding-right: 2.5rem
-      span
-        display: block
-        font-size: 1.3rem
-        +fit-text-in-box
-      .group_description,
-      .group_member
-        font-size: 1.2rem
-      .group_interest-icon
-        position: absolute
-        top: 0
-        right: 0
+  $list-item-height: 65px
 
-    +mobile
+  .list_item
+    height: $list-item-height
+    padding: 3px 0
+    border-bottom: 1px solid #000
+  .group-image_wrap
+    height: 100%
+    text-align: center
+    img
+      position: relative
+      height: 80%
+      +align-vertical-middle
+  .group-description_link
+    // +align-vertical-middle
+    position: relative
+    padding-right: 2.5rem
+    span
+      display: block
+      font-size: 1.3rem
+      +fit-text-in-box
+    .group_description,
+    .group_member
+      font-size: 1.2rem
+    .group_interest-icon
+      position: absolute
+      top: 0
+      right: 0
+
+  +mobile
     .list_item
       +container()
     .group-image_wrap
