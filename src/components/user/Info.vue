@@ -1,7 +1,7 @@
 <template lang="pug">
   .user-info-container
     .user-info_profile-wrap
-      img(src='' alt="userName")
+      img.profile_image(src="" alt="userName")
       ul.profile_list
         li.list_item 홍길동
         li.list_item 1999.
@@ -11,17 +11,16 @@
     .user-info_interest-wrap
       h3.title 관심사
       .interest_list
-        li.item 배드민턴
-    edit-button(route="user_edit")     
+        li.list-item 배드민턴
+    edit-button.edit-button(route="user_edit")     
     .user-info_group-wrap
       ul.group_list
         li
-          a 내모임
+          a(href @click.prevent="changeRoute('user_groupList')") 내모임
         li
-          a 관심모임
+          a(href @click.prevent="changeRoute('user_favoriteList')") 관심모임
         li
-          a 모임개설
-         
+          a(href @click.prevent="changeRoute('group_create')") 모임개설
     cancel-button.button-close
 </template>
 
@@ -33,7 +32,13 @@ export default {
   components: {
     EditButton,
     CancelButton
-  }
+  },
+  methods: {
+    changeRoute(route) {
+      (route === 'group_create') && this.$router.push({name: route});
+      (route !== 'group_create') && this.$router.push({name: route, params: {id: 1}});
+    },
+  },
 };
 </script>
 
@@ -44,8 +49,7 @@ export default {
     width: 100%
     height: 100vh
     padding: 3rem
-    
-    background: #e1e1e1
+    background: #fff
     .edit-button
       position: absolute
       top: 4rem
