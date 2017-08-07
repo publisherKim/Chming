@@ -1,7 +1,7 @@
 <template lang="pug">
   ul
     li.list_item
-      a(href="#none" role="button")
+      a(@click.prevent="changeRoute(1)" href="" role="button")
         h4.item_title 
           span.notice 공지 
           | 제목제목제목제목제목제목제목제목
@@ -30,6 +30,11 @@
 
 <script>
   export default {
+    methods: {
+      changeRoute(id) {
+        this.$router.push({name: 'group_viewArticle', params: {num: id}});
+      }
+    }
   };
 </script>
 
