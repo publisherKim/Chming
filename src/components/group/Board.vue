@@ -3,7 +3,7 @@
     group-header
     tab-menu
     BoardList
-    button.write(type="button") 글작성
+    button.write(@click="createWrite(1)" type="button") 글작성
 </template>
 
 <script>
@@ -16,6 +16,11 @@
       GroupHeader,
       TabMenu,
       BoardList
+    },
+    methods: {
+      createWrite(num){
+        this.$router.push({name: 'group_writeArticle'});
+      },
     },
   };
 
