@@ -1,7 +1,7 @@
 <template lang="pug">
   .header-container
     h1.header_title
-      a(href="/")
+      a(href @click.prevent="changeRoute('main')")
         img.header_logo-image(src="../../assets/logo.svg" alt="취밍")
     form.header_search-form
       input(type="text" id="keyword" placeholder="지역, 모임 또는 관심사")
@@ -21,6 +21,11 @@
     components: {
       MainMenu,
     },
+    methods: {
+      changeRoute(route) {
+        this.$router.push({name: route});
+      },
+    },
   };
 </script>
 
@@ -28,9 +33,8 @@
   @import "~chming"
 
   $search-input-width: 97%
+  $header-container-height: 50px
   
-  .header-container
-    height: 50px
   .header_title
     height: 100%
     text-align: right
@@ -62,7 +66,7 @@
   .search-form_button
     position: absolute
     +align-vertical-middle
-    right: calc(100% - #{$search-input-width})
+    right: 0.5rem
     background: none
     border: 0
     color: #666
@@ -73,11 +77,24 @@
   +mobile()
     .header-container
       +container()
+      height: $header-container-height
     .header_title
       +span(1 of 8)
     .header_search-form
       +span(6 of 8)
     .header_menu-wrap
       +span(1 of 8)
-  
+  +desktop()
+    .header-container
+      +container()
+      height: $header-container-height + 10px
+    .header_title
+      +span(1)
+    .header_search-form
+      +span(10)
+    .header_menu-wrap
+      +span(1)
+    .header_search-form
+      input
+        width: 100%
 </style>

@@ -11,5 +11,12 @@ export default {
 
 <style lang="sass">
   @import "~chming"
+
+  +mobile
+    html
+      font-size: 10px
+  +desktop
+    html
+      font-size: 12px
 </style>
 

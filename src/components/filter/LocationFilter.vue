@@ -97,4 +97,14 @@ export default {
     .region-list-item
       +span(2)
 
+  +desktop
+    .location-list-wrap
+      +container()
+    .location-list-item
+      padding: 0 (gutter() * 5)
+    .region-list
+      +container()
+    .region-list-item
+      +span(3)
+
 </style>
