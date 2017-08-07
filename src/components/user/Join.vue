@@ -4,31 +4,37 @@
       h3.title 회원가입
       form.user-join_form
         p
-          input.form_name(type="text" placeholder="이름" aria-label="이름")
+          input.form_name(v-model="userJoinInfo.name" type="text" placeholder="이름" aria-label="이름")
         p
-          input.form_email(type="email" placeholder="이메일" aria-label="이메일")
+          input.form_email(v-model="userJoinInfo.email" type="email" placeholder="이메일" aria-label="이메일")
         p
-          input.form_password(type="password" placeholder="비밀번호" aria-label="비밀번호")
+          input.form_password(v-model="userJoinInfo.password" type="password" placeholder="비밀번호" aria-label="비밀번호")
         p
           label.form_birth(for="birth") 생년월일
-          input#birth.form_year(type="number" placeholder="1993" min="1900" :max="maxYear" aria-label="생년")
-          input.form_month(type="number" placeholder="07" min="1" max="12" aria-label="월")
-          input.form_day(type="number" placeholder="07" min="1" max="31" aria-label="일")
-          input#man(type="radio" name="gender" checked)
+          input#birth.form_year(v-model.number="userJoinInfo.birth.year" type="number" min="1900" :max="maxYear" aria-label="생년")
+          input.form_month(v-model.number="userJoinInfo.birth.month" type="number" min="1" max="12" aria-label="월")
+          input.form_day(v-model.number="userJoinInfo.birth.day" type="number" min="1" max="31" aria-label="일")
+          input#man(v-model="userJoinInfo.gender" type="radio" name="gender" value="m" checked)
           label(for="man") 남
-          input#woman(type="radio" name="gender")
+          input#woman(v-model="userJoinInfo.gender" type="radio" name="gender" value="f")
           label(for="woman") 여
         .form_interest-wrap
-          button.interest_button(@click="changeRoute('user_join_interest')" type="button") 관심사 설정
+          button.interest_button(
+            @click="changeRoute({name: 'user_join_interest'})"
+            type="button"
+          ) 관심사 설정
             i.fa.fa-cog(aria-hidden='true')
           ul.interest-list
-            li
-              img(src="" alt="관심사1")
+            li(v-for="hobby in userJoinInfo.hobby")
+              img(src="" :alt="hobby")
         .form_location-wrap
-          button.location_button(@click="changeRoute('user_join_location')" type="button") 지역선택
+          button.location_button(
+            @click="changeRoute({name: 'user_join_location'})" 
+            type="button"
+          ) 지역선택
             i.fa.fa-map-marker(aria-hidden='true')
-          p.location-address 경기도 성남시 분당구 정자동 11-2
-        button.form_confirm(@click="changeRoute('main')" type="submit") 완료
+          p.location-address {{ userJoinInfo.position.address }}
+        button.form_confirm(@click="changeRoute({name: 'main'})" type="submit") 완료
     router-view.user_interest
     cancel-button(route="main")
 </template>
@@ -41,6 +47,23 @@
       return {
         isMap: false,
         maxYear: new Date().getFullYear(),
+        userJoinInfo: {
+          name: null,
+          email: null,
+          password: null,
+          birth: {
+            year: 1990,
+            month: 1,
+            day: 1,
+          },
+          gender: 'm',
+          hobby: [],
+          position: {
+            address: null,
+            latitude: null,
+            longitude: null,
+          },
+        },
       };
     },
     components: {
@@ -48,9 +71,17 @@
     },
     methods: {
       changeRoute(route) {
-        this.$router.push({name: route});
+        this.$router.push(route);
       },
     },
+    watch: {
+      $route(newRoute) {
+        let hobby = newRoute.params.hobby;
+        hobby && (this.userJoinInfo.hobby = hobby);
+        let position = newRoute.params.position;
+        position && (this.userJoinInfo.position = position);
+      },
+    }
   };
 </script>
 
@@ -60,7 +91,7 @@
   .interest-list, .location-address
     margin-top: 1rem
     padding-left: 1.5rem
-      
+
   .user-join-wrap
     display: block
     padding: 3rem

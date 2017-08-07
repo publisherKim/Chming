@@ -3,36 +3,59 @@
     h3.title 로그인
     form.join-user_form
       p  
-        input.form_email(type="email" placeholder="이메일" aria-label="이메일")
+        input.form_email(v-model="email" type="email" placeholder="이메일" aria-label="이메일")
       p  
-        input.form_password(type="password" placeholder="비밀번호" aria-label="비밀번호")
-      button.login-button(@click="login") 확인
+        input.form_password(v-model="password" type="password" placeholder="비밀번호" aria-label="비밀번호")
+      button.login-button(@click.prevent="login") 확인
     ul.join-user_find-list
       li
         a(href @click.prevent="") 아이디 / 비밀번호 찾기
       li
-        a(href @click.prevent="chageRoute") 회원가입
+        a(href @click.prevent="changeRoute('user_join')") 회원가입
     cancel-button(route="main")
 
 </template>
 
 <script>
   import CancelButton from '../common/CancelButton';
+  import { mapGetters, mapMutations } from 'vuex';
 
   export default {
     components: {
       CancelButton,
     },
+    data() {
+      return {
+        email: null,
+        password: null,
+      };
+    },
     methods: {
+      ...mapMutations(['setToken']),
       login() {
-        console.log('로그인 성공시 : true, 로그인 실패시 : 실패 메시지');
+        this.$http.post(this.getUrl + '/member/login/', {
+          username: this.email,
+          password: this.password,
+        })
+          .then(response => {
+            if(response.status === 200) {
+              this.setToken(response.data.token);
+              this.changeRoute('main');
+            } else {
+              console.log('통신 실패');
+            }
+          })
+          .catch(error => {
+            console.alert('서버와의 통신에 실패했습니다.');
+          });
       },
-      chageRoute() {
-        this.$router.push({
-          name: 'user_join'
-        });
-      }
-    }
+      changeRoute(route) {
+        this.$router.push({ name: route });
+      },
+    },
+    computed: {
+      ...mapGetters(['getUrl']),
+    },
   };
 </script>
 

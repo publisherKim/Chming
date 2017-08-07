@@ -1,7 +1,10 @@
 <template lang="pug">
   .user-info-container
+    edit-button.edit-button(route="user_edit")     
+    button.logout-button(type="button" @click="logout")
+      i.fa.fa-sign-out(aria-hidden="true")  
     .user-info_profile-wrap
-      img.profile_image(src="" alt="userName")
+      img.profile_image(src="../../assets/logo.svg" alt="userName")
       ul.profile_list
         li.list_item 홍길동
         li.list_item 1999.
@@ -12,7 +15,6 @@
       h3.title 관심사
       .interest_list
         li.list-item 배드민턴
-    edit-button.edit-button(route="user_edit")     
     .user-info_group-wrap
       ul.group_list
         li
@@ -27,6 +29,7 @@
 <script>
 import EditButton from '@/components/common/EditButton';
 import CancelButton from '@/components/common/CancelButton';
+import { mapGetters } from 'vuex';
 
 export default {
   components: {
@@ -35,10 +38,25 @@ export default {
   },
   methods: {
     changeRoute(route) {
-      (route === 'group_create') && this.$router.push({name: route});
-      (route !== 'group_create') && this.$router.push({name: route, params: {id: 1}});
+      (route === 'group_create') && this.$router.push({ name: route });
+      (route !== 'group_create') && this.$router.push({ name: route, params: { id: 1 } });
+    },
+    logout() {
+      this.$http.post(this.getUrl + '/member/login/', {
+        username: 'testuser01@ex.com',
+        password: '1111111a'
+      })
+        .then(response => {
+
+        })
+        .catch(error => {
+
+        });
     },
   },
+  computed: {
+    ...mapGetters(['getUrl']),
+  }
 };
 </script>
 
@@ -54,6 +72,14 @@ export default {
       position: absolute
       top: 4rem
       right: 3rem
+    .logout-button
+      position: absolute
+      top: 6rem
+      right: 3rem
+      font-size: 1.7rem
+      background: none
+      border: 0  
+
   .user-info_profile-wrap
     +clearfix
     img
@@ -68,11 +94,14 @@ export default {
     +clearfix
     li 
       float: left
+
   .profile_location
     float: left
     margin-left: 2rem
+
   .user-info_interest-wrap
     margin-top: 2rem
+    
   .group_list
     +clearfix
     margin-top: 1rem

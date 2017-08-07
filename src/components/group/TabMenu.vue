@@ -12,7 +12,6 @@
   export default {
     data() {  
       return {
-
       };
     },
     methods: {
@@ -25,13 +24,17 @@
 
 <style lang="sass" scoped>
   @import "~chming"
+
+
   .tab-menu-list
-    padding: 1rem 0
+    height: 40px
     background: #e1e1e1
     li
       text-align: center
     button
+      padding: 1rem 0
       min-width: 8rem
+      font-weight: bold
       border: none
       background: none
     button:hover

@@ -44,10 +44,9 @@ export default {
 <style lang="sass" scoped>
   @import "~chming"
 
-  $filter-wrap-height: 50px
+  $filter-container-height: 50px
 
   .filter-container
-    height: $filter-wrap-height
     background: rgb(238, 238, 238)
   .location-filter-wrap
     height: 100%
@@ -78,7 +77,7 @@ export default {
     font-size: 1.2rem
   .mylocation-button
     position: absolute
-    top: $filter-wrap-height + 10px
+    top: $filter-container-height + 10px
     right: 0
     z-index: 10
     background: #fff
@@ -98,10 +97,19 @@ export default {
     left: 0
 
   +mobile
-    .filter-wrap
+    .filter-container
       +container()
+      height: $filter-container-height
     .location-filter-wrap
       +span(2)
     .filter-button-wrap
       +span(2)
+  +desktop
+    .filter-container
+      +container()
+      height: $filter-container-height + 10px
+    .location-filter-wrap
+      +span(6)
+    .filter-button-wrap
+      +span(6)
 </style>
