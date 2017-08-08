@@ -22,17 +22,17 @@
       h3.title 음악
       ul.interest_list
         li
-          input(v-model="selectedList" id="item1" type="checkbox" value="자전거")
-          label(for="item1") 클래식    
+          input(v-model="selectedList" id="item6" type="checkbox" value="클래식")
+          label(for="item6") 클래식    
         li
-          input(v-model="selectedList" id="item2"  type="checkbox" value="배드민턴")
-          label(for="item2") 재즈
+          input(v-model="selectedList" id="item7"  type="checkbox" value="재즈")
+          label(for="item7") 재즈
         li
-          input(v-model="selectedList" id="item3"  type="checkbox" value="축구")
-          label(for="item3") 팝송
+          input(v-model="selectedList" id="item8"  type="checkbox" value="팝송")
+          label(for="item8") 팝송
         li
-          input(v-model="selectedList" id="item4"  type="checkbox" value="농구")
-          label(for="item4") K-POP
+          input(v-model="selectedList" id="item9"  type="checkbox" value="K-POP")
+          label(for="item9") K-POP
       
     button.interest_confirm(@click="interestConfirm" type="button") 완료
 </template>

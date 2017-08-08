@@ -87,16 +87,15 @@ export default {
       &.is-active
         display: block
   .region-list
-    padding: 5px 0
+    padding: 1.3rem 10px
   .region-list-item
     text-align: center
-    padding: 5px 0
+    padding: 0.5rem 0
     button
       +rounded-rect-button(95%, 30px)
       &:hover, &.is-active
         +rounded-rect-button-active()
-
-
+        
   +mobile
     .location-list-wrap
       +container()

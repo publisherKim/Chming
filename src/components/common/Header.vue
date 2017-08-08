@@ -3,7 +3,7 @@
     h1.header_title
       a(href @click.prevent="changeRoute('main')")
         img.header_logo-image(src="../../assets/logo.svg" alt="취밍")
-    form.header_search-form
+    form.header_search-form(autocomplete="off")
       input(type="text" id="keyword" placeholder="지역, 모임 또는 관심사")
       button.search-form_button(type="submit" aria-label="검색")
         i.fa.fa-search(aria-hidden='true')
@@ -59,8 +59,9 @@
     height: 3rem
     input
       display: inline-block
-      width: calc(100% - 2rem)
-      padding: 0 $side-space
+      width: calc(100% - 6rem)
+      padding-left: 1rem
+      margin: 0 $side-space
       vertical-align: top
       line-height: 3rem
       border: none

@@ -59,15 +59,17 @@
       display: inline-block
       color: $button-theme-color
       button
-        font-weight: bold  
+        font-size: 1.5rem
+        font-weight: bold
     h2
+      color: #fff
       font-size: 1.1rem
       font-weight: normal
     button
+      color: #fff
       background: none
       border: 0
-      font-size: 1.5rem
-      font-weight: normal
+
   .filter-button-wrap
     position: absolute
     right: 0
@@ -75,14 +77,13 @@
     font-weight: normal
     color: $button-theme-color
     button
-      margin-left: 1rem
-      font-size: 1.2rem
       border: 0
   .sort-button,
   .interest-button
     position: relative
     +align-vertical-middle
-    font-size: 1.2rem
+    margin-left: 1rem
+    font-size: 1.3rem
     background: none
     &:hover
       text-decoration: underline
@@ -91,7 +92,7 @@
     right: 0
     z-index: 10
     background: #fff
-    padding: 5px
+    padding: 1px 6px
     font-size: 1.7rem
     border-radius: 3px
     color: #444

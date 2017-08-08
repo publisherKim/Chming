@@ -50,5 +50,5 @@ export default {
       padding: 3px 5px
   .interest-filter-wrap
     width: 100%
-    padding: 0 2rem
+    +sideSpace
 </style>

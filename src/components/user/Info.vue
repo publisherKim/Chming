@@ -4,13 +4,16 @@
     button.logout-button(type="button" @click="logout")
       i.fa.fa-sign-out(aria-hidden="true")  
     .user-info_profile-wrap
-      img.profile_image(src="../../assets/logo.svg" alt="userName")
-      ul.profile_list
-        li.list_item 홍길동
-        li.list_item 1999.
-        li.list_item 01.
-        li.list_item 01
-      p.profile_location 경기도 성남시 서현동 
+      img.profile_image(src="../../assets/mingu.jpeg" alt="userName")
+      .profile-wrap
+        ul.profile_list
+          li.list_item 홍길동
+          li.list_item 1999.
+          li.list_item 01.
+          li.list_item 01
+        p.profile_location
+          i.fa.fa-map-marker(aria-hidden="true")
+          | 경기도 성남시 서현동 
     .user-info_interest-wrap
       h3.title 관심사
       .interest_list
@@ -63,6 +66,8 @@ export default {
 <style lang="sass" scoped>
   @import "~chming"
 
+  $user-info-wrap-height: 80px
+
   .user-info-container
     width: 100%
     height: 100vh
@@ -81,32 +86,37 @@ export default {
       border: 0  
 
   .user-info_profile-wrap
+    position: relative
+    height: $user-info-wrap-height
     +clearfix
-    img
+    .profile_image
       float: left
-      width: 10rem
-      height: 10rem
-    
+      height: $user-info-wrap-height
+      width: $user-info-wrap-height
+      border-radius: 1000px
+    background: blue
+    .profile-wrap
+      float: left
+      position: absolute
+      top: 50%
+
   .profile_list
-    float: left
-    width: calc(100% - 12rem)
     margin-left: 2rem
     +clearfix
     li 
       float: left
 
   .profile_location
-    float: left
     margin-left: 2rem
 
   .user-info_interest-wrap
-    margin-top: 2rem
+    background: skyblue
     
   .group_list
     +clearfix
-    margin-top: 1rem
-    padding-top: 3rem  
+    background: red
     border-top: solid 1px #000
+    width: 100%
     li
       float: left
       width: 33.33%

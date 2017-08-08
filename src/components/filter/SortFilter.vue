@@ -4,7 +4,7 @@
     .sort-filter_header-wrap
       h2 정렬
     .sort-filter_content-wrap
-      button(type="button" @click="") 거리순
+      button.is-active(type="button" @click="") 거리순
       button(type="button" @click="") 인원순
     
 </template>
@@ -49,11 +49,15 @@
       line-height: $sort-header-height
           
   .sort-filter_content-wrap
-    padding: 10px 0
+    padding: 1.3rem 0
     button
       +rounded-rect-button(8rem)
       &:hover, &.is-active
         +rounded-rect-button-active()
       &:not(:last-child)
         margin-right: 2rem
+    .is-active
+      color: #fff
+      background: $base-theme-color
+      border: 0
 </style>
