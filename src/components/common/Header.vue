@@ -7,7 +7,7 @@
       input(type="text" id="keyword" placeholder="지역, 모임 또는 관심사")
       button.search-form_button(type="submit" aria-label="검색")
         i.fa.fa-search(aria-hidden='true')
-    main-menu.header_menu-wrap
+    main-menu
 </template>
 
 <script>
@@ -32,69 +32,45 @@
 <style lang="sass" scoped>
   @import "~chming"
 
-  $search-input-width: 97%
-  $header-container-height: 50px
-  
-  .header_title
-    height: 100%
-    text-align: right
-    a
-      display: block
-      height: 100%
-      width: 100%
-    .header_logo-image
-      position: relative
-      +align-vertical-middle
-      display: inline-block
-      height: 60%
-  .header_search-form
-    position: relative
-    height: 100%
-    padding-left: 1rem
-    font-size: 1.7rem
-    line-height: 50px
-    input
-      position: absolute
-      +align-vertical-middle
-      display: block
-      width: $search-input-width
-      height: 60%
-      padding-left: 1rem
-      border-radius: 0.5rem
-      border: 0.5px solid #999
-      box-shadow: 1px 1px 3px #888888
-  .search-form_button
-    position: absolute
-    +align-vertical-middle
-    right: 0.5rem
-    background: none
-    border: 0
-    color: #666
-    text-align: right
-  .header_menu-wrap
-    height: 100%
+  $img-width: 2.3rem
+  $side-space: 1rem
+  $filter-container-height: 50px
 
-  +mobile()
-    .header-container
-      +container()
-      height: $header-container-height
-    .header_title
-      +span(1 of 8)
-    .header_search-form
-      +span(6 of 8)
-    .header_menu-wrap
-      +span(1 of 8)
+  .header-container
+    position: relative
+    height: $filter-container-height
+  .header_title
+    position: absolute
+    +align-vertical-middle()   
+    left: $side-space
+    display: inline-block
+    line-height: 1rem
+    a
+      display: inline-block
+    img
+      width: $img-width
+      height: 3rem
+
+  .header_search-form
+    +align-vertical-middle()
+    position: absolute
+    margin-left: $img-width + $side-space*2
+    width: calc(100% - 7.7rem)
+    height: 3rem
+    input
+      display: inline-block
+      width: calc(100% - 2rem)
+      padding: 0 $side-space
+      width:
+      line-height: 3rem
+      border: none
+    button
+      display: inline-block
+      background: none
+      border: none
+      font-size: 2rem
+      
   +desktop()
     .header-container
-      +container()
-      height: $header-container-height + 10px
-    .header_title
-      +span(1)
-    .header_search-form
-      +span(10)
-    .header_menu-wrap
-      +span(1)
-    .header_search-form
-      input
-        width: 100%
+      height: $filter-container-height + 10px
 </style>

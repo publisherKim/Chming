@@ -1,6 +1,6 @@
 <template lang="pug">
-  div
-    a.hamburger-menu(href="" role="button" @click.prevent="viewMenu")
+  div.menu-wrap
+    a.menu_hambuger(href="" role="button" @click.prevent="viewMenu")
       i.fa.fa-bars(aria-hidden="true")
 </template>
 
@@ -30,15 +30,12 @@
 
 <style lang="sass" scoped>
   @import "~chming"
-
-  .hamburger-menu
-    display: block
-    position: relative
-    top: 50%
-    transform: translateY(-50%)
-    // height: 100%
+  .menu-wrap
+    +align-vertical-middle()
+    position: absolute
+    right: 1rem
     font-size: 2rem
-    color: #666
-    text-align: center
-      
+
+    .menu_hambuger
+      height: 3rem
 </style>
