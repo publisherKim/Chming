@@ -1,32 +1,38 @@
 <template lang="pug">
-  .location-list-container
-    h2 지역 선택 메뉴
-
-    ul.location-list(role="tablist")
-      li#tab1.location-list-item(
-        v-for="(arr, region, index) in regionList"
-        :id="`tab${index+1}`"
-        :class="{'is-active': (index === activeSection)}"
-        role="tab"
-        :aria-controls="`section${index+1}`"
-        :aria-selected="(index === 0) ? 'true' : 'false'"
-        @click="changeTabContents(index)"
-      ) {{ region }}
-    .tab-contents
-      template(v-for="(arr, region, index) in regionList")
-        section(
-          :id="`section${index+1}`"
+  .location-container
+    choice-header
+    .location-wrap
+      h2 지역 선택 메뉴
+      ul.location-list(role="tablist")
+        li#tab1.location-list-item(
+          v-for="(arr, region, index) in regionList"
+          :id="`tab${index+1}`"
           :class="{'is-active': (index === activeSection)}"
-          role="tabpanel"
-          :aria-labelledby="`tab${index+1}`"
-        )
-          ul.region-list
-            li.region-list-item(v-for="detail in arr")
-              button(type="button") {{ detail }}
+          role="tab"
+          :aria-controls="`section${index+1}`"
+          :aria-selected="(index === 0) ? 'true' : 'false'"
+          @click="changeTabContents(index)"
+        ) {{ region }}
+      .tab-contents
+        template(v-for="(arr, region, index) in regionList")
+          section(
+            :id="`section${index+1}`"
+            :class="{'is-active': (index === activeSection)}"
+            role="tabpanel"
+            :aria-labelledby="`tab${index+1}`"
+          )
+            ul.region-list
+              li.region-list-item(v-for="detail in arr")
+                button(type="button") {{ detail }}
 </template>
 
 <script>
+import ChoiceHeader from '@/components/filter/ChoiceHeader';
+
 export default {
+  components: {
+    ChoiceHeader
+  },
   data() {
     return {
       regionList: {
@@ -51,14 +57,14 @@ export default {
   @import "~chming"
 
   $location-list-height: 40px
-  
-  .location-list-container
+  .location-container
     position: absolute
     z-index: 10
     bottom: 0
     left: 0
     width: 100%
     background: #fff
+  .location-wrap
     h2
       margin: 0
       +a11y-hidden
@@ -73,7 +79,8 @@ export default {
     font-weight: bold
     cursor: pointer
     &.is-active
-      border-top: 2px solid $base-theme-color
+      color: $base-theme-color
+      text-decoration: underline
   .tab-contents
     section
       display: none
@@ -85,8 +92,10 @@ export default {
     text-align: center
     padding: 0.5rem 0
     button
-      +rounded-rect-button(100%, 30px)
-
+      +rounded-rect-button(95%, 30px)
+      &:hover, &.is-active
+        +rounded-rect-button-active()
+        
   +mobile
     .location-list-wrap
       +container()

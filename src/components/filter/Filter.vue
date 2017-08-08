@@ -13,42 +13,42 @@
 </template>
 
 <script>
-import SortFilter from '@/components/filter/SortFilter';
-import InterestFilter from '@/components/filter/InterestFilter';
-import MylocationFilter from '@/components/filter/MylocationFilter';
-import LocationFilter from '@/components/filter/LocationFilter';
+  import SortFilter from '@/components/filter/SortFilter';
+  import InterestFilter from '@/components/filter/InterestFilter';
+  import MylocationFilter from '@/components/filter/MylocationFilter';
+  import LocationFilter from '@/components/filter/LocationFilter';
 
-export default {
-  data() {
-    return {
-      filter: null
-    };
-  },
-  components: {
-    SortFilter,
-    InterestFilter,
-    MylocationFilter,
-    LocationFilter,
-  },
-  methods: {
-    viewFilter(filter) {
-      this.filter = filter + '-filter';
-      let refFilter = this.$refs.filter;
-
-      refFilter && refFilter.$options._componentTag.includes(filter) && (this.filter = null);
+  export default {
+    data() {
+      return {
+        filter: null
+      };
     },
-  },
-};
+    components: {
+      SortFilter,
+      InterestFilter,
+      MylocationFilter,
+      LocationFilter,
+    },
+    methods: {
+      viewFilter(filter) {
+        this.filter = filter + '-filter';
+        let refFilter = this.$refs.filter;
+
+        refFilter && refFilter.$options._componentTag.includes(filter) && (this.filter = null);
+      },
+    },
+  };
 </script>
 
 <style lang="sass" scoped>
   @import "~chming"
 
   $filter-container-height: 50px
+  $button-theme-color: $base-action-color
 
   .filter-container
     background: $base-theme-color
-
   .location-filter-wrap
     position: relative
     padding: 0 2rem
@@ -57,6 +57,7 @@ export default {
       position: absolute
       +align-vertical-middle
       display: inline-block
+      color: $button-theme-color
       button
         font-size: 1.5rem
         font-weight: bold
@@ -73,28 +74,36 @@ export default {
     position: absolute
     right: 0
     height: 100%
-    .sort-button,
-    .interest-button
-      position: relative
-      margin-left: 1rem
-      +align-vertical-middle
-      background: none
-      font-size: 1.3rem
-      &:hover
-        text-decoration: underline
-    .mylocation-button
-      position: absolute
-      right: 0
-      z-index: 10
-      background: #fff
-      padding: 1px 6px
-      font-size: 1.7rem
-      border-radius: 3px
-      color: #444
+    font-weight: normal
+    color: $button-theme-color
+    button
+      border: 0
+  .sort-button,
+  .interest-button
+    position: relative
+    +align-vertical-middle
+    margin-left: 1rem
+    font-size: 1.3rem
+    background: none
+    &:hover
+      text-decoration: underline
+  .mylocation-button
+    position: absolute
+    right: 0
+    z-index: 10
+    background: #fff
+    padding: 1px 6px
+    font-size: 1.7rem
+    border-radius: 3px
+    color: #444
   .filter
     position: absolute
     bottom: 0
     left: 0
+
+  .sort-filter_content-wrap button,
+  .interest_list label
+      color: $base-theme-color
 
   +mobile
     .filter-container

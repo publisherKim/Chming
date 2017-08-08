@@ -28,7 +28,7 @@
 
   .tab-menu-list
     height: 40px
-    background: #e1e1e1
+    +action-active()
     li
       text-align: center
     button
@@ -38,8 +38,8 @@
       border: none
       background: none
     button:hover
-      color: #fff
-      background: #000
+      +is-active()
+
   +mobile()
     .tab-menu-list
       +container()
