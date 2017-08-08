@@ -54,11 +54,11 @@ export default {
       position: relative
       +align-vertical-middle
     h2
-      font-size: 0.8rem
+      font-size: 1.1rem
+      font-weight: normal
     button
       background: none
       border: 0
-      padding-top: 3px
       font-size: 1.5rem
       font-weight: bold
   .filter-button-wrap
