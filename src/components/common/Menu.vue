@@ -36,6 +36,6 @@
     right: 2rem
     font-size: 2rem
     height: 3rem
-
-    .menu_hambuger
+    i
+      color: $base-theme-color
 </style>

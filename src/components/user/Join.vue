@@ -116,23 +116,29 @@
       visibility: hidden
       position: absolute
       & + label
-        padding: 2px 5px
+        display: inline-block
+        vertical-align: top
+        padding: 0 5px
         margin-left: 0.5rem
-        vertical-align: middle
+        line-height: 3rem
+        color: $base-theme-color
+        border-radius: 3px
         cursor: pointer
       &:checked + label
-        background: #000
-        color: #fff
+        +action-active()
     .form_birth, .form_gender
       display: block
-      line-height: 3rem
       font-weight: bold
+      line-height: 3rem
+      color: $base-theme-color
+
   .form_interest-wrap,
   .form_location-wrap
     margin-top: 1.5rem
   
   .interest_button,
   .location_button
+    color: $base-theme-color
     & > .fa
       margin-left: 1rem
       font-size: 1.5rem

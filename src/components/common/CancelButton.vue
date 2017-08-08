@@ -4,23 +4,26 @@
 </template>
 
 <script>
-export default {
-  methods: {
-    changeRoute() {
-      this.$router.go(-1);
+  export default {
+    methods: {
+      changeRoute() {
+        this.$router.go(-1);
+      },
     },
-  },
-};
-
+  };
 </script>
 
 <style lang="sass" scoped>
+  @import '~chming';
+
   .cancel-button
     position: absolute
-    top: 1rem
+    top: 1.5rem
     right: 3rem
     padding: 2px
     font-size: 1.7rem
     background: none
     border: 0
+    i
+      color: $base-color-type2
 </style>

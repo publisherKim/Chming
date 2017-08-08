@@ -61,10 +61,11 @@
       display: inline-block
       width: calc(100% - 2rem)
       padding: 0 $side-space
-      vertical-align: middle
+      vertical-align: top
       line-height: 3rem
       border: none
- 
+    i
+      color: $base-theme-color
     button
       display: inline-block
       background: none

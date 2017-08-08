@@ -46,17 +46,19 @@
       visibility: hidden
     label[for="file-upload"]
       display: inline-block
+      +text-input()
+      color: $base-theme-color
       margin-top: 2rem
-      padding: 0 1rem
-      color: #fff
-      line-height: 3rem
       cursor: pointer
-      background: #ff6600
+    label[for="file-upload"]::hover
+      +is-active()
   
-  +mobile()
-    .write-article_decision-wrap
-      +container()
-      margin-top: 2rem
-      button
-        +span(2)  
+  .write-article_decision-wrap
+    margin-top: 2rem
+    text-align: center
+    button
+      display: inline-block
+      +confirm-button(8rem, 3rem)
+      margin: 0 1rem
+          
 </style>

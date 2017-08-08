@@ -13,42 +13,42 @@
 </template>
 
 <script>
-import SortFilter from '@/components/filter/SortFilter';
-import InterestFilter from '@/components/filter/InterestFilter';
-import MylocationFilter from '@/components/filter/MylocationFilter';
-import LocationFilter from '@/components/filter/LocationFilter';
+  import SortFilter from '@/components/filter/SortFilter';
+  import InterestFilter from '@/components/filter/InterestFilter';
+  import MylocationFilter from '@/components/filter/MylocationFilter';
+  import LocationFilter from '@/components/filter/LocationFilter';
 
-export default {
-  data() {
-    return {
-      filter: null
-    };
-  },
-  components: {
-    SortFilter,
-    InterestFilter,
-    MylocationFilter,
-    LocationFilter,
-  },
-  methods: {
-    viewFilter(filter) {
-      this.filter = filter + '-filter';
-      let refFilter = this.$refs.filter;
-
-      refFilter && refFilter.$options._componentTag.includes(filter) && (this.filter = null);
+  export default {
+    data() {
+      return {
+        filter: null
+      };
     },
-  },
-};
+    components: {
+      SortFilter,
+      InterestFilter,
+      MylocationFilter,
+      LocationFilter,
+    },
+    methods: {
+      viewFilter(filter) {
+        this.filter = filter + '-filter';
+        let refFilter = this.$refs.filter;
+
+        refFilter && refFilter.$options._componentTag.includes(filter) && (this.filter = null);
+      },
+    },
+  };
 </script>
 
 <style lang="sass" scoped>
   @import "~chming"
 
   $filter-container-height: 50px
+  $button-theme-color: $base-action-color
 
   .filter-container
-    color: #333
-    background: #e1e1e1
+    background: $base-theme-color
   .location-filter-wrap
     position: relative
     padding: 0 2rem
@@ -57,7 +57,9 @@ export default {
       position: absolute
       +align-vertical-middle
       display: inline-block
-      button: bold  
+      color: $button-theme-color
+      button
+        font-weight: bold  
     h2
       font-size: 1.1rem
       font-weight: normal
@@ -71,6 +73,7 @@ export default {
     right: 0
     height: 100%
     font-weight: normal
+    color: $button-theme-color
     button
       margin-left: 1rem
       font-size: 1.2rem
@@ -79,8 +82,8 @@ export default {
   .interest-button
     position: relative
     +align-vertical-middle
-    background: none
     font-size: 1.2rem
+    background: none
     &:hover
       text-decoration: underline
   .mylocation-button
@@ -96,6 +99,10 @@ export default {
     position: absolute
     bottom: 0
     left: 0
+
+  .sort-filter_content-wrap button,
+  .interest_list label
+      color: $base-theme-color
 
   +mobile
     .filter-container
