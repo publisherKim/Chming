@@ -28,7 +28,13 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="sass" scoped>
   @import "~chming"
-  .main-map
-    width: 100%
-    height: calc(100vh - 100px)
+
+  +mobile
+    .main-map
+      +container()
+      height: calc(100vh - 100px)
+  +desktop
+    .main-map
+      +container()
+      height: calc(100vh - 120px)
 </style>

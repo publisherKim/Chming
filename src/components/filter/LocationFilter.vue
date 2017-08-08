@@ -29,7 +29,7 @@ export default {
   data() {
     return {
       regionList: {
-        '경기도': ['테스트1', '테스트2', '테스트3'],
+        '경기도': ['테스트1', '테스트2', '테스트3', '테스트4', '테스트5', '테스트6'],
         '서울': ['가로수길', '논현동', '강남역'],
         '성남': ['테스트4', '테스트5', '테스트6'],
       },
@@ -67,11 +67,10 @@ export default {
     height: $location-list-height
     margin: 0 auto
     padding: 0 10px
-    border-bottom: 1px solid #000
+    border-bottom: 0.5px solid #999
   .location-list-item
     float: left
     line-height: $location-list-height
-    font-size: 1.5rem
     font-weight: bold
     cursor: pointer
   .tab-contents
@@ -84,8 +83,6 @@ export default {
   .region-list-item
     text-align: center
     padding: 5px 0
-    button
-      +rounded-rect-button(70%)
 
   +mobile
     .location-list-wrap
@@ -96,6 +93,8 @@ export default {
       +container()
     .region-list-item
       +span(2)
+      button
+        +rounded-rect-button(95%, 30px)
 
   +desktop
     .location-list-wrap
@@ -106,5 +105,7 @@ export default {
       +container()
     .region-list-item
       +span(3)
+      button
+        +rounded-rect-button(95%, 30px)
 
 </style>

@@ -21,7 +21,7 @@
 	transform: translateY(-50%)
 
 @mixin align-horizontal-middle()
-	right: 50%
+	left: 50%
 	transform: translateX(-50%)
 
 @function leading()
@@ -42,13 +42,14 @@
   line-height: 3rem
   background: #e1e1e1
 
-@mixin rounded-rect-button($width: auto)
-	border: 1px solid #666
-	border-radius: 1000px
-	background: none
+@mixin rounded-rect-button($width: auto, $height: auto)
+	border: 0.5px solid #999
 	padding: 4px 0
 	width: $width
+	height: $height
 	font-size: 1.3rem
+	background: none
+	border-radius: 1000px
 
 @mixin text-input($width: auto, $height: auto)
 	width: $width

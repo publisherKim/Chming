@@ -1,6 +1,6 @@
 <template lang="pug">
   .user-location-container
-    h3.title 지역선택
+    h3.title 나의 지역을 선택해주세요
     form.user-location_search-form(onsubmit="return false;" autocomplete="off")
       input(@keyup.enter="searchLocation" v-model.trim="searchString" type="text" id="keyword" placeholder="지역찾기")
       button.search-form_button(@click="searchLocation" type="button" aria-label="검색")
@@ -167,6 +167,9 @@
     margin-top: 1rem
     width: 100%
     height: calc(100vh - 18rem)
+    padding: 5px 1rem
+    border-radius: 0.5rem
+    border: 0.5px solid #ccc
 
   .confirm-button
     display: block

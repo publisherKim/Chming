@@ -1,22 +1,39 @@
 <template lang="pug">
   .interest-container
-    h3.title 운동/스포츠
-    ul.interest_list
-      li
-        input(v-model="selectedList" id="item1" type="checkbox" value="자전거")
-        label(for="item1") 자전거    
-      li
-        input(v-model="selectedList" id="item2"  type="checkbox" value="배드민턴")
-        label(for="item2") 배드민턴
-      li
-        input(v-model="selectedList" id="item3"  type="checkbox" value="축구")
-        label(for="item3") 축구
-      li
-        input(v-model="selectedList" id="item4"  type="checkbox" value="농구")
-        label(for="item4") 농구
-      li
-        input(v-model="selectedList" id="item5"  type="checkbox" value="레이싱")
-        label(for="item5") 레이싱
+    .interest-wrap
+      h3.title 운동/스포츠
+      ul.interest_list
+        li
+          input(v-model="selectedList" id="item1" type="checkbox" value="자전거")
+          label(for="item1") 자전거    
+        li
+          input(v-model="selectedList" id="item2"  type="checkbox" value="배드민턴")
+          label(for="item2") 배드민턴
+        li
+          input(v-model="selectedList" id="item3"  type="checkbox" value="축구")
+          label(for="item3") 축구
+        li
+          input(v-model="selectedList" id="item4"  type="checkbox" value="농구")
+          label(for="item4") 농구
+        li
+          input(v-model="selectedList" id="item5"  type="checkbox" value="레이싱")
+          label(for="item5") 레이싱
+    .interest-wrap
+      h3.title 음악
+      ul.interest_list
+        li
+          input(v-model="selectedList" id="item1" type="checkbox" value="자전거")
+          label(for="item1") 클래식    
+        li
+          input(v-model="selectedList" id="item2"  type="checkbox" value="배드민턴")
+          label(for="item2") 재즈
+        li
+          input(v-model="selectedList" id="item3"  type="checkbox" value="축구")
+          label(for="item3") 팝송
+        li
+          input(v-model="selectedList" id="item4"  type="checkbox" value="농구")
+          label(for="item4") K-POP
+      
     button.interest_confirm(@click="interestConfirm" type="button") 완료
 </template>
 
@@ -61,23 +78,23 @@ export default {
 
   .title
     +sub-title
+    font-size: 1.4rem
+    border-bottom: 0.5px solid #999
 
   .interest_list
     padding: 10px 0
     +clearfix
     li
-      float: left
+      // float: left
       margin-bottom: 1rem
       text-align: center
       font-size: 1.2rem
-      &:not(:last-child)
-        margin-right: 2rem
+      // &:not(:last-child)
+      //   margin-right: 2rem
     label
-      +rounded-rect-button
+      +rounded-rect-button(95%)
       display: block
       text-align: center
-      padding-left: 2rem
-      padding-right: 2rem
       cursor: pointer
     input
       position: absolute
@@ -87,6 +104,17 @@ export default {
     input:checked + label
       color: #fff
       background: #000
-      
+  
+  +mobile
+    .interest_list
+      +container()
+      li
+        +span(3 of 9)
+  +desktop
+    .interest_list
+      +container()
+      li
+        +span(3)
+
 </style>
 

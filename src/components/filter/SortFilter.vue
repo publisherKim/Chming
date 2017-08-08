@@ -35,7 +35,7 @@ export default {
   .sort-filter_header-wrap
     width: 95%
     margin: 0 auto
-    border-bottom: 1px solid #000
+    border-bottom: 0.5px solid #999
     h2
       line-height: $sort-header-height
       font-size: 1.5rem
