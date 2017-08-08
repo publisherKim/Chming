@@ -33,9 +33,9 @@
   .menu-wrap
     +align-vertical-middle()
     position: absolute
-    right: 1rem
+    right: 2rem
     font-size: 2rem
+    height: 3rem
 
     .menu_hambuger
-      height: 3rem
 </style>

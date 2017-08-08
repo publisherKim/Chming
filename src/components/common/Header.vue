@@ -33,7 +33,7 @@
   @import "~chming"
 
   $img-width: 2.3rem
-  $side-space: 1rem
+  $side-space: 2rem
   $filter-container-height: 50px
 
   .header-container
@@ -54,22 +54,24 @@
   .header_search-form
     +align-vertical-middle()
     position: absolute
-    margin-left: $img-width + $side-space*2
-    width: calc(100% - 7.7rem)
+    margin-left: $img-width + $side-space
+    width: calc(100% - 9.7rem)
     height: 3rem
     input
       display: inline-block
       width: calc(100% - 2rem)
       padding: 0 $side-space
-      width:
+      vertical-align: middle
       line-height: 3rem
       border: none
+ 
     button
       display: inline-block
       background: none
       border: none
       font-size: 2rem
-      
+      line-height: 3rem
+
   +desktop()
     .header-container
       height: $filter-container-height + 10px

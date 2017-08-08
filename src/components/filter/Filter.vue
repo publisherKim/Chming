@@ -3,12 +3,12 @@
     .location-filter-wrap
       .location-filter
         h2 지금 보고있는 지역은
-        button(@click="viewFilter('location')" type="button") 서현/야탑&dtrif;
-    .filter-button-wrap
-      button.sort-button(@click="viewFilter('sort')" type="button") 거리순&dtrif;
-      button.interest-button(@click="viewFilter('interest')" type="button") 관심사&dtrif;
-      button.mylocation-button(@click="viewFilter('mylocation')" type="button" aria-label="내 주변 검색")
-        i.fa.fa-street-view(aria-hidden='true')
+        button(@click="viewFilter('location')" type="button") 서현/야탑 &dtrif;
+      .filter-button-wrap
+        button.sort-button(@click="viewFilter('sort')" type="button") 거리순 &dtrif;
+        button.interest-button(@click="viewFilter('interest')" type="button") 관심사 &dtrif;
+        button.mylocation-button(@click="viewFilter('mylocation')" type="button" aria-label="내 주변 검색")
+          i.fa.fa-street-view(aria-hidden='true')
     .filter(ref="filter" :is="filter")
 </template>
 
@@ -47,28 +47,34 @@ export default {
   $filter-container-height: 50px
 
   .filter-container
-    background: rgb(238, 238, 238)
+    color: #333
+    background: #e1e1e1
   .location-filter-wrap
+    position: relative
+    padding: 0 2rem
     height: 100%
     .location-filter
-      position: relative
+      position: absolute
       +align-vertical-middle
+      display: inline-block
+      button: bold  
     h2
-      font-size: 0.8rem
+      font-size: 1rem
     button
       background: none
       border: 0
       padding-top: 3px
       font-size: 1.5rem
-      font-weight: bold
+      font-weight: normal
   .filter-button-wrap
-    position: relative
+    position: absolute
+    right: 0
     height: 100%
-    text-align: right
+    font-weight: normal
     button
+      margin-left: 1rem
+      font-size: 1.2rem
       border: 0
-      margin-left: 0.5rem
-      padding: 5px 5px
   .sort-button,
   .interest-button
     position: relative
@@ -93,22 +99,16 @@ export default {
 
   +mobile
     .filter-container
-      +container()
-      height: $filter-container-height
-    .location-filter-wrap
-      +span(2)
+      height: $filter-container-height  
     .filter-button-wrap
-      +span(2)
+      margin-right: 2rem
     .mylocation-button
       top: $filter-container-height + 10px
   +desktop
     .filter-container
-      +container()
       height: $filter-container-height + 10px
-    .location-filter-wrap
-      +span(6)
-    .filter-button-wrap
-      +span(6)
     .mylocation-button
       top: $filter-container-height + 20px
+    .filter-button-wrap
+      margin-right: 2rem
 </style>
