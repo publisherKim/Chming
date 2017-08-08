@@ -67,6 +67,6 @@ export default {
       border-radius: 1rem
       padding: 3px 5px
   .interest-filter-wrap
-    width: 95%
-    margin: 0 auto
+    width: 100%
+    +sideSpace
 </style>

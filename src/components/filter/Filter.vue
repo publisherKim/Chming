@@ -47,8 +47,8 @@ export default {
   $filter-container-height: 50px
 
   .filter-container
-    color: #333
-    background: #e1e1e1
+    background: $base-theme-color
+
   .location-filter-wrap
     position: relative
     padding: 0 2rem
@@ -57,41 +57,40 @@ export default {
       position: absolute
       +align-vertical-middle
       display: inline-block
-      button: bold  
+      button
+        font-size: 1.5rem
+        font-weight: bold
     h2
+      color: #fff
       font-size: 1.1rem
       font-weight: normal
     button
+      color: #fff
       background: none
       border: 0
-      font-size: 1.5rem
-      font-weight: normal
+
   .filter-button-wrap
     position: absolute
     right: 0
     height: 100%
-    font-weight: normal
-    button
+    .sort-button,
+    .interest-button
+      position: relative
       margin-left: 1rem
-      font-size: 1.2rem
-      border: 0
-  .sort-button,
-  .interest-button
-    position: relative
-    +align-vertical-middle
-    background: none
-    font-size: 1.2rem
-    &:hover
-      text-decoration: underline
-  .mylocation-button
-    position: absolute
-    right: 0
-    z-index: 10
-    background: #fff
-    padding: 5px
-    font-size: 1.7rem
-    border-radius: 3px
-    color: #444
+      +align-vertical-middle
+      background: none
+      font-size: 1.3rem
+      &:hover
+        text-decoration: underline
+    .mylocation-button
+      position: absolute
+      right: 0
+      z-index: 10
+      background: #fff
+      padding: 1px 6px
+      font-size: 1.7rem
+      border-radius: 3px
+      color: #444
   .filter
     position: absolute
     bottom: 0

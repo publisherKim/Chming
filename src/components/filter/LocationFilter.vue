@@ -73,19 +73,19 @@ export default {
     font-weight: bold
     cursor: pointer
     &.is-active
-      border-top: 1px solid #000
+      border-top: 2px solid $base-theme-color
   .tab-contents
     section
       display: none
       &.is-active
         display: block
   .region-list
-    padding: 5px 0
+    padding: 1.3rem 10px
   .region-list-item
     text-align: center
-    padding: 5px 0
+    padding: 0.5rem 0
     button
-      +rounded-rect-button(95%, 30px)
+      +rounded-rect-button(100%, 30px)
 
   +mobile
     .location-list-wrap

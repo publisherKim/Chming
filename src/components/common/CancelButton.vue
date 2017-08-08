@@ -18,7 +18,7 @@ export default {
   .cancel-button
     position: absolute
     top: 1rem
-    right: 3rem
+    right: 2rem
     padding: 2px
     font-size: 1.7rem
     background: none

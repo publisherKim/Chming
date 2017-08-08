@@ -25,7 +25,7 @@ export default {
     text-align: center
     h2
       line-height: $mylocation-header-height
-      font-size: 1.4rem
+      font-size: 1.5rem
       text-align: center
     span
       display: block

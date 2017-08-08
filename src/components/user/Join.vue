@@ -10,7 +10,7 @@
         p
           input.form_password(v-model="userJoinInfo.password" type="password" placeholder="비밀번호" aria-label="비밀번호")
         p
-          label.form_birth(for="birth") 생년월일
+          label.form_birth(for="birth") 생년월일 / 성별
           input#birth.form_year(v-model.number="userJoinInfo.birth.year" type="number" min="1900" :max="maxYear" aria-label="생년")
           input.form_month(v-model.number="userJoinInfo.birth.month" type="number" min="1" max="12" aria-label="월")
           input.form_day(v-model.number="userJoinInfo.birth.day" type="number" min="1" max="31" aria-label="일")
@@ -94,7 +94,7 @@
 
   .user-join-wrap
     display: block
-    padding: 3rem
+    padding: 4rem
     background: #fff
 
   h3.title
@@ -125,8 +125,9 @@
         color: #fff
     .form_birth, .form_gender
       display: block
-      line-height: 3rem
       font-weight: bold
+    .form_year
+      margin-top: 1rem
   .form_interest-wrap,
   .form_location-wrap
     margin-top: 1.5rem
