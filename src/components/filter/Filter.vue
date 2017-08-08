@@ -69,15 +69,16 @@ export default {
       border: 0
       margin-left: 0.5rem
       padding: 5px 5px
-  .sort-button
+  .sort-button,
+  .interest-button
     position: relative
     +align-vertical-middle
     background: none
-    text-decoration: underline
     font-size: 1.2rem
+    &:hover
+      text-decoration: underline
   .mylocation-button
     position: absolute
-    top: $filter-container-height + 10px
     right: 0
     z-index: 10
     background: #fff
@@ -85,12 +86,6 @@ export default {
     font-size: 1.7rem
     border-radius: 3px
     color: #444
-  .interest-button
-    position: relative
-    +align-vertical-middle
-    background: none
-    font-size: 1.2rem
-    text-decoration: underline
   .filter
     position: absolute
     bottom: 0
@@ -104,6 +99,8 @@ export default {
       +span(2)
     .filter-button-wrap
       +span(2)
+    .mylocation-button
+      top: $filter-container-height + 10px
   +desktop
     .filter-container
       +container()
@@ -112,4 +109,6 @@ export default {
       +span(6)
     .filter-button-wrap
       +span(6)
+    .mylocation-button
+      top: $filter-container-height + 20px
 </style>

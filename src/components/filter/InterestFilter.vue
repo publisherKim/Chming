@@ -42,9 +42,10 @@ export default {
     height: $interest-header-height
     +clearfix
     button
-      border: 0
-      font-weight: bold
       position: relative
+      padding: 3px
+      font-weight: bold
+      border: 0
       +align-vertical-middle
     .header_cancel-button
       float: left
