@@ -1,8 +1,9 @@
 <template lang="pug">
-  .filter-wrap
+  .filter-container
     .location-filter-wrap
-      h2 지금 보고있는 지역은
-      button(@click="viewFilter('location')" type="button") 서현/야탑&dtrif;
+      .location-filter
+        h2 지금 보고있는 지역은
+        button(@click="viewFilter('location')" type="button") 서현/야탑&dtrif;
     .filter-button-wrap
       button.sort-button(@click="viewFilter('sort')" type="button") 거리순&dtrif;
       button.interest-button(@click="viewFilter('interest')" type="button") 관심사&dtrif;
@@ -43,14 +44,13 @@ export default {
 <style lang="sass" scoped>
   @import "~chming"
 
-  $filter-wrap-height: 50px
+  $filter-container-height: 50px
 
-  .filter-wrap
-    height: $filter-wrap-height
+  .filter-container
     background: rgb(238, 238, 238)
   .location-filter-wrap
     height: 100%
-    div
+    .location-filter
       position: relative
       +align-vertical-middle
     h2
@@ -77,7 +77,7 @@ export default {
     font-size: 1.2rem
   .mylocation-button
     position: absolute
-    top: $filter-wrap-height + 10px
+    top: $filter-container-height + 10px
     right: 0
     z-index: 10
     background: #fff
@@ -97,10 +97,19 @@ export default {
     left: 0
 
   +mobile
-    .filter-wrap
+    .filter-container
       +container()
+      height: $filter-container-height
     .location-filter-wrap
       +span(2)
     .filter-button-wrap
       +span(2)
+  +desktop
+    .filter-container
+      +container()
+      height: $filter-container-height + 10px
+    .location-filter-wrap
+      +span(6)
+    .filter-button-wrap
+      +span(6)
 </style>

@@ -1,14 +1,13 @@
 html
   box-sizing: border-box
   overflow-y: scroll
-  font-size: 10px
 
 body
   margin: 0
   font-size: $base-font-size
   line-height: $leading-scale
   // font-family: $base-font-family
-  // color: $base-color
+  color: $base-color
 
 h1, h2, h3, h4, h5, h6 
   margin: 0
@@ -16,6 +15,11 @@ h1, h2, h3, h4, h5, h6
 
 p
   margin: 0
+  word-break: break-all
+
+pre
+  white-space: pre-wrap
+  word-break: break-all
 
 a
   text-decoration: none
@@ -36,6 +40,7 @@ fieldset
 
 button
   font-size: inherit
+  color: inherit
   cursor: pointer
   padding: 0
 
@@ -43,3 +48,7 @@ ul
   list-style: none
   margin: 0
   padding: 0
+
+textarea, input
+  font-family: inherit
+  font-size: $base-font-size

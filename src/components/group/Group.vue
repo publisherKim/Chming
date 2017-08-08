@@ -1,3 +1,3 @@
 <template lang="pug">
-  h2 Group.vue
+  router-view
 </template>

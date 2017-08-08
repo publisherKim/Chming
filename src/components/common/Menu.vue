@@ -1,40 +1,41 @@
 <template lang="pug">
-  div
-    a.hamburger-menu(href="" role="button" @click.prevent="viewMenu")
-      i.fa.fa-bars(aria-hidden='true')
+  div.menu-wrap
+    a.menu_hambuger(href="" role="button" @click.prevent="viewMenu")
+      i.fa.fa-bars(aria-hidden="true")
 </template>
 
-<script>  
+<script>
+  import { mapGetters } from 'vuex';
+
   export default {
     data() {
       return {
-        isLogin: false
+        
       };
     },
     methods: {
       viewMenu(e) {
-        this.isLogin && this.changeRoute({name: 'user_info', params: {id: 1}} );
-        !this.isLogin && this.changeRoute({name: 'user_login'});
+        this.getToken && this.changeRoute({ name: 'user_info', params: { id: 1 } } );
+        !this.getToken && this.changeRoute({ name: 'user_login' });
       },
       changeRoute(route) {
         this.$router.push(route);
       },
     },
+    computed: {
+      ...mapGetters(['getToken']),
+    }
   };
 </script>
 
 <style lang="sass" scoped>
   @import "~chming"
+  .menu-wrap
+    +align-vertical-middle()
+    position: absolute
+    right: 1rem
+    font-size: 2rem
 
-  +mobile
-    .hamburger-menu
-      display: block
-      position: relative
-      top: 50%
-      transform: translateY(-50%)
-      // height: 100%
-      font-size: 2rem
-      color: #666
-      text-align: center
-      
+    .menu_hambuger
+      height: 3rem
 </style>

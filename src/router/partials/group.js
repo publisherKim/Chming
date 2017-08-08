@@ -7,8 +7,8 @@ import GroupEditArticle from '@/components/group/EditArticle';
 import GroupWriteArticle from '@/components/group/WriteArticle';
 import GroupAlbum from '@/components/group/Album';
 import GroupCreate from '@/components/group/Create';
-import GroupInterest from '@/components/group/Interest';
-import GroupLocation from '@/components/group/Location';
+import GroupInterest from '@/components/common/Interest';
+import GroupLocation from '@/components/common/Location';
 import GroupEdit from '@/components/group/Edit';
 
 export default {
@@ -64,7 +64,7 @@ export default {
       ],
     },
     {
-      path: 'edit',
+      path: 'edit/:id',
       name: 'group_edit',
       component: GroupEdit,
       children: [

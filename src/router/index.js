@@ -9,13 +9,17 @@ import groupRoutes from './partials/group';
 
 Vue.use(Router);
 
-const router = new Router({
+export default new Router({
   mode: 'history',
   routes: [
     mainRoutes,
     userRoutes,
     groupRoutes,
+    {
+      path: '*',
+      redirect: {
+        name: 'main'
+      },
+    },
   ],
 });
-
-export default router;

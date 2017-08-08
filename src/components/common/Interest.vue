@@ -3,26 +3,38 @@
     h3.title 운동/스포츠
     ul.interest_list
       li
-        input(v-model="selectList" id="item1" type="checkbox" value="1")
+        input(v-model="selectedList" id="item1" type="checkbox" value="자전거")
         label(for="item1") 자전거    
       li
-        input(v-model="selectList" id="item2"  type="checkbox" value="2")
+        input(v-model="selectedList" id="item2"  type="checkbox" value="배드민턴")
         label(for="item2") 배드민턴
-    button.interest_confirm(@click="interestConfirm" type="button") 선택완료
+      li
+        input(v-model="selectedList" id="item3"  type="checkbox" value="축구")
+        label(for="item3") 축구
+      li
+        input(v-model="selectedList" id="item4"  type="checkbox" value="농구")
+        label(for="item4") 농구
+      li
+        input(v-model="selectedList" id="item5"  type="checkbox" value="레이싱")
+        label(for="item5") 레이싱
+    button.interest_confirm(@click="interestConfirm" type="button") 완료
 </template>
 
 <script>
+
 export default {
   data() {
     return {
-      selectList: [],
+      selectedList: [],
     };
   },
   methods: {
-    interestConfirm(){
-      this.$router.push({
-        name: 'user_join'
-      });
+    interestConfirm() {
+      this.changeRoute({name: 'user_join', params: {hobby: this.selectedList}});
+    },
+    changeRoute(route) {
+      console.log('route:', route);
+      this.$router.push(route);
     },
   },
 };
@@ -31,34 +43,44 @@ export default {
 <style lang="sass" scoped>
   @import "~chming"
 
-  .interest-container
+  .interest_confirm
+    display: none
+
+  .user_interest
     position: absolute
     top: 0
     left: 0
     width: 100%
     height: 100vh
     padding: 2rem
-    background: #e1e1e1
+    background: #fff
+    .interest_confirm
+      display: block
+      margin: 2rem auto
+      +confirm-button(5rem, 3rem)
 
   .title
-    +subTitle
+    +sub-title
 
   .interest_list
+    padding: 10px 0
     +clearfix
-    margin-top: 1.5rem
     li
       float: left
-      margin-left: 1rem
-      width: calc(25% - 1rem)
+      margin-bottom: 1rem
       text-align: center
+      font-size: 1.2rem
+      &:not(:last-child)
+        margin-right: 2rem
     label
+      +rounded-rect-button
       display: block
       text-align: center
-      line-height: 3rem
-      border: solid 0.1rem #666
-      border-radius: 1.5rem
+      padding-left: 2rem
+      padding-right: 2rem
       cursor: pointer
     input
+      position: absolute
       visibility: hidden
       width: 0
       height: 0
@@ -66,8 +88,5 @@ export default {
       color: #fff
       background: #000
       
-  .interest_confirm
-    display: block
-    margin: 1rem auto
 </style>
 
