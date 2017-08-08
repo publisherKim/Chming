@@ -59,11 +59,11 @@ export default {
       display: inline-block
       button: bold  
     h2
-      font-size: 1rem
+      font-size: 1.1rem
+      font-weight: normal
     button
       background: none
       border: 0
-      padding-top: 3px
       font-size: 1.5rem
       font-weight: normal
   .filter-button-wrap
