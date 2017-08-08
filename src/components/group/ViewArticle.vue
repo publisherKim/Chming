@@ -81,8 +81,8 @@ datadatadatadatadatadata\ndatadatadatadatadatadatadatadatadatadatadatadatadatada
   .detail-view_author-wrap
     position: relative
     padding: 1rem 8rem
-    border-top: solid 1px #ccc
-    border-bottom: solid 1px #ccc
+    border-top: solid 1px $base-theme-color
+    border-bottom: solid 1px $base-theme-color
     .notice
       position: absolute
       top: 1rem
@@ -91,7 +91,7 @@ datadatadatadatadatadata\ndatadatadatadatadatadatadatadatadatadatadatadatadatada
   .detail-view_content-wrap
     margin: 2rem
     padding: 1rem
-    border: solid 1px #ccc
+    border: solid 1px $base-theme-color
 
   .detail-view_comment-wrap,
   .detail-view_edit-wrap,
@@ -99,7 +99,7 @@ datadatadatadatadatadata\ndatadatadatadatadatadatadatadatadatadatadatadatadatada
   .detail-view_author-comment-wrap,
   .detail-view_rewrite-wrap
     padding: 1rem 2rem
-    border-top: solid 1px #ccc
+    border-top: solid 1px $base-theme-color
     a 
       display: inline-block
       min-width: 8rem
@@ -113,13 +113,18 @@ datadatadatadatadatadata\ndatadatadatadatadatadatadatadatadatadatadatadatadatada
 
   .active
     display: block
-
+  i, i+span
+    color: $base-theme-color
+  i+span
+    margin-left: 5px
   .detail-view_rewrite-wrap
     input
-      width: calc(100% - 3.5rem)
+      width: calc(100% - 4rem)
       padding: 0 1rem
     button
+      +confirm-button()
       margin-left: 0.5rem
+
   +mobile
     .detail-view_comment-wrap
       +container()

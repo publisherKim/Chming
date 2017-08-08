@@ -61,12 +61,10 @@
     +sub-title_group()
 
   .info_join
+    +confirm-button
     display: block
     margin: 1rem auto
     padding: 0.5rem 1rem
-    color: #fff
-    background: #ff6600
-    border: none
   .item-position
     float: right      
 </style>

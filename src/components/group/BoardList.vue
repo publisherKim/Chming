@@ -55,8 +55,9 @@
     display: inline-block
     margin-right: 1rem
     padding: 0 0.5rem
+    font-weight: normal
     color: #fff
-    background: #ff6600
+    background: #f96
   .item_contents
     margin-top: 0.5rem
     font-size: 1.2rem

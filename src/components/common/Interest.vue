@@ -79,7 +79,6 @@ export default {
   .title
     +sub-title
     font-size: 1.4rem
-    border-bottom: 0.5px solid #999
 
   .interest_list
     padding: 10px 0
@@ -93,6 +92,8 @@ export default {
       //   margin-right: 2rem
     label
       +rounded-rect-button(95%)
+      &:hover
+        +rounded-rect-button-active()
       display: block
       text-align: center
       cursor: pointer
@@ -102,8 +103,7 @@ export default {
       width: 0
       height: 0
     input:checked + label
-      color: #fff
-      background: #000
+      +rounded-rect-button-active()
   
   +mobile
     .interest_list
