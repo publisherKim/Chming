@@ -96,7 +96,7 @@
   .user-join-wrap
     display: block
     padding: 3.5rem
-    background: #fff
+    background: $user-join-background-color
 
   h3.title
     +sub-page-title
@@ -131,7 +131,7 @@
         padding: 0 0.7rem
         margin-left: 0.5rem
         line-height: 3rem
-        color: $base-theme-color
+        color: $user-join-color
         border-radius: 3px
         cursor: pointer
       &:checked + label
@@ -160,7 +160,7 @@
   .interest_button,
   .location_button,
   .file-upload_label
-    color: $base-title-color
+    color: $user-join-color
     font-weight: bold
     background: none
     border: 0

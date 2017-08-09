@@ -1,29 +1,16 @@
 <template lang="pug">
-  ul.group-list
-    li.list_item
-      .group-image_wrap
-        img(src="../../assets/logo.png", alt="")
-      a.group-description_link(href @click.prevent="changeRoute(1)")
-        span.group_name(aria-label="모임명") 분당 쉐보레 스파크 모임
-        span.group_description(aria-label="모임 설명") 분당구 경차사랑 스파크 모임입니다.dsa asdasd ad asd asd asd 
-        span.group_member(aria-label="모임멤버") 모임멤버 58명
-        interest-icon.group_interest-icon(iconClass="fa-car")
-    li.list_item
-      .group-image_wrap
-        img(src="../../assets/logo.png", alt="")
-      a.group-description_link(href @click.prevent="changeRoute(2)")
-        span.group_name(aria-label="모임명") 분당 쉐보레 스파크 모임
-        span.group_description(aria-label="모임 설명") 분당구 경차사랑 스파크 모임입니다.
-        span.group_member(aria-label="모임멤버") 모임멤버 58명
-        interest-icon.group_interest-icon(iconClass="fa-car")
-    li.list_item
-      .group-image_wrap
-        img(src="../../assets/logo.png", alt="")
-      a.group-description_link(href @click.prevent="changeRoute(3)")
-        span.group_name(aria-label="모임명") 분당 쉐보레 스파크 모임
-        span.group_description(aria-label="모임 설명") 분당구 경차사랑 스파크 모임입니다.
-        span.group_member(aria-label="모임멤버") 모임멤버 58명
-        interest-icon.group_interest-icon(iconClass="fa-car")
+  .group-list-container
+    h2 내 모임
+    ul.group-list
+      li.list_item
+        .group-info
+          .group-image_wrap
+            img(src="../../assets/logo.png", alt="")
+          a.group-description_link(href @click.prevent="changeRoute(1)")
+            span.group_name(aria-label="모임명") 분당 쉐보레 스파크 모임
+            span.group_description(aria-label="모임 설명") 분당구 경차사랑 스파크 모임입니다.dsa asdasd ad asd asd asd 
+            span.group_member(aria-label="모임멤버") 모임멤버 58명
+            interest-icon.group_interest-icon(iconClass="fa-car")
 </template>
 
 <script>
@@ -35,7 +22,7 @@ export default {
   },
   methods: {
     changeRoute(id) {
-      this.$router.push({name: 'group_info', params: {id}});
+      this.$router.push({name: 'group_info_home', params: {id}});
     },
   },
 };
@@ -46,22 +33,50 @@ export default {
 <style lang="sass" scoped>
   @import "~chming"
   
-  $list-item-height: 65px
+  $list-item-height: 6.5rem
+  // $my-group-header-color
+  // $my-group-header-background-color
+  // $my-group-list-color
+  // $my-group-list-background-color
 
+  .group-list-container
+    background: $my-group-list-background-color
+
+  h2
+    line-height: 3rem
+    font-size: 1.5rem
+    +side-space
+    color: $my-group-header-color
+    background: $my-group-header-background-color
+
+  .group-info
+    width: 100%
+    padding: 0 1rem
+    +clearfix
+    
   .list_item
+    position: relative
     height: $list-item-height
     padding: 3px 0
-    border-bottom: 1px solid #000
+    border-bottom: 0.5px solid $my-group-list-border-color
+
   .group-image_wrap
+    float: left
+    position: relative
+    +align-vertical-middle
     height: 100%
+    width: $list-item-height
     text-align: center
     img
       position: relative
       height: 80%
       +align-vertical-middle
+
   .group-description_link
-    // +align-vertical-middle
+    float: left
     position: relative
+    +align-vertical-middle
+    width: calc(100% - #{$list-item-height} - 2rem)
     padding-right: 2.5rem
     span
       display: block
@@ -75,12 +90,12 @@ export default {
       top: 0
       right: 0
 
-  +mobile
-    .list_item
-      +container()
-    .group-image_wrap
-      +span(1)
-    .group-description_link
-      +span(3)
+  // +mobile
+  //   .list_item
+  //     +container()
+  //   .group-image_wrap
+  //     +span(1)
+  //   .group-description_link
+  //     +span(3)
   
 </style>

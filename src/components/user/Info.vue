@@ -1,8 +1,5 @@
 <template lang="pug">
   .user-info-container
-    //- edit-button.edit-button(route="user_edit")
-    //- button.logout-button(type="button" @click="logout")
-    //-   i.fa.fa-sign-out(aria-hidden="true")  
     .user-info_profile
       img.profile_image(src="../../assets/mingu.jpeg" alt="userName")
       .profile-wrap
@@ -84,7 +81,7 @@ export default {
     width: 100%
     height: 100vh
     padding-top: 4rem
-    background: #fff
+    background: $user-info-background-color
     .edit-button
       position: absolute
       top: 4rem
@@ -97,39 +94,21 @@ export default {
       background: none
       border: 0
 
-  .user-info_list
-    .list_menu
-      border-bottom: 0.5px solid $base-theme-color
-      height: $menu-height
-      text-align: center
-      font-size: 1.7rem
-      line-height: $menu-height
-      color: $base-theme-color
-      font-weight: bold
-      & > a
-        display: block
-        line-height: $menu-height
-        &:hover
-          background: $base-theme-color
-          text-decoration: none
-          color: #fff
-  
   .user-info_profile
     position: relative
     padding: 0 2rem
+    background: $user-info-background-color
     +clearfix
     .profile_image
       float: left
       position: relative
       +align-vertical-middle
       border-radius: 1000px
-
     .interest_list
       +clearfix
       li
         float: left
         margin-right: 1rem
-
     .profile-wrap
       float: left
       position: relative
@@ -146,7 +125,22 @@ export default {
       i
         margin-right: 1rem
 
-
+  .user-info_list
+    .list_menu
+      border-bottom: 0.5px solid $user-info-menu-color
+      height: $menu-height
+      text-align: center
+      font-size: 1.7rem
+      line-height: $menu-height
+      color: $user-info-menu-color
+      font-weight: bold
+      & > a
+        display: block
+        line-height: $menu-height
+        &:hover
+          background: $user-info-menu-background-hover-color
+          text-decoration: none
+          color: $user-info-menu-hover-color
   
   +mobile
     .user-info_list
