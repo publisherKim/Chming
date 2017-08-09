@@ -11,8 +11,7 @@
         li.list_item
           button.list_close-button(@click="closeSearchResult") 닫기
     user-map.user-map
-    span {{ position.address }}
-    button.confirm-button(@click="confirm") 완료
+    button.confirm-button(@click="confirm" :disabled="!position.address") 완료
 </template>
 
 <script>
@@ -24,6 +23,7 @@
   let LatLng = maps.LatLng;
   let Status = maps.services.Status;
   let Marker = maps.Marker;
+  let InfoWindow = maps.InfoWindow;
   let searchOptions = {
     page: 1,
     size: 10
@@ -31,11 +31,10 @@
 
   export default {
     mounted() {
-      console.log('this.mapUtils:', this.mapUtils);
-      mapEvent.addListener(this.getMap, 'click', this.pointMarker);
+      mapEvent.addListener(this.getMap, 'click', this.mapClickHandler);
     },
     beforeDestroy() {
-      mapEvent.removeListener(this.getMap, 'click', this.pointMarker);
+      mapEvent.removeListener(this.getMap, 'click', this.mapClickHandler);
     },
     components: {
       UserMap
@@ -44,7 +43,8 @@
       return {
         searchString: '',
         searchResult: [],
-        selectedPoint: null,
+        selectedMarker: null,
+        infoWindow: null,
         position: {
           address: null,
           latitude: null,
@@ -81,30 +81,47 @@
         this.getMap.setCenter(position);
         this.closeSearchResult();
       },
-      pointMarker(e) {
+      mapClickHandler(e) {
         let latlng = e.latLng;
         // console.log('latlng:', latlng);
 
         let geocoder = this.mapUtils.geocoder;
 
-        let setPosition = (result, status) => {
+        let getAddress = (result, status) => {
           if (status === Status.OK) {
             result = result[0];
 
-            this.selectedPoint && this.selectedPoint.setMap(null);
-            this.selectedPoint = new Marker({
-              position: latlng, // 마커를 표시할 위치
-              title : result.address.address_name, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시
-              image : this.mapUtils.markerImage // 마커 이미지 
-            });
-            this.selectedPoint.setMap(this.getMap);
-
-            this.position.latitude = latlng.ib;
-            this.position.longitude = latlng.hb;
-            this.position.address = result.address.address_name;
+            this.setMarker(latlng, result);
+            this.setInfoWindow(latlng, result);
+            this.setPosition(latlng, result);
           }
         };
-        geocoder.coord2Address(latlng.getLng(), latlng.getLat(), setPosition);
+        geocoder.coord2Address(latlng.getLng(), latlng.getLat(), getAddress);
+      },
+      setPosition(latlng, result) {
+        this.position.latitude = latlng.ib;
+        this.position.longitude = latlng.hb;
+        this.position.address = result.address.address_name;
+      },
+      setMarker(latlng, result) {
+        this.selectedMarker && this.selectedMarker.setMap(null);
+        this.selectedMarker = new Marker({
+          position: latlng, // 마커를 표시할 위치
+          title : result.address.address_name, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시
+          image : this.mapUtils.markerImage, // 마커 이미지 
+        });
+        this.selectedMarker.setMap(this.getMap);
+      },
+      setInfoWindow(latlng, result) {
+        let iwContent = `<div style="padding:5px; width: 200px;">
+                            ${result.address.address_name}
+                         </div>`;
+        this.infowindow && this.infowindow.close();
+        this.infowindow = new InfoWindow({ // 인포윈도우 생성
+          position: latlng,
+          content: iwContent,
+        });
+        this.infowindow.open(this.getMap, this.selectedMarker); 
       },
     },
     computed: {

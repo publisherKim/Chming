@@ -10,7 +10,7 @@ let imageSize = new maps.Size(24, 35);
 export default new Vuex.Store({
   state: {
     url: 'http://chming.jeongmyeonghyeon.com/api',
-    token: null,
+    token: 'test',
     userInfo: {
       
     },

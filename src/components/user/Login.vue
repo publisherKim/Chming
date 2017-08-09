@@ -68,7 +68,7 @@
     background: #fff
     border: 1px solid #ccc
     min-height: 100vh
-    padding: 4rem
+    padding: 3.5rem
     h3.title
       +sub-title
 
