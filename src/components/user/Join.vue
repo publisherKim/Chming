@@ -18,14 +18,18 @@
           label(for="man") 남
           input#woman(v-model="userJoinInfo.gender" type="radio" name="gender" value="f")
           label(for="woman") 여
+        .form_file-upload-wrap
+          input#upload(type="file")
+          label.file-upload_label(for="upload") 프로필 사진
+            i.fa.fa-picture-o(aria-hidden="true")
         .form_interest-wrap
           button.interest_button(
             @click="changeRoute({name: 'user_join_interest'})"
             type="button"
           ) 관심사 설정
             i.fa.fa-cog(aria-hidden='true')
-          ul.interest-list
-            li(v-for="hobby in userJoinInfo.hobby")
+          ul.interest-list(v-if="userJoinInfo.hobby.length !== 0")
+            li.list_item(v-for="hobby in userJoinInfo.hobby")
               img(src="" :alt="hobby")
         .form_location-wrap
           button.location_button(
@@ -57,6 +61,7 @@
             day: 1,
           },
           gender: 'm',
+          profileImage: null,
           hobby: [],
           position: {
             address: null,
@@ -88,19 +93,24 @@
 <style lang="sass">
   @import "~chming"
 
-  .interest-list, .location-address
-    margin-top: 1rem
-    padding-left: 1.5rem
-
   .user-join-wrap
     display: block
-    padding: 4rem
+    padding: 3.5rem
     background: #fff
 
   h3.title
     +sub-title
 
+  .interest-list
+    +clearfix
+    .list_item
+      float: left
+      margin-right: 1rem
+
   .user-join_form
+    .interest-list, .location-address
+      margin-top: 0.5rem
+      padding-left: 1.5rem
     p
       margin-top: 1.5rem
     .form_name,
@@ -110,15 +120,15 @@
     input[type="number"]
       +text-input(25%)
       &:not(:nth-of-type(1))
-        width: 22%
-        margin-left: 1rem
+        width: 21%
+        margin-left: 0.8rem
     input[type="radio"]
       visibility: hidden
       position: absolute
       & + label
         display: inline-block
         vertical-align: top
-        padding: 0 5px
+        padding: 0 0.7rem
         margin-left: 0.5rem
         line-height: 3rem
         color: $base-theme-color
@@ -131,17 +141,26 @@
       font-weight: bold
       line-height: 3rem
       color: $base-theme-color
-      
+  
+  .form_file-upload-wrap,
   .form_interest-wrap,
   .form_location-wrap
     margin-top: 1.5rem
-  
-  .interest_button,
-  .location_button
-    color: $base-theme-color
-    & > .fa
+    & .fa
       margin-left: 1rem
       font-size: 1.5rem
+  
+  .form_file-upload-wrap
+    input
+      visibility: hidden
+      position: absolute
+    label
+      cursor: pointer
+  
+  .interest_button,
+  .location_button,
+  .file-upload_label
+    color: $base-theme-color
     font-weight: bold
     background: none
     border: 0
@@ -154,4 +173,6 @@
   .user-info_interest-wrap
     .title
       border: none
+
+  
 </style>

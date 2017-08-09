@@ -18,9 +18,10 @@
 
   .cancel-button
     position: absolute
+    display: inline-block
     top: 1.5rem
     right: 3rem
-    padding: 2px
+    padding: 2px 6px
     font-size: 1.7rem
     background: none
     border: 0

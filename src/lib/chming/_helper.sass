@@ -65,18 +65,6 @@
 	border-radius: 0.5rem
 	border: 0.5px solid $base-theme-color
 
-@mixin confirm-button($width: auto, $height: auto)
-  width: $width
-  height: $height
-  padding: 2px
-  color: $base-theme-color
-  background: none
-  border: 1px solid $base-theme-color
-  border-radius: 4px
-  &:hover
-    background: $base-theme-color
-    color: $base-action-color
-
 @mixin fit-text-in-box()
 	white-space: nowrap
 	overflow: hidden
@@ -89,3 +77,20 @@
 @mixin is-active()
   background: $base-action-color
   color: $base-theme-color
+
+@mixin confirm-button($width: auto, $height: auto)
+	width: $width
+	height: $height
+	padding: 2px
+	color: $base-theme-color
+	background: none
+	border: 1px solid $base-theme-color
+	border-radius: 4px
+	&:hover
+		background: $base-theme-color
+		color: $base-action-color
+	&[disabled]
+		opacity: 0.5
+		&:hover
+			background: none
+			color: $base-theme-color

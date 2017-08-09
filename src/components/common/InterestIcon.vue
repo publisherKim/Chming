@@ -1,17 +1,10 @@
 <template lang="pug">
-  .icon-container(:class="iconColor")
+  .icon-container(:class="'bg-' + iconClass")
     i.fa(:class="iconClass" aria-hidden="true")
 </template>
 
 <script>
 export default {
-  mounted() {
-    switch(this.iconClass) {
-    case 'fa-car':
-      this.iconColor = 'red';
-      break;
-    }
-  },
   props: {
     iconClass: {
       type: String,
@@ -28,13 +21,21 @@ export default {
 
 <style lang="sass" scoped>
   .icon-container
+    display: inline-block
     width: 2.5rem
     height: 2.5rem
     text-align: center
     border-radius: 1000px
   i
+    color: inherit
     vertical-align: middle
     font-size: 1.5rem
-  .red
+  .bg-fa-car
     background: red
+  .bg-fa-futbol-o
+    background: #33cccc
+  .bg-fa-music
+    background: #ffcc00
+  .bg-fa-shopping-bag
+    background: #ff9966
 </style>
