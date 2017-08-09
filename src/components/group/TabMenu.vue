@@ -34,6 +34,7 @@
     button
       padding: 1rem 0
       min-width: 8rem
+      color: $base-action-color
       font-weight: bold
       border: none
       background: none

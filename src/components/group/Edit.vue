@@ -15,11 +15,11 @@
           li
             img(src="" alt="관심사1")
       button.form_confirm(@click="changeRoute('main')" type="submit") 완료
-    cancel-button
+    back-button
 </template>
 
 <script>
-  import CancelButton from '@/components/common/CancelButton';
+  import BackButton from '@/components/common/BackButton';
 
   export default {
     data() {
@@ -33,7 +33,7 @@
       };
     },
     components: {
-      CancelButton,
+      BackButton,
     },
     methods: {
       changeRoute(route) {
@@ -50,7 +50,7 @@
     padding: 3rem
 
   .title
-    +sub-title
+    +sub-page-title
 
   .form_name,    
   .form_description,
@@ -85,5 +85,5 @@
   .form_confirm
     display: block
     margin: 2rem auto
-    +confirm-button(5rem, 3rem)
+    +action-button(5rem, 3rem)
 </style>

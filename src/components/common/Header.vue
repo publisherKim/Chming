@@ -39,6 +39,7 @@
   .header-container
     position: relative
     height: $filter-container-height
+    background: $main-header-background-color
   .header_title
     position: absolute
     +align-vertical-middle()   
@@ -66,7 +67,7 @@
       line-height: 3rem
       border: none
     i
-      color: $base-theme-color
+      color: $main-header-icon-color
     button
       display: inline-block
       background: none

@@ -34,7 +34,7 @@
           input(v-model="selectedList" id="item9"  type="checkbox" value="K-POP")
           label(for="item9") K-POP
       
-    button.interest_confirm(@click="interestConfirm" type="button") 완료
+    button.interest_confirm(@click="confirm" type="button") 완료
 </template>
 
 <script>
@@ -46,8 +46,9 @@ export default {
     };
   },
   methods: {
-    interestConfirm() {
-      this.changeRoute({name: 'user_join', params: {hobby: this.selectedList}});
+    confirm() {
+      let prevRoute = this.$route.params.prev;
+      this.changeRoute({name: prevRoute, params: {hobby: this.selectedList}});
     },
     changeRoute(route) {
       console.log('route:', route);
@@ -74,10 +75,13 @@ export default {
     .interest_confirm
       display: block
       margin: 2rem auto
-      +confirm-button(5rem, 3rem)
+      +action-button(5rem, 3rem)
 
   .title
-    +sub-title
+    padding: 3px 0
+    color: $interest-color
+    line-height: 3rem
+    border-bottom: 1px solid $base-theme-color
     font-size: 1.4rem
 
   .interest_list

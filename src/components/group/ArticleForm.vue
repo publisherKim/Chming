@@ -58,7 +58,7 @@
     text-align: center
     button
       display: inline-block
-      +confirm-button(8rem, 3rem)
+      +action-button(8rem, 3rem)
       margin: 0 1rem
           
 </style>

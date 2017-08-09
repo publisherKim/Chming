@@ -48,7 +48,7 @@
   .info-container
     li
       +clearfix()
-      +sideSpace()
+      +side-space()
       position: relative
       margin-top: 1.5rem
       padding-bottom : 1rem
@@ -59,9 +59,11 @@
       line-height: 2.6rem
   .title
     +sub-title_group()
+  .member-number
+    color: $base-point-color
 
   .info_join
-    +confirm-button
+    +action-button
     display: block
     margin: 1rem auto
     padding: 0.5rem 1rem

@@ -27,13 +27,13 @@
 @function leading()
 	@return $leading
 
-@mixin sideSpace()
+@mixin side-space()
   padding: 0 2rem
 
-@mixin sub-title()
+@mixin sub-page-title()
   padding: 3px 0
   font-size: 1.5rem
-  color: $base-color-type2
+  color: $base-title-color
   line-height: 3rem
   border-bottom: 1px solid $base-theme-color
 
@@ -71,26 +71,40 @@
 	text-overflow: ellipsis
 
 @mixin action-active()
-  background: $base-color-type2
-  color: #fff
+	background: $grouptab-color
+	color: $base-action-color
 
 @mixin is-active()
   background: $base-action-color
   color: $base-theme-color
 
-@mixin confirm-button($width: auto, $height: auto)
+// $confirm-color: $
+// $confirm-border-color
+// $confirm-background-color
+@mixin action-button($width: auto, $height: auto, $type: 'confirm')
+	$color: #fff
+	$background: none
+	$border: 0
+	@if $type == confirm
+		$color: $confirm-color
+		$background: $confirm-background-color
+		$border: 1px solid $confirm-border-color
+	@if $type == cancel
+		$color: $cancel-color
+		$background: $cancel-background-color
+		$border: 1px solid $cancel-border-color
 	width: $width
 	height: $height
 	padding: 2px
-	color: $base-theme-color
-	background: none
-	border: 1px solid $base-theme-color
 	border-radius: 4px
+	color: $color
+	background: $background
+	border: $border
 	&:hover
-		background: $base-theme-color
-		color: $base-action-color
+		background: $color
+		color: $background
 	&[disabled]
 		opacity: 0.5
 		&:hover
 			background: none
-			color: $base-theme-color
+			color: $color

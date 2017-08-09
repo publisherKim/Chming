@@ -54,7 +54,8 @@
     },
     methods: {
       confirm() {
-        this.changeRoute({name: 'user_join', params: {position: this.position}});  
+        let prevRoute = this.$route.params.prev;
+        this.changeRoute({name: prevRoute, params: {position: this.position}});  
       },
       changeRoute(route) {
         this.$router.push(route);
@@ -143,7 +144,7 @@
     background: #fff
 
   .title
-    +sub-title
+    +sub-page-title
   
   .user-location_search-form
     position: relative
@@ -191,6 +192,6 @@
   .confirm-button
     display: block
     margin: 2rem auto
-    +confirm-button(5rem, 3rem)
+    +action-button(5rem, 3rem)
 
 </style>

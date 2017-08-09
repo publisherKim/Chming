@@ -1,5 +1,6 @@
 <template lang="pug">
   .mylocation-container
+    filter-header
     .mylocation_header-wrap
       h2 내 위치에서 검색 반경 선택
     .mylocation_content-wrap
@@ -8,9 +9,13 @@
 </template>
 
 <script>
-export default {
-  
-};
+  import FilterHeader from '@/components/filter/Header';
+
+  export default {
+    components: {
+      FilterHeader
+    },
+  };
 </script>
 
 <style lang="sass" scoped>
@@ -21,7 +26,7 @@ export default {
   .mylocation-container
     width: 100%
     z-index: 10
-    background: #fff
+    background: $filter-panel-background-color
     text-align: center
     h2
       line-height: $mylocation-header-height
@@ -33,7 +38,7 @@ export default {
     line-height: $mylocation-header-height
     width: 95%
     margin: 0 auto
-    border-bottom: 1px solid #000
+    border-bottom: 0.5px solid $base-theme-color
   .mylocation_content-wrap
     padding: 5px 0
 </style>

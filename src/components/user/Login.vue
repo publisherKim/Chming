@@ -12,17 +12,17 @@
         a(href @click.prevent="") 아이디 / 비밀번호 찾기
       li
         a(href @click.prevent="changeRoute('user_join')") 회원가입
-    cancel-button(route="main")
+    back-button(:route={name: 'main'})
 
 </template>
 
 <script>
-  import CancelButton from '../common/CancelButton';
+  import BackButton from '../common/BackButton';
   import { mapGetters, mapMutations } from 'vuex';
 
   export default {
     components: {
-      CancelButton,
+      BackButton,
     },
     data() {
       return {
@@ -70,7 +70,7 @@
     min-height: 100vh
     padding: 3.5rem
     h3.title
-      +sub-title
+      +sub-page-title
 
   p
     margin-top: 1.5rem
@@ -85,7 +85,7 @@
       bottom: -1.5rem
       right: 0
       transform: translateY(100%)
-      +confirm-button(5rem, 4rem)
+      +action-button(5rem, 4rem)
 
   .join-user_find-list
     margin-top: 1.5rem
@@ -95,6 +95,6 @@
   .form_confirm
     display: block
     margin: 2rem auto
-    +confirm-button(5rem, 3rem)
+    +action-button(5rem, 3rem)
 
 </style>
