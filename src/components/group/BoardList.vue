@@ -43,7 +43,7 @@
 
   .list_item
     +clearfix()
-    +sideSpace()
+    +side-space()
     position: relative
     margin-top: 1.5rem
     padding-bottom : 1rem
@@ -56,8 +56,8 @@
     margin-right: 1rem
     padding: 0 0.5rem
     font-weight: normal
-    color: #fff
-    background: #f96
+    color: $base-action-color
+    background: $base-point-color
   .item_contents
     margin-top: 0.5rem
     font-size: 1.2rem

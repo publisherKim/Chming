@@ -1,6 +1,6 @@
 <template lang="pug">
   div.menu-wrap
-    a.menu_hambuger(href="" role="button" @click.prevent="viewMenu")
+    a.menu_hambuger(href role="button" @click.prevent="viewMenu")
       i.fa.fa-bars(aria-hidden="true")
 </template>
 
@@ -15,8 +15,8 @@
     },
     methods: {
       viewMenu(e) {
-        this.getToken && this.changeRoute({ name: 'user_info', params: { id: 1 } } );
-        !this.getToken && this.changeRoute({ name: 'user_login' });
+        this.getToken && this.changeRoute({name: 'user_info', params:{id: 1}});
+        !this.getToken && this.changeRoute({name: 'user_login'});
       },
       changeRoute(route) {
         this.$router.push(route);
@@ -37,5 +37,5 @@
     font-size: 2rem
     height: 3rem
     i
-      color: $base-theme-color
+      color: $main-header-icon-color
 </style>

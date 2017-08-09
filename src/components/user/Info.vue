@@ -3,28 +3,28 @@
     //- edit-button.edit-button(route="user_edit")
     //- button.logout-button(type="button" @click="logout")
     //-   i.fa.fa-sign-out(aria-hidden="true")  
+    .user-info_profile
+      img.profile_image(src="../../assets/mingu.jpeg" alt="userName")
+      .profile-wrap
+        span.profile_name(aria-label="이름") 홍길동
+        span.profile_birth(aria-label="생년월일") 1999.01.01
+        span.profile_location(aria-label="주소")
+          i.fa.fa-map-marker(aria-hidden="true")
+          | 경기도 성남시 서현동 
+        ul.interest_list
+          li.list-item(aria-label="축구")
+            interest-icon.interest-icon(iconClass="fa-futbol-o")
+          li.list-item(aria-label="음악")
+            interest-icon.interest-icon(iconClass="fa-music")
+          li.list-item(aria-label="쇼핑")
+            interest-icon.interest-icon(iconClass="fa-shopping-bag")
+          li.list-item(aria-label="축구")
+            interest-icon.interest-icon(iconClass="fa-futbol-o")
+          li.list-item(aria-label="음악")
+            interest-icon.interest-icon(iconClass="fa-music")
+          li.list-item(aria-label="쇼핑")
+            interest-icon.interest-icon(iconClass="fa-shopping-bag")
     ul.user-info_list
-      li.user-info_profile
-        img.profile_image(src="../../assets/mingu.jpeg" alt="userName")
-        .profile-wrap
-          span.profile_name(aria-label="이름") 홍길동
-          span.profile_birth(aria-label="생년월일") 1999.01.01
-          span.profile_location(aria-label="주소")
-            i.fa.fa-map-marker(aria-hidden="true")
-            | 경기도 성남시 서현동 
-          .interest_list
-            li.list-item(aria-label="축구")
-              interest-icon.interest-icon(iconClass="fa-futbol-o")
-            li.list-item(aria-label="음악")
-              interest-icon.interest-icon(iconClass="fa-music")
-            li.list-item(aria-label="쇼핑")
-              interest-icon.interest-icon(iconClass="fa-shopping-bag")
-            li.list-item(aria-label="축구")
-              interest-icon.interest-icon(iconClass="fa-futbol-o")
-            li.list-item(aria-label="음악")
-              interest-icon.interest-icon(iconClass="fa-music")
-            li.list-item(aria-label="쇼핑")
-              interest-icon.interest-icon(iconClass="fa-shopping-bag")
       li.list_menu
         a(href @click.prevent="changeRoute('main')") 홈
       li.list_menu
@@ -37,19 +37,17 @@
         a(href @click.prevent="changeRoute('group_create')") 모임개설
       li.list_menu
         a(href @click.prevent="logout") 로그아웃
-    cancel-button.close-button
+    back-button(:route={name: 'back'})
 </template>
 
 <script>
-import EditButton from '@/components/common/EditButton';
-import CancelButton from '@/components/common/CancelButton';
+import BackButton from '@/components/common/BackButton';
 import { mapGetters } from 'vuex';
 import InterestIcon from '@/components/common/InterestIcon';
 
 export default {
   components: {
-    EditButton,
-    CancelButton,
+    BackButton,
     InterestIcon,
   },
   methods: {
@@ -100,26 +98,25 @@ export default {
       border: 0
 
   .user-info_list
-    &>li
-      padding: 0 2rem
-      border-bottom: 0.5px solid $base-theme-color
     .list_menu
+      border-bottom: 0.5px solid $base-theme-color
       height: $menu-height
       text-align: center
       font-size: 1.7rem
       line-height: $menu-height
+      color: $base-theme-color
+      font-weight: bold
       & > a
         display: block
         line-height: $menu-height
+        &:hover
+          background: $base-theme-color
+          text-decoration: none
+          color: #fff
   
-  .interest_list
-    +clearfix
-    li
-      float: left
-      margin-right: 1rem
-
   .user-info_profile
     position: relative
+    padding: 0 2rem
     +clearfix
     .profile_image
       float: left
@@ -127,25 +124,29 @@ export default {
       +align-vertical-middle
       border-radius: 1000px
 
-  .profile-wrap
-    float: left
-    position: relative
-    margin-left: 2rem
-    +align-vertical-middle
-    span
-      font-size: 1.5rem
-    .profile_name
-      margin-right: 1rem
+    .interest_list
+      +clearfix
+      li
+        float: left
+        margin-right: 1rem
 
-  .profile_location
-    display: block
-    margin: 0.6rem 0
-    i
-      margin-right: 1rem
+    .profile-wrap
+      float: left
+      position: relative
+      margin-left: 2rem
+      +align-vertical-middle
+      span
+        font-size: 1.5rem
+      .profile_name
+        margin-right: 1rem
 
-  .list_menu
-    color: $base-theme-color
-    font-weight: bold
+    .profile_location
+      display: block
+      margin: 0.6rem 0
+      i
+        margin-right: 1rem
+
+
   
   +mobile
     .user-info_list
@@ -157,6 +158,8 @@ export default {
     .profile_image
       height: $profile-height - 25px
       width: $profile-height - 25px
+    .profile-wrap
+      width: calc(100% - #{$profile-height})
   +desktop
     $desktop-profile-height: $profile-height + 25px
     .user-info_profile
@@ -164,4 +167,6 @@ export default {
     .profile_image
       height: $desktop-profile-height - 35px
       width: $desktop-profile-height - 35px
+    .profile-wrap
+      width: calc(100% - #{$desktop-profile-height})
 </style>

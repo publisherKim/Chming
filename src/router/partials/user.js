@@ -39,7 +39,7 @@ export default {
       ],
     },
     {
-      path: 'edit',
+      path: 'edit/:id',
       name: 'user_edit',
       component: UserEdit,
       children: [

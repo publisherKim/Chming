@@ -45,10 +45,9 @@
   @import "~chming"
 
   $filter-container-height: 50px
-  $button-theme-color: $base-action-color
 
   .filter-container
-    background: $base-theme-color
+    background: $filter-background-color
   .location-filter-wrap
     position: relative
     padding: 0 2rem
@@ -57,27 +56,34 @@
       position: absolute
       +align-vertical-middle
       display: inline-block
-      color: $button-theme-color
       button
         font-size: 1.5rem
         font-weight: bold
     h2
-      color: #fff
+      color: $filter-color
       font-size: 1.1rem
       font-weight: normal
     button
-      color: #fff
+      color: $filter-color
       background: none
       border: 0
+    .mylocation-button
+      position: absolute
+      right: 0
+      z-index: 10
+      background: #fff
+      padding: 1px 6px
+      font-size: 1.7rem
+      border-radius: 3px
 
   .filter-button-wrap
     position: absolute
     right: 0
     height: 100%
     font-weight: normal
-    color: $button-theme-color
     button
       border: 0
+
   .sort-button,
   .interest-button
     position: relative
@@ -87,15 +93,7 @@
     background: none
     &:hover
       text-decoration: underline
-  .mylocation-button
-    position: absolute
-    right: 0
-    z-index: 10
-    background: #fff
-    padding: 1px 6px
-    font-size: 1.7rem
-    border-radius: 3px
-    color: #444
+
   .filter
     position: absolute
     bottom: 0

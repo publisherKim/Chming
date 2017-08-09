@@ -17,23 +17,33 @@
           label(for="man") 남
           input#woman(:v-model="user.gender" type="radio" name="gender" value="woman")
           label(for="woman") 여
+        .form_file-upload-wrap
+          input#upload(type="file")
+          label.file-upload_label(for="upload") 프로필 사진
+            i.fa.fa-picture-o(aria-hidden="true")
         .form_interest-wrap
-          button.interest_button(@click="changeRoute('user_join_interest')" type="button") 관심사 설정
+          button.interest_button(
+            @click="changeRoute({name: 'user_edit_interest', params: {prev: 'user_edit'}})"
+            type="button"
+          ) 관심사 설정
             i.fa.fa-cog(aria-hidden='true')
           ul.interest-list
             li
               img(src="" alt="관심사1")
         .form_location-wrap
-          button.location_button(@click="changeRoute('user_join_location')" type="button") 지역선택
+          button.location_button(
+            @click="changeRoute({name: 'user_edit_location', params: {prev: 'user_edit'}})" 
+            type="button"
+          ) 지역선택
             i.fa.fa-map-marker(aria-hidden='true')
           p.location-address 경기도 성남시 분당구 정자동 11-2
         button.form_confirm(@click="confirm" type="submit") 완료
     router-view.user_interest
-    cancel-button(route="main")
+    back-button(:route={name: 'user_info', params: {id: 1}})
 </template>
 
 <script>
-  import CancelButton from '@/components/common/CancelButton';
+  import BackButton from '@/components/common/BackButton';
 
   export default {
     data() {  
@@ -52,11 +62,11 @@
       };
     },
     components: {
-      CancelButton,
+      BackButton,
     },
     methods: {
       changeRoute(route) {
-        this.$router.push({name: route});
+        this.$router.push(route);
       },
       typing(e) {
         this.user.name = e.target.value;
@@ -80,19 +90,25 @@
 <style lang="sass">
   @import "~chming"
 
-  .interest-list, .location-address
-    margin-top: 1rem
-    padding-left: 1.5rem
       
   .user-edit-wrap
     display: block
     padding: 3rem
     background: #fff
 
+  .interest-list
+    +clearfix
+    .list_item
+      float: left
+      margin-right: 1rem
+
   .title
-    +sub-title
+    +sub-page-title
 
   .user-edit_form
+    .interest-list, .location-address
+      margin-top: 0.5rem
+      padding-left: 1.5rem
     p
       margin-top: 1.5rem
     .form_name,
@@ -108,27 +124,40 @@
       visibility: hidden
       position: absolute
       & + label
-        padding: 2px 5px
+        display: inline-block
+        vertical-align: top
+        padding: 0 0.7rem
         margin-left: 0.5rem
-        vertical-align: middle
+        line-height: 3rem
+        color: $base-theme-color
+        border-radius: 3px
         cursor: pointer
       &:checked + label
-        background: #000
-        color: #fff
+        +action-active()
     .form_birth, .form_gender
       display: block
       line-height: 3rem
       font-weight: bold
 
+  .form_file-upload-wrap,
   .form_interest-wrap,
   .form_location-wrap
     margin-top: 1.5rem
-  
-  .interest_button,
-  .location_button
-    & > .fa
+    & .fa
       margin-left: 1rem
       font-size: 1.5rem
+
+  .form_file-upload-wrap
+    input
+      visibility: hidden
+      position: absolute
+    label
+      cursor: pointer
+
+  .interest_button,
+  .location_button,
+  .file-upload_label
+    color: $base-title-color
     font-weight: bold
     background: none
     border: 0
@@ -136,7 +165,7 @@
   .form_confirm
     display: block
     margin: 2rem auto
-    +confirm-button(5rem, 3rem)
+    +action-button(5rem, 3rem)
 
   .user-info_interest-wrap
     .title

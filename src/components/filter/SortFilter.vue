@@ -1,6 +1,6 @@
 <template lang="pug">
   .sort-filter-container
-    choice-header      
+    filter-header      
     .sort-filter_header-wrap
       h2 정렬
     .sort-filter_content-wrap
@@ -10,12 +10,11 @@
 </template>
 
 <script>
-  import ChoiceHeader from '@/components/filter/ChoiceHeader';
+  import FilterHeader from '@/components/filter/Header';
 
   export default {
-    name: 'sortFilter',
     components: {
-      ChoiceHeader
+      FilterHeader
     },
     data() {
       return {
@@ -45,7 +44,7 @@
     h2
       text-align: center
       font-size: 1.5rem
-      color: $base-theme-color
+      color: $filter-panel-color
       line-height: $sort-header-height
           
   .sort-filter_content-wrap
@@ -56,8 +55,4 @@
         +rounded-rect-button-active()
       &:not(:last-child)
         margin-right: 2rem
-    .is-active
-      color: #fff
-      background: $base-theme-color
-      border: 0
 </style>

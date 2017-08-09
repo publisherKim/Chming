@@ -122,7 +122,7 @@ datadatadatadatadatadata\ndatadatadatadatadatadatadatadatadatadatadatadatadatada
       width: calc(100% - 4rem)
       padding: 0 1rem
     button
-      +confirm-button()
+      +action-button()
       margin-left: 0.5rem
 
   +mobile

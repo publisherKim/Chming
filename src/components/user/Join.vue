@@ -24,7 +24,7 @@
             i.fa.fa-picture-o(aria-hidden="true")
         .form_interest-wrap
           button.interest_button(
-            @click="changeRoute({name: 'user_join_interest'})"
+            @click="changeRoute({name: 'user_join_interest', params: {prev: 'user_join'}})"
             type="button"
           ) 관심사 설정
             i.fa.fa-cog(aria-hidden='true')
@@ -33,18 +33,18 @@
               img(src="" :alt="hobby")
         .form_location-wrap
           button.location_button(
-            @click="changeRoute({name: 'user_join_location'})" 
+            @click="changeRoute({name: 'user_join_location', params: {prev: 'user_join'}})" 
             type="button"
           ) 지역 선택
             i.fa.fa-map-marker(aria-hidden='true')
           p.location-address {{ userJoinInfo.position.address }}
         button.form_confirm(@click="changeRoute({name: 'main'})" type="submit") 완료
     router-view.user_interest
-    cancel-button(route="main")
+    back-button(:route={name: 'user_login'})
 </template>
 
 <script>
-  import CancelButton from '@/components/common/CancelButton';
+  import BackButton from '@/components/common/BackButton';
 
   export default {
     data() {  
@@ -72,7 +72,7 @@
       };
     },
     components: {
-      CancelButton
+      BackButton
     },
     methods: {
       changeRoute(route) {
@@ -99,7 +99,7 @@
     background: #fff
 
   h3.title
-    +sub-title
+    +sub-page-title
 
   .interest-list
     +clearfix
@@ -136,11 +136,10 @@
         cursor: pointer
       &:checked + label
         +action-active()
-    .form_birth, .form_gender
+    .form_birth
       display: block
       font-weight: bold
       line-height: 3rem
-      color: $base-theme-color
   
   .form_file-upload-wrap,
   .form_interest-wrap,
@@ -156,11 +155,12 @@
       position: absolute
     label
       cursor: pointer
-  
+
+  .form_birth,
   .interest_button,
   .location_button,
   .file-upload_label
-    color: $base-theme-color
+    color: $base-title-color
     font-weight: bold
     background: none
     border: 0
@@ -168,7 +168,7 @@
   .form_confirm
     display: block
     margin: 2rem auto
-    +confirm-button(5rem, 3rem)
+    +action-button(5rem, 3rem)
 
   .user-info_interest-wrap
     .title

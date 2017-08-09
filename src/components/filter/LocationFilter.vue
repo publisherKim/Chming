@@ -1,6 +1,6 @@
 <template lang="pug">
   .location-container
-    choice-header
+    filter-header
     .location-wrap
       h2 지역 선택 메뉴
       ul.location-list(role="tablist")
@@ -27,11 +27,11 @@
 </template>
 
 <script>
-import ChoiceHeader from '@/components/filter/ChoiceHeader';
+import FilterHeader from '@/components/filter/Header';
 
 export default {
   components: {
-    ChoiceHeader
+    FilterHeader
   },
   data() {
     return {
@@ -63,24 +63,28 @@ export default {
     bottom: 0
     left: 0
     width: 100%
-    background: #fff
+    background: $filter-panel-background-color
+
   .location-wrap
     h2
       margin: 0
       +a11y-hidden
+
   .location-list
     +clearfix
     width: 95%
     height: $location-list-height
-    // margin: 0 auto
+
   .location-list-item
     float: left
     line-height: $location-list-height
+    color: $filter-panel-color
     font-weight: bold
     cursor: pointer
     &.is-active
-      color: $base-theme-color
-      text-decoration: underline
+      color: $filter-panel-tab-active-color
+      border-bottom: 1px solid $filter-panel-tab-active-color
+
   .tab-contents
     section
       display: none
