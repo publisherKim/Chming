@@ -8,8 +8,7 @@ import UserEdit from '@/components/user/Edit';
 import UserInfo from '@/components/user/Info';
 import UserFindId from '@/components/user/FindId';
 import UserFindPw from '@/components/user/FindPw';
-import UserMyGroupList from '@/components/user/MyGroupList';
-import UserMyFavoriteList from '@/components/user/MyFavoriteList';
+import UserGroupList from '@/components/user/GroupList';
 
 export default {
   path: '/user',
@@ -73,12 +72,12 @@ export default {
     {
       path: 'myGroupList/:id',
       name: 'user_myGroupList',
-      component: UserMyGroupList,
+      component: UserGroupList,
     },
     {
       path: 'myFavoriteList/:id',
       name: 'user_myFavoriteList',
-      component: UserMyFavoriteList,
+      component: UserGroupList,
     },
   ],
 };

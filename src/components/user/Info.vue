@@ -23,15 +23,15 @@
             interest-icon.interest-icon(iconClass="fa-shopping-bag")
     ul.user-info_list
       li.list_menu
-        a(href @click.prevent="changeRoute('main')") 홈
+        a(href @click.prevent="changeRoute({name: 'main'})") 홈
       li.list_menu
-        a(href @click.prevent="changeRoute('user_edit')") 정보수정
+        a(href @click.prevent="changeRoute({name: 'user_edit', params: {id: 1}})") 정보수정
       li.list_menu
-        a(href @click.prevent="changeRoute('user_myGroupList')") 내모임
+        a(href @click.prevent="changeRoute({name: 'user_myGroupList', params: {id: 1}})") 내모임
       li.list_menu
-        a(href @click.prevent="changeRoute('user_myFavoriteList')") 관심모임
+        a(href @click.prevent="changeRoute({name: 'user_myFavoriteList', params: {id: 1}})") 관심모임
       li.list_menu
-        a(href @click.prevent="changeRoute('group_create')") 모임개설
+        a(href @click.prevent="changeRoute({name: 'group_create'})") 모임개설
       li.list_menu
         a(href @click.prevent="logout") 로그아웃
     back-button(:route={name: 'back'})
@@ -49,8 +49,7 @@ export default {
   },
   methods: {
     changeRoute(route) {
-      (route === 'group_create') && this.$router.push({ name: route });
-      (route !== 'group_create') && this.$router.push({ name: route, params: { id: 1 } });
+      this.$router.push(route);
     },
     logout() {
       this.$http.post(this.getUrl + '/member/login/', {
@@ -74,13 +73,12 @@ export default {
 <style lang="sass" scoped>
   @import "~chming"
 
-  $profile-height: 100px
-  $menu-height: 60px
+  $profile-height: 15rem
+  $menu-height: 6rem
 
   .user-info-container
     width: 100%
     height: 100vh
-    padding-top: 4rem
     background: $user-info-background-color
     .edit-button
       position: absolute
@@ -95,9 +93,8 @@ export default {
       border: 0
 
   .user-info_profile
-    position: relative
-    padding: 0 2rem
-    background: $user-info-background-color
+    padding: 4rem 2rem 0 2rem
+    background: $user-info-profile-background-color
     +clearfix
     .profile_image
       float: left
@@ -129,6 +126,7 @@ export default {
     .list_menu
       border-bottom: 0.5px solid $user-info-menu-color
       height: $menu-height
+      margin: 0 2rem
       text-align: center
       font-size: 1.7rem
       line-height: $menu-height
@@ -143,24 +141,22 @@ export default {
           color: $user-info-menu-hover-color
   
   +mobile
-    .user-info_list
-      +container()
-      &>li
-        +span(4)
+    $profile-image-height: $profile-height - 7rem
     .user-info_profile
       height: $profile-height
     .profile_image
-      height: $profile-height - 25px
-      width: $profile-height - 25px
+      height: $profile-image-height
+      width: $profile-image-height
     .profile-wrap
-      width: calc(100% - #{$profile-height})
+      width: calc(100% - #{$profile-image-height} - 2rem)
   +desktop
-    $desktop-profile-height: $profile-height + 25px
+    $profile-height: $profile-height + 2rem
+    $profile-image-height: $profile-height - 9rem
     .user-info_profile
-      height: $desktop-profile-height
+      height: $profile-height
     .profile_image
-      height: $desktop-profile-height - 35px
-      width: $desktop-profile-height - 35px
+      height: $profile-image-height
+      width: $profile-image-height
     .profile-wrap
-      width: calc(100% - #{$desktop-profile-height})
+      width: calc(100% - #{$profile-image-height} -2rem)
 </style>

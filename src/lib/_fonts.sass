@@ -1,0 +1,20 @@
+@mixin spoqa( $path )
+  @font-face
+    font-family: 'Spoqa Han Sans'
+    font-weight: 700
+    src: local("Spoqa Han Sans Bold"), url("#{$path}/SpoqaHanSansBold.woff2") format("woff2"), url("#{$path}/SpoqaHanSansBold.woff") format("woff"), url("#{$path}/SpoqaHanSansBold.ttf") format("truetype")
+
+  @font-face
+    font-family: 'Spoqa Han Sans'
+    font-weight: 400
+    src: local("Spoqa Han Sans Regular"), url("#{$path}/SpoqaHanSansRegular.woff2") format("woff2"), url("#{$path}/SpoqaHanSansRegular.woff") format("woff"), url("#{$path}/SpoqaHanSansRegular.ttf") format("truetype")
+
+  @font-face
+    font-family: 'Spoqa Han Sans'
+    font-weight: 300
+    src: local("Spoqa Han Sans Light"), url("#{$path}/SpoqaHanSansLight.woff2") format("woff2"), url("#{$path}/SpoqaHanSansLight.woff") format("woff"), url("#{$path}/SpoqaHanSansLight.ttf") format("truetype")
+
+  @font-face
+    font-family: 'Spoqa Han Sans'
+    font-weight: 100
+    src: local("Spoqa Han Sans Thin"), url("#{$path}/SpoqaHanSansThin.woff2") format("woff2"), url("#{$path}/SpoqaHanSansThin.woff") format("woff"), url("#{$path}/SpoqaHanSansThin.ttf") format("truetype")

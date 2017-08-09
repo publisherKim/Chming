@@ -29,9 +29,9 @@ export default {
   i
     color: inherit
     vertical-align: middle
-    font-size: 1.5rem
+    font-size: 1.4rem
   .bg-fa-car
-    background: red
+    background: #ff9966
   .bg-fa-futbol-o
     background: #33cccc
   .bg-fa-music
