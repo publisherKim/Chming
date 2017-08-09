@@ -18,13 +18,20 @@ export default {
   children: [
     {
       path: 'info/:id',
-      name: 'group_info',
+      name: 'group_info_home',
       component: GroupInfo,
-    },
-    {
-      path: 'board/:id',
-      name: 'group_board',
-      component: GroupBoard,
+      children: [
+        {
+          path: 'album/:id',
+          name: 'group_album',
+          component: GroupAlbum,
+        },
+        {
+          path: 'board/:id',
+          name: 'group_board',
+          component: GroupBoard,
+        },
+      ],
     },
     {
       path: 'board/:id/viewArticle',
@@ -40,11 +47,6 @@ export default {
       path: 'board/:id/writeArticle',
       name: 'group_writeArticle',
       component: GroupWriteArticle,
-    },
-    {
-      path: 'album/:id',
-      name: 'group_album',
-      component: GroupAlbum,
     },
     {
       path: 'create',

@@ -90,11 +90,10 @@
 <style lang="sass">
   @import "~chming"
 
-      
   .user-edit-wrap
     display: block
     padding: 3rem
-    background: #fff
+    background: $user-edit-background-color
 
   .interest-list
     +clearfix
@@ -129,7 +128,7 @@
         padding: 0 0.7rem
         margin-left: 0.5rem
         line-height: 3rem
-        color: $base-theme-color
+        color: $user-edit-color
         border-radius: 3px
         cursor: pointer
       &:checked + label
@@ -157,7 +156,7 @@
   .interest_button,
   .location_button,
   .file-upload_label
-    color: $base-title-color
+    color: $user-edit-color
     font-weight: bold
     background: none
     border: 0

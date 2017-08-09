@@ -61,12 +61,10 @@
 
 <style lang="sass" scoped>
   @import "~chming"
-  
+
   .join-user-container
     +span(width 100% nest)
-    // background: #e1e1e1
-    background: #fff
-    border: 1px solid #ccc
+    background: $user-login-background-color
     min-height: 100vh
     padding: 3.5rem
     h3.title
