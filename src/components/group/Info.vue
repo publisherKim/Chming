@@ -3,7 +3,7 @@
     group-header
     tab-menu
     .introduce-info-wrap
-      img(src="/assets/" alt="groupIntroduce") 
+      img(src="../../assets/group.jpg" width="100%" alt="groupIntroduce") 
       p testtesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttest
       p.address 경기도 성남시 분당구 265-2
     .info_news-wrap
