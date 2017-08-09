@@ -12,10 +12,12 @@
   export default {
     data() {  
       return {
+
       };
     },
     methods: {
       changeRoute(name) {
+
         this.$router.push(name);
       }
     }
@@ -34,12 +36,12 @@
     button
       padding: 1rem 0
       min-width: 8rem
-      color: $base-action-color
+      color: $group-tab-color
       font-weight: bold
       border: none
       background: none
-    button:hover
-      +is-active()
+      &:hover, &.is-active
+        +is-active()
 
   +mobile()
     .tab-menu-list
