@@ -1,9 +1,10 @@
 <template lang="pug">
   .group-list-container
-    h2 내 모임
+    main-header
+    h2 {{headerName}}
     ul.group-list
       li.list_item
-        .group-info
+        .group-info_wrap
           .group-image_wrap
             img(src="../../assets/logo.png", alt="")
           a.group-description_link(href @click.prevent="changeRoute(1)")
@@ -14,11 +15,21 @@
 </template>
 
 <script>
+import MainHeader from '@/components/common/Header';
 import InterestIcon from '@/components/common/InterestIcon';
 
 export default {
+  created() {
+    this.headerName = (this.$route.name === 'user_myGroupList') ? '내 모임' : '관심모임';
+  },
   components: {
+    MainHeader,
     InterestIcon,
+  },
+  data() {
+    return {
+      headerName: null
+    };
   },
   methods: {
     changeRoute(id) {
@@ -33,7 +44,7 @@ export default {
 <style lang="sass" scoped>
   @import "~chming"
   
-  $list-item-height: 6.5rem
+  $list-item-height: 8rem
   // $my-group-header-color
   // $my-group-header-background-color
   // $my-group-list-color
@@ -49,13 +60,14 @@ export default {
     color: $my-group-header-color
     background: $my-group-header-background-color
 
-  .group-info
+  .group-info_wrap
+    position: relative
     width: 100%
+    height: 100%
     padding: 0 1rem
     +clearfix
     
   .list_item
-    position: relative
     height: $list-item-height
     padding: 3px 0
     border-bottom: 0.5px solid $my-group-list-border-color
@@ -63,8 +75,8 @@ export default {
   .group-image_wrap
     float: left
     position: relative
-    +align-vertical-middle
     height: 100%
+    // +align-vertical-middle
     width: $list-item-height
     text-align: center
     img
@@ -76,26 +88,23 @@ export default {
     float: left
     position: relative
     +align-vertical-middle
-    width: calc(100% - #{$list-item-height} - 2rem)
+    width: calc(100% - #{$list-item-height} - 3rem)
+    margin-left: 1rem
     padding-right: 2.5rem
     span
       display: block
-      font-size: 1.3rem
       +fit-text-in-box
+    .group_name
+      font-size: 1.5rem
+      font-weight: bold
     .group_description,
     .group_member
-      font-size: 1.2rem
+      font-size: 1.3rem
     .group_interest-icon
       position: absolute
       top: 0
       right: 0
-
-  // +mobile
-  //   .list_item
-  //     +container()
-  //   .group-image_wrap
-  //     +span(1)
-  //   .group-description_link
-  //     +span(3)
+    &:hover
+      text-decoration: none
   
 </style>

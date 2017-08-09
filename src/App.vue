@@ -11,6 +11,7 @@ export default {
 
 <style lang="sass">
   @import "~chming"
+  +spoqa('./assets/fonts/SpoqaHanSans')
 
   +mobile
     html
