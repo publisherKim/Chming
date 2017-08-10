@@ -44,8 +44,6 @@
 <style lang="sass" scoped>
   @import "~chming"
 
-  $filter-container-height: 50px
-
   .filter-container
     background: $filter-background-color
   .location-filter-wrap
@@ -72,7 +70,8 @@
       right: 0
       z-index: 10
       background: #fff
-      padding: 1px 6px
+      padding: 0 7px
+      line-height: 3rem
       font-size: 1.7rem
       border-radius: 3px
 
@@ -105,16 +104,16 @@
 
   +mobile
     .filter-container
-      height: $filter-container-height  
+      height: $mobile-filter-container-height  
     .filter-button-wrap
       margin-right: 2rem
     .mylocation-button
-      top: $filter-container-height + 10px
+      top: $mobile-filter-container-height + 1.5rem
   +desktop
     .filter-container
-      height: $filter-container-height + 10px
+      height: $desktop-filter-container-height
     .mylocation-button
-      top: $filter-container-height + 20px
+      top: $desktop-filter-container-height + 2rem
     .filter-button-wrap
       margin-right: 2rem
 </style>

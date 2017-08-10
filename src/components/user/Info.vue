@@ -52,7 +52,7 @@ export default {
       this.$router.push(route);
     },
     logout() {
-      this.$http.post(this.getUrl + '/member/login/', {
+      this.$http.post(this.apiUrl + '/member/login/', {
         username: 'testuser01@ex.com',
         password: '1111111a'
       })
@@ -65,7 +65,7 @@ export default {
     },
   },
   computed: {
-    ...mapGetters(['getUrl']),
+    ...mapGetters(['apiUrl']),
   }
 };
 </script>
@@ -105,7 +105,7 @@ export default {
       +clearfix
       li
         float: left
-        margin-right: 1rem
+        margin-right: 0.5rem
     .profile-wrap
       float: left
       position: relative

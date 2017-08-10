@@ -1,7 +1,7 @@
 <template lang="pug">
   .header-container
     h1.header_title
-      a(href @click.prevent="changeRoute('main')")
+      a(href @click.prevent="changeRoute({name: 'main'})")
         img.header_logo-image(src="../../assets/logo.svg" alt="취밍")
     form.header_search-form(autocomplete="off")
       input(type="text" id="keyword" placeholder="지역, 모임 또는 관심사")
@@ -23,7 +23,7 @@
     },
     methods: {
       changeRoute(route) {
-        this.$router.push({name: route});
+        this.$router.push(route);
       },
     },
   };
@@ -34,11 +34,9 @@
 
   $img-width: 2.3rem
   $side-space: 2rem
-  $filter-container-height: 50px
 
   .header-container
     position: relative
-    height: $filter-container-height
     background: $main-header-background-color
   .header_title
     position: absolute
@@ -60,7 +58,7 @@
     height: 3rem
     input
       display: inline-block
-      width: calc(100% - 6rem)
+      width: calc(100% - 6.3rem)
       padding-left: 1rem
       margin: 0 $side-space
       vertical-align: top
@@ -75,7 +73,10 @@
       font-size: 2rem
       line-height: 3rem
 
+  +mobile()
+    .header-container
+      height: $mobile-main-header-container-height
   +desktop()
     .header-container
-      height: $filter-container-height + 10px
+      height: $desktop-main-header-container-height
 </style>

@@ -4,6 +4,10 @@
     form.group-create_form
       input.form_name(type="text" placeholder="모임 이름을 작성해주세요." aria-label="모임 이름")
       textarea.form_description(placeholder="어떤 모임인지 설명해주세요." aria-label="모임 설명")
+      .form_file-upload-wrap
+        input#upload(type="file")
+        label.file-upload_label(for="upload") 모임 대표 사진
+          i.fa.fa-picture-o(aria-hidden="true")
       .form_location-wrap
         button.location_button(
           @click="changeRoute({name: 'user_join_location', params: {prev: 'group_create'}})"
@@ -61,9 +65,17 @@
   .form_description
     +text-input(100%, 100px)
 
+  .form_file-upload-wrap,
   .form_interest-wrap,
   .form_location-wrap
     margin-top: 1.5rem
+
+  .form_file-upload-wrap
+    input
+      visibility: hidden
+      position: absolute
+    label
+      cursor: pointer
   
   .interest_button,
   .location_button
