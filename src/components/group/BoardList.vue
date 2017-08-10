@@ -6,11 +6,11 @@
           span.notice 공지 
           | 제목제목제목제목제목제목제목제목
         p.item_contents 내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용
-      a.hamburger-menu(href="#none" role="button")
-        i.fa.fa-bars(aria-hidden="true")
+      span.item_like
+        i.fa.fa-thumbs-up(aria-hidden="true")
         span 1
-      a.hamburger-menu(href="#none" role="button")
-        i.fa.fa-bars(aria-hidden="true")
+      span.item_comment
+        i.fa.fa-comment(aria-hidden="true")
         span 22
     li.list_item
       .item_author
@@ -20,11 +20,11 @@
         h4.item_title 
           | 제목제목제목제목제목제목제목제목
         p.item_contents 내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용
-      a.hamburger-menu(href="#none" role="button")
-        i.fa.fa-bars(aria-hidden="true")
+      span.item_like
+        i.fa.fa-thumbs-up(aria-hidden="true")
         span 1
-      a.hamburger-menu(href="#none" role="button")
-        i.fa.fa-bars(aria-hidden="true")
+      span.item_comment
+        i.fa.fa-comment(aria-hidden="true")
         span 22
 </template>
 
@@ -45,10 +45,10 @@
     +clearfix()
     +side-space()
     position: relative
-    margin-top: 1.5rem
-    padding-bottom : 1rem
+    padding : 2rem
     border-bottom: solid 1px #ccc
   .item_title
+    width: calc(100% - 6rem)
     font-size: 1.4rem
     +fit-text-in-box()
   .notice
@@ -63,8 +63,17 @@
     font-size: 1.2rem
     color: #666
     +fit-text-in-box()
-  .hamburger-menu
+  .item_like, .item_comment
     position: absolute
-    top: 0
-    right: 0  
+    top: 1.8rem
+    span
+      margin-left: 0.5rem
+  .item_like
+    right: 6rem
+    i
+      color: $base-point-color
+  .item_comment
+    right: 2rem  
+    i
+      color: #666
 </style>
