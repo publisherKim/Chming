@@ -1,20 +1,14 @@
 <template lang="pug">
   .board-container
-    group-header
-    tab-menu
     BoardList
-    button.write(@click="createWrite(1)" type="button") 글작성
+    button.confirm(@click="createWrite(1)" type="button") 글쓰기
 </template>
 
 <script>
-  import GroupHeader from '@/components/common/Header';
-  import TabMenu from '@/components/group/TabMenu';
   import BoardList from '@/components/group/BoardList';
 
   export default {
     components: {
-      GroupHeader,
-      TabMenu,
       BoardList
     },
     methods: {
@@ -23,17 +17,13 @@
       },
     },
   };
-
 </script>
 
 <style lang="sass" scoped>
   @import "~chming"
 
-  .write 
+  .confirm 
     display: block
-    margin: 1rem auto
-    padding: 0.5rem 1rem
-    color: #fff
-    background: #ff6600
-    border: none
+    margin: 2rem auto
+    +action-button(8rem, 3rem)
 </style>

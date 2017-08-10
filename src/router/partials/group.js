@@ -1,6 +1,7 @@
 // Group
 import Group from '@/components/group/Group';
 import GroupInfo from '@/components/group/Info';
+import GroupHome from '@/components/group/Home';
 import GroupBoard from '@/components/group/Board';
 import GroupViewArticle from '@/components/group/ViewArticle';
 import GroupEditArticle from '@/components/group/EditArticle';
@@ -17,22 +18,27 @@ export default {
   component: Group,
   children: [
     {
-      path: 'info/:id',
-      name: 'group_info_home',
+      path: 'info',
+      name: 'group_info',
       component: GroupInfo,
       children: [
         {
+          path: 'home/:id',
+          name: 'group_info_home',
+          component: GroupHome,
+        },
+        {
           path: 'album/:id',
-          name: 'group_album',
+          name: 'group_info_album',
           component: GroupAlbum,
         },
         {
           path: 'board/:id',
-          name: 'group_board',
+          name: 'group_info_board',
           component: GroupBoard,
         },
       ],
-    },
+    },   
     {
       path: 'board/:id/viewArticle',
       name: 'group_viewArticle',

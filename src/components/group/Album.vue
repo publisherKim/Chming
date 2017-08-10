@@ -1,7 +1,5 @@
 <template lang="pug">
   .album-container
-    group-header
-    tab-menu
     ul.album-list
       li.list-item
         .album_image-wrap
@@ -16,19 +14,6 @@
         .album_image-wrap
           img(src="../../assets/logo.svg", alt="")
 </template>
-
-<script>
-  import GroupHeader from '@/components/common/Header';
-  import TabMenu from '@/components/group/TabMenu';
-
-  export default {
-    components: {
-      GroupHeader,
-      TabMenu
-    },
-  };
-
-</script>
 
 <style lang="sass" scoped>
   @import "~chming"
