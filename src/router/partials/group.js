@@ -38,7 +38,7 @@ export default {
           component: GroupBoard,
         },
       ],
-    },
+    },   
     {
       path: 'board/:id/viewArticle',
       name: 'group_viewArticle',
