@@ -60,7 +60,7 @@
   .title
     +sub-title_group()
   .member-number
-    color: $base-point-color
+    color: $base-theme-color2
 
   .info_join
     +action-button

@@ -8,22 +8,17 @@
   import { mapGetters } from 'vuex';
 
   export default {
-    data() {
-      return {
-        
-      };
-    },
     methods: {
       viewMenu(e) {
-        this.getToken && this.changeRoute({name: 'user_info', params:{id: 1}});
-        !this.getToken && this.changeRoute({name: 'user_login'});
+        this.token && this.changeRoute({name: 'user_info', params:{id: 1}});
+        !this.token && this.changeRoute({name: 'user_login'});
       },
       changeRoute(route) {
         this.$router.push(route);
       },
     },
     computed: {
-      ...mapGetters(['getToken']),
+      ...mapGetters(['token']),
     }
   };
 </script>

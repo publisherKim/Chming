@@ -15,9 +15,9 @@ export default {
 
   +mobile
     html
-      font-size: 10px
+      font-size: $mobile-base-root-font-size
   +desktop
     html
-      font-size: 12px
+      font-size: $desktop-base-root-font-size
 </style>
 

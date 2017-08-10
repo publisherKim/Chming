@@ -1,6 +1,6 @@
 <template lang="pug">
   .user-location-container
-    h3.title 나의 지역을 선택해주세요
+    h3.title 나의 지역을 지도에서 선택해주세요
     form.user-location_search-form(onsubmit="return false;" autocomplete="off")
       input(@keyup.enter="searchLocation" v-model.trim="searchString" type="text" id="keyword" placeholder="지역찾기")
       button.search-form_button(@click="searchLocation" type="button" aria-label="검색")
@@ -12,10 +12,13 @@
           button.list_close-button(@click="closeSearchResult") 닫기
     user-map.user-map
     button.confirm-button(@click="confirm" :disabled="!position.address") 완료
+    back-button(:route={name: 'back', params: {id: 1}})
+
 </template>
 
 <script>
   import UserMap from '@/components/common/Map';
+  import BackButton from '@/components/common/BackButton';
   import { mapGetters } from 'vuex';
   
   let maps = window.daum.maps;
@@ -31,13 +34,17 @@
 
   export default {
     mounted() {
-      mapEvent.addListener(this.getMap, 'click', this.mapClickHandler);
+      let previousRoute = this.$route.params.prev;
+      !previousRoute && this.$router.push({name: 'main'});
+      
+      mapEvent.addListener(this.map, 'click', this.mapClickHandler);
     },
     beforeDestroy() {
-      mapEvent.removeListener(this.getMap, 'click', this.mapClickHandler);
+      mapEvent.removeListener(this.map, 'click', this.mapClickHandler);
     },
     components: {
-      UserMap
+      UserMap,
+      BackButton
     },
     data() {
       return {
@@ -50,6 +57,7 @@
           latitude: null,
           longitude: null,
         },
+        previousRoute: this.$route.params.prev,
       };
     },
     methods: {
@@ -79,7 +87,7 @@
       },
       setMapCenter(item) {
         let position = new LatLng(item.y, item.x);
-        this.getMap.setCenter(position);
+        this.map.setCenter(position);
         this.closeSearchResult();
       },
       mapClickHandler(e) {
@@ -111,7 +119,7 @@
           title : result.address.address_name, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시
           image : this.mapUtils.markerImage, // 마커 이미지 
         });
-        this.selectedMarker.setMap(this.getMap);
+        this.selectedMarker.setMap(this.map);
       },
       setInfoWindow(latlng, result) {
         let iwContent = `<div style="padding:5px; width: 200px;">
@@ -122,12 +130,12 @@
           position: latlng,
           content: iwContent,
         });
-        this.infowindow.open(this.getMap, this.selectedMarker); 
+        this.infowindow.open(this.map, this.selectedMarker); 
       },
     },
     computed: {
-      ...mapGetters(['getMap', 'mapUtils']),
-    }
+      ...mapGetters(['map', 'mapUtils']),
+    },
   };
 </script>
 

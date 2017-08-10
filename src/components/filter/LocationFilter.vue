@@ -23,7 +23,7 @@
           )
             ul.region-list
               li.region-list-item(v-for="detail in arr")
-                button(type="button") {{ detail }}
+                button(type="button" @click="searchGroupByRegion(detail)") {{ detail }}
 </template>
 
 <script>
@@ -48,7 +48,10 @@ export default {
   methods: {
     changeTabContents(index) {
       this.activeSection = index;
-    }
+    },
+    searchGroupByRegion(region) {
+      console.log('region:', region);
+    },
   },
 };
 </script>

@@ -2,6 +2,8 @@
 // 기본 스타일
 // ——————————————————————————————————————
 // 기본 글꼴 사이즈
+$mobile-base-root-font-size: 10px
+$desktop-base-root-font-size: 12px
 $base-font-size: 1.4rem !default
 // 기본 글꼴
 $base-font-family: 'Spoqa Han Sans', 'Sans-serif'
@@ -15,10 +17,14 @@ $base-theme-color2: #fff
 $base-theme-color3: #f03
 // 탭 배경 색상, back-button 배경 색상
 $base-theme-color4: #448aff
+// 글꼴 사이 비율
+$leading-scale: 1.5
+// 글줄 사이 간격
+$leading: $base-font-size * $leading-scale
 
 
 // ——————————————————————————————————————
-// 메인 헤더 컬러 스타일
+// 메인 헤더 스타일
 // ——————————————————————————————————————
 // 메인 헤더 글꼴 색상
 $main-header-color: $base-theme-color
@@ -26,10 +32,19 @@ $main-header-color: $base-theme-color
 $main-header-background-color: $base-theme-color2
 // 메인 헤더 아이콘 색상
 $main-header-icon-color: $base-theme-color
-
+// 모바일 메인 헤더 높이
+$mobile-main-header-container-height: 5rem
+// 데스크탑 메인 헤더 높이
+$desktop-main-header-container-height: $mobile-main-header-container-height + 0.3rem
 
 // ——————————————————————————————————————
-// 버튼 컬러 스타일
+// 메인 그룹 리스트 슬라이더 스타일
+// ——————————————————————————————————————
+$group-list-slider-background-color: $base-theme-color2
+$group-list-slider-border-color: #bec8d8
+
+// ——————————————————————————————————————
+// 버튼 스타일
 // ——————————————————————————————————————
 // 기본 모임 탭 색상
 $back-button-color: $base-theme-color4
@@ -42,7 +57,7 @@ $cancel-background-color: $base-theme-color2
 
 
 // ——————————————————————————————————————
-// 필터 컬러 스타일
+// 필터 스타일
 // ——————————————————————————————————————
 // 필터 글꼴 색상
 $filter-color: $base-theme-color2
@@ -58,27 +73,31 @@ $filter-panel-header-color: $base-theme-color2
 $filter-panel-header-background-color: $base-theme-color
 // 필터 패널 탭 액티브 색상
 $filter-panel-tab-active-color: $base-theme-color
+// 모바일 필터 높이
+$mobile-filter-container-height: 5rem
+// 데스크탑 필터 높이
+$desktop-filter-container-height: $mobile-filter-container-height + 0.3rem
 
 
 // ——————————————————————————————————————
-// 사용자 로그인 컬러 스타일
+// 사용자 로그인스타일
 // ——————————————————————————————————————
 $user-login-background-color: $base-theme-color2
 
 // ——————————————————————————————————————
-// 사용자 회원가입 컬러 스타일
+// 사용자 회원가입 스타일
 // ——————————————————————————————————————
 $user-join-color: $base-color
 $user-join-background-color: $base-theme-color2
 
 // ——————————————————————————————————————
-// 사용자 정보 수정 컬러 스타일
+// 사용자 정보 수정 스타일
 // ——————————————————————————————————————
 $user-edit-color: $base-color
 $user-edit-background-color: $base-theme-color2
 
 // ——————————————————————————————————————
-// 사용자 정보 컬러 스타일
+// 사용자 정보 스타일
 // ——————————————————————————————————————
 $user-info-color: $base-color
 $user-info-background-color: $base-theme-color2
@@ -89,7 +108,7 @@ $user-info-menu-background-hover-color: $base-theme-color
 
 
 // ——————————————————————————————————————
-// 내모임 리스트 컬러 스타일
+// 내모임 리스트 스타일
 // ——————————————————————————————————————
 $my-group-header-color: $base-theme-color2
 $my-group-header-background-color: $base-theme-color
@@ -99,7 +118,7 @@ $my-group-list-border-color: $base-theme-color
 
 
 // ——————————————————————————————————————
-// 관심사 컬러 스타일
+// 관심사 스타일
 // ——————————————————————————————————————
 // 관심사 글꼴 색상
 $interest-color: $base-color
@@ -113,18 +132,5 @@ $group-tab-color: $base-theme-color2
 $group-tab-background-color: $base-theme-color4
 
 
-
-
-// 기본 타이틀 색상
-$base-title-color: #333
-
-// 기본 액션요소 색상
 $base-action-color: #fff
-// 기본 포인트 색상
 $base-point-color: #f96
-// 기본 테마 색상
-$base-theme-color: #3b8de0
-// 글꼴 사이 비율
-$leading-scale: 1.5
-// 글줄 사이 간격
-$leading: $base-font-size * $leading-scale

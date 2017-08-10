@@ -35,27 +35,32 @@
           label(for="item9") K-POP
       
     button.interest_confirm(@click="confirm" type="button") 완료
+    back-button(:route={name: 'back', params: {id: 1}})
 </template>
 
 <script>
+  import BackButton from '@/components/common/BackButton';
 
-export default {
-  data() {
-    return {
-      selectedList: [],
-    };
-  },
-  methods: {
-    confirm() {
-      let prevRoute = this.$route.params.prev;
-      this.changeRoute({name: prevRoute, params: {hobby: this.selectedList}});
+  export default {
+    components: {
+      BackButton,
     },
-    changeRoute(route) {
-      console.log('route:', route);
-      this.$router.push(route);
+    data() {
+      return {
+        selectedList: [],
+      };
     },
-  },
-};
+    methods: {
+      confirm() {
+        let prevRoute = this.$route.params.prev;
+        this.changeRoute({name: prevRoute, params: {hobby: this.selectedList}});
+      },
+      changeRoute(route) {
+        console.log('route:', route);
+        this.$router.push(route);
+      },
+    },
+  };
 </script>
 
 <style lang="sass" scoped>

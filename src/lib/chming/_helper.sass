@@ -33,7 +33,7 @@
 @mixin sub-page-title()
   padding: 3px 0
   font-size: 1.5rem
-  color: $base-title-color
+  color: $base-color
   line-height: 3rem
   border-bottom: 1px solid $base-theme-color
 
@@ -41,7 +41,7 @@
   padding: 0 1.5rem
   font-size: 1.5rem
   line-height: 3rem
-  color: $base-action-color
+  color: $base-theme-color2
   background: $base-theme-color
 
 @mixin rounded-rect-button($width: auto, $height: auto)
@@ -108,3 +108,9 @@
 		&:hover
 			background: none
 			color: $color
+
+@function strip-unit($num)
+	@return $num / ($num * 0 + 1)
+
+@function rem-to-px($font-size, $rem)
+	@return $font-size * strip-unit($rem)
