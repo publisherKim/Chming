@@ -1,5 +1,5 @@
 <template lang="pug">
-  button.cancel-button(@click="changeRoute" type="button")
+  button.back-button(@click="changeRoute" type="button")
     i.fa.fa-times(aria-hidden="true")
 </template>
 
@@ -23,7 +23,7 @@
 <style lang="sass" scoped>
   @import '~chming'
 
-  .cancel-button
+  .back-button
     position: absolute
     display: inline-block
     top: 1.5rem
