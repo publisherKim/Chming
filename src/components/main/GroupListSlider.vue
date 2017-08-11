@@ -1,28 +1,32 @@
 <template lang="pug">
-  .group-list-slider-container
+  .group-list-slider-container(v-if="groupList.length !== 0")
     ul.group-list
       h2 검색된 그룹 정보 리스트
-      li.list_item
-        .group-image_wrap
-          img(src="../../assets/logo.png", alt="")
-        a.group-description_link(href @click.prevent="changeRoute(1)")
-          span.group_name(aria-label="모임명") 분당 쉐보레 스파크 모임
-          span.group_description(aria-label="모임 설명") 분당구 경차사랑 스파크 모임입니다.dsa asdasd ad asd asd asd 
-          span.group_member(aria-label="모임멤버") 모임멤버 58명
-          interest-icon.group_interest-icon(iconClass="fa-car")
-    button.prev-button(type="button")
+      .list-item-wrap
+        transition(:name="transition" mode="out-in")
+          li.list_item(:key="index" v-for="(group, index) in groupList" v-if="index === count")
+            .group-image_wrap
+              img(:src="group.picture", alt="")
+            a.group-description_link(href @click.prevent="changeRoute(group.pk)")
+              span.group_name(aria-label="모임명") {{ `${index+1}. ${group.name}` }}
+              span.group_description(aria-label="모임 설명") {{ group.description }}
+              span.group_member(aria-label="모임멤버") 모임멤버 {{ group.member }}명
+              interest-icon.group_interest-icon(iconClass="fa-car")
+    button.prev-button(@click="prevGroup" type="button")
       i.fa.fa-angle-left(aria-hidden="true")
-    button.next-button(type="button")
+    button.next-button(@click="nextGroup" type="button")
       i.fa.fa-angle-right(aria-hidden="true")
 </template>
 
 <script>
   import InterestIcon from '@/components/common/InterestIcon';
+  import {mapGetters} from 'vuex';
 
   export default {
     data() {
       return {
-        
+        count: 0,
+        transition: '',
       };
     },
     components: {
@@ -32,7 +36,23 @@
       changeRoute(id) {
         this.$router.push({name: 'group_info_home', params: {id}});
       },
+      nextGroup() {
+        this.count = (this.count + 1) % this.groupListLength;
+        this.transition = 'slide-next';
+        this.map.panTo(this.groupList[this.count].position);
+      },
+      prevGroup() {
+        this.count = (this.count - 1 + this.groupListLength) % this.groupListLength;
+        this.transition = 'slide-prev';
+        this.map.panTo(this.groupList[this.count].position);
+      },
     },
+    computed: {
+      ...mapGetters(['groupList', 'map']),
+      groupListLength() {
+        return this.groupList.length;
+      },
+    }
   };
 </script>
 
@@ -44,13 +64,11 @@
   .group-list-slider-container
     position: absolute
     width: 85%
+    height: $list-item-height
     z-index: 20
     bottom: 3rem
     +align-horizontal-middle
-    background: $group-list-slider-background-color
-    border: 0.5px solid $group-list-slider-border-color
-    border-radius: 1rem
-
+    
   h2
     +a11y-hidden
     
@@ -58,18 +76,35 @@
     width: 100%
     height: $list-item-height
     padding: 3px 1rem
+    background: $group-list-slider-background-color
+    border: 0.5px solid $group-list-slider-border-color
+    border-radius: 1rem
+
+  .slide-prev-enter-active,
+  .slide-prev-leave-active,
+  .slide-next-enter-active,
+  .slide-next-leave-active
+    transition: all 0.2s ease
+  .slide-next-enter,
+  .slide-prev-leave-to
+    transform: translateX(-4rem)
+    opacity: 0
+  .slide-next-leave-to,
+  .slide-prev-enter
+    transform: translateX(4rem)
+    opacity: 0
 
   .group-image_wrap
     float: left
     position: relative
     height: 100%
-    // +align-vertical-middle
+    +align-vertical-middle
     width: $list-item-height
-    text-align: center
+    overflow: hidden
     img
       position: relative
       height: 80%
-      +align-vertical-middle
+      +align-center()
 
   .group-description_link
     float: left
@@ -85,7 +120,7 @@
       font-weight: bold
     .group_description,
     .group_member
-      font-size: 1.3rem
+      font-size: 1.4rem
     .group_interest-icon
       position: absolute
       z-index: 30
@@ -109,9 +144,9 @@
   .prev-button
     transform: translate(-100%, -50%)
     top: 50%
-    left: -2%
+    left: 0
   .next-button
     transform: translate(100%, -50%)
     top: 50%
-    right: -2%
+    right: 0
 </style>

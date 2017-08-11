@@ -18,9 +18,10 @@
           input#woman(:v-model="user.gender" type="radio" name="gender" value="woman")
           label(for="woman") 여
         .form_file-upload-wrap
-          input#upload(type="file")
+          input#upload(@change="fileUpload" type="file")
           label.file-upload_label(for="upload") 프로필 사진
             i.fa.fa-picture-o(aria-hidden="true")
+          img(:src="uploadSrc")
         .form_interest-wrap
           button.interest_button(
             @click="changeRoute({name: 'user_edit_interest', params: {prev: 'user_edit'}})"
@@ -59,6 +60,7 @@
           day: 1,
           gender: 'man'
         },
+        uploadSrc: '',
       };
     },
     components: {
@@ -73,6 +75,14 @@
       },
       confirm() {
         this.$router.push('/');
+      },
+      fileUpload(e) {
+        let file = e.target.files[0];
+        let reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = f => {
+          this.uploadSrc = f.srcElement.result;
+        };
       }
     },
     computed: {
