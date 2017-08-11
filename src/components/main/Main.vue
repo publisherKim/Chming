@@ -11,8 +11,15 @@ import MainHeader from '@/components/common/Header';
 import MainFilter from '@/components/filter/Filter';
 import MainMap from '@/components/common/Map';
 import GroupListSlider from '@/components/main/GroupListSlider';
+import {mapMutations, mapActions} from 'vuex';
+
+let watchPosition = window.navigator.geolocation.watchPosition;
+let LatLng = window.daum.maps.LatLng;
 
 export default {
+  created() {
+    this.setGroupList();
+  },
   name: 'Main',
   components: {
     MainMap,
@@ -20,10 +27,9 @@ export default {
     MainHeader,
     GroupListSlider,
   },
-  data() {
-    return {
-
-    };
+  methods: {
+    ...mapActions(['setGroupList']),
+    ...mapMutations(['setMyLocation']),
   },
 };
 </script>
