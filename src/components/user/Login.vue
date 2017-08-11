@@ -33,7 +33,7 @@
     methods: {
       ...mapMutations(['setToken']),
       login() {
-        this.$http.post(this.apiUrl + '/member/login/', {
+        this.$http.post('/user/login/', {
           username: this.email,
           password: this.password,
         })
@@ -46,15 +46,13 @@
             }
           })
           .catch(error => {
+            console.log('error.response:', error.response);
             console.alert('서버와의 통신에 실패했습니다.');
           });
       },
       changeRoute(route) {
         this.$router.push({ name: route });
       },
-    },
-    computed: {
-      ...mapGetters(['apiUrl']),
     },
   };
 </script>

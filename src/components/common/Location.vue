@@ -21,26 +21,15 @@
   import BackButton from '@/components/common/BackButton';
   import { mapGetters } from 'vuex';
   
-  let maps = window.daum.maps;
-  let mapEvent = maps.event;
-  let LatLng = maps.LatLng;
-  let Status = maps.services.Status;
-  let Marker = maps.Marker;
-  let InfoWindow = maps.InfoWindow;
-  let searchOptions = {
-    page: 1,
-    size: 10
-  };
-
   export default {
     mounted() {
       let previousRoute = this.$route.params.prev;
       !previousRoute && this.$router.push({name: 'main'});
-      
-      mapEvent.addListener(this.map, 'click', this.mapClickHandler);
+      this.$maps.event.addListener(this.map, 'click', this.mapClickHandler);
     },
     beforeDestroy() {
-      mapEvent.removeListener(this.map, 'click', this.mapClickHandler);
+      this.$maps.event.removeListener(this.map, 'click', this.mapClickHandler);
+
     },
     components: {
       UserMap,
@@ -57,7 +46,6 @@
           latitude: null,
           longitude: null,
         },
-        previousRoute: this.$route.params.prev,
       };
     },
     methods: {
@@ -73,20 +61,20 @@
         !searchString && window.alert('검색할 지역을 입력해주세요.');
 
         if(searchString) {
-          let ps = this.mapUtils.places;  
+          let ps = this.$maps.getPlaces();
           let placesSearchCB = (result, status, pagination) => {
-            if (status === Status.OK) {
+            if (status === this.$maps.services.Status.OK) {
               this.searchResult = result;
             }
           };
-          ps.keywordSearch(searchString, placesSearchCB, searchOptions);
+          ps.keywordSearch(searchString, placesSearchCB, this.$maps.getSearchOptions());
         }
       },
       closeSearchResult() {
         this.searchResult = [];
       },
       setMapCenter(item) {
-        let position = new LatLng(item.y, item.x);
+        let position = new this.$maps.LatLng(item.y, item.x);
         this.map.setCenter(position);
         this.closeSearchResult();
       },
@@ -94,10 +82,10 @@
         let latlng = e.latLng;
         // console.log('latlng:', latlng);
 
-        let geocoder = this.mapUtils.geocoder;
+        let geocoder = this.$maps.getGeocoder();
 
         let getAddress = (result, status) => {
-          if (status === Status.OK) {
+          if (status === this.$maps.services.Status.OK) {
             result = result[0];
 
             this.setMarker(latlng, result);
@@ -114,10 +102,10 @@
       },
       setMarker(latlng, result) {
         this.selectedMarker && this.selectedMarker.setMap(null);
-        this.selectedMarker = new Marker({
+        this.selectedMarker = new this.$maps.Marker({
           position: latlng, // 마커를 표시할 위치
           title : result.address.address_name, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시
-          image : this.mapUtils.markerImage, // 마커 이미지 
+          image : this.$maps.getMarkerImage(), // 마커 이미지 
         });
         this.selectedMarker.setMap(this.map);
       },
@@ -126,7 +114,7 @@
                             ${result.address.address_name}
                          </div>`;
         this.infowindow && this.infowindow.close();
-        this.infowindow = new InfoWindow({ // 인포윈도우 생성
+        this.infowindow = new this.$maps.InfoWindow({ // 인포윈도우 생성
           position: latlng,
           content: iwContent,
         });
@@ -134,7 +122,7 @@
       },
     },
     computed: {
-      ...mapGetters(['map', 'mapUtils']),
+      ...mapGetters(['map']),
     },
   };
 </script>

@@ -1,6 +1,5 @@
-import Vue from 'vue';
 
-const chming = {
+export default {
   install: (Vue, options) => {
 
     let toString = Array.prototype.toString;
@@ -49,7 +48,7 @@ const chming = {
         };
       } else {
         return function(obj, callback) {
-          for(var i = 0, l = obj.length; i < l; i++) {
+          for(let i = 0, l = obj.length; i < l; i++) {
             callback(obj[i], i, obj);
           }
         };
@@ -66,12 +65,19 @@ const chming = {
 
       // 2. 객체
       if(this.isObject(obj)) {
-        for( var prop in obj ) {
+        for( let prop in obj ) {
           obj.hasOwnProperty(prop) && callback(prop, obj[prop], obj);
         }
       }
     };
+    Vue.setFormData = function(obj) {
+      let formData = new FormData();
+
+      Vue.each(obj, function(key, value) {
+        formData.append(key, obj[key]);
+      });
+
+      return formData;
+    };
   },
 };
-
-Vue.use(chming);

@@ -12,13 +12,8 @@ export default {
       center: new this.$maps.LatLng(37.504301537, 127.0248342127), // 지도의 중심좌표
       level: 3 // 지도의 확대 레벨
     };
-    this.map = new this.$maps.Map(mapContainer, mapOption);
-    this.setMap(this.map);
-  },
-  data() {
-    return {
-      map: null,
-    };
+    let map = new this.$maps.Map(mapContainer, mapOption);
+    this.setMap(map);
   },
   methods: {
     ...mapMutations(['setMap']),
