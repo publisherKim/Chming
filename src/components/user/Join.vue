@@ -22,7 +22,7 @@
           input#upload(@change="fileUpload" type="file")
           label.file-upload_label(for="upload") 프로필 사진
             i.fa.fa-picture-o(aria-hidden="true")
-          img(:src="uploadSrc")
+          img.thumbnail-image(v-if="uploadSrc" :src="uploadSrc")
         .form_interest-wrap
           button.interest_button(
             @click="changeRoute({name: 'user_join_interest', params: {prev: 'user_join'}})"
@@ -45,6 +45,7 @@
 </template>
 
 <script>
+  import Vue from 'vue';
   import BackButton from '@/components/common/BackButton';
   import {mapGetters} from 'vuex';
 
@@ -69,24 +70,6 @@
           lat: null,
           lng: null,
         },
-        // userJoinInfo: {
-        //   name: null,
-        //   email: null,
-        //   password: null,
-        //   birth: {
-        //     year: 1990,
-        //     month: 1,
-        //     day: 1,
-        //   },
-        //   gender: 'm',
-        //   profileImage: null,
-        //   hobby: [],
-        //   position: {
-        //     address: null,
-        //     latitude: null,
-        //     longitude: null,
-        //   },
-        // },
       };
     },
     components: {
@@ -102,32 +85,13 @@
         let reader = new FileReader();
         reader.readAsDataURL(file);
         reader.onload = f => {
-          // this.userJoinInfo.profile_img = f.srcElement.result;
           this.uploadSrc = f.srcElement.result;
         };
       },
       join() {
-        let option = {
-          'header': {
-            'Content-Type': 'multipart/form-data',
-          },
-        };
-        // let formData = new FormData();
-        // formData.append('email', this.userJoinInfo.email);
-        // formData.append('username', this.userJoinInfo.username);
-        // formData.append('password', this.userJoinInfo.password);
-        // formData.append('confirm_password', this.userJoinInfo.confirm_password);
-        // formData.append('birth_year', this.userJoinInfo.birth_year);
-        // formData.append('birth_month', this.userJoinInfo.birth_month);
-        // formData.append('birth_day', this.userJoinInfo.birth_day);
-        // formData.append('gender', this.userJoinInfo.gender);
-        // formData.append('profile_img', this.userJoinInfo.profile_img);
-        // formData.append('hobby', this.userJoinInfo.hobby);
-        // formData.append('address', this.userJoinInfo.address);
-        // formData.append('lat', this.userJoinInfo.lat);
-        // formData.append('lng', this.userJoinInfo.lng);
+        let formData = Vue.setFormData(this.userJoinInfo);
 
-        this.$http.post(this.apiUrl + '/user/signup/', this.userJoinInfo, option).
+        this.$http.post('/user/signup/', formData).
           then(response => {
             if(response.status === 200) {
               console.log(response);
@@ -155,7 +119,6 @@
       },
     },
     computed: {
-      ...mapGetters(['apiUrl']),
       confirmPassword() {
         this.userJoinInfo.confirm_password = this.userJoinInfo.password;
       },
@@ -168,7 +131,7 @@
 
 <style lang="sass">
   @import "~chming"
-
+  
   .user-join-wrap
     display: block
     padding: 3.5rem
