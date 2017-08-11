@@ -35,7 +35,7 @@
           label(for="item9") K-POP
       
     button.interest_confirm(@click="confirm" type="button") 완료
-    back-button(:route={name: 'back', params: {id: 1}})
+    back-button(v-if="$route.params.prev" :route={name: 'back', params: {id: 1}})
 </template>
 
 <script>

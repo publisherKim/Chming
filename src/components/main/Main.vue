@@ -17,8 +17,13 @@ let watchPosition = window.navigator.geolocation.watchPosition;
 let LatLng = window.daum.maps.LatLng;
 
 export default {
-  created() {
-    this.setGroupList();
+  mounted() {
+    // let watchID = navigator.geolocation.watchPosition(function(position) {
+      // console.log(position.coords.latitude, position.coords.longitude);
+
+      // map.setCenter(new daum.maps.LatLng(37.508352837, 127.0307565127));
+    // });
+    // this.setGroupList();
   },
   name: 'Main',
   components: {
