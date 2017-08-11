@@ -4,24 +4,25 @@
       h3.title 회원가입
       form.user-join_form
         p
-          input.form_name(v-model="userJoinInfo.name" type="text" placeholder="이름" aria-label="이름")
+          input.form_name(v-model="userJoinInfo.username" type="text" placeholder="이름" aria-label="이름")
         p
           input.form_email(v-model="userJoinInfo.email" type="email" placeholder="이메일" aria-label="이메일")
         p
           input.form_password(v-model="userJoinInfo.password" type="password" placeholder="비밀번호" aria-label="비밀번호")
         p
           label.form_birth(for="birth") 생년월일 / 성별
-          input#birth.form_year(v-model.number="userJoinInfo.birth.year" type="number" min="1900" :max="maxYear" aria-label="생년")
-          input.form_month(v-model.number="userJoinInfo.birth.month" type="number" min="1" max="12" aria-label="월")
-          input.form_day(v-model.number="userJoinInfo.birth.day" type="number" min="1" max="31" aria-label="일")
+          input#birth.form_year(v-model.number="userJoinInfo.birth_year" type="number" min="1900" :max="maxYear" aria-label="생년")
+          input.form_month(v-model.number="userJoinInfo.birth_month" type="number" min="1" max="12" aria-label="월")
+          input.form_day(v-model.number="userJoinInfo.birth_day" type="number" min="1" max="31" aria-label="일")
           input#man(v-model="userJoinInfo.gender" type="radio" name="gender" value="m" checked)
           label(for="man") 남
           input#woman(v-model="userJoinInfo.gender" type="radio" name="gender" value="f")
           label(for="woman") 여
         .form_file-upload-wrap
-          input#upload(type="file")
+          input#upload(@change="fileUpload" type="file")
           label.file-upload_label(for="upload") 프로필 사진
             i.fa.fa-picture-o(aria-hidden="true")
+          img(:src="uploadSrc")
         .form_interest-wrap
           button.interest_button(
             @click="changeRoute({name: 'user_join_interest', params: {prev: 'user_join'}})"
@@ -37,38 +38,55 @@
             type="button"
           ) 지역 선택
             i.fa.fa-map-marker(aria-hidden='true')
-          p.location-address {{ userJoinInfo.position.address }}
-        button.form_confirm(@click="changeRoute({name: 'main'})" type="submit") 완료
+          p.location-address {{ userJoinInfo.address }}
+        button.form_confirm(type="button" @click="join") 완료
     router-view.user_interest
     back-button(:route={name: 'user_login'})
 </template>
 
 <script>
   import BackButton from '@/components/common/BackButton';
+  import {mapGetters} from 'vuex';
 
   export default {
     data() {  
       return {
         isMap: false,
         maxYear: new Date().getFullYear(),
+        uploadSrc: '',
         userJoinInfo: {
-          name: null,
           email: null,
+          username: null,
           password: null,
-          birth: {
-            year: 1990,
-            month: 1,
-            day: 1,
-          },
+          confirm_password: null,
+          birth_year: 1990,
+          birth_month: 1,
+          birth_day: 1,
           gender: 'm',
-          profileImage: null,
+          profile_img: null,
           hobby: [],
-          position: {
-            address: null,
-            latitude: null,
-            longitude: null,
-          },
+          address: null,
+          lat: null,
+          lng: null,
         },
+        // userJoinInfo: {
+        //   name: null,
+        //   email: null,
+        //   password: null,
+        //   birth: {
+        //     year: 1990,
+        //     month: 1,
+        //     day: 1,
+        //   },
+        //   gender: 'm',
+        //   profileImage: null,
+        //   hobby: [],
+        //   position: {
+        //     address: null,
+        //     latitude: null,
+        //     longitude: null,
+        //   },
+        // },
       };
     },
     components: {
@@ -78,15 +96,73 @@
       changeRoute(route) {
         this.$router.push(route);
       },
+      fileUpload(e) {
+        let file = e.target.files[0];
+        this.userJoinInfo.profile_img = file;
+        let reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = f => {
+          // this.userJoinInfo.profile_img = f.srcElement.result;
+          this.uploadSrc = f.srcElement.result;
+        };
+      },
+      join() {
+        let option = {
+          'header': {
+            'Content-Type': 'multipart/form-data',
+          },
+        };
+        // let formData = new FormData();
+        // formData.append('email', this.userJoinInfo.email);
+        // formData.append('username', this.userJoinInfo.username);
+        // formData.append('password', this.userJoinInfo.password);
+        // formData.append('confirm_password', this.userJoinInfo.confirm_password);
+        // formData.append('birth_year', this.userJoinInfo.birth_year);
+        // formData.append('birth_month', this.userJoinInfo.birth_month);
+        // formData.append('birth_day', this.userJoinInfo.birth_day);
+        // formData.append('gender', this.userJoinInfo.gender);
+        // formData.append('profile_img', this.userJoinInfo.profile_img);
+        // formData.append('hobby', this.userJoinInfo.hobby);
+        // formData.append('address', this.userJoinInfo.address);
+        // formData.append('lat', this.userJoinInfo.lat);
+        // formData.append('lng', this.userJoinInfo.lng);
+
+        this.$http.post(this.apiUrl + '/user/signup/', this.userJoinInfo, option).
+          then(response => {
+            if(response.status === 200) {
+              console.log(response);
+            } else {
+              console.log(response);
+            }
+          })
+          .catch(error => {
+            console.log('error.response: ', error.response);
+          });
+      },
     },
     watch: {
       $route(newRoute) {
+        let userJoinInfo = this.userJoinInfo;
         let hobby = newRoute.params.hobby;
-        hobby && (this.userJoinInfo.hobby = hobby);
+        hobby && (userJoinInfo.hobby = hobby);
         let position = newRoute.params.position;
-        position && (this.userJoinInfo.position = position);
+        // position && (userJoinInfo.position = position);
+        if(position) {
+          userJoinInfo.address = position.address;
+          userJoinInfo.lat = position.latitude;
+          userJoinInfo.lng = position.longitude;
+        }
       },
-    }
+    },
+    computed: {
+      ...mapGetters(['apiUrl']),
+      confirmPassword() {
+        this.userJoinInfo.confirm_password = this.userJoinInfo.password;
+      },
+      hobbyToString() {
+        this.userJoinInfo.hobby = this.userJoinInfo.hobby.toString();
+      },
+    },
   };
 </script>
 

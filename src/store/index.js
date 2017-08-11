@@ -1,16 +1,14 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 import axios from 'axios';
+import markerImage from '../assets/marker.svg';
 
 Vue.use(Vuex);
 
 let maps = window.daum.maps;
 let Marker = maps.Marker;
 let LatLng = maps.LatLng;
-// let imageSrc = 'http://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png';
-// let imageSize = new maps.Size(24, 35);
-// let imageSrc = '../assets/marker.svg';
-let imageSrc = 'https://firebasestorage.googleapis.com/v0/b/chming-6e62d.appspot.com/o/marker.svg?alt=media&token=ef42b73d-8697-432b-b240-d139f7c32a69';
+let imageSrc = markerImage;
 let imageSize = new maps.Size(24, 35);
 let CustomOverlay = maps.CustomOverlay;
 let http = axios;
@@ -18,8 +16,8 @@ let defaultLocation = new LatLng(37.50415875922816, 127.0256049101885);
 
 export default new Vuex.Store({
   state: {
-    // url: 'http://chming.jeongmyeonghyeon.com/api',
-    url: 'https://chming-6e62d.firebaseio.com/',
+    url: 'http://chming.jeongmyeonghyeon.com/api',
+    // url: 'https://chming-6e62d.firebaseio.com/',
     token: null + '',
     // token: null,
     userInfo: {
@@ -84,30 +82,17 @@ export default new Vuex.Store({
     setMarker(state) {
       console.log('state.groupList:', state.groupList);
 
-      state.markers = state.groupList.map((group_info, index) => {
+      state.markers = state.groupList.map((group, index) => {
         let map = state.map;
-        let position = new LatLng(group_info.latitude, group_info.longitude);
+        let position = new LatLng(group.latitude, group.longitude);
 
         // 마커 생성 및 표시
         let marker = new Marker({
           map: map, // 마커를 표시할 지도
           position: position, // 마커를 표시할 위치
-          title: group_info.name + '\n' + group_info.description, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
+          title: group.name + '\n' + group.description, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
           image: state.mapUtils.markerImage, // 마커 이미지 
         });
-
-        // 커스텀 오버레이에 표시할 내용입니다
-        // HTML 문자열 또는 Dom Element 입니다
-        let content = `<span>${index}</span>`;
-
-        // 커스텀 오버레이를 생성합니다
-        let customOverlay = new CustomOverlay({
-          position: position,
-          content: content,
-        });
-
-        // 커스텀 오버레이를 지도에 표시합니다
-        customOverlay.setMap(map);
 
         return marker;
       });
@@ -133,6 +118,26 @@ export default new Vuex.Store({
       console.log(myLocation);
       state.myLocation = myLocation;
     },
+    setMarkerNumber(state) {
+      state.groupList.forEach((group, index) => {
+        let map = state.map;
+        let position = new LatLng(group.latitude, group.longitude);
+
+        // 커스텀 오버레이에 표시할 내용입니다
+        // HTML 문자열 또는 Dom Element 입니다
+        let content = `<span style="position: absolute; top: -31.5px; left: -2.5px;
+              font-size: 1.2rem; color: #3b8de0; font-weight: bold">${index+1}</span>`;
+
+        // 커스텀 오버레이를 생성합니다
+        let customOverlay = new CustomOverlay({
+          position: position,
+          content: content,
+        });
+
+        // 커스텀 오버레이를 지도에 표시합니다
+        customOverlay.setMap(map);
+      });
+    },
   },
   actions: {
 //  - 현재위치 위도
@@ -149,6 +154,7 @@ export default new Vuex.Store({
             commit('setGroupList', response.data);
             commit('setMarker');
             commit('arrangeGroupByDistance');
+            commit('setMarkerNumber');
           }
         }).
         catch(error => {
