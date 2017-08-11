@@ -47,11 +47,15 @@
       padding: 1.5rem 2rem
       border-bottom: solid 1px #ccc
       img 
-        float: left
+        float: leff        
       span 
         margin-left: 1rem 
 
   .introduce-home-wrap
+    img
+      display: block
+      margin: 0 auto
+      max-width: 640px
     p
       padding: 1rem 2rem
       line-height: 2.6rem

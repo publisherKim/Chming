@@ -38,9 +38,8 @@
 <style lang="sass" scoped>
   @import "~chming"
 
-
   .tab-menu-list
-    height: 40px
+    height: 4rem
     +action-active()
     li
       text-align: center
@@ -58,6 +57,12 @@
         border: solid 1px #ccc
 
   +mobile()
+    .tab-menu-list
+      +container()
+      li
+        +span(3 of 9 nest)
+
+  +desktop()
     .tab-menu-list
       +container()
       li

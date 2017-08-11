@@ -66,6 +66,9 @@
 <style lang="sass" scoped>
   @import "~chming"
 
+  .interest-filter-wrap
+    .back-button
+      display: none
   .interest_confirm
     display: none
 
