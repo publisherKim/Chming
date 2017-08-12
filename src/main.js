@@ -2,8 +2,8 @@ import Vue from 'vue';
 import axios from 'axios';
 import App from './App';
 import router from './router';
-import chming from './utils/chming';
 import store from './store';
+import chming from './utils/chming';
 import map from './utils/map';
 import markerImage from './assets/marker.svg';
 
