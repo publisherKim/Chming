@@ -1,5 +1,5 @@
 <template lang="pug">
-  .interest-container
+  div
     .interest-wrap
       h3.title 운동/스포츠
       ul.interest_list
@@ -34,7 +34,7 @@
           input(v-model="selectedList" id="item9"  type="checkbox" value="K-POP")
           label(for="item9") K-POP
       
-    button.interest_confirm(@click="confirm" type="button") 완료
+    button.interest_confirm(v-if="$route.params.prev" @click="confirm" type="button") 완료
     back-button(v-if="$route.params.prev" :route={name: 'back', params: {id: 1}})
 </template>
 
@@ -65,19 +65,6 @@
 
 <style lang="sass" scoped>
   @import "~chming"
-
-  .user_interest
-    position: absolute
-    top: 0
-    left: 0
-    width: 100%
-    height: 100vh
-    padding: 2rem
-    background: #fff
-    .interest_confirm
-      display: block
-      margin: 2rem auto
-      +action-button(5rem, 3rem)
 
   .title
     padding: 3px 0

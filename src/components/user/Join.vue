@@ -283,5 +283,17 @@
     .title
       border: none
 
-  
+  .interest-container
+    position: absolute
+    top: 0
+    left: 0
+    width: 100%
+    height: 100vh
+    padding: 2rem
+    background: #fff
+    .interest_confirm
+      display: block
+      margin: 2rem auto
+      +action-button(5rem, 3rem)
+        
 </style>

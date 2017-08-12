@@ -33,13 +33,13 @@
       li.list_menu
         a(href @click.prevent="changeRoute({name: 'group_create'})") 모임개설
       li.list_menu
-        a(href @click.prevent="logout") 로그아웃
+        a(href @click.prevent="userLogout") 로그아웃
     back-button(:route={name: 'back'})
 </template>
 
 <script>
 import BackButton from '@/components/common/BackButton';
-import { mapGetters } from 'vuex';
+import { mapGetters, mapActions } from 'vuex';
 import InterestIcon from '@/components/common/InterestIcon';
 
 export default {
@@ -51,22 +51,10 @@ export default {
     changeRoute(route) {
       this.$router.push(route);
     },
-    logout() {
-      let token = sessionStorage.getItem('token');
-      console.log(token);
-      this.$http.post(this.apiUrl + '/user/logout/', null, {
-        headers: {'Authorization': `Token ${token}`}
-      })
-        .then(response => {
-          if(response.status === 200) {
-            sessionStorage.removeItem('token');
-          } else {
-            console.log('통신 실패');
-          }          
-        })
-        .catch(error => {
-          console.log(error.response);
-        });
+    ...mapActions(['logout']),
+    userLogout() {
+      this.logout();
+      this.changeRoute({name: 'main'});
     },
   },
   computed: {
