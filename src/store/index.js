@@ -9,22 +9,18 @@ let http = axios;
 
 export default new Vuex.Store({
   state: {
-    // token: null + '',
-    token: null,
-    userInfo: {
-      
-    },
+    userInfo: null,
     map: null,
     groupList: [],
     markers: [],
     myLocation: null,
   },
   getters: {
-    token(state) {
-      return state.token;
-    },
     map(state) {
       return state.map;
+    },
+    userInfo(state) {
+      return state.userInfo;
     },
     groupList(state) {
       return state.groupList;
@@ -34,14 +30,14 @@ export default new Vuex.Store({
     },
   },
   mutations: {
-    setMap(state, map) {
-      state.map = map;
-    },
-    setToken(state, token) {
-      state.token = token;
+    setUserInfo(state, data){
+      state.userInfo = data;
     },
     setGroupList(state, groupList) {
       state.groupList = groupList;
+    },
+    setMap(state, map) {
+      state.map = map;
     },
     setMarker(state) {
       console.log('state.groupList:', state.groupList);
@@ -104,10 +100,10 @@ export default new Vuex.Store({
     },
   },
   actions: {
-//  - 현재위치 위도
-//  - 현재위치 경도
-//  - 반경 ( meter 단위 )
-//  - 로그인 한 유저의 관심사 리스트 { 관심사명 }
+    //  - 현재위치 위도
+    //  - 현재위치 경도
+    //  - 반경 ( meter 단위 )
+    //  - 로그인 한 유저의 관심사 리스트 { 관심사명 }
     setGroupList({commit, state}, location) {
       location && (state.myLocation = location);
       !location && (state.myLocation = Vue.maps.getDefaultLocation());
@@ -125,6 +121,36 @@ export default new Vuex.Store({
           console.log('error:', error);
         });
     },
-    
+    login({commit}, loginInfo) {
+      http.post('/user/login/', loginInfo)
+        .then(response => {
+          if(response.status === 200) {
+            let data = response.data.login_user_info;
+            sessionStorage.setItem('token', response.data.token);
+            commit('setUserInfo', data);
+          }
+        })
+        .catch(error => {
+          console.log(error, error.response);
+          console.log('서버와의 통신에 실패했습니다.');
+        });
+    },
+    logout({commit}){
+      let token = sessionStorage.getItem('token');
+
+      http.post('/user/logout/', null, {
+        headers: {'Authorization': `Token ${token}`}
+      })
+        .then(response => {
+          if(response.status === 200) {
+            sessionStorage.removeItem('token');
+            commit('setUserInfo', null);
+          }
+          return;       
+        })
+        .catch(error => {
+          console.log(error.response);
+        });
+    }    
   }
 });

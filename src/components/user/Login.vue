@@ -6,7 +6,7 @@
         input.form_email(v-model="email" type="email" placeholder="이메일" aria-label="이메일")
       p  
         input.form_password(v-model="password" type="password" placeholder="비밀번호" aria-label="비밀번호")
-      button.login-button(@click.prevent="login") 확인
+      button.login-button(@click.prevent="userLogin") 확인
     ul.join-user_find-list
       li
         a(href @click.prevent="") 아이디 / 비밀번호 찾기
@@ -18,7 +18,7 @@
 
 <script>
   import BackButton from '../common/BackButton';
-  import { mapGetters, mapMutations } from 'vuex';
+  import { mapActions } from 'vuex';
 
   export default {
     components: {
@@ -31,30 +31,18 @@
       };
     },
     methods: {
-      ...mapMutations(['setToken']),
-      login() {
-        this.$http.post('/user/login/', {
-          email: this.email,
-          password: this.password,
-        })
-          .then(response => {
-            if(response.status === 200) {
-              sessionStorage.setItem('token', response.data.token);
-              this.setToken(response.data.token);
-              this.changeRoute('main');
-            } else {
-              
-              console.log('통신 실패');
-            }
-          })
-          .catch(error => {
-            console.log(error);
-            console.log('서버와의 통신에 실패했습니다.');
-          });
-      },
+      ...mapActions(['login']),
       changeRoute(route) {
         this.$router.push({ name: route });
       },
+      userLogin() {
+        this.login({
+          email: this.email,
+          password: this.password,
+        });
+        this.changeRoute('main');
+      },
+
     },
   };
 </script>

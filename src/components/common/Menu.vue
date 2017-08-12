@@ -10,15 +10,15 @@
   export default {
     methods: {
       viewMenu(e) {
-        this.token && this.changeRoute({name: 'user_info', params:{id: 1}});
-        !this.token && this.changeRoute({name: 'user_login'});
+        this.userInfo && this.changeRoute({name: 'user_info', params:{id: 1}});
+        !this.userInfo && this.changeRoute({name: 'user_login'});
       },
       changeRoute(route) {
         this.$router.push(route);
       },
     },
     computed: {
-      ...mapGetters(['token']),
+      ...mapGetters(['userInfo']),
     }
   };
 </script>

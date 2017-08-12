@@ -2,29 +2,30 @@
   .group-create-container
     h3.title 모임 개설
     form.group-create_form
-      input.form_name(type="text" placeholder="모임 이름을 작성해주세요." aria-label="모임 이름")
+      input.form_name(v-model="group.name" type="text" placeholder="모임 이름을 작성해주세요." aria-label="모임 이름")
       textarea.form_description(placeholder="어떤 모임인지 설명해주세요." aria-label="모임 설명")
       .form_file-upload-wrap
-        input#upload(type="file")
+        input#upload(@change="fileUpload" type="file")
         label.file-upload_label(for="upload") 모임 대표 사진
           i.fa.fa-picture-o(aria-hidden="true")
+          img.label_group-img(v-if="group.introduceImg" :src="uploadSrc")
       .form_location-wrap
         button.location_button(
-          @click="changeRoute({name: 'user_join_location', params: {prev: 'group_create'}})"
+          @click="changeRoute({name: 'group_create_location', params: {prev: 'group_create'}})"
           type="button"
         ) 지역선택
           i.fa.fa-map-marker(aria-hidden='true')
-        p.location-address 경기도 성남시 분당구 정자동 11-2
+        p.location-address {{group.address}}
       .form_interest-wrap
         button.interest_button(
-          @click="changeRoute({name: 'user_join_interest', params: {prev: 'group_create'}})"
+          @click="changeRoute({name: 'group_create_interest', params: {prev: 'group_create'}})"
           type="button"
         ) 관심사 설정
           i.fa.fa-cog(aria-hidden='true')
         ul.interest-list
-          li
-            img(src="" alt="관심사1")
+          li {{group.hobby}}
       button.form_confirm(@click="changeRoute('main')" type="submit") 완료
+    router-view.interest-container
     back-button(:route={name: 'user_info', params: {id: 1}})
 </template>
 
@@ -37,10 +38,46 @@
       GroupHeader,
       BackButton,
     },
+    data(){
+      return {
+        uploadSrc: '',
+        group: {
+          name: null,
+          introdeceContent: '',
+          introduceImg: null,
+          address: 'test',
+          lat: '',
+          lng: '',
+          hobby: 'test1',
+        }
+      };
+    },
     methods: {
       changeRoute(route) {
         this.$router.push(route);
       },
+      fileUpload(e) {
+        let file = e.target.files[0];
+        this.group.introduceImg = file;
+        let reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = f => {
+          this.uploadSrc = f.srcElement.result;
+        };
+      },
+      watch: {
+        $route(newRoute) {
+          let group = this.group;
+          let hobby = newRoute.params.hobby;
+          hobby && (group.hobby = hobby);
+          let position = newRoute.params.position;
+          if(position) {
+            group.address = position.address;
+            group.lat = position.latitude;
+            group.lng = position.longitude;
+          }
+        },
+      }
     },
   };
 </script>
@@ -69,7 +106,9 @@
   .form_interest-wrap,
   .form_location-wrap
     margin-top: 1.5rem
-
+    .label_group-img
+      display: block
+      width: 100%
   .form_file-upload-wrap
     input
       visibility: hidden
@@ -89,7 +128,20 @@
   .interest-list, .location-address
     margin-top: 0.5rem
     padding-left: 1.5rem
-  
+
+  .interest-container
+    position: absolute
+    top: 0
+    left: 0
+    width: 100%
+    height: 100vh
+    padding: 2rem
+    background: #fff
+    .interest_confirm
+      display: block
+      margin: 2rem auto
+      +action-button(5rem, 3rem)
+        
   .form_confirm
     display: block
     margin: 2rem auto
