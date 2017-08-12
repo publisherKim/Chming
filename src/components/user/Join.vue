@@ -4,11 +4,15 @@
       h3.title 회원가입
       form.user-join_form
         p
-          input.form_name(v-model="userJoinInfo.username" type="text" placeholder="이름" aria-label="이름")
+          input.form_name(v-model="userJoinInfo.username" @blur="checkEmpty('username')" type="text" placeholder="이름" aria-label="이름")
+          message-box(v-if="isEmpty.username" :classList="['fa-check-circle-o', 'warning']" message="이름을 입력해주세요.")
+        p.form_email-wrap
+          input.form_email(v-model="userJoinInfo.email" @blur="checkEmpty('email')" type="email" placeholder="이메일" aria-label="이메일")
+          message-box(v-if="isEmpty.email && !userJoinInfo.email" :classList="['fa-check-circle-o', 'warning']" message="이메일 입력해주세요.")
+          message-box(v-if="userJoinInfo.email" :classList="['fa-check-circle-o', emailValidate ? 'info' : 'warning']" :message="emailValidation" )
         p
-          input.form_email(v-model="userJoinInfo.email" type="email" placeholder="이메일" aria-label="이메일")
-        p
-          input.form_password(v-model="userJoinInfo.password" type="password" placeholder="비밀번호" aria-label="비밀번호")
+          input.form_password(v-model="userJoinInfo.password" @blur="checkEmpty('password')" type="password" placeholder="비밀번호(대소문자, 숫자 포함 8글자 이상)" aria-label="비밀번호")
+          message-box(v-if="isEmpty.password" :classList="['fa-check-circle-o', 'warning']" message="비밀번호 입력해주세요.")
         p
           label.form_birth(for="birth") 생년월일 / 성별
           input#birth.form_year(v-model.number="userJoinInfo.birth_year" type="number" min="1900" :max="maxYear" aria-label="생년")
@@ -27,30 +31,42 @@
         .form_interest-wrap
           button.interest_button(
             @click="changeRoute({name: 'user_join_interest', params: {prev: 'user_join'}})"
+            @blur="checkEmpty('hobby')"
             type="button"
           ) 관심사 설정
             i.fa.fa-cog(aria-hidden='true')
+        message-box(v-if="isEmpty.hobby" :classList="['fa-check-circle-o', 'warning']" message="관심사를 선택 해주세요")
           ul.interest-list(v-if="userJoinInfo.hobby.length !== 0")
             li.list_item(v-for="hobby in userJoinInfo.hobby")
               img(src="" :alt="hobby")
         .form_location-wrap
           button.location_button(
             @click="changeRoute({name: 'user_join_location', params: {prev: 'user_join'}})" 
+            @blur="checkEmpty('address')"
             type="button"
           ) 지역 선택
             i.fa.fa-map-marker(aria-hidden='true')
+        message-box(v-if="isEmpty.address" :classList="['fa-check-circle-o', 'warning']" message="지역을 선택해주세요")
           p.location-address {{ userJoinInfo.address }}
         button.form_confirm(type="button" @click="join") 완료
-    router-view.user_interest
+    router-view.interest-container
     back-button(:route={name: 'user_login'})
 </template>
 
 <script>
   import Vue from 'vue';
   import BackButton from '@/components/common/BackButton';
-  import {mapGetters} from 'vuex';
+  import MessageBox from '@/components/common/MessageBox';
+  import { mapGetters } from 'vuex';
+
+  let emailRegexp = /^(?:(?:[\w`~!#$%^&*\-=+;:{}'|,?\/]+(?:(?:\.(?:"(?:\\?[\w`~!#$%^&*\-=+;:{}'|,?\/\.()<>\[\] @]|\\"|\\\\)*"|[\w`~!#$%^&*\-=+;:{}'|,?\/]+))*\.[\w`~!#$%^&*\-=+;:{}'|,?\/]+)?)|(?:"(?:\\?[\w`~!#$%^&*\-=+;:{}'|,?\/\.()<>\[\] @]|\\"|\\\\)+"))@(?:[a-zA-Z\d\-]+(?:\.[a-zA-Z\d\-]+)*|\[\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\])$/;
+  let passwordRegexp = /^(?=.{8,})(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).*$/;
 
   export default {
+    components: {
+      BackButton,
+      MessageBox
+    },
     data() {  
       return {
         imgSrc: false,  
@@ -58,26 +74,40 @@
         maxYear: new Date().getFullYear(),
         uploadSrc: '',
         userJoinInfo: {
-          email: null,
-          username: null,
-          password: null,
-          confirm_password: null,
+          email: '',
+          username: '',
+          password: '',
+          confirm_password: '',
           birth_year: 1990,
           birth_month: 1,
           birth_day: 1,
           gender: 'm',
           profile_img: null,
           hobby: [],
-          address: null,
-          lat: null,
-          lng: null,
+          address: '',
+          lat: '',
+          lng: '',
+        },
+        emailValidation: '',
+        passwordValidation: '',
+        isEmpty: {
+          email: false,
+          username: false,
+          password: false,
+          hobby: false,
+          address: false,
         },
       };
     },
-    components: {
-      BackButton
-    },
     methods: {
+      checkEmpty(field) {
+        let userJoinInfo = this.userJoinInfo[field];
+        if(userJoinInfo === '' || userJoinInfo.length === 0) {
+          this.isEmpty[field] = true;
+        } else {
+          this.isEmpty[field] = false;
+        }
+      },
       changeRoute(route) {
         this.$router.push(route);
       },
@@ -91,8 +121,9 @@
         };
       },
       join() {
-        let formData = Vue.setFormData(this.userJoinInfo);
+        this.joinValidate();
 
+        let formData = Vue.setFormData(this.userJoinInfo);
         this.$http.post('/user/signup/', formData).
           then(response => {
             if(response.status === 200) {
@@ -104,6 +135,18 @@
           .catch(error => {
             console.log('error.response: ', error.response);
           });
+      },
+      joinValidate() {
+        let userJoinInfo = this.userJoinInfo;
+        // if(!this.emailValidate) {
+
+        // } else if(userJoinInfo.username != '') {
+
+        // } else if(userJoinInfo.hobby.length === 0) {
+
+        // } else if(userJoinInfo.address != '') {
+
+        // }
       },
     },
     watch: {
@@ -122,10 +165,26 @@
     },
     computed: {
       confirmPassword() {
-        this.userJoinInfo.confirm_password = this.userJoinInfo.password;
+        let userJoinInfo = this.userJoinInfo;
+        userJoinInfo.confirm_password = userJoinInfo.password;
       },
-      hobbyToString() {
-        this.userJoinInfo.hobby = this.userJoinInfo.hobby.toString();
+      emailValidate() {
+        if(emailRegexp.test(this.userJoinInfo.email)) {
+          this.emailValidation = '올바른 이메일 주소입니다.';
+          return true;
+        } else {
+          this.emailValidation = '올바른 이메일 주소를 입력해주세요';
+          return false;
+        }
+      },
+      passwordValidate() {
+        if(passwordRegexp.test(this.userJoinInfo.password)) {
+          this.passwordValidation = '올바른 이메일 주소입니다.';
+          return true;
+        } else {
+          this.passwordValidation = '올바른 이메일 주소를 입력해주세요';
+          return false;
+        }
       },
     },
   };
@@ -161,10 +220,12 @@
       padding-left: 1.5rem
     p
       margin-top: 1.5rem
+
     .form_name,
     .form_email,
     .form_password,
       +text-input(100%)
+      padding-right: 2.5rem
     input[type="number"]
       +text-input(25%)
       &:not(:nth-of-type(1))
@@ -188,7 +249,7 @@
       display: block
       font-weight: bold
       line-height: 3rem
-  
+
   .form_file-upload-wrap,
   .form_interest-wrap,
   .form_location-wrap
