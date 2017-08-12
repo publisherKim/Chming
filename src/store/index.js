@@ -5,62 +5,26 @@ import markerImage from '../assets/marker.svg';
 
 Vue.use(Vuex);
 
-let maps = window.daum.maps;
-let Marker = maps.Marker;
-let LatLng = maps.LatLng;
-let imageSrc = markerImage;
-let imageSize = new maps.Size(24, 35);
-let CustomOverlay = maps.CustomOverlay;
 let http = axios;
-let defaultLocation = new LatLng(37.50415875922816, 127.0256049101885);
 
 export default new Vuex.Store({
   state: {
-    url: 'http://chming.jeongmyeonghyeon.com/api',
-    // url: 'https://chming-6e62d.firebaseio.com/',
     // token: null + '',
     token: null,
     userInfo: {
       
     },
-    mapUtils: {
-      markerImage: new maps.MarkerImage(imageSrc, imageSize),
-      places: new maps.services.Places(),
-      geocoder: new maps.services.Geocoder(),
-      polyline: new maps.Polyline(),
-    },
     map: null,
     groupList: [],
     markers: [],
     myLocation: null,
-//  - 모임 pk
-//  - 모임 관심사 카테고리
-//  - 모임 관심사명
-//  - 모임 이름
-//  - 모임 소개 사진 URL
-//  - 모임 소개 내용
-//  - 모임 주소
-//  - 모임 위도
-//  - 모임 경도
-//  - 모임 공지사항 리스트 { 게시글 pk, 제목, 내용, 좋아요수, 댓글수 }
-//  - 모임장 pk
-//  - 모임장 이름
-//  - 모임 가입자 리스트 { 가입자 pk, 프로필 사진, 이름 }
-//  - 모임 좋아요 여부 : bool
-//  - 모임 가입 여부: bool
   },
   getters: {
-    apiUrl(state) {
-      return state.url;
-    },
     token(state) {
       return state.token;
     },
     map(state) {
       return state.map;
-    },
-    mapUtils(state) {
-      return state.mapUtils;
     },
     groupList(state) {
       return state.groupList;
@@ -84,14 +48,14 @@ export default new Vuex.Store({
 
       state.markers = state.groupList.map((group, index) => {
         let map = state.map;
-        let position = new LatLng(group.latitude, group.longitude);
+        let position = new Vue.maps.LatLng(group.latitude, group.longitude);
 
         // 마커 생성 및 표시
-        let marker = new Marker({
+        let marker = new Vue.maps.Marker({
           map: map, // 마커를 표시할 지도
           position: position, // 마커를 표시할 위치
           title: group.name + '\n' + group.description, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
-          image: state.mapUtils.markerImage, // 마커 이미지 
+          image: Vue.maps.getMarkerImage(), // 마커 이미지 
         });
 
         return marker;
@@ -102,8 +66,8 @@ export default new Vuex.Store({
       let myLocation = state.myLocation;
 
       groupList.forEach(function(group) {
-        let line = state.mapUtils.polyline;
-        group.position = new LatLng(group.latitude, group.longitude);
+        let line = Vue.maps.getPolyline();
+        group.position = new Vue.maps.LatLng(group.latitude, group.longitude);
         line.setPath([myLocation, group.position]);
         group.distance = Math.round(line.getLength());
       });
@@ -121,7 +85,7 @@ export default new Vuex.Store({
     setMarkerNumber(state) {
       state.groupList.forEach((group, index) => {
         let map = state.map;
-        let position = new LatLng(group.latitude, group.longitude);
+        let position = new Vue.maps.LatLng(group.latitude, group.longitude);
 
         // 커스텀 오버레이에 표시할 내용입니다
         // HTML 문자열 또는 Dom Element 입니다
@@ -129,7 +93,7 @@ export default new Vuex.Store({
               font-size: 1.2rem; color: #3b8de0; font-weight: bold">${index+1}</span>`;
 
         // 커스텀 오버레이를 생성합니다
-        let customOverlay = new CustomOverlay({
+        let customOverlay = new Vue.maps.CustomOverlay({
           position: position,
           content: content,
         });
@@ -146,7 +110,7 @@ export default new Vuex.Store({
 //  - 로그인 한 유저의 관심사 리스트 { 관심사명 }
     setGroupList({commit, state}, location) {
       location && (state.myLocation = location);
-      !location && (state.myLocation = defaultLocation);
+      !location && (state.myLocation = Vue.maps.getDefaultLocation());
 
       http.get(state.url + 'groups.json').
         then(response => {

@@ -33,7 +33,7 @@
     methods: {
       ...mapMutations(['setToken']),
       login() {
-        this.$http.post(this.apiUrl + '/user/login/', {
+        this.$http.post('/user/login/', {
           email: this.email,
           password: this.password,
         })
@@ -55,9 +55,6 @@
       changeRoute(route) {
         this.$router.push({ name: route });
       },
-    },
-    computed: {
-      ...mapGetters(['apiUrl']),
     },
   };
 </script>
