@@ -18,8 +18,8 @@ export default new Vuex.Store({
   state: {
     url: 'http://chming.jeongmyeonghyeon.com/api',
     // url: 'https://chming-6e62d.firebaseio.com/',
-    token: null + '',
-    // token: null,
+    // token: null + '',
+    token: null,
     userInfo: {
       
     },

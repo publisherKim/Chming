@@ -52,15 +52,20 @@ export default {
       this.$router.push(route);
     },
     logout() {
-      this.$http.post(this.apiUrl + '/member/login/', {
-        username: 'testuser01@ex.com',
-        password: '1111111a'
+      let token = sessionStorage.getItem('token');
+      console.log(token);
+      this.$http.post(this.apiUrl + '/user/logout/', null, {
+        headers: {'Authorization': `Token ${token}`}
       })
         .then(response => {
-
+          if(response.status === 200) {
+            sessionStorage.removeItem('token');
+          } else {
+            console.log('통신 실패');
+          }          
         })
         .catch(error => {
-
+          console.log(error.response);
         });
     },
   },
