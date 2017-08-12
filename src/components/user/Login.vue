@@ -34,20 +34,22 @@
       ...mapMutations(['setToken']),
       login() {
         this.$http.post('/user/login/', {
-          username: this.email,
+          email: this.email,
           password: this.password,
         })
           .then(response => {
             if(response.status === 200) {
+              sessionStorage.setItem('token', response.data.token);
               this.setToken(response.data.token);
               this.changeRoute('main');
             } else {
+              
               console.log('통신 실패');
             }
           })
           .catch(error => {
-            console.log('error.response:', error.response);
-            console.alert('서버와의 통신에 실패했습니다.');
+            console.log(error);
+            console.log('서버와의 통신에 실패했습니다.');
           });
       },
       changeRoute(route) {

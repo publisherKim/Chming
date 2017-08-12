@@ -22,7 +22,8 @@
           input#upload(@change="fileUpload" type="file")
           label.file-upload_label(for="upload") 프로필 사진
             i.fa.fa-picture-o(aria-hidden="true")
-          img.thumbnail-image(v-if="uploadSrc" :src="uploadSrc")
+          img(v-if="userJoinInfo.profile_img" :src="uploadSrc") 
+          
         .form_interest-wrap
           button.interest_button(
             @click="changeRoute({name: 'user_join_interest', params: {prev: 'user_join'}})"
@@ -52,6 +53,7 @@
   export default {
     data() {  
       return {
+        imgSrc: false,  
         isMap: false,
         maxYear: new Date().getFullYear(),
         uploadSrc: '',
@@ -135,8 +137,15 @@
   .user-join-wrap
     display: block
     padding: 3.5rem
+    // overflow-y: scroll
+    // max-height: 100vh
     background: $user-join-background-color
 
+  .form_file-upload-wrap
+    img 
+      display: block
+      width: 50px
+      height: 50px
   h3.title
     +sub-page-title
 
