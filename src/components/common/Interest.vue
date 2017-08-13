@@ -1,8 +1,8 @@
 <template lang="pug">
   div
-    .hobby-wrap
+    .interest-wrap
       h3.title 운동/스포츠
-      ul.hobby_list
+      ul.interest_list
         li
           input(v-model="selectedList" id="item1" type="checkbox" value="자전거")
           label(for="item1") 자전거    
@@ -18,9 +18,9 @@
         li
           input(v-model="selectedList" id="item5"  type="checkbox" value="레이싱")
           label(for="item5") 레이싱
-    .hobby-wrap
+    .interest-wrap
       h3.title 음악
-      ul.hobby_list
+      ul.interest_list
         li
           input(v-model="selectedList" id="item6" type="checkbox" value="클래식")
           label(for="item6") 클래식    
@@ -34,7 +34,7 @@
           input(v-model="selectedList" id="item9"  type="checkbox" value="K-POP")
           label(for="item9") K-POP
       
-    button.hobby_confirm(v-if="prevRoute" @click="confirm" type="button") 완료
+    button.interest_confirm(v-if="prevRoute" @click="confirm" type="button") 완료
     back-button(v-if="prevRoute" :route={name: prevRoute})
 </template>
 
@@ -42,29 +42,6 @@
   import BackButton from '@/components/common/BackButton';
 
   export default {
-    beforeRouteEnter (to, from, next) {
-      let fromRouteName = from.name;
-
-      if(fromRouteName === 'user_join' || fromRouteName === 'user_edit' 
-        || fromRouteName === 'group_create' || fromRouteName === 'group_edit') {
-        next();
-      } else {
-        next({name: fromRouteName});
-      }
-    },
-    beforeRouteUpdate (to, from, next) {
-      // called when the route that renders this component has changed,
-      // but this component is reused in the new route.
-      // For example, for a route with dynamic params /foo/:id, when we
-      // navigate between /foo/1 and /foo/2, the same Foo component instance
-      // will be reused, and this hook will be called when that happens.
-      // has access to `this` component instance.
-    },
-    beforeRouteLeave (to, from, next) {
-      // called when the route that renders this component is about to
-      // be navigated away from.
-      // has access to `this` component instance.
-    },
     components: {
       BackButton,
     },
@@ -94,12 +71,12 @@
 
   .title
     padding: 3px 0
-    color: $hobby-color
+    color: $interest-color
     line-height: 3rem
     border-bottom: 1px solid $base-theme-color
     font-size: 1.4rem
 
-  .hobby_list
+  .interest_list
     padding: 10px 0
     +clearfix
     li
@@ -124,18 +101,18 @@
     input:checked + label
       +rounded-rect-button-active()
     
-  .hobby_confirm
+  .interest_confirm
       display: block
       margin: 2rem auto
       +action-button(5rem, 3rem)
   
   +mobile
-    .hobby_list
+    .interest_list
       +container()
       li
         +span(3 of 9)
   +desktop
-    .hobby_list
+    .interest_list
       +container()
       li
         +span(3)
