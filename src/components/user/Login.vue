@@ -2,10 +2,44 @@
   .join-user-container
     h3.title 로그인
     form.join-user_form
+      p        
+        input.form_email(
+          v-model="email" 
+          @blur="checkEmpty('email')" 
+          ref="email" 
+          type="email" 
+          placeholder="이메일" 
+          aria-label="이메일"
+        )
+        message-box(
+          v-if="isEmptyEmail" 
+          :classList="['fa-check-circle-o', 'warning']" 
+          message="이메일 입력해주세요."
+        )
+        message-box(
+          v-if="email" 
+          :classList="['fa-check-circle-o', emailValidate ? 'info' : 'warning']"
+          :message="emailValidationMessage"
+        )       
       p  
-        input.form_email(v-model="email" type="email" placeholder="이메일" aria-label="이메일")
-      p  
-        input.form_password(v-model="password" type="password" placeholder="비밀번호" aria-label="비밀번호")
+        input.form_password(
+          v-model="password" 
+          @blur="checkEmpty('password')" 
+          ref="password"
+          type="password" 
+          placeholder="비밀번호(대소문자, 숫자 포함 8글자 이상)" 
+          aria-label="비밀번호"
+        )
+        message-box(
+          v-if="isEmptyPassword" 
+          :classList="['fa-check-circle-o', 'warning']" 
+          message="비밀번호 입력해주세요."
+        )
+        message-box(
+          v-if="password" 
+          :classList="['fa-check-circle-o', passwordValidate ? 'info' : 'warning']" 
+          :message="passwordValidationMessage"
+        )
       button.login-button(@click.prevent="userLogin") 확인
     ul.join-user_find-list
       li
@@ -18,11 +52,16 @@
 
 <script>
   import BackButton from '../common/BackButton';
-  import { mapActions } from 'vuex';
+  import MessageBox from '@/components/common/MessageBox';
+  import Vue from 'vue';
+  import { mapGetters, mapActions } from 'vuex';
+  let emailRegexp = /^(?:(?:[\w`~!#$%^&*\-=+;:{}'|,?\/]+(?:(?:\.(?:"(?:\\?[\w`~!#$%^&*\-=+;:{}'|,?\/\.()<>\[\] @]|\\"|\\\\)*"|[\w`~!#$%^&*\-=+;:{}'|,?\/]+))*\.[\w`~!#$%^&*\-=+;:{}'|,?\/]+)?)|(?:"(?:\\?[\w`~!#$%^&*\-=+;:{}'|,?\/\.()<>\[\] @]|\\"|\\\\)+"))@(?:[a-zA-Z\d\-]+(?:\.[a-zA-Z\d\-]+)*|\[\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\])$/;
+  let passwordRegexp = /^(?=.{8,})(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).*$/;
 
   export default {
     components: {
       BackButton,
+      MessageBox
     },
     data() {
       return {
@@ -30,19 +69,69 @@
         password: null,
       };
     },
+    computed: {
+      ...mapGetters(['userInfo']),
+      emailValidate() {
+        if(emailRegexp.test(this.email)) {
+          this.emailValidationMessage = '올바른 이메일 주소입니다.';
+          return true;
+        } else {
+          this.emailValidationMessage = '올바른 이메일 주소를 입력해주세요';
+          return false;
+        }
+      },
+      isEmptyEmail() {
+        return this.email === '';
+      },
+      passwordValidate() {
+        if(passwordRegexp.test(this.password)) {
+          this.passwordValidationMessage = '올바른 패스워드 형식입니다.';
+          return true;
+        } else {
+          this.passwordValidationMessage = '대문자, 소문자, 숫자를 포함해야합니다.';
+          return false;
+        }
+      },
+      isEmptyPassword() {
+        return this.password === '';
+      }            
+    },    
     methods: {
       ...mapActions(['login']),
+      checkEmpty(field) {
+        this[field] === null && (this[field] = '');
+      },
+      loginValidate(){
+        let refs = this.$refs;
+        
+        if(this.isEmptyEmail || !this.emailValidate) {
+          this.checkEmpty('email');
+          refs.email.focus();
+          return false;
+        }
+        if(this.isEmptyPassword || !this.passwordValidate) {
+          this.checkEmpty('password');
+          refs.password.focus();
+          return false;
+        }
+        return true;
+      },
       changeRoute(route) {
         this.$router.push(route);
       },
       userLogin() {
+        if(!this.loginValidate()) return;
+
         this.login({
           email: this.email,
           password: this.password,
         });
-        this.changeRoute({name: 'main'});
       },
-
+    },
+    watch: {
+      userInfo(newData){
+        if(newData !== null) this.changeRoute('main');
+      }
     },
   };
 </script>

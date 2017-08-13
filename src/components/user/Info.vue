@@ -47,6 +47,13 @@ export default {
     BackButton,
     InterestIcon,
   },
+  computed: {
+    ...mapGetters(['userInfo']),
+    birth() {
+      let userInfo = this.userInfo;
+      return `${userInfo.birth_year}.${userInfo.birth_month}.${userInfo.birth_day}`;
+    },
+  }, 
   methods: {
     ...mapActions(['logout']),
     changeRoute(route) {
@@ -54,15 +61,13 @@ export default {
     },
     userLogout() {
       this.logout();
-      this.changeRoute({name: 'main'});
     },
   },
-  computed: {
-    ...mapGetters(['userInfo']),
-    birth() {
-      let userInfo = this.userInfo;
-      return `${userInfo.birth_year}.${userInfo.birth_month}.${userInfo.birth_day}`;
-    },
+  watch: {
+    userInfo(newData){
+      console.log(newData);
+      if(newData === null) this.changeRoute('main');
+    }
   }
 };
 </script>
