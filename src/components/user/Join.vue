@@ -5,25 +5,25 @@
       form.user-join_form
         p
           input.form_name(
-            v-model="userJoinInfo.username" @blur="checkEmpty('username')" ref="username" type="text" placeholder="이름" aria-label="이름"
+            v-model.trim="userJoinInfo.username" @blur="checkEmpty('username')" ref="username" type="text" placeholder="이름" aria-label="이름"
           )
           message-box(
             v-if="isEmptyUsername" :classList="['fa-check-circle-o', 'warning']" message="이름을 입력해주세요."
           )
         p.form_email-wrap
           input.form_email(
-            v-model="userJoinInfo.email" @blur="checkEmpty('email')" ref="email" type="email" placeholder="이메일" aria-label="이메일"
+            v-model.trim="userJoinInfo.email" @blur="checkEmpty('email')" ref="email" type="email" placeholder="이메일" aria-label="이메일"
           )
           message-box(
             v-if="isEmptyEmail" :classList="['fa-check-circle-o', 'warning']" message="이메일 입력해주세요."
           )
           message-box(
-            v-if="userJoinInfo.email" :classList="['fa-check-circle-o', emailValidate ? 'info' : 'warning']"
+            v-if="userJoinInfo.email" :classList="['fa-check-circle-o', isEmailValid ? 'info' : 'warning']"
             :message="emailValidationMessage"
           )
         p
           input.form_password(
-            v-model="userJoinInfo.password" @blur="checkEmpty('password')" ref="password" type="password"
+            v-model.trim="userJoinInfo.password" @blur="checkEmpty('password')" ref="password" type="password"
             placeholder="비밀번호(대소문자, 숫자 포함 8글자 이상)" aria-label="비밀번호"
           )
           message-box(
@@ -128,6 +128,7 @@
           lat: null,
           lng: null,
         },
+        isEmailValid: false,
       };
     },
     methods: {
@@ -209,19 +210,44 @@
       userJoinInfo: {
         handler: (newVal) => {
           newVal.confirm_password = newVal.password;
+
+          let email = newVal.email;
+          if(emailRegexp.test(email)) {
+            this.isEmailValid = true;
+          } else {
+            this.isEmailValid = false;
+          }
         },
         deep: true,
       }
     },
     computed: {
       emailValidate() {
-        if(emailRegexp.test(this.userJoinInfo.email)) {
-          this.emailValidationMessage = '올바른 이메일 주소입니다.';
-          return true;
-        } else {
-          this.emailValidationMessage = '올바른 이메일 주소를 입력해주세요';
-          return false;
-        }
+        let email = this.userJoinInfo.email;
+
+        // if(emailRegexp.test(email)) {
+        //   this.$http.get('/user/validate_email/', {
+        //     params: {
+        //       email
+        //     },
+        //   })
+        //   .then(response => {
+        //     if(response.data.is_valid) {
+        //       this.emailValidationMessage = '사용할 수 있는 이메일 입니다.';
+        //       this.isEmailValid = true;
+        //     }
+        //     else {
+        //       this.emailValidationMessage = '중복된 이메일입니다.';
+        //       this.isEmailValid = false;
+        //     }
+        //   })
+        //   .catch(error => {
+
+        //   });
+        // } else {
+        //   this.emailValidationMessage = '올바른 이메일 주소를 입력해주세요';
+        //   this.isEmailValid = false;
+        // }
       },
       passwordValidate() {
         if(passwordRegexp.test(this.userJoinInfo.password)) {

@@ -1,7 +1,7 @@
 <template lang="pug">
   .user-info-container
     .user-info_profile
-      img.profile_image(:src="userInfo.profile_img" alt="userName")
+      img.profile_image(:src="userImage" alt="userName")
       .profile-wrap
         span.profile_name(aria-label="이름") {{userInfo.username}}
         span.profile_birth(aria-label="생년월일") {{birth}}
@@ -41,6 +41,7 @@
 import BackButton from '@/components/common/BackButton';
 import { mapGetters, mapActions } from 'vuex';
 import HobbyIcon from '@/components/common/HobbyIcon';
+import blankUserImage from '@/assets/user.svg';
 
 export default {
   components: {
@@ -62,6 +63,10 @@ export default {
     birth() {
       let userInfo = this.userInfo;
       return `${userInfo.birth_year}.${userInfo.birth_month}.${userInfo.birth_day}`;
+    },
+    userImage() {
+      let userImage = this.userInfo.profile_img;
+      return !userImage ? blankUserImage : userImage;
     },
   }
 };

@@ -21,6 +21,11 @@
   import { mapActions } from 'vuex';
 
   export default {
+    beforeRouteEnter (to, from, next) {
+      let token = sessionStorage.getItem('token');
+      token && next({name: 'main'});
+      !token && next();
+    },
     components: {
       BackButton,
     },
@@ -42,7 +47,6 @@
         });
         this.changeRoute({name: 'main'});
       },
-
     },
   };
 </script>
