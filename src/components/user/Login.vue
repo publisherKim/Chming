@@ -11,7 +11,7 @@
       li
         a(href @click.prevent="") 아이디 / 비밀번호 찾기
       li
-        a(href @click.prevent="changeRoute('user_join')") 회원가입
+        a(href @click.prevent="changeRoute({name: 'user_join'})") 회원가입
     back-button(:route={name: 'main'})
 
 </template>
@@ -33,14 +33,14 @@
     methods: {
       ...mapActions(['login']),
       changeRoute(route) {
-        this.$router.push({ name: route });
+        this.$router.push(route);
       },
       userLogin() {
         this.login({
           email: this.email,
           password: this.password,
         });
-        this.changeRoute('main');
+        this.changeRoute({name: 'main'});
       },
 
     },

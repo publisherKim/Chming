@@ -23,34 +23,34 @@ export default {
       component: GroupInfo,
       children: [
         {
-          path: 'home/:id',
+          path: 'home',
           name: 'group_info_home',
           component: GroupHome,
         },
         {
-          path: 'album/:id',
+          path: 'album',
           name: 'group_info_album',
           component: GroupAlbum,
         },
         {
-          path: 'board/:id',
+          path: 'board',
           name: 'group_info_board',
           component: GroupBoard,
         },
       ],
     },   
     {
-      path: 'board/:id/viewArticle',
+      path: 'board/viewArticle',
       name: 'group_viewArticle',
       component: GroupViewArticle,
     },
     {
-      path: 'board/:id/editArticle',
+      path: 'board/editArticle',
       name: 'group_editArticle',
       component: GroupEditArticle,
     },
     {
-      path: 'board/:id/writeArticle',
+      path: 'board/writeArticle',
       name: 'group_writeArticle',
       component: GroupWriteArticle,
     },
@@ -72,7 +72,7 @@ export default {
       ],
     },
     {
-      path: 'edit/:id',
+      path: 'edit',
       name: 'group_edit',
       component: GroupEdit,
       children: [

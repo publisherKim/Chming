@@ -1,13 +1,13 @@
 <template lang="pug">
   .user-info-container
     .user-info_profile
-      img.profile_image(src="../../assets/mingu.jpeg" alt="userName")
+      img.profile_image(:src="userInfo.profile_img" alt="userName")
       .profile-wrap
-        span.profile_name(aria-label="이름") 홍길동
-        span.profile_birth(aria-label="생년월일") 1999.01.01
+        span.profile_name(aria-label="이름") {{userInfo.username}}
+        span.profile_birth(aria-label="생년월일") {{birth}}
         span.profile_location(aria-label="주소")
           i.fa.fa-map-marker(aria-hidden="true")
-          | 경기도 성남시 서현동 
+          | {{userInfo.address}}
         ul.interest_list
           li.list-item(aria-label="축구")
             interest-icon.interest-icon(iconClass="fa-futbol-o")
@@ -25,11 +25,11 @@
       li.list_menu
         a(href @click.prevent="changeRoute({name: 'main'})") 홈
       li.list_menu
-        a(href @click.prevent="changeRoute({name: 'user_edit', params: {id: 1}})") 정보수정
+        a(href @click.prevent="changeRoute({name: 'user_edit'})") 정보수정
       li.list_menu
-        a(href @click.prevent="changeRoute({name: 'user_myGroupList', params: {id: 1}})") 내모임
+        a(href @click.prevent="changeRoute({name: 'user_myGroupList'})") 내모임
       li.list_menu
-        a(href @click.prevent="changeRoute({name: 'user_myFavoriteList', params: {id: 1}})") 관심모임
+        a(href @click.prevent="changeRoute({name: 'user_myFavoriteList'})") 관심모임
       li.list_menu
         a(href @click.prevent="changeRoute({name: 'group_create'})") 모임개설
       li.list_menu
@@ -48,17 +48,21 @@ export default {
     InterestIcon,
   },
   methods: {
+    ...mapActions(['logout']),
     changeRoute(route) {
       this.$router.push(route);
     },
-    ...mapActions(['logout']),
     userLogout() {
       this.logout();
       this.changeRoute({name: 'main'});
     },
   },
   computed: {
-    ...mapGetters(['apiUrl']),
+    ...mapGetters(['userInfo']),
+    birth() {
+      let userInfo = this.userInfo;
+      return `${userInfo.birth_year}.${userInfo.birth_month}.${userInfo.birth_day}`;
+    },
   }
 };
 </script>
