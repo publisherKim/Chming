@@ -19,8 +19,8 @@
         ) 지역선택
           i.fa.fa-map-marker(aria-hidden='true')
         p.location-address {{group.address}}
-      .form_interest-wrap
-        button.interest_button(
+      .form_hobby-wrap
+        button.hobby_button(
           @click="changeRoute({name: 'group_create_hobby', params: {prev: 'group_create'}})"
           type="button"
         ) 관심사 설정
@@ -130,7 +130,7 @@
     +text-input(100%, 100px)
 
   .form_file-upload-wrap,
-  .form_interest-wrap,
+  .form_hobby-wrap,
   .form_location-wrap
     margin-top: 1.5rem
     .label_group-img
@@ -143,7 +143,7 @@
     label
       cursor: pointer
   
-  .interest_button,
+  .hobby_button,
   .location_button
     & > .fa
       margin-left: 1rem
