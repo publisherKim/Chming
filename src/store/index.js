@@ -106,16 +106,16 @@ export default new Vuex.Store({
       location && commit('setMyLocation', location);
       !location && commit('setMyLocation', Vue.maps.getDefaultLocation());
 
-      http.get('groups.json').
-        then(response => {
+      http.get('groups.json')
+        .then(response => {
           if(response.status === 200) {
             commit('setGroupList', response.data);
             commit('setMarker');
             commit('arrangeGroupByDistance');
             commit('setMarkerNumber');
           }
-        }).
-        catch(error => {
+        })
+        .catch(error => {
           console.log('error:', error.response);
         });
     },
