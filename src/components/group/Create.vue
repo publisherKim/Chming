@@ -2,8 +2,11 @@
   .group-create-container
     h3.title 모임 개설
     form.group-create_form
-      input.form_name(v-model="group.name" type="text" placeholder="모임 이름을 작성해주세요." aria-label="모임 이름")
-      textarea.form_description(placeholder="어떤 모임인지 설명해주세요." aria-label="모임 설명")
+      input.form_name(v-model="group.name" @blur="checkEmpty('name')" ref="name" type="text" placeholder="모임 이름을 작성해주세요." aria-label="모임 이름")
+      message-box(
+        v-if="isEmptyGroupName" :classList="['fa-check-circle-o', 'warning']" message="그룹명을 입력해주세요."
+      )
+      textarea.form_description(v-model="group.introduceContent" placeholder="어떤 모임인지 설명해주세요." aria-label="모임 설명")
       .form_file-upload-wrap
         input#upload(@change="fileUpload" type="file")
         label.file-upload_label(for="upload") 모임 대표 사진
@@ -32,18 +35,22 @@
 <script>
   import GroupHeader from '@/components/common/Header';
   import BackButton from '@/components/common/BackButton';
+  import MessageBox from '@/components/common/MessageBox';
 
   export default {
     components: {
       GroupHeader,
       BackButton,
     },
+    computed: {
+
+    },
     data(){
       return {
         uploadSrc: '',
         group: {
           name: null,
-          introdeceContent: '',
+          introduceContent: '',
           introduceImg: null,
           address: 'test',
           lat: '',
@@ -65,20 +72,24 @@
           this.uploadSrc = f.srcElement.result;
         };
       },
-      watch: {
-        $route(newRoute) {
-          let group = this.group;
-          let hobby = newRoute.params.hobby;
-          hobby && (group.hobby = hobby);
-          let position = newRoute.params.position;
-          if(position) {
-            group.address = position.address;
-            group.lat = position.latitude;
-            group.lng = position.longitude;
-          }
-        },
-      }
+      groupValidate() {
+        let refs = this.$refs;
+        let userJoinInfo = this.userJoinInfo;
+      },
     },
+    watch: {
+      $route(newRoute) {
+        let group = this.group;
+        let hobby = newRoute.params.hobby;
+        hobby && (group.hobby = hobby);
+        let position = newRoute.params.position;
+        if(position) {
+          group.address = position.address;
+          group.lat = position.latitude;
+          group.lng = position.longitude;
+        }
+      },
+    }
   };
 </script>
 
