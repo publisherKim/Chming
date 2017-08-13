@@ -38,7 +38,7 @@ export default {
       ],
     },
     {
-      path: 'edit/:id',
+      path: 'edit',
       name: 'user_edit',
       component: UserEdit,
       children: [
@@ -55,7 +55,7 @@ export default {
       ],
     },
     {
-      path: 'info/:id',
+      path: 'info',
       name: 'user_info',
       component: UserInfo,
     },
@@ -70,12 +70,12 @@ export default {
       component: UserFindPw,
     },
     {
-      path: 'myGroupList/:id',
+      path: 'myGroupList',
       name: 'user_myGroupList',
       component: UserGroupList,
     },
     {
-      path: 'myFavoriteList/:id',
+      path: 'myFavoriteList',
       name: 'user_myFavoriteList',
       component: UserGroupList,
     },

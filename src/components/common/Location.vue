@@ -12,7 +12,7 @@
           button.list_close-button(@click="closeSearchResult") 닫기
     user-map.user-map
     button.confirm-button(@click="confirm" :disabled="!position.address") 완료
-    back-button(:route={name: 'back', params: {id: 1}})
+    back-button(:route={name: 'back'})
 
 </template>
 

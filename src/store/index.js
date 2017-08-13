@@ -116,7 +116,7 @@ export default new Vuex.Store({
           }
         }).
         catch(error => {
-          console.log('error:', error);
+          console.log('error:', error.response);
         });
     },
     login({commit}, loginInfo) {
@@ -129,8 +129,7 @@ export default new Vuex.Store({
           }
         })
         .catch(error => {
-          console.log(error, error.response);
-          console.log('서버와의 통신에 실패했습니다.');
+          console.log('error:', error.response);
         });
     },
     logout({commit}){
@@ -144,10 +143,9 @@ export default new Vuex.Store({
             sessionStorage.removeItem('token');
             commit('setUserInfo', null);
           }
-          return;       
         })
         .catch(error => {
-          console.log(error.response);
+          console.log('error:', error.response);
         });
     }    
   }

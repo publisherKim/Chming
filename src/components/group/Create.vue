@@ -26,7 +26,7 @@
           li {{group.hobby}}
       button.form_confirm(@click="changeRoute('main')" type="submit") 완료
     router-view.interest-container
-    back-button(:route={name: 'user_info', params: {id: 1}})
+    back-button(:route={name: 'user_info', params})
 </template>
 
 <script>

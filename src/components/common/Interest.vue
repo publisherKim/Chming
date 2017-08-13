@@ -34,8 +34,8 @@
           input(v-model="selectedList" id="item9"  type="checkbox" value="K-POP")
           label(for="item9") K-POP
       
-    button.interest_confirm(v-if="$route.params.prev" @click="confirm" type="button") 완료
-    back-button(v-if="$route.params.prev" :route={name: 'back', params: {id: 1}})
+    button.interest_confirm(v-if="prevRoute" @click="confirm" type="button") 완료
+    back-button(v-if="prevRoute" :route={name: prevRoute})
 </template>
 
 <script>
@@ -52,12 +52,15 @@
     },
     methods: {
       confirm() {
-        let prevRoute = this.$route.params.prev;
-        this.changeRoute({name: prevRoute, params: {hobby: this.selectedList}});
+        this.changeRoute({name: this.prevRoute, params: {hobby: this.selectedList}});
       },
       changeRoute(route) {
-        console.log('route:', route);
         this.$router.push(route);
+      },
+    },
+    computed: {
+      prevRoute() {
+        return this.$route.params.prev;
       },
     },
   };
@@ -97,6 +100,11 @@
       height: 0
     input:checked + label
       +rounded-rect-button-active()
+    
+  .interest_confirm
+      display: block
+      margin: 2rem auto
+      +action-button(5rem, 3rem)
   
   +mobile
     .interest_list

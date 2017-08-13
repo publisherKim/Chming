@@ -39,7 +39,7 @@
             i.fa.fa-map-marker(aria-hidden='true')
           p.location-address 경기도 성남시 분당구 정자동 11-2
         button.form_confirm(@click="confirm" type="submit") 완료
-      back-button(:route={name: 'user_info', params: {id: 1}})
+      back-button(:route={name: 'user_info'})
     router-view.user_interest
 </template>
 

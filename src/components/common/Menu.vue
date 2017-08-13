@@ -10,7 +10,7 @@
   export default {
     methods: {
       viewMenu(e) {
-        this.userInfo && this.changeRoute({name: 'user_info', params:{id: 1}});
+        this.userInfo && this.changeRoute({name: 'user_info'});
         !this.userInfo && this.changeRoute({name: 'user_login'});
       },
       changeRoute(route) {
