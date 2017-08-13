@@ -11,7 +11,7 @@
               span.group_name(aria-label="모임명") {{ `${index+1}. ${group.name}` }}
               span.group_description(aria-label="모임 설명") {{ group.description }}
               span.group_member(aria-label="모임멤버") 모임멤버 {{ group.member }}명
-              hobby-icon.group_hobby-icon(iconClass="fa-car")
+              interest-icon.group_interest-icon(iconClass="fa-car")
     button.prev-button(@click="prevGroup" type="button")
       i.fa.fa-angle-left(aria-hidden="true")
     button.next-button(@click="nextGroup" type="button")
@@ -19,7 +19,7 @@
 </template>
 
 <script>
-  import HobbyIcon from '@/components/common/HobbyIcon';
+  import InterestIcon from '@/components/common/InterestIcon';
   import {mapGetters} from 'vuex';
 
   export default {
@@ -30,7 +30,7 @@
       };
     },
     components: {
-      HobbyIcon,
+      InterestIcon,
     },
     methods: {
       changeRoute(id) {
@@ -121,7 +121,7 @@
     .group_description,
     .group_member
       font-size: 1.4rem
-    .group_hobby-icon
+    .group_interest-icon
       position: absolute
       z-index: 30
       top: 0
