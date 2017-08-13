@@ -6,7 +6,7 @@
       message-box(
         v-if="isEmptyGroupName" :classList="['fa-check-circle-o', 'warning']" message="그룹명을 입력해주세요."
       )
-      textarea.form_description(v-model="group.introduceContent" placeholder="어떤 모임인지 설명해주세요." aria-label="모임 설명")
+      textarea.form_description(v-model="group.description" placeholder="어떤 모임인지 설명해주세요." aria-label="모임 설명")
       .form_file-upload-wrap
         input#upload(@change="fileUpload" type="file")
         label.file-upload_label(for="upload") 모임 대표 사진
@@ -19,8 +19,8 @@
         ) 지역선택
           i.fa.fa-map-marker(aria-hidden='true')
         p.location-address {{group.address}}
-      .form_hobby-wrap
-        button.hobby_button(
+      .form_interest-wrap
+        button.interest_button(
           @click="changeRoute({name: 'group_create_hobby', params: {prev: 'group_create'}})"
           type="button"
         ) 관심사 설정
@@ -36,6 +36,8 @@
   import GroupHeader from '@/components/common/Header';
   import BackButton from '@/components/common/BackButton';
   import MessageBox from '@/components/common/MessageBox';
+  import Vue from 'vue';
+  import { mapGetters } from 'vuex';
 
   export default {
     components: {
@@ -43,14 +45,16 @@
       BackButton,
     },
     computed: {
-
+      isEmptyGroupName() {
+        return this.group.name === '';
+      },
     },
     data(){
       return {
         uploadSrc: '',
         group: {
           name: null,
-          introduceContent: '',
+          description: '',
           introduceImg: null,
           address: 'test',
           lat: '',
@@ -72,9 +76,21 @@
           this.uploadSrc = f.srcElement.result;
         };
       },
-      groupValidate() {
+      checkEmpty(field) {
+        console.log(field);
+        let group = this.group;
+        (field === 'hobby' && group[field] === null) && (group[field] = []);
+        group[field] === null && (group[field] = '');
+      },      
+      groupValidate(field) {
         let refs = this.$refs;
-        let userJoinInfo = this.userJoinInfo;
+        let group = this.group;
+        if(this.isEmptyGroupName || !group.name) {
+          this.checkEmpty('name');
+          refs.name.focus();
+          return false;
+        }
+        return true;
       },
     },
     watch: {
@@ -114,7 +130,7 @@
     +text-input(100%, 100px)
 
   .form_file-upload-wrap,
-  .form_hobby-wrap,
+  .form_interest-wrap,
   .form_location-wrap
     margin-top: 1.5rem
     .label_group-img
@@ -127,7 +143,7 @@
     label
       cursor: pointer
   
-  .hobby_button,
+  .interest_button,
   .location_button
     & > .fa
       margin-left: 1rem
