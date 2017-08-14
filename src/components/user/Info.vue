@@ -33,7 +33,7 @@
       li.list_menu
         a(href @click.prevent="changeRoute({name: 'group_create'})") 모임개설
       li.list_menu
-        a(href @click.prevent="userLogout") 로그아웃
+        a(href @click.prevent="logout") 로그아웃
     back-button(:route={name: 'main'})
 </template>
 
@@ -44,6 +44,11 @@ import HobbyIcon from '@/components/common/HobbyIcon';
 import blankUserImage from '@/assets/user.svg';
 
 export default {
+  beforeRouteEnter (to, from, next) {
+    let token = sessionStorage.getItem('token');
+    !token && next({name: 'main'});
+    token && next();
+  },
   components: {
     BackButton,
     HobbyIcon,
@@ -52,10 +57,6 @@ export default {
     ...mapActions(['logout']),
     changeRoute(route) {
       this.$router.push(route);
-    },
-    userLogout() {
-      this.logout();
-      this.changeRoute({name: 'main'});
     },
   },
   computed: {
@@ -68,7 +69,13 @@ export default {
       let userImage = this.userInfo.profile_img;
       return !userImage ? blankUserImage : userImage;
     },
-  }
+  },
+  watch: {
+    userInfo(newVal) {
+      // userInfo 값이 바뀌었을 때(로그인 후 유저정보 null 처리시) 메인으로 라우팅
+      !newVal && this.changeRoute({name: 'main'});
+    },
+  },
 };
 </script>
 

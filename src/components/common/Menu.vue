@@ -10,8 +10,10 @@
   export default {
     methods: {
       viewMenu(e) {
-        this.userInfo && this.changeRoute({name: 'user_info'});
-        !this.userInfo && this.changeRoute({name: 'user_login'});
+        let token = sessionStorage.getItem('token');
+
+        token && this.changeRoute({name: 'user_info'});
+        !token && this.changeRoute({name: 'user_login'});
       },
       changeRoute(route) {
         this.$router.push(route);

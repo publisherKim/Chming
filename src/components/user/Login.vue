@@ -107,7 +107,7 @@
       checkEmpty(field) {
         this[field] === null && (this[field] = '');
       },
-      loginValidate(){
+      loginValidate() {
         let refs = this.$refs;
         
         if(this.isEmptyEmail || !this.emailValidate) {
@@ -135,8 +135,9 @@
       },
     },
     watch: {
-      userInfo(newData){
-        if(newData !== null) this.changeRoute('main');
+      userInfo(newData) {
+        // userInfo 값이 바뀌었을 때(로그인 후 유저정보 수신시) 메인으로 라우팅
+        newData !== null && this.changeRoute({name: 'main'});
       }
     },
   };
