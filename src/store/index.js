@@ -133,7 +133,6 @@ export default new Vuex.Store({
         });
     },
     getUserProfile({commit}, token){
-      console.log(token);
       http.get('user/profile/', {headers: {'Authorization': `Token ${token}`}})
       .then(response => {
         if(response.status === 200) {
