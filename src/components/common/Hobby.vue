@@ -34,8 +34,8 @@
           input(v-model="selectedList" id="item9"  type="checkbox" value="K-POP")
           label(for="item9") K-POP
       
-    button.hobby_confirm(v-if="prevRoute" @click="confirm" type="button") 완료
-    back-button(v-if="prevRoute" :route={name: prevRoute})
+    button.hobby_confirm(v-if="!isRouteMain" @click="confirm" type="button") 완료
+    back-button(v-if="!isRouteMain")
 </template>
 
 <script>
@@ -69,8 +69,8 @@
       },
     },
     computed: {
-      prevRoute() {
-        return this.$route.params.prev;
+      isRouteMain() {
+        return this.$route.name === 'main';
       },
     },
   };

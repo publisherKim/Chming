@@ -12,7 +12,7 @@
           button.list_close-button(@click="closeSearchResult") 닫기
     user-map.user-map
     button.confirm-button(@click="confirm" :disabled="!position.address") 완료
-    back-button(:route={name: 'back'})
+    back-button
 
 </template>
 
@@ -22,9 +22,17 @@
   import { mapGetters } from 'vuex';
   
   export default {
+    beforeRouteEnter (to, from, next) {
+      let fromRouteName = from.name;
+
+      if(fromRouteName === 'user_join' || fromRouteName === 'user_edit' 
+        || fromRouteName === 'group_create' || fromRouteName === 'group_edit') {
+        next();
+      } else {
+        next({name: 'main'});
+      }
+    },
     mounted() {
-      let previousRoute = this.$route.params.prev;
-      !previousRoute && this.$router.push({name: 'main'});
       this.$maps.event.addListener(this.map, 'click', this.mapClickHandler);
     },
     beforeDestroy() {

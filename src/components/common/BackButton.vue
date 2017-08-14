@@ -8,14 +8,12 @@
     props: {
       route: {
         type: Object,
-        required: true
       }
     },
     methods: {
       changeRoute() {
-        console.log('this.route:', this.route);
-        this.route.name === 'back' && this.$router.go(-1);
-        this.route.name !== 'back' && this.$router.push(this.route);
+        this.route && this.$router.push(this.route);
+        !this.route && this.$router.go(-1);
       },
     },
   };

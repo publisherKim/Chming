@@ -3,63 +3,59 @@
     .user-edit-wrap
       h3.title 사용자 정보 수정
       form.user-edit_form
-        p {{ `이메일 : ${user.email}` }}
+        p {{ `이메일 : ${userInfo.email}` }}
         p
-          input.form_name(v-model="user.name" type="text" placeholder="이름" aria-label="이름")
+          input.form_name(v-model="userInfo.username" type="text" placeholder="이름" aria-label="이름")
         p
-          input.form_password(v-model="user.password" type="password" placeholder="비밀번호" aria-label="비밀번호")
+          input.form_password(
+            type="password"
+            placeholder="비밀번호(대소문자, 숫자 포함 8글자 이상)"
+            aria-label="비밀번호"
+          )
         p
           label.form_birth(for="birth") 생년월일
-          input#birth.form_year(type="number" v-model="user.year" min="1900" :max="maxYear" aria-label="생년")
-          input.form_month(type="number" v-model="user.month" min="1" max="12" aria-label="월")
-          input.form_day(type="number" v-model="user.day" min="1" max="31" aria-label="일")
-          input#man(v-model="user.gender" type="radio" name="gender" value="man" checked)
+          input#birth.form_year(type="number" v-model="userInfo.birth_year" min="1900" :max="maxYear" aria-label="생년")
+          input.form_month(type="number" v-model="userInfo.birth_month" min="1" max="12" aria-label="월")
+          input.form_day(type="number" v-model="userInfo.birth_day" min="1" max="31" aria-label="일")
+          input#man(v-model="userInfo.gender" type="radio" name="gender" value="m")
           label(for="man") 남
-          input#woman(:v-model="user.gender" type="radio" name="gender" value="woman")
+          input#woman(:v-model="userInfo.gender" type="radio" name="gender" value="f")
           label(for="woman") 여
         .form_file-upload-wrap
           input#upload(@change="fileUpload" type="file")
           label.file-upload_label(for="upload") 프로필 사진
             i.fa.fa-picture-o(aria-hidden="true")
-          img(:src="uploadSrc")
+          img(:src="userImageSrc")
         .form_hobby-wrap
           button.hobby_button(
-            @click="changeRoute({name: 'user_edit_hobby', params: {prev: 'user_edit'}})"
+            @click="changeRoute({name: 'user_edit_hobby'})"
             type="button"
           ) 관심사 설정
             i.fa.fa-cog(aria-hidden='true')
-          ul.hobby-list
-            li
-              img(src="" alt="관심사1")
+          ul.hobby-list(v-if="userInfo.hobby && userInfo.hobby.length !== 0")
+            li.list_item(v-for="hobby in userInfo.hobby")
+              img(src="" :alt="hobby")
         .form_location-wrap
           button.location_button(
-            @click="changeRoute({name: 'user_edit_location', params: {prev: 'user_edit'}})" 
+            @click="changeRoute({name: 'user_edit_location'})" 
             type="button"
           ) 지역선택
             i.fa.fa-map-marker(aria-hidden='true')
-          p.location-address 경기도 성남시 분당구 정자동 11-2
+          p.location-address {{userInfo.address}}
         button.form_confirm(@click="confirm" type="submit") 완료
-      back-button(:route={name: 'user_info'})
+      back-button
     router-view.user_hobby
 </template>
 
 <script>
   import BackButton from '@/components/common/BackButton';
+  import { mapGetters } from 'vuex';
 
   export default {
     data() {  
       return {
         isMap: false,
         maxYear: new Date().getFullYear(),
-        user: {
-          name: 'kkk',
-          email: 'h@naver.com',
-          password: 12345,
-          year: 1983,
-          month: 9,
-          day: 1,
-          gender: 'man'
-        },
         uploadSrc: '',
       };
     },
@@ -69,9 +65,6 @@
     methods: {
       changeRoute(route) {
         this.$router.push(route);
-      },
-      typing(e) {
-        this.user.name = e.target.value;
       },
       confirm() {
         this.$router.push('/');
@@ -86,12 +79,17 @@
       }
     },
     computed: {
+      ...mapGetters(['userInfo']),
       maskingPassword() {
         // let length = this.user.password.length;
         let length = 5;
         let masking = '';
         while(length--) masking += '*';
         return masking;
+      },
+      userImageSrc() {
+        if(this.uploadSrc) return this.uploadSrc;
+        else return this.userInfo.profile_img;
       },
     },
   };
@@ -157,6 +155,10 @@
       font-size: 1.5rem
 
   .form_file-upload-wrap
+    img 
+      display: block
+      width: 50px
+      height: 50px
     input
       visibility: hidden
       position: absolute
