@@ -46,7 +46,7 @@
         a(href @click.prevent="") 아이디 / 비밀번호 찾기
       li
         a(href @click.prevent="changeRoute({name: 'user_join'})") 회원가입
-    back-button(:route={name: 'main'})
+    back-button
 
 </template>
 
@@ -59,6 +59,12 @@
   let passwordRegexp = /^(?=.{8,})(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).*$/;
 
   export default {
+    beforeRouteEnter (to, from, next) {
+      let token = sessionStorage.getItem('token');
+
+      token && next({name: 'main'});
+      !token && next();
+    },
     components: {
       BackButton,
       MessageBox

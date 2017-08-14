@@ -5,61 +5,117 @@
       form.user-join_form
         p
           input.form_name(
-            v-model.trim="userJoinInfo.username" @blur="checkEmpty('username')" ref="username" type="text" placeholder="이름" aria-label="이름"
+            v-model.trim="userJoinInfo.username"
+            @blur="checkEmpty('username')"
+            ref="username"
+            type="text"
+            placeholder="이름"
+            aria-label="이름"
           )
           message-box(
-            v-if="isEmptyUsername" :classList="['fa-check-circle-o', 'warning']" message="이름을 입력해주세요."
+            v-if="isEmptyUsername"
+            :classList="['fa-check-circle-o', 'warning']"
+            message="이름을 입력해주세요."
           )
         p.form_email-wrap
           input.form_email(
-            v-model.trim="userJoinInfo.email" @blur="checkEmpty('email')" ref="email" type="email" placeholder="이메일" aria-label="이메일"
+            v-model.trim="userJoinInfo.email" 
+            @focus="isEmailDuplicated = null" 
+            @blur="checkEmail" 
+            ref="email"
+            type="email"
+            placeholder="이메일"
+            aria-label="이메일"
           )
           message-box(
-            v-if="isEmptyEmail" :classList="['fa-check-circle-o', 'warning']" message="이메일 입력해주세요."
+            v-if="isEmptyEmail"
+            :classList="['fa-check-circle-o', 'warning']"
+            message="이메일 입력해주세요."
           )
           message-box(
-            v-if="userJoinInfo.email" :classList="['fa-check-circle-o', isEmailValid ? 'info' : 'warning']"
+            v-if="userJoinInfo.email && !emailValidate"
+            :classList="['fa-check-circle-o', emailValidate ? 'info' : 'warning']"
             :message="emailValidationMessage"
+          )
+          message-box(
+            v-if="isEmailDuplicated !== null"
+            :classList="['fa-check-circle-o', !isEmailDuplicated ? 'info' : 'warning']"
+            :message="emailDuplicateMessage"
           )
         p
           input.form_password(
-            v-model.trim="userJoinInfo.password" @blur="checkEmpty('password')" ref="password" type="password"
-            placeholder="비밀번호(대소문자, 숫자 포함 8글자 이상)" aria-label="비밀번호"
+            v-model.trim="userJoinInfo.password"
+            @blur="checkEmpty('password')"
+            ref="password"
+            type="password"
+            placeholder="비밀번호(대소문자, 숫자 포함 8글자 이상)"
+            aria-label="비밀번호"
           )
           message-box(
-            v-if="isEmptyPassword" :classList="['fa-check-circle-o', 'warning']" message="비밀번호 입력해주세요."
+            v-if="isEmptyPassword"
+            :classList="['fa-check-circle-o', 'warning']"
+            message="비밀번호 입력해주세요."
           )
           message-box(
-            v-if="userJoinInfo.password" :classList="['fa-check-circle-o', passwordValidate ? 'info' : 'warning']" 
+            v-if="userJoinInfo.password"
+            :classList="['fa-check-circle-o', passwordValidate ? 'info' : 'warning']" 
             :message="passwordValidationMessage"
           )
         p
           label.form_birth(for="birth") 생년월일 / 성별
           input#birth.form_year(
-            v-model.number="userJoinInfo.birth_year" type="number" min="1900" :max="maxYear" aria-label="생년"
+            v-model.number="userJoinInfo.birth_year"
+            type="number"
+            min="1900"
+            :max="maxYear"
+            aria-label="생년"
           )
           input.form_month(
-            v-model.number="userJoinInfo.birth_month" type="number" min="1" max="12" aria-label="월"
+            v-model.number="userJoinInfo.birth_month"
+            type="number"
+            min="1"
+            max="12"
+            aria-label="월"
           )
           input.form_day(
-            v-model.number="userJoinInfo.birth_day" type="number" min="1" max="31" aria-label="일"
+            v-model.number="userJoinInfo.birth_day"
+            type="number"
+            min="1"
+            max="31"
+            aria-label="일"
           )
           input#man(
-            v-model="userJoinInfo.gender" type="radio" name="gender" value="m" checked
+            v-model="userJoinInfo.gender"
+            type="radio"
+            name="gender"
+            value="m"
+            checked
           )
           label(
-            ref="genderM" @keyup.enter="$refs.genderM.click()" for="man" tabindex="0"
+            ref="genderM"
+            @keyup.enter="$refs.genderM.click()"
+            for="man"
+            tabindex="0"
           ) 남
           input#woman(
-            v-model="userJoinInfo.gender" type="radio" name="gender" value="f"
+            v-model="userJoinInfo.gender"
+            type="radio"
+            name="gender"
+            value="f"
           )
           label(
-            ref="getderF" @keyup.enter="$refs.getderF.click()" for="woman" tabindex="0"
+            ref="getderF"
+            @keyup.enter="$refs.getderF.click()"
+            for="woman"
+            tabindex="0"
           ) 여
         .form_file-upload-wrap
           input#upload(@change="fileUpload" type="file")
           label.file-upload_label(
-            ref="fileLabel" for="upload" @keyup.enter="$refs.fileLabel.click()" tabindex="0"
+            @keyup.enter="$refs.fileLabel.click()"
+            ref="fileLabel"
+            for="upload"
+            tabindex="0"
           ) 프로필 사진
             i.fa.fa-picture-o(aria-hidden="true")
           img(v-if="userJoinInfo.profile_img" :src="uploadSrc") 
@@ -74,7 +130,9 @@
             li.list_item(v-for="hobby in userJoinInfo.hobby")
               img(src="" :alt="hobby")
         message-box(
-          v-if="isEmptyHobby" :classList="['fa-check-circle-o', 'warning']" message="관심사를 선택 해주세요"
+          v-if="isEmptyHobby"
+          :classList="['fa-check-circle-o', 'warning']"
+          message="관심사를 선택 해주세요"
         )
         .form_location-wrap
           button.location_button(
@@ -84,11 +142,13 @@
             i.fa.fa-map-marker(aria-hidden='true')
           p.location-address {{ userJoinInfo.address }}
         message-box(
-          v-if="isEmptyAddress" :classList="['fa-check-circle-o', 'warning']" message="지역을 선택해주세요"
+          v-if="isEmptyAddress"
+          :classList="['fa-check-circle-o', 'warning']"
+          message="지역을 선택해주세요"
         )
         button.form_confirm(type="button" @click="join") 완료
     router-view.hobby-container
-    back-button(v-if="!prevRoute" :route={name: 'user_login'})
+    back-button
 </template>
 
 <script>
@@ -112,6 +172,8 @@
         maxYear: new Date().getFullYear(),
         uploadSrc: '',
         emailValidationMessage: '',
+        emailDuplicateMessage: '',
+        isEmailDuplicated: null,
         passwordValidationMessage: '',
         userJoinInfo: {
           email: null,
@@ -128,10 +190,13 @@
           lat: null,
           lng: null,
         },
-        isEmailValid: false,
       };
     },
     methods: {
+      checkEmail() {
+        this.checkEmpty('email');
+        this.emailValidate && this.checkDuplicateEmail();
+      },
       checkEmpty(field) {
         let userJoinInfo = this.userJoinInfo;
         (field === 'hobby' && userJoinInfo[field] === null) && (userJoinInfo[field] = []);
@@ -155,8 +220,9 @@
         let formData = Vue.setFormData(this.userJoinInfo);
         this.$http.post('/user/signup/', formData).
           then(response => {
-            if(response.status === 200) {
-              console.log(response);
+            if(response.status === 201) {
+              alert('회원가입이 완료되었습니다.');
+              this.changeRoute({name: 'main'});
             } else {
               console.log(response);
             }
@@ -173,7 +239,7 @@
           this.checkEmpty('username');
           refs.username.focus();
           return false;
-        } else if(this.isEmptyEmail || !this.emailValidate) {
+        } else if(this.isEmptyEmail || !this.emailValidate || this.isEmailDuplicated) {
           this.checkEmpty('email');
           refs.email.focus();
           return false;
@@ -193,6 +259,26 @@
 
         return true;
       },
+      checkDuplicateEmail() {
+        this.$http.get('/user/validate_email/', {
+          params: {
+            email: this.userJoinInfo.email
+          },
+        })
+        .then(response => {
+          if(response.data.is_valid) {
+            this.emailDuplicateMessage = '사용할 수 있는 이메일 입니다.';
+            this.isEmailDuplicated = false;
+          }
+          else {
+            this.emailDuplicateMessage = '중복된 이메일입니다.';
+            this.isEmailDuplicated = true;
+          }
+        })
+        .catch(error => {
+
+        });
+      },
     },
     watch: {
       $route(newRoute) {
@@ -210,44 +296,18 @@
       userJoinInfo: {
         handler: (newVal) => {
           newVal.confirm_password = newVal.password;
-
-          let email = newVal.email;
-          if(emailRegexp.test(email)) {
-            this.isEmailValid = true;
-          } else {
-            this.isEmailValid = false;
-          }
         },
         deep: true,
-      }
+      },
     },
     computed: {
       emailValidate() {
-        let email = this.userJoinInfo.email;
-
-        // if(emailRegexp.test(email)) {
-        //   this.$http.get('/user/validate_email/', {
-        //     params: {
-        //       email
-        //     },
-        //   })
-        //   .then(response => {
-        //     if(response.data.is_valid) {
-        //       this.emailValidationMessage = '사용할 수 있는 이메일 입니다.';
-        //       this.isEmailValid = true;
-        //     }
-        //     else {
-        //       this.emailValidationMessage = '중복된 이메일입니다.';
-        //       this.isEmailValid = false;
-        //     }
-        //   })
-        //   .catch(error => {
-
-        //   });
-        // } else {
-        //   this.emailValidationMessage = '올바른 이메일 주소를 입력해주세요';
-        //   this.isEmailValid = false;
-        // }
+        if(!emailRegexp.test(this.userJoinInfo.email)) {
+          this.emailValidationMessage = '올바른 이메일 주소를 입력해주세요';
+          return false;
+        } else {
+          return true;
+        }
       },
       passwordValidate() {
         if(passwordRegexp.test(this.userJoinInfo.password)) {

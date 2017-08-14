@@ -34,7 +34,7 @@
         a(href @click.prevent="changeRoute({name: 'group_create'})") 모임개설
       li.list_menu
         a(href @click.prevent="userLogout") 로그아웃
-    back-button(:route={name: 'back'})
+    back-button(:route={name: 'main'})
 </template>
 
 <script>
