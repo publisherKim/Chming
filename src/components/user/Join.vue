@@ -161,6 +161,11 @@
   let passwordRegexp = /^(?=.{8,})(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).*$/;
 
   export default {
+    beforeRouteEnter (to, from, next) {
+      let token = sessionStorage.getItem('token');
+      token && next({name: 'main'});
+      !token && next();
+    },
     components: {
       BackButton,
       MessageBox

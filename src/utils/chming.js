@@ -70,6 +70,26 @@ export default {
         }
       }
     };
+    Vue.mixin = function() {
+      var args = this.makeArray(arguments);
+      for(var i=0, l=args.length; i<l; i++) {
+        if(!this.isObject(args[i]) && !this.isFunction(args[i])) {
+          throw '전달인자로 객체만 허용합니다.';
+        }
+      }
+      var mixin_obj = args.shift();
+      var next = args.shift();
+      do {
+        for(var prop in next) {
+          if(next.hasOwnProperty(prop)) {
+            mixin_obj[prop] = next[prop];
+          }
+        }
+        next = args.shift();
+      } while ( next );
+
+      return mixin_obj;
+    };
     Vue.setFormData = function(obj) {
       let formData = new FormData();
 

@@ -5,7 +5,18 @@
       form.user-edit_form
         p {{ `이메일 : ${userInfo.email}` }}
         p
-          input.form_name(v-model="userInfo.username" type="text" placeholder="이름" aria-label="이름")
+          input.form_name(
+            v-model="userEditInfo.username"
+            @blur="checkEmpty('username')"
+            type="text"
+            placeholder="이름"
+            aria-label="이름"
+          )
+          message-box(
+            v-if="isEmptyUsername"
+            :classList="['fa-check-circle-o', 'warning']"
+            message="이름을 입력해주세요."
+          )
         p
           input.form_password(
             type="password"
@@ -14,26 +25,26 @@
           )
         p
           label.form_birth(for="birth") 생년월일
-          input#birth.form_year(type="number" v-model="userInfo.birth_year" min="1900" :max="maxYear" aria-label="생년")
-          input.form_month(type="number" v-model="userInfo.birth_month" min="1" max="12" aria-label="월")
-          input.form_day(type="number" v-model="userInfo.birth_day" min="1" max="31" aria-label="일")
-          input#man(v-model="userInfo.gender" type="radio" name="gender" value="m")
+          input#birth.form_year(type="number" v-model="userEditInfo.birth_year" min="1900" :max="maxYear" aria-label="생년")
+          input.form_month(type="number" v-model="userEditInfo.birth_month" min="1" max="12" aria-label="월")
+          input.form_day(type="number" v-model="userEditInfo.birth_day" min="1" max="31" aria-label="일")
+          input#man(v-model="userEditInfo.gender" type="radio" name="gender" value="m")
           label(for="man") 남
-          input#woman(:v-model="userInfo.gender" type="radio" name="gender" value="f")
+          input#woman(:v-model="userEditInfo.gender" type="radio" name="gender" value="f")
           label(for="woman") 여
         .form_file-upload-wrap
           input#upload(@change="fileUpload" type="file")
           label.file-upload_label(for="upload") 프로필 사진
             i.fa.fa-picture-o(aria-hidden="true")
-          img(:src="userImageSrc")
+          img(v-if="userImageSrc" :src="userImageSrc")
         .form_hobby-wrap
           button.hobby_button(
             @click="changeRoute({name: 'user_edit_hobby'})"
             type="button"
           ) 관심사 설정
             i.fa.fa-cog(aria-hidden='true')
-          ul.hobby-list(v-if="userInfo.hobby && userInfo.hobby.length !== 0")
-            li.list_item(v-for="hobby in userInfo.hobby")
+          ul.hobby-list(v-if="userEditInfo.hobby && userEditInfo.hobby.length !== 0")
+            li.list_item(v-for="hobby in userEditInfo.hobby")
               img(src="" :alt="hobby")
         .form_location-wrap
           button.location_button(
@@ -41,7 +52,7 @@
             type="button"
           ) 지역선택
             i.fa.fa-map-marker(aria-hidden='true')
-          p.location-address {{userInfo.address}}
+          p.location-address {{userEditInfo.address}}
         button.form_confirm(@click="confirm" type="submit") 완료
       back-button
     router-view.user_hobby
@@ -49,20 +60,40 @@
 
 <script>
   import BackButton from '@/components/common/BackButton';
+  import MessageBox from '@/components/common/MessageBox';
+  import Vue from 'vue';
   import { mapGetters } from 'vuex';
 
   export default {
+    beforeRouteEnter (to, from, next) {
+      let token = sessionStorage.getItem('token');
+      !token && next({name: 'main'});
+      token && next();
+    },
+    created() {
+      this.userEditInfo = Vue.mixin({}, this.userInfo);
+    },
     data() {  
       return {
         isMap: false,
         maxYear: new Date().getFullYear(),
         uploadSrc: '',
+        userEditInfo: null,
       };
     },
     components: {
       BackButton,
+      MessageBox,
     },
     methods: {
+      test() {
+        console.log('ddd');
+      },
+      checkEmpty(field) {
+        let userInfo = this.userInfo;
+        (field === 'hobby' && userInfo[field] === null) && (userInfo[field] = []);
+        userInfo[field] === null && (userInfo[field] = '');
+      },
       changeRoute(route) {
         this.$router.push(route);
       },
@@ -80,6 +111,9 @@
     },
     computed: {
       ...mapGetters(['userInfo']),
+      isEmptyUsername() {
+        return this.userInfo.username === '';
+      },
       maskingPassword() {
         // let length = this.user.password.length;
         let length = 5;
