@@ -141,7 +141,10 @@ export default new Vuex.Store({
         }
       })
       .catch(error => {
-        console.log('error:', error.response);
+        console.log('error.response:', error.response);
+        if(error.response.statusText === 'Unauthorized') {
+          sessionStorage.removeItem('token');
+        }
       });
     },
     logout({commit}){

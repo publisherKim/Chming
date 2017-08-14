@@ -41,6 +41,7 @@
 <script>
   import BackButton from '@/components/common/BackButton';
   import Vue from 'vue';
+  import { mapGetters } from 'vuex';
 
   export default {
     beforeRouteEnter (to, from, next) {
@@ -51,6 +52,11 @@
         next();
       } else {
         next({name: 'main'});
+      }
+    },
+    created() {
+      if(this.$route.name === 'user_edit_hobby') {
+        this.selectedList = this.userInfo.hobby.slice();
       }
     },
     components: {
@@ -67,6 +73,7 @@
       };
     },
     computed: {
+      ...mapGetters(['userInfo']),
       isRouteMain() {
         return this.$route.name === 'main';
       }

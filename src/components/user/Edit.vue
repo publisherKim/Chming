@@ -3,11 +3,11 @@
     .user-edit-wrap
       h3.title 사용자 정보 수정
       form.user-edit_form
-        p {{ `이메일 : ${userInfo.email}` }}
+        p 이메일 : {{userEditInfo.email}}
         p
           input.form_name(
             v-model="userEditInfo.username"
-            @blur="checkEmpty('username')"
+            ref="username"
             type="text"
             placeholder="이름"
             aria-label="이름"
@@ -19,50 +19,115 @@
           )
         p
           input.form_password(
+            v-model="userEditInfo.password"
+            ref="password"
             type="password"
             placeholder="비밀번호(대소문자, 숫자 포함 8글자 이상)"
             aria-label="비밀번호"
           )
+          message-box(
+            v-if="userEditInfo.password"
+            :classList="['fa-check-circle-o', passwordValidate ? 'info' : 'warning']" 
+            :message="passwordValidationMessage"
+          )
         p
           label.form_birth(for="birth") 생년월일
-          input#birth.form_year(type="number" v-model="userEditInfo.birth_year" min="1900" :max="maxYear" aria-label="생년")
-          input.form_month(type="number" v-model="userEditInfo.birth_month" min="1" max="12" aria-label="월")
-          input.form_day(type="number" v-model="userEditInfo.birth_day" min="1" max="31" aria-label="일")
-          input#man(v-model="userEditInfo.gender" type="radio" name="gender" value="m")
-          label(for="man") 남
-          input#woman(:v-model="userEditInfo.gender" type="radio" name="gender" value="f")
-          label(for="woman") 여
+          input#birth.form_year(
+            type="number" 
+            v-model.number="userEditInfo.birth_year" 
+            min="1900" 
+            :max="maxYear" 
+            aria-label="년"
+          )
+          input.form_month(
+            type="number"
+            v-model.number="userEditInfo.birth_month"
+            min="1"
+            max="12"
+            aria-label="월"
+          )
+          input.form_day(
+            type="number"
+            v-model.number="userEditInfo.birth_day"
+            min="1"
+            max="31"
+            aria-label="일"
+          )
+          input#man(
+            v-model="userEditInfo.gender"
+            type="radio"
+            name="gender"
+            value="m"
+            checked
+          )
+          label(
+            ref="genderM"
+            @keyup.enter="$refs.genderM.click()"
+            for="man"
+            tabindex="0"
+          ) 남
+          input#woman(
+            v-model="userEditInfo.gender"
+            type="radio"
+            name="gender"
+            value="f"
+          )
+          label(
+            ref="getderF"
+            @keyup.enter="$refs.getderF.click()"
+            for="woman"
+            tabindex="0"
+          ) 여
         .form_file-upload-wrap
           input#upload(@change="fileUpload" type="file")
-          label.file-upload_label(for="upload") 프로필 사진
+          label.file-upload_label(
+            @keyup.enter="$refs.fileLabel.click()"
+            ref="fileLabel"
+            for="upload"
+            tabindex="0"
+          ) 프로필 사진
             i.fa.fa-picture-o(aria-hidden="true")
           img(v-if="userImageSrc" :src="userImageSrc")
         .form_hobby-wrap
           button.hobby_button(
-            @click="changeRoute({name: 'user_edit_hobby'})"
+            @click="changeRoute({name: 'user_edit_hobby', params: {prev: 'user_edit'}})"
+            ref="hobby"
             type="button"
           ) 관심사 설정
             i.fa.fa-cog(aria-hidden='true')
           ul.hobby-list(v-if="userEditInfo.hobby && userEditInfo.hobby.length !== 0")
             li.list_item(v-for="hobby in userEditInfo.hobby")
               img(src="" :alt="hobby")
+        message-box(
+          v-if="isEmptyHobby"
+          :classList="['fa-check-circle-o', 'warning']"
+          message="관심사를 선택 해주세요"
+        )
         .form_location-wrap
           button.location_button(
-            @click="changeRoute({name: 'user_edit_location'})" 
+            @click="changeRoute({name: 'user_edit_location', params: {prev: 'user_edit'}})" 
+            ref="location"
             type="button"
           ) 지역선택
             i.fa.fa-map-marker(aria-hidden='true')
           p.location-address {{userEditInfo.address}}
-        button.form_confirm(@click="confirm" type="submit") 완료
+        message-box(
+          v-if="isEmptyAddress"
+          :classList="['fa-check-circle-o', 'warning']"
+          message="지역을 선택해주세요"
+        )
+        button.form_confirm(@click="edit" type="button") 완료
       back-button
-    router-view.user_hobby
+    router-view.hobby-container
 </template>
 
 <script>
   import BackButton from '@/components/common/BackButton';
   import MessageBox from '@/components/common/MessageBox';
   import Vue from 'vue';
-  import { mapGetters } from 'vuex';
+  import { mapGetters, mapActions } from 'vuex';
+
+  let passwordRegexp = /^(?=.{8,})(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).*$/;
 
   export default {
     beforeRouteEnter (to, from, next) {
@@ -71,14 +136,20 @@
       token && next();
     },
     created() {
-      this.userEditInfo = Vue.mixin({}, this.userInfo);
+      let userInfo = this.userInfo;
+
+      if(userInfo) {
+        userInfo.password = '';
+        this.userEditInfo = Vue.mixin({}, userInfo);
+      }
     },
     data() {  
       return {
         isMap: false,
         maxYear: new Date().getFullYear(),
         uploadSrc: '',
-        userEditInfo: null,
+        passwordValidationMessage: '',
+        userEditInfo: {},
       };
     },
     components: {
@@ -86,22 +157,49 @@
       MessageBox,
     },
     methods: {
-      test() {
-        console.log('ddd');
-      },
-      checkEmpty(field) {
-        let userInfo = this.userInfo;
-        (field === 'hobby' && userInfo[field] === null) && (userInfo[field] = []);
-        userInfo[field] === null && (userInfo[field] = '');
-      },
       changeRoute(route) {
         this.$router.push(route);
       },
-      confirm() {
-        this.$router.push('/');
+      edit() {
+        if(!this.editValidate()) return;
+
+        let formData = Vue.setFormData(this.userJoinInfo);
+        this.$http.put('/user/update/', formData).
+          then(response => {
+            if(response.status === 201) {
+              alert('정보수정이 완료되었습니다.');
+              this.changeRoute({name: 'main'});
+            } else {
+              console.log(response);
+            }
+          })
+          .catch(error => {
+            console.log('error.response: ', error.response);
+          });
+      },
+      editValidate() {
+        let refs = this.$refs;
+        let userEditInfo = this.userEditInfo;
+        
+        if(this.isEmptyUsername || !userEditInfo.username) {
+          refs.username.focus();
+          return false;
+        } else if(!this.passwordValidate) {
+          refs.password.focus();
+          return false;
+        } else if(this.isEmptyHobby || !userEditInfo.hobby) {
+          refs.hobby.focus();
+          return false;
+        } else if(this.isEmptyAddress || !userEditInfo.address) {
+          refs.location.focus();
+          return false;
+        }
+
+        return true;
       },
       fileUpload(e) {
         let file = e.target.files[0];
+        this.userEditInfo.profile_img = file;
         let reader = new FileReader();
         reader.readAsDataURL(file);
         reader.onload = f => {
@@ -111,9 +209,6 @@
     },
     computed: {
       ...mapGetters(['userInfo']),
-      isEmptyUsername() {
-        return this.userInfo.username === '';
-      },
       maskingPassword() {
         // let length = this.user.password.length;
         let length = 5;
@@ -123,7 +218,48 @@
       },
       userImageSrc() {
         if(this.uploadSrc) return this.uploadSrc;
-        else return this.userInfo.profile_img;
+        else return this.userEditInfo.profile_img;
+      },
+      passwordValidate() {
+        let userEditInfo = this.userEditInfo;
+        if(userEditInfo) {
+          if(!userEditInfo.password) return true;
+          if(passwordRegexp.test(userEditInfo.password)) {
+            this.passwordValidationMessage = '올바른 패스워드 형식입니다.';
+            return true;
+          } else {
+            this.passwordValidationMessage = '대문자, 소문자, 숫자를 포함해야합니다.';
+            return false;
+          }
+        }
+      },
+      isEmptyUsername() {
+        return this.userEditInfo.username === '';
+      },
+      isEmptyHobby() {
+        let hobby = this.userEditInfo.hobby;
+        return hobby && hobby.length === 0;
+      },
+      isEmptyAddress() {
+        return this.userEditInfo.address === '';
+      },
+    },
+    watch: {
+      userInfo(newVal) {
+        newVal.password = '';
+        this.userEditInfo = Vue.mixin({}, newVal);
+      },
+      $route(newRoute) {
+        let userEditInfo = this.userEditInfo;
+        let hobby = newRoute.params.hobby;
+        hobby && (userEditInfo.hobby = hobby);
+        let position = newRoute.params.position;
+        // position && (userEditInfo.position = position);
+        if(position) {
+          userEditInfo.address = position.address;
+          userEditInfo.lat = position.latitude;
+          userEditInfo.lng = position.longitude;
+        }
       },
     },
   };
@@ -211,8 +347,13 @@
     display: block
     margin: 2rem auto
     +action-button(5rem, 3rem)
-
-  .user-info_hobby-wrap
-    .title
-      border: none
+    
+  .hobby-container
+    position: absolute
+    top: 0
+    left: 0
+    width: 100%
+    height: 100vh
+    padding: 2rem
+    background: #fff
 </style>

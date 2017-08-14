@@ -1,13 +1,13 @@
 <template lang="pug">
   .user-info-container
     .user-info_profile
-      img.profile_image(:src="userImage" alt="userName")
+      img.profile_image(:src="userImage" alt="_userInfo.username")
       .profile-wrap
-        span.profile_name(aria-label="이름") {{userInfo.username}}
-        span.profile_birth(aria-label="생년월일") {{birth}}
+        span.profile_name(aria-label="이름") {{_userInfo.username}}
+        span.profile_birth(aria-label="생년월일") {{userBirth}}
         span.profile_location(aria-label="주소")
           i.fa.fa-map-marker(aria-hidden="true")
-          | {{userInfo.address}}
+          | {{_userInfo.address}}
         ul.hobby_list
           li.list-item(aria-label="축구")
             hobby-icon.hobby-icon(iconClass="fa-futbol-o")
@@ -61,13 +61,21 @@ export default {
   },
   computed: {
     ...mapGetters(['userInfo']),
-    birth() {
-      let userInfo = this.userInfo;
-      return `${userInfo.birth_year}.${userInfo.birth_month}.${userInfo.birth_day}`;
+    userBirth() {
+      let userInfo = this._userInfo;
+      if(this.userInfo) {
+        return `${userInfo.birth_year}.${userInfo.birth_month}.${userInfo.birth_day}`;
+      }
     },
     userImage() {
-      let userImage = this.userInfo.profile_img;
+      let userInfo = this._userInfo;
+
+      let userImage = userInfo.profile_img;
       return !userImage ? blankUserImage : userImage;
+    },
+    _userInfo() {
+      if(this.userInfo) return this.userInfo;
+      else return {};
     },
   },
   watch: {
