@@ -1,9 +1,13 @@
 <template lang="pug">
   .home-container
     .introduce-home-wrap
-      img(src="../../assets/group.jpg" width="100%" alt="groupIntroduce") 
-      p testtesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttest
-      p.address 경기도 성남시 분당구 265-2
+      img(
+        :src="groupInfo.image" 
+        width="100%" 
+        alt="groupIntroduce"
+      ) 
+      p {{groupInfo.description}}
+      p.address {{groupInfo.address}}
     .home_news-wrap
       h3.title 새소식
       board-list
@@ -11,28 +15,49 @@
     button.home_modify(type="button") 수정하기
     .home_member-wrap
       h3.title 모임멤버 
-        span.member-number 57 명
+        span.member-number {{groupInfo.member_count}} 명
       ul.member-list
         li.list-item
-          img(src="../../assets/mingu.jpeg" alt="profileName")
-          span.item-name 홍길동
+          img(
+            :src="groupInfo.author.profile_img" 
+            :alt="groupInfo.author.username"
+          )
+          span.item-name {{groupInfo.author.username}}
           span.item-position 모임장
-        li.list-item
-          img(src="../../assets/mingu.jpeg" alt="profileName")
-          span.item-name 홍길동
+        li.list-item(v-for="member in groupInfo.members")
+          img(src="member.profile_img" alt="profileName")
+          span.item-name {{member.username}}
 </template>
 
 <script>
   import BoardList from '@/components/group/BoardList';
 
   export default {
+    created() {
+      let data = this.getGroupInfo();
+      console.log(data);
+    },
     components: {
       BoardList
     },
-    data() {  
+    data() {   
       return {
-
+        groupInfo: ''
       };
+    },
+    methods: {
+      getGroupInfo() {
+        this.$http.get('/group/7/')
+          .then(response => {
+            if(response.status === 200) {
+              this.groupInfo = response.data;
+              console.log(this.groupInfo);
+            }
+          })
+          .catch(error => {
+            console.log('error:', error.response);
+          });        
+      }
     },
   };
 </script>

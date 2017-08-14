@@ -62,10 +62,21 @@
     components: {
       BackButton,
     },
+    mounted() {
+      if(this.$route.name === 'group_create_hobby'){
+        console.log(111);
+      }
+    },
     data() {
       return {
         selectedList: [],
       };
+    },
+    computed: {
+      ...mapGetters(['userInfo']),
+      isRouteMain() {
+        return this.$route.name === 'main';
+      }
     },
     methods: {
       confirm() {
@@ -75,12 +86,13 @@
         this.$router.push(route);
       },
     },
-    computed: {
-      ...mapGetters(['userInfo']),
-      isRouteMain() {
-        return this.$route.name === 'main';
-      },
-    },
+    watch: {
+      selectedList(newValue) {
+        if( (this.$route.name === 'group_create_hobby' && newValue.length === 2) ) {
+          newValue = newValue.shift();
+        } 
+      }  
+    }
   };
 </script>
 

@@ -66,9 +66,8 @@
           type="button"
         ) 관심사 설정
           i.fa.fa-cog(aria-hidden='true') 
-        ul.hobby-list(v-if="group.hobby && group.hobby.length !== 0")
-          li.list_item(v-for="hobby in group.hobby")
-            img(src="" :alt="hobby")
+        ul.hobby-list
+          li.list_item {{group.hobby}}
       message-box(
         v-if="isEmptyGroupHobby"
         :classList="['fa-check-circle-o', 'warning']"
@@ -79,7 +78,7 @@
         type="button"
       ) 완료
     router-view.hobby-container
-    back-button(:route={name: 'user_info', params})
+    back-button(:route={name: 'user_info', params: {prev: 'group_create'}})
 </template>
 
 <script>
@@ -120,8 +119,7 @@
         return this.group.address === '';
       },
       isEmptyGroupHobby(){
-        let hobby = this.group.hobby;
-        return hobby && hobby.length === 0;
+        return this.group.hobby === '';
       }
     },    
     methods: {
@@ -139,7 +137,6 @@
       },
       checkEmpty(field) {
         let group = this.group;
-        (field === 'hobby' && group[field] === null) && (group[field] = []);
         group[field] === null && (group[field] = '');
       },      
       groupValidate(field) {
@@ -191,7 +188,7 @@
       $route(newRoute) {
         let group = this.group;
         let hobby = newRoute.params.hobby;
-        hobby && (group.hobby = hobby);
+        hobby && (group.hobby = hobby[0]);
         let position = newRoute.params.position;
         if(position) {
           group.address = position.address;
