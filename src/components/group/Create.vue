@@ -238,7 +238,8 @@
       cursor: pointer
   
   .hobby_button,
-  .location_button
+  .location_button,
+  .file-upload_label
     & > .fa
       margin-left: 1rem
       font-size: 1.5rem

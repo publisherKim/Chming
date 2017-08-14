@@ -133,7 +133,6 @@ export default new Vuex.Store({
         });
     },
     getUserProfile({commit}, token){
-      console.log(token);
       http.get('user/profile/', {headers: {'Authorization': `Token ${token}`}})
       .then(response => {
         if(response.status === 200) {
@@ -142,7 +141,10 @@ export default new Vuex.Store({
         }
       })
       .catch(error => {
-        console.log('error:', error.response);
+        console.log('error.response:', error.response);
+        if(error.response.statusText === 'Unauthorized') {
+          sessionStorage.removeItem('token');
+        }
       });
     },
     logout({commit}){

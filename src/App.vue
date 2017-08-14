@@ -8,10 +8,10 @@
   import { mapActions } from 'vuex';
 
   export default {
-    created(){
+    created() {
       let token = sessionStorage.getItem('token');
       
-      if(token !== null){
+      if(token !== null) {
         this.getUserProfile(token);
       }
     },

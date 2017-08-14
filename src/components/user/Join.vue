@@ -123,7 +123,9 @@
         .form_hobby-wrap
           button.hobby_button(
             @click="changeRoute({name: 'user_join_hobby', params: {prev: 'user_join'}})"
-            @blur="checkEmpty('hobby')" ref="hobby" type="button"
+            @blur="checkEmpty('hobby')"
+            ref="hobby"
+            type="button"
           ) 관심사 설정
             i.fa.fa-cog(aria-hidden='true')
           ul.hobby-list(v-if="userJoinInfo.hobby && userJoinInfo.hobby.length !== 0")
@@ -137,7 +139,9 @@
         .form_location-wrap
           button.location_button(
             @click="changeRoute({name: 'user_join_location', params: {prev: 'user_join'}})" 
-            @blur="checkEmpty('address')" ref="location" type="button"
+            @blur="checkEmpty('address')"
+            ref="location"
+            type="button"
           ) 지역 선택
             i.fa.fa-map-marker(aria-hidden='true')
           p.location-address {{ userJoinInfo.address }}
@@ -146,7 +150,7 @@
           :classList="['fa-check-circle-o', 'warning']"
           message="지역을 선택해주세요"
         )
-        button.form_confirm(type="button" @click="join") 완료
+        button.form_confirm(@click="join" type="button") 완료
     router-view.hobby-container
     back-button
 </template>
@@ -281,7 +285,7 @@
           }
         })
         .catch(error => {
-
+          console.log(error.response);
         });
       },
     },

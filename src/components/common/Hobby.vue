@@ -40,6 +40,8 @@
 
 <script>
   import BackButton from '@/components/common/BackButton';
+  import Vue from 'vue';
+  import { mapGetters } from 'vuex';
 
   export default {
     beforeRouteEnter (to, from, next) {
@@ -52,6 +54,11 @@
         next({name: 'main'});
       }
     },
+    created() {
+      if(this.$route.name === 'user_edit_hobby') {
+        this.selectedList = this.userInfo.hobby.slice();
+      }
+    },
     components: {
       BackButton,
     },
@@ -62,13 +69,14 @@
     },
     methods: {
       confirm() {
-        this.changeRoute({name: this.prevRoute, params: {hobby: this.selectedList}});
+        this.changeRoute({name: this.$route.params.prev, params: {hobby: this.selectedList}});
       },
       changeRoute(route) {
         this.$router.push(route);
       },
     },
     computed: {
+      ...mapGetters(['userInfo']),
       isRouteMain() {
         return this.$route.name === 'main';
       },
