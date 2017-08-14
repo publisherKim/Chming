@@ -178,5 +178,4 @@
     display: block
     margin: 2rem auto
     +action-button(5rem, 3rem)
-
 </style>

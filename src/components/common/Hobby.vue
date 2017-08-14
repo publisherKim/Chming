@@ -40,6 +40,7 @@
 
 <script>
   import BackButton from '@/components/common/BackButton';
+  import Vue from 'vue';
 
   export default {
     beforeRouteEnter (to, from, next) {
@@ -55,24 +56,36 @@
     components: {
       BackButton,
     },
+    mounted() {
+      if(this.$route.name === 'group_create_hobby'){
+        console.log(111);
+      }
+    },
     data() {
       return {
         selectedList: [],
       };
     },
+    computed: {
+      isRouteMain() {
+        return this.$route.name === 'main';
+      }
+    },
     methods: {
       confirm() {
-        this.changeRoute({name: this.prevRoute, params: {hobby: this.selectedList}});
+        this.changeRoute({name: this.$route.params.prev, params: {hobby: this.selectedList}});
       },
       changeRoute(route) {
         this.$router.push(route);
       },
     },
-    computed: {
-      isRouteMain() {
-        return this.$route.name === 'main';
-      },
-    },
+    watch: {
+      selectedList(newValue) {
+        if( (this.$route.name === 'group_create_hobby' && newValue.length === 2) ) {
+          newValue = newValue.shift();
+        } 
+      }  
+    }
   };
 </script>
 

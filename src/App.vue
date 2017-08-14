@@ -4,14 +4,13 @@
 </template>
 
 <script>
-  import Vue from 'vue';
   import { mapActions } from 'vuex';
 
   export default {
     created(){
       let token = sessionStorage.getItem('token');
       
-      if(token !== null){
+      if(token !== null) {
         this.getUserProfile(token);
       }
     },
