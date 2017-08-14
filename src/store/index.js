@@ -132,6 +132,19 @@ export default new Vuex.Store({
           console.log('error:', error.response);
         });
     },
+    getUserProfile({commit}, token){
+      console.log(token);
+      http.get('user/profile/', {headers: {'Authorization': `Token ${token}`}})
+      .then(response => {
+        if(response.status === 200) {
+          let data = response.data;
+          commit('setUserInfo', data);
+        }
+      })
+      .catch(error => {
+        console.log('error:', error.response);
+      });
+    },
     logout({commit}){
       let token = sessionStorage.getItem('token');
 
