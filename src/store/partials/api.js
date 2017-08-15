@@ -8,8 +8,8 @@ export default {
       LOGOUT: '/user/logout/',
       USER_PROFILE: '/user/profile/',
       GROUP_REGISTER: '/group/register/',
+      REGION_LIST: '/group/region/',
       HOBBY_LIST: '/group/hobby/',
-
     },
   },
   getters: {

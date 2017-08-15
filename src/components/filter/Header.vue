@@ -1,25 +1,26 @@
 <template lang="pug">
-  div
-    .header-wrap
-      button.header_cancel-button(type="button" @click="") 취소
-      button.header_apply-button(type="button" @click="") 적용
+  .filter-header-container
+    button.header_cancel-button(type="button" @click="setActiveFilter(null)") 취소
+    button.header_apply-button(type="button" @click="") 적용
 </template>
 
 <script>
+  import { mapGetters, mapMutations } from 'vuex';
 
-export default {
-  data() {
-    return {
-
-    };
-  },
-};
+  export default {
+    methods: {
+      ...mapMutations(['setActiveFilter']),
+    },
+    computed: {
+      ...mapGetters(['activeFilter']),
+    },
+  };
 </script>
 
 <style lang="sass" scoped>
   @import "~chming"
 
-  .header-wrap
+  .filter-header-container
     display: block
     height: 3rem
     background: $filter-panel-header-background-color

@@ -4,6 +4,7 @@ import api from './partials/api';
 import user from './partials/user';
 import group from './partials/group';
 import map from './partials/map';
+import filter from './partials/filter';
 import hobby from './partials/hobby';
 import region from './partials/region';
 
@@ -15,6 +16,7 @@ export default new Vuex.Store({
     user,
     group,
     map,
+    filter,
     hobby,
     region,
   },
