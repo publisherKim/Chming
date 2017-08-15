@@ -52,7 +52,7 @@
         @click="editValidate" 
         type="button"
       ) 완료
-    back-button
+    back-button(:route="{name: 'group_info'}")
 </template>
 
 <script>

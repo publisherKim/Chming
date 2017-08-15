@@ -122,7 +122,7 @@
           
         .form_hobby-wrap
           button.hobby_button(
-            @click="changeRoute({name: 'user_join_hobby', params: {prev: 'user_join'}})"
+            @click="changeRoute({name: 'user_join_hobby', params: {prev: 'user_join', hobby: userJoinInfo.hobby}})"
             @blur="checkEmpty('hobby')"
             ref="hobby"
             type="button"
