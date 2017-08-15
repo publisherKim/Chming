@@ -1,35 +1,15 @@
 <template lang="pug">
   div
     .hobby-wrap(v-if="hobbyList.length !== 0")
-      h3.title 운동/스포츠
-      ul.hobby_list
-         li
-            input(v-model="selectedList" id="item1" type="checkbox" value="자전거")
-            label(for="item1") 자전거    
-         li
-           input(v-model="selectedList" id="item2"  type="checkbox" value="배드민턴")
-           label(for="item2") 배드민턴
-         li
-           input(v-model="selectedList" id="item3"  type="checkbox" value="축구")
-           label(for="item3") 축구
-         li
-           input(v-model="selectedList" id="item4"  type="checkbox" value="농구")
-           label(for="item4") 농구
-         li
-           input(v-model="selectedList" id="item5"  type="checkbox" value="레이싱")
-           label(for="item5") 레이싱     
-      message-box(
-        v-if="isEmptyGroupHobby"
-        :classList="['fa-check-circle-o', 'warning']"
-        message="관심사는 최소 1개이상 선택해주세요"
-      )       
-    button.hobby_confirm(
-      @click="confirm" 
-      :disabled="!selectedList.length" 
-      v-if="!isRouteMain" 
-      type="button"
-    ) 완료
-    back-button(v-if="!isRouteMain")
+      template(v-for="obj in hobbyCategoryList")
+        h3.title {{obj.category}}
+        ul.hobby_list
+          li(v-if="obj.category === hobby.category" v-for="hobby in hobbyList")
+            input(v-model="selectedList" :id="`item${hobby.pk}`" type="checkbox" :value="hobby.category_detail")
+            label(:for="`item${hobby.pk}`") {{hobby.category_detail}}   
+      
+    button.hobby_confirm(v-if="!isRouteMain" @click="confirm" type="button") 완료
+    back-button.back-button(v-if="!isRouteMain")
 </template>
 
 <script>
@@ -65,7 +45,7 @@
       };
     },
     computed: {
-      ...mapGetters(['userInfo', 'hobbyList']),
+      ...mapGetters(['userInfo', 'hobbyList', 'hobbyCategoryList']),
       isRouteMain() {
         return this.$route.name === 'main';
       },
@@ -137,7 +117,9 @@
       display: block
       margin: 2rem auto
       +action-button(5rem, 3rem)
-  
+  .back-button
+    z-index: 1
+
   +mobile
     .hobby_list
       +container()

@@ -5,16 +5,16 @@
       h2 지역 선택 메뉴
       ul.location-list(role="tablist")
         li#tab1.location-list-item(
-          v-for="(arr, region, index) in regionList"
+          v-for="(reigon, index) in regionCategoryList"
           :id="`tab${index+1}`"
           :class="{'is-active': (index === activeSection)}"
           role="tab"
           :aria-controls="`section${index+1}`"
           :aria-selected="(index === 0) ? 'true' : 'false'"
           @click="changeTabContents(index)"
-        ) {{ region }}
+        ) {{ reigon.si }}
       .tab-contents
-        template(v-for="(arr, region, index) in regionList")
+        template(v-for="(category, index) in regionCategoryList")
           section(
             :id="`section${index+1}`"
             :class="{'is-active': (index === activeSection)}"
@@ -22,36 +22,37 @@
             :aria-labelledby="`tab${index+1}`"
           )
             ul.region-list
-              li.region-list-item(v-for="detail in arr")
-                button(type="button" @click="searchGroupByRegion(detail)") {{ detail }}
+              li.region-list-item(v-if="category.si === region.si" v-for="region in regionList")
+                button(type="button" @click="searchGroupByRegion(region)") {{ region.dong }}
 </template>
 
 <script>
 import FilterHeader from '@/components/filter/Header';
+import { mapGetters, mapActions } from 'vuex';
 
 export default {
   components: {
     FilterHeader
   },
+  created() {
+    this.regionList.length === 0 && this.getRegionList();
+  },
   data() {
     return {
-      regionList: {
-        '경기도': ['테스트1', '테스트2', '테스트3', '테스트4', '테스트5', '테스트6'],
-        '서울': ['가로수길', '논현동', '강남역'],
-        '성남': ['테스트4', '테스트5', '테스트6'],
-      },
       activeSection: 0,
-      // region: Array.prototype.keys(this.regionList),
-      // regionDetail: Array.prototype.values(this.regionList),
     };
   },
   methods: {
+    ...mapActions(['getRegionList']),
     changeTabContents(index) {
       this.activeSection = index;
     },
     searchGroupByRegion(region) {
       console.log('region:', region);
     },
+  },
+  computed: {
+    ...mapGetters(['regionList', 'regionCategoryList']),
   },
 };
 </script>
@@ -60,6 +61,7 @@ export default {
   @import "~chming"
 
   $location-list-height: 40px
+
   .location-container
     position: absolute
     z-index: 10

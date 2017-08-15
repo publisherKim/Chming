@@ -12,7 +12,7 @@
           button.list_close-button(@click="closeSearchResult") 닫기
     user-map.user-map
     button.confirm-button(@click="confirm" :disabled="!position.address") 완료
-    back-button
+    back-button.back-button
 
 </template>
 
@@ -184,7 +184,6 @@
       background: none
       border: 0
 
-  
   .user-map
     margin-top: 1rem
     width: 100%
@@ -197,5 +196,8 @@
     display: block
     margin: 2rem auto
     +action-button(5rem, 3rem)
+  
+  .back-button
+    z-index: 1
 
 </style>

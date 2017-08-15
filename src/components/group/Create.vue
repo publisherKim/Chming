@@ -78,7 +78,7 @@
         type="button"
       ) 완료
     router-view.hobby-container
-    back-button(:route={name: 'user_info', params: {prev: 'group_create'}})
+    back-button(:route={name: 'user_info'})
 </template>
 
 <script>

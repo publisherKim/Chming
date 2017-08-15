@@ -46,7 +46,7 @@
         a(href @click.prevent="") 아이디 / 비밀번호 찾기
       li
         a(href @click.prevent="changeRoute({name: 'user_join'})") 회원가입
-    back-button
+    back-button(:route="{name: 'main'}")
 
 </template>
 

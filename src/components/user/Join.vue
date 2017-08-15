@@ -152,7 +152,7 @@
         )
         button.form_confirm(@click="join" type="button") 완료
     router-view.hobby-container
-    back-button
+    back-button(:route="{name: 'user_login'}")
 </template>
 
 <script>
@@ -231,7 +231,7 @@
           then(response => {
             if(response.status === 201) {
               alert('회원가입이 완료되었습니다.');
-              this.changeRoute({name: 'main'});
+              this.changeRoute({name: 'user_login'});
             } else {
               console.log(response);
             }

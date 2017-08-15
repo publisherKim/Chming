@@ -6,6 +6,7 @@
     .sort-filter_content-wrap
       button.is-active(type="button" @click="") 거리순
       button(type="button" @click="") 인원순
+      button(type="button" @click="") 좋아요순
     
 </template>
 
