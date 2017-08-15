@@ -1,14 +1,15 @@
 <template lang="pug">
   div
     .hobby-wrap(v-if="hobbyList.length !== 0")
-      h3.title 운동/스포츠
-      ul.hobby_list
-        li
-          input(v-model="selectedList" id="item1" type="checkbox" value="자전거")
-          label(for="item1") 자전거    
+      template(v-for="obj in hobbyCategoryList")
+        h3.title {{obj.category}}
+        ul.hobby_list
+          li(v-if="obj.category === hobby.category" v-for="hobby in hobbyList")
+            input(v-model="selectedList" :id="`item${hobby.pk}`" type="checkbox" :value="hobby.category_detail")
+            label(:for="`item${hobby.pk}`") {{hobby.category_detail}}   
       
     button.hobby_confirm(v-if="!isRouteMain" @click="confirm" type="button") 완료
-    back-button(v-if="!isRouteMain")
+    back-button.back-button(v-if="!isRouteMain")
 </template>
 
 <script>
@@ -42,7 +43,7 @@
       };
     },
     computed: {
-      ...mapGetters(['userInfo', 'hobbyList']),
+      ...mapGetters(['userInfo', 'hobbyList', 'hobbyCategoryList']),
       isRouteMain() {
         return this.$route.name === 'main';
       }
@@ -105,7 +106,9 @@
       display: block
       margin: 2rem auto
       +action-button(5rem, 3rem)
-  
+  .back-button
+    z-index: 1
+
   +mobile
     .hobby_list
       +container()

@@ -9,7 +9,7 @@
         button.hobby-button(@click="viewFilter('hobby')" type="button") 관심사 &dtrif;
         button.mylocation-button(@click="viewFilter('mylocation')" type="button" aria-label="내 주변 검색")
           i.fa.fa-street-view(aria-hidden='true')
-    .filter(ref="filter" :is="filter")
+    .filter(ref="filter" :is="activeFilter")
 </template>
 
 <script>
@@ -17,13 +17,9 @@
   import HobbyFilter from '@/components/filter/HobbyFilter';
   import MylocationFilter from '@/components/filter/MylocationFilter';
   import LocationFilter from '@/components/filter/LocationFilter';
+  import {mapMutations, mapGetters} from 'vuex';
 
   export default {
-    data() {
-      return {
-        filter: null
-      };
-    },
     components: {
       SortFilter,
       HobbyFilter,
@@ -31,12 +27,16 @@
       LocationFilter,
     },
     methods: {
+      ...mapMutations(['setActiveFilter']),
       viewFilter(filter) {
-        this.filter = filter + '-filter';
-        let refFilter = this.$refs.filter;
+        this.setActiveFilter(filter + '-filter');
 
-        refFilter && refFilter.$options._componentTag.includes(filter) && (this.filter = null);
+        let refFilter = this.$refs.filter;
+        refFilter && refFilter.$options._componentTag.includes(filter) && this.setActiveFilter(null);
       },
+    },
+    computed: {
+      ...mapGetters(['activeFilter']),
     },
   };
 </script>

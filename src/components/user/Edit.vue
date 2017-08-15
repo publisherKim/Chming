@@ -117,7 +117,7 @@
           message="지역을 선택해주세요"
         )
         button.form_confirm(@click="edit" type="button") 완료
-      back-button
+      back-button(:route="{name: 'user_info'}")
     router-view.hobby-container
 </template>
 
@@ -157,6 +157,7 @@
       MessageBox,
     },
     methods: {
+      ...mapActions(['getUserProfile']),
       changeRoute(route) {
         this.$router.push(route);
       },
@@ -166,16 +167,16 @@
         let token = sessionStorage.getItem('token');
 
         let userEditInfo = this.userEditInfo;
-        // if(userEditInfo.profile_img === this.userInfo.profile_img) {
-        //   userEditInfo.profile_img = '';
-        // }
+        Vue.isString(userEditInfo.profile_img) && delete userEditInfo.profile_img;
+        userEditInfo.password === '' && delete userEditInfo.password;
 
         let formData = Vue.setFormData(userEditInfo);
         this.$http.put(this.url.USER_PROFILE, formData, {headers: {'Authorization': `Token ${token}`}}).
           then(response => {
-            if(response.status === 201) {
+            if(response.status === 200) {
+              this.getUserProfile(sessionStorage.getItem('token'));
+              this.changeRoute({name: 'user_info'});
               alert('정보수정이 완료되었습니다.');
-              this.changeRoute({name: 'main'});
             } else {
               console.log(response);
             }
@@ -272,7 +273,7 @@
   };
 </script>
 
-<style lang="sass">
+<style lang="sass" scoped>
   @import "~chming"
 
   .user-edit-wrap
