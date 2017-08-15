@@ -163,8 +163,15 @@
       edit() {
         if(!this.editValidate()) return;
 
-        let formData = Vue.setFormData(this.userJoinInfo);
-        this.$http.put('/user/update/', formData).
+        let token = sessionStorage.getItem('token');
+
+        let userEditInfo = this.userEditInfo;
+        // if(userEditInfo.profile_img === this.userInfo.profile_img) {
+        //   userEditInfo.profile_img = '';
+        // }
+
+        let formData = Vue.setFormData(userEditInfo);
+        this.$http.put(this.url.USER_PROFILE, formData, {headers: {'Authorization': `Token ${token}`}}).
           then(response => {
             if(response.status === 201) {
               alert('정보수정이 완료되었습니다.');
@@ -208,7 +215,7 @@
       }
     },
     computed: {
-      ...mapGetters(['userInfo']),
+      ...mapGetters(['userInfo', 'url']),
       maskingPassword() {
         // let length = this.user.password.length;
         let length = 5;

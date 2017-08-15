@@ -227,7 +227,7 @@
         if(!this.joinValidate()) return;
 
         let formData = Vue.setFormData(this.userJoinInfo);
-        this.$http.post('/user/signup/', formData).
+        this.$http.post(this.url.JOIN, formData).
           then(response => {
             if(response.status === 201) {
               alert('회원가입이 완료되었습니다.');
@@ -269,7 +269,7 @@
         return true;
       },
       checkDuplicateEmail() {
-        this.$http.get('/user/validate_email/', {
+        this.$http.get(this.url.VALIDATE_EMAIL, {
           params: {
             email: this.userJoinInfo.email
           },
@@ -310,6 +310,7 @@
       },
     },
     computed: {
+      ...mapGetters(['url']),
       emailValidate() {
         if(!emailRegexp.test(this.userJoinInfo.email)) {
           this.emailValidationMessage = '올바른 이메일 주소를 입력해주세요';

@@ -1,38 +1,11 @@
 <template lang="pug">
   div
-    .hobby-wrap
+    .hobby-wrap(v-if="hobbyList.length !== 0")
       h3.title 운동/스포츠
       ul.hobby_list
         li
           input(v-model="selectedList" id="item1" type="checkbox" value="자전거")
           label(for="item1") 자전거    
-        li
-          input(v-model="selectedList" id="item2"  type="checkbox" value="배드민턴")
-          label(for="item2") 배드민턴
-        li
-          input(v-model="selectedList" id="item3"  type="checkbox" value="축구")
-          label(for="item3") 축구
-        li
-          input(v-model="selectedList" id="item4"  type="checkbox" value="농구")
-          label(for="item4") 농구
-        li
-          input(v-model="selectedList" id="item5"  type="checkbox" value="레이싱")
-          label(for="item5") 레이싱
-    .hobby-wrap
-      h3.title 음악
-      ul.hobby_list
-        li
-          input(v-model="selectedList" id="item6" type="checkbox" value="클래식")
-          label(for="item6") 클래식    
-        li
-          input(v-model="selectedList" id="item7"  type="checkbox" value="재즈")
-          label(for="item7") 재즈
-        li
-          input(v-model="selectedList" id="item8"  type="checkbox" value="팝송")
-          label(for="item8") 팝송
-        li
-          input(v-model="selectedList" id="item9"  type="checkbox" value="K-POP")
-          label(for="item9") K-POP
       
     button.hobby_confirm(v-if="!isRouteMain" @click="confirm" type="button") 완료
     back-button(v-if="!isRouteMain")
@@ -41,7 +14,7 @@
 <script>
   import BackButton from '@/components/common/BackButton';
   import Vue from 'vue';
-  import { mapGetters } from 'vuex';
+  import { mapGetters, mapActions } from 'vuex';
 
   export default {
     beforeRouteEnter (to, from, next) {
@@ -55,6 +28,7 @@
       }
     },
     created() {
+      this.hobbyList.length === 0 && this.getHobbyList();
       if(this.$route.name === 'user_edit_hobby') {
         this.selectedList = this.userInfo.hobby.slice();
       }
@@ -62,23 +36,19 @@
     components: {
       BackButton,
     },
-    mounted() {
-      if(this.$route.name === 'group_create_hobby'){
-        console.log(111);
-      }
-    },
     data() {
       return {
         selectedList: [],
       };
     },
     computed: {
-      ...mapGetters(['userInfo']),
+      ...mapGetters(['userInfo', 'hobbyList']),
       isRouteMain() {
         return this.$route.name === 'main';
       }
     },
     methods: {
+      ...mapActions(['getHobbyList']),
       confirm() {
         this.changeRoute({name: this.$route.params.prev, params: {hobby: this.selectedList}});
       },
