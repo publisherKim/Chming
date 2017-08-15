@@ -61,7 +61,7 @@
   
       .form_hobby-wrap
         button.hobby_button(
-          @click="changeRoute({name: 'group_create_hobby', params: {prev: 'group_create'}})"
+          @click="changeRoute({name: 'group_create_hobby', params: {prev: 'group_create', hobby: [group.hobby]}})"
           @blur="checkEmpty('hobby')"
           type="button"
         ) 관심사 설정
