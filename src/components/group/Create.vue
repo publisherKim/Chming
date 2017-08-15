@@ -86,7 +86,7 @@
   import BackButton from '@/components/common/BackButton';
   import MessageBox from '@/components/common/MessageBox';
   import Vue from 'vue';
-  import { mapMutations } from 'vuex';
+  import { mapGetters, mapMutations } from 'vuex';
 
   export default {
     components: {
@@ -109,6 +109,7 @@
       };
     },
     computed: {
+      ...mapGetters(['url']),
       isEmptyGroupName() {
         return this.group.name === '';
       },
@@ -171,7 +172,7 @@
         let formData = Vue.setFormData(this.group);
         let token = sessionStorage.getItem('token');
         console.log(formData);
-        this.$http.post('/group/register/', formData, {headers: {Authorization: `Token ${token}`}}).
+        this.$http.post(this.url.GROUP_REGISTER, formData, {headers: {Authorization: `Token ${token}`}}).
           then(response => {
             if(response.status === 200) {
               console.log(response);
