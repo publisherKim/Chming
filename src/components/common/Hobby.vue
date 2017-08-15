@@ -14,9 +14,9 @@
 
 <script>
   import BackButton from '@/components/common/BackButton';
+  import MessageBox from '@/components/common/MessageBox';
   import Vue from 'vue';
   import { mapGetters, mapActions } from 'vuex';
-  import MessageBox from '@/components/common/MessageBox';
 
   export default {
     beforeRouteEnter (to, from, next) {
