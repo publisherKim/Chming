@@ -41,7 +41,7 @@
         p.location-address {{group.address}}
       .form_hobby-wrap
         button.hobby_button(
-          @click="changeRoute({name: 'group_edit_hobby', params: {prev: 'group_edit'}})" 
+          @click="changeRoute({name: 'group_edit_hobby', params: {prev: 'group_edit', hobby: [group.hobby]}})" 
           type="button"
         ) 관심사 설정
           i.fa.fa-cog(aria-hidden='true')
@@ -49,7 +49,7 @@
           li.list_item {{group.hobby}}
       router-view.hobby-container
       button.form_confirm(
-        @click="editValidate" 
+        @click="edit" 
         type="button"
       ) 완료
     back-button
@@ -58,7 +58,7 @@
 <script>
   import BackButton from '@/components/common/BackButton';
   import MessageBox from '@/components/common/MessageBox';
-  import Vue from 'Vue';
+  import Vue from 'vue';
 
   export default {
     created() {
@@ -72,8 +72,10 @@
     data() {
       return {
         group: {
-          author: {}
-        }
+          author: {},
+          hobby: []
+        },
+        uploadSrc: ''
       };
     },
     computed: {
@@ -98,17 +100,6 @@
       changeRoute(route) {
         this.$router.push(route);
       },
-      getGroupInfo() {
-        this.$http.get('/group/7/')
-          .then(response => {
-            if(response.status === 200) {
-              this.group = response.data;
-            }
-          })
-          .catch(error => {
-            console.log('error:', error.response);
-          });        
-      },
       editValidate() {
         let refs = this.$refs;
         let group = this.group;
@@ -120,7 +111,42 @@
         }
 
         return true;
+      },      
+      getGroupInfo() {
+        this.$http.get('/group/7/')
+          .then(response => {
+            if(response.status === 200) {
+              response.data.hobby = response.data.hobby[0];
+              this.group = response.data;
+            }
+          })
+          .catch(error => {
+            console.log('error:', error.response);
+          });        
       },
+      edit() {
+        if(!this.editValidate()) return;
+
+        let token = sessionStorage.getItem('token');
+
+        let group = this.group;
+        console.log(group);
+        Vue.isString(group.image) && delete group.image;
+
+        let formData = Vue.setFormData(group);
+        this.$http.put('/group/7/edit/', formData, {headers: {'Authorization': `Token ${token}`}}).
+          then(response => {
+            if(response.status === 200) {
+              this.changeRoute({name: 'group_info_home'});
+              alert('그룹정보수정이 완료되었습니다.');
+            } else {
+              console.log(response);
+            }
+          })
+          .catch(error => {
+            console.log('error.response: ', error.response);
+          });
+      },      
     },
     watch: {
       $route(newRoute) {

@@ -31,8 +31,8 @@
     },
     created() {
       this.hobbyList.length === 0 && this.getHobbyList();
-      if(this.$route.name === 'user_edit_hobby') {
-        this.selectedList = this.userInfo.hobby.slice();
+      if(this.$route.params.prev) {
+        this.selectedList = this.$route.params.hobby;
       }
     },
     components: {
@@ -70,7 +70,7 @@
     },
     watch: {
       selectedList(newValue) {
-        if( (this.$route.name === 'group_create_hobby' && newValue.length === 2) ) {
+        if( (this.$route.name === 'group_create_hobby'|| this.$route.name === 'group_edit_hobby') && newValue.length === 2 ) {
           newValue = newValue.shift();
         } 
       }  
