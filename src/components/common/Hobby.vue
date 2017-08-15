@@ -3,11 +3,32 @@
     .hobby-wrap(v-if="hobbyList.length !== 0")
       h3.title 운동/스포츠
       ul.hobby_list
-        li
-          input(v-model="selectedList" id="item1" type="checkbox" value="자전거")
-          label(for="item1") 자전거    
-      
-    button.hobby_confirm(v-if="!isRouteMain" @click="confirm" type="button") 완료
+         li
+            input(v-model="selectedList" id="item1" type="checkbox" value="자전거")
+            label(for="item1") 자전거    
+         li
+           input(v-model="selectedList" id="item2"  type="checkbox" value="배드민턴")
+           label(for="item2") 배드민턴
+         li
+           input(v-model="selectedList" id="item3"  type="checkbox" value="축구")
+           label(for="item3") 축구
+         li
+           input(v-model="selectedList" id="item4"  type="checkbox" value="농구")
+           label(for="item4") 농구
+         li
+           input(v-model="selectedList" id="item5"  type="checkbox" value="레이싱")
+           label(for="item5") 레이싱     
+      message-box(
+        v-if="isEmptyGroupHobby"
+        :classList="['fa-check-circle-o', 'warning']"
+        message="관심사는 최소 1개이상 선택해주세요"
+      )       
+    button.hobby_confirm(
+      @click="confirm" 
+      :disabled="!selectedList.length" 
+      v-if="!isRouteMain" 
+      type="button"
+    ) 완료
     back-button(v-if="!isRouteMain")
 </template>
 
@@ -15,6 +36,7 @@
   import BackButton from '@/components/common/BackButton';
   import Vue from 'vue';
   import { mapGetters, mapActions } from 'vuex';
+  import MessageBox from '@/components/common/MessageBox';
 
   export default {
     beforeRouteEnter (to, from, next) {
@@ -35,6 +57,7 @@
     },
     components: {
       BackButton,
+      MessageBox
     },
     data() {
       return {
@@ -45,11 +68,20 @@
       ...mapGetters(['userInfo', 'hobbyList']),
       isRouteMain() {
         return this.$route.name === 'main';
-      }
+      },
+      isEmptyGroupHobby(){
+        return this.selectedList.length === 0;
+      }      
     },
     methods: {
       ...mapActions(['getHobbyList']),
+      hobbyValidate(){
+        if(this.selectedList.length === 0){
+          alert('관심사는 1개이상 선택해주세요 제발');
+        }
+      },
       confirm() {
+        this.hobbyValidate();
         this.changeRoute({name: this.$route.params.prev, params: {hobby: this.selectedList}});
       },
       changeRoute(route) {

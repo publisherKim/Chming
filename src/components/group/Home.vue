@@ -11,8 +11,8 @@
     .home_news-wrap
       h3.title 새소식
       board-list
-    button.home_join(type="button") 가입하기
-    button.home_modify(type="button") 수정하기
+    button.home_join(@click="" type="button") 가입하기
+    button.home_modify(@click="changeRoute('/group/edit')" type="button") 수정하기
     .home_member-wrap
       h3.title 모임멤버 
         span.member-number {{groupInfo.member_count}} 명
@@ -42,7 +42,10 @@
     },
     data() {   
       return {
-        groupInfo: ''
+        groupInfo: {
+          // 최초 데이터 형태 author가 널이라서, 새로고침시, 비동기 통신에도 렌더링 될때 데이터 형이 다르므로 형을 지정해줌
+          author: {}
+        }
       };
     },
     methods: {
@@ -57,6 +60,9 @@
           .catch(error => {
             console.log('error:', error.response);
           });        
+      },
+      changeRoute(name){
+        this.$router.push(name);
       }
     },
   };

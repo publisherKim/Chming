@@ -87,7 +87,10 @@
             tabindex="0"
           ) 프로필 사진
             i.fa.fa-picture-o(aria-hidden="true")
-          img(v-if="userImageSrc" :src="userImageSrc")
+          img(
+            v-if="userImageSrc" 
+            :src="userImageSrc"
+          )
         .form_hobby-wrap
           button.hobby_button(
             @click="changeRoute({name: 'user_edit_hobby', params: {prev: 'user_edit'}})"
