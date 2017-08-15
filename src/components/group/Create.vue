@@ -171,7 +171,7 @@
         if(!this.groupValidate()) return;
         let formData = Vue.setFormData(this.group);
         let token = sessionStorage.getItem('token');
-        console.log(formData);
+
         this.$http.post(this.url.GROUP_REGISTER, formData, {headers: {Authorization: `Token ${token}`}}).
           then(response => {
             if(response.status === 200) {

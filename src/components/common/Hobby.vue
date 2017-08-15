@@ -16,6 +16,7 @@
   import BackButton from '@/components/common/BackButton';
   import Vue from 'vue';
   import { mapGetters, mapActions } from 'vuex';
+  import MessageBox from '@/components/common/MessageBox';
 
   export default {
     beforeRouteEnter (to, from, next) {
@@ -36,6 +37,7 @@
     },
     components: {
       BackButton,
+      MessageBox
     },
     data() {
       return {
@@ -46,11 +48,20 @@
       ...mapGetters(['userInfo', 'hobbyList', 'hobbyCategoryList']),
       isRouteMain() {
         return this.$route.name === 'main';
-      }
+      },
+      isEmptyGroupHobby(){
+        return this.selectedList.length === 0;
+      }      
     },
     methods: {
       ...mapActions(['getHobbyList']),
+      hobbyValidate(){
+        if(this.selectedList.length === 0){
+          alert('관심사는 1개이상 선택해주세요 제발');
+        }
+      },
       confirm() {
+        this.hobbyValidate();
         this.changeRoute({name: this.$route.params.prev, params: {hobby: this.selectedList}});
       },
       changeRoute(route) {

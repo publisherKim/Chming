@@ -3,43 +3,138 @@
     h3.title 모임 정보 수정
     form.group-create_form
       p.form_name {{ group.name }}
-      textarea.form_description(v-model="group.description" placeholder="어떤 모임인지 설명해주세요." aria-label="모임 설명")
+      textarea.form_description(
+        v-model="group.description" 
+        placeholder="어떤 모임인지 설명해주세요." 
+        aria-label="모임 설명"
+        ref="description"
+      )
+      message-box(
+        v-if="isEmptyGroupDescription"
+        :classList="['fa-check-circle-o', 'warning']"
+        message="그룹설명을 입력해주세요."
+      )
+      .form_file-upload-wrap
+        input#upload(
+          @change="fileUpload" 
+          type="file"
+        )
+        label.file-upload_label(
+          for="upload"
+          ref="fileUpload" 
+          @keyup.enter="$refs.fileUpload.click()" 
+          tabindex="0" 
+          role="button"
+        ) 모임 대표 사진
+          .fa.fa-picture-o(aria-hidden="true")
+          img.label_group-img(
+            v-if="groupImageSrc" 
+            :src="groupImageSrc"
+          )
       .form_location-wrap
-        button.location_button(@click="changeRoute('user_join_location')" type="button") 지역선택
+        button.location_button(
+          @click="changeRoute({name: 'group_edit_location', params: {prev: 'group_edit'}})"
+          type="button"
+          ref="address" 
+        ) 지역선택
           i.fa.fa-map-marker(aria-hidden='true')
-        p.location-address {{group.location}}
+        p.location-address {{group.address}}
       .form_hobby-wrap
-        button.hobby_button(@click="changeRoute('user_join_hobby')" type="button") 관심사 설정
+        button.hobby_button(
+          @click="changeRoute({name: 'group_edit_hobby', params: {prev: 'group_edit'}})" 
+          type="button"
+        ) 관심사 설정
           i.fa.fa-cog(aria-hidden='true')
         ul.hobby-list
-          li
-            img(src="" alt="관심사1")
-      button.form_confirm(@click="changeRoute('main')" type="submit") 완료
+          li.list_item {{group.hobby}}
+      router-view.hobby-container
+      button.form_confirm(
+        @click="editValidate" 
+        type="button"
+      ) 완료
     back-button
 </template>
 
 <script>
   import BackButton from '@/components/common/BackButton';
+  import MessageBox from '@/components/common/MessageBox';
+  import Vue from 'Vue';
 
   export default {
-    data() {
-      return {
-        group: {
-          name: '분당 쉐보레 스파크 모임',
-          description: '분당구 경차사랑 스파크 모임입니다.',
-          location: '경기도 성남시 분당구 정자동 11-2',
-          hobby: ['축구', '야구']
-        },
-      };
+    created() {
+      this.getGroupInfo();
+      //console.log(data);
     },
     components: {
       BackButton,
+      MessageBox
+    },    
+    data() {
+      return {
+        group: {
+          author: {}
+        }
+      };
     },
-    methods: {
-      changeRoute(route) {
-        this.$router.push({name: route});
+    computed: {
+      isEmptyGroupDescription() {
+        return this.group.description === '';
+      },    
+      groupImageSrc() {
+        if(this.uploadSrc) return this.uploadSrc;
+        else return this.group.image;
       },
     },
+    methods: {
+      fileUpload(e) {
+        let file = e.target.files[0];
+        this.group.image = file;
+        let reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = f => {
+          this.uploadSrc = f.srcElement.result;
+        };
+      },
+      changeRoute(route) {
+        this.$router.push(route);
+      },
+      getGroupInfo() {
+        this.$http.get('/group/7/')
+          .then(response => {
+            if(response.status === 200) {
+              this.group = response.data;
+            }
+          })
+          .catch(error => {
+            console.log('error:', error.response);
+          });        
+      },
+      editValidate() {
+        let refs = this.$refs;
+        let group = this.group;
+        
+        if(this.isEmptyGroupDescription || !group.description) {
+          console.log('test');
+          refs.description.focus();
+          return false;
+        }
+
+        return true;
+      },
+    },
+    watch: {
+      $route(newRoute) {
+        let group = this.group;
+        let hobby = newRoute.params.hobby;
+        hobby && (group.hobby = hobby[0]);
+        let position = newRoute.params.position;
+        if(position) {
+          group.address = position.address;
+          group.lat = position.latitude;
+          group.lng = position.longitude;
+        }
+      },
+    }
   };
 </script>
 
@@ -65,12 +160,25 @@
   .form_description
     +text-input(100%, 100px)
 
+  .form_file-upload-wrap,
   .form_hobby-wrap,
   .form_location-wrap
     margin-top: 1.5rem
   
+  .form_file-upload-wrap
+    img 
+      display: block
+      width: 50px
+      height: 50px
+    input
+      visibility: hidden
+      position: absolute
+    label
+      cursor: pointer
+
   .hobby_button,
-  .location_button
+  .location_button,
+  .file-upload_label
     & > .fa
       margin-left: 1rem
       font-size: 1.5rem
@@ -81,6 +189,19 @@
   .hobby-list, .location-address
     margin-top: 1rem
     padding-left: 1.5rem
+
+  .hobby-container
+    position: absolute
+    top: 0
+    left: 0
+    width: 100%
+    height: 100vh
+    padding: 2rem
+    background: #fff
+    .hobby_confirm
+      display: block
+      margin: 2rem auto
+      +action-button(5rem, 3rem)
 
   .form_confirm
     display: block
