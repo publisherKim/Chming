@@ -12,8 +12,7 @@
     components: {
       GroupHeader,
       ArticleForm
-    },
-  
+    }
   };
 </script>
 
