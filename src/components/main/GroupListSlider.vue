@@ -1,17 +1,25 @@
 <template lang="pug">
-  .group-list-slider-container(v-if="groupList.length !== 0")
+  .group-list-slider-container(v-if="groupDetail && !activeFilter")
+    h2 검색된 그룹 정보 리스트
     ul.group-list
-      h2 검색된 그룹 정보 리스트
-      .list-item-wrap
-        transition(:name="transition" mode="out-in")
-          li.list_item(:key="index" v-for="(group, index) in groupList" v-if="index === count")
-            .group-image_wrap
-              img(:src="group.picture", alt="")
-            a.group-description_link(href @click.prevent="changeRoute(group.pk)")
-              span.group_name(aria-label="모임명") {{ `${index+1}. ${group.name}` }}
-              span.group_description(aria-label="모임 설명") {{ group.description }}
-              span.group_member(aria-label="모임멤버") 모임멤버 {{ group.member }}명
-              hobby-icon.group_hobby-icon(iconClass="fa-car")
+      li.list_item
+        .group-image_wrap
+          img(:src="groupDetail.image", alt="groupDetail.name")
+        a.group-description_link(href @click.prevent="changeRoute(groupDetail.pk)")
+          //- span.group_name(aria-label="모임명") {{ `${index+1}. ${group.name}` }}
+          span.group_name(aria-label="모임명") {{groupDetail.name}}
+          span.group_description(aria-label="모임 설명") {{groupDetail.description}}
+          span.group_member(aria-label="모임멤버") 모임멤버 {{groupDetail.member_count}}명
+          hobby-icon.group_hobby-icon(iconClass="fa-car")
+      //- transition(:name="transition" mode="out-in")
+      //-   li.list_item(:key="index" v-for="(group, index) in groupList" v-if="index === count")
+      //-     .group-image_wrap
+      //-       img(:src="group.picture", alt="")
+      //-     a.group-description_link(href @click.prevent="changeRoute(group.pk)")
+      //-       span.group_name(aria-label="모임명") {{ `${index+1}. ${group.name}` }}
+      //-       span.group_description(aria-label="모임 설명") {{ group.description }}
+      //-       span.group_member(aria-label="모임멤버") 모임멤버 {{ group.member }}명
+      //-       hobby-icon.group_hobby-icon(iconClass="fa-car")
     button.prev-button(@click="prevGroup" type="button")
       i.fa.fa-angle-left(aria-hidden="true")
     button.next-button(@click="nextGroup" type="button")
@@ -20,7 +28,7 @@
 
 <script>
   import HobbyIcon from '@/components/common/HobbyIcon';
-  import { mapGetters } from 'vuex';
+  import { mapGetters, mapActions } from 'vuex';
 
   export default {
     data() {
@@ -33,22 +41,27 @@
       HobbyIcon,
     },
     methods: {
+      ...mapActions(['getGroupDetail']),
       changeRoute(id) {
         this.$router.push({name: 'group_info_home', params: {id}});
       },
       nextGroup() {
         this.count = (this.count + 1) % this.groupListLength;
         this.transition = 'slide-next';
+        this.getGroupDetail(this.groupList[this.count]);
         this.map.panTo(this.groupList[this.count].position);
+
       },
       prevGroup() {
         this.count = (this.count - 1 + this.groupListLength) % this.groupListLength;
         this.transition = 'slide-prev';
+        this.getGroupDetail(this.groupList[this.count]);
         this.map.panTo(this.groupList[this.count].position);
+
       },
     },
     computed: {
-      ...mapGetters(['groupList', 'map']),
+      ...mapGetters(['groupList', 'map', 'groupDetail', 'activeFilter']),
       groupListLength() {
         return this.groupList.length;
       },
@@ -104,6 +117,8 @@
     img
       position: relative
       height: 80%
+      // border-radius: 0.5rem
+      // border: 0.5px solid $group-list-slider-border-color
       +align-center()
 
   .group-description_link
@@ -112,7 +127,7 @@
     +align-vertical-middle
     width: calc(100% - #{$list-item-height} - 2rem)
     margin-left: 1rem
-    padding-right: 2.5rem
+    padding-right: 1.5rem
     span
       display: block
       +fit-text-in-box
@@ -124,8 +139,8 @@
     .group_hobby-icon
       position: absolute
       z-index: 30
-      top: 0
-      right: 0
+      top: 0.5rem
+      right: -1rem
     &:hover
       text-decoration: none
 

@@ -59,6 +59,7 @@
   import BackButton from '@/components/common/BackButton';
   import MessageBox from '@/components/common/MessageBox';
   import Vue from 'vue';
+  import { mapGetters } from 'vuex';
 
   export default {
     created() {
@@ -79,6 +80,7 @@
       };
     },
     computed: {
+      ...mapGetters(['url']),
       isEmptyGroupDescription() {
         return this.group.description === '';
       },    
@@ -113,7 +115,9 @@
         return true;
       },      
       getGroupInfo() {
-        this.$http.get('/group/7/')
+        let groupId = this.$route.params.id;
+        let url = this.url.GROUP_DETAIL + groupId + '/';
+        this.$http.get(url)
           .then(response => {
             if(response.status === 200) {
               response.data.hobby = response.data.hobby[0];
@@ -130,11 +134,12 @@
         let token = sessionStorage.getItem('token');
 
         let group = this.group;
-        console.log(group);
         Vue.isString(group.image) && delete group.image;
 
         let formData = Vue.setFormData(group);
-        this.$http.put('/group/7/edit/', formData, {headers: {'Authorization': `Token ${token}`}}).
+        let groupId = this.$route.params.id;
+        let url = this.url.GROUP_EDIT + groupId + '/edit/';
+        this.$http.put(url, formData, {headers: {'Authorization': `Token ${token}`}}).
           then(response => {
             if(response.status === 200) {
               this.changeRoute({name: 'group_info_home'});

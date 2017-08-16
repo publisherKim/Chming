@@ -8,14 +8,16 @@
 
   export default {
     created() {
+      this.getRegionList();
+      this.getHobbyList();
+
       let token = sessionStorage.getItem('token');
-      
       if(token !== null) {
         this.getUserProfile(token);
       }
     },
     methods: {
-      ...mapActions(['getUserProfile']),
+      ...mapActions(['getUserProfile', 'getRegionList', 'getHobbyList']),
     }
   };
 </script>

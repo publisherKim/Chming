@@ -3,7 +3,6 @@
     .introduce-home-wrap
       img(
         :src="groupInfo.image" 
-        width="100%" 
         alt="groupIntroduce"
       ) 
       p {{groupInfo.description}}
@@ -11,11 +10,11 @@
     .home_news-wrap
       h3.title 새소식
       board-list
-    button.home_join(@click="" type="button") 가입하기
-    button.home_modify(@click="changeRoute('/group/edit')" type="button") 수정하기
+    button.home_join(v-if="isJoinable" @click="groupJoin" type="button") 가입하기
+    button.home_modify(v-if="isAuthor" @click="changeRoute({name: 'group_edit'})" type="button") 수정하기
     .home_member-wrap
       h3.title 모임멤버 
-        span.member-number {{groupInfo.member_count}} 명
+        span.member-number {{groupInfo.member_count+1}} 명
       ul.member-list
         li.list-item
           img(
@@ -25,12 +24,13 @@
           span.item-name {{groupInfo.author.username}}
           span.item-position 모임장
         li.list-item(v-for="member in groupInfo.members")
-          img(src="member.profile_img" alt="profileName")
+          img(:src="member.profile_img" :alt="member.username")
           span.item-name {{member.username}}
 </template>
 
 <script>
   import BoardList from '@/components/group/BoardList';
+  import { mapGetters } from 'vuex';
 
   export default {
     created() {
@@ -42,15 +42,60 @@
     },
     data() {   
       return {
+        groupId: this.$route.params.id,
         groupInfo: {
-          // 최초 데이터 형태 author가 널이라서, 새로고침시, 비동기 통신에도 렌더링 될때 데이터 형이 다르므로 형을 지정해줌
-          author: {}
-        }
+          // 비동기 통신 후 groupInfo를 받아오기 때문에, 최초 groupInfo.author 값이 null로 처리되지 않도록 설정
+          author: {},
+          members: [],
+        },
       };
     },
+    computed: {
+      ...mapGetters(['url', 'userInfo']),
+      isLogin() {
+        return !!this.userInfo;
+      },
+      isMember() {
+        let groupInfo = this.groupInfo;
+        let userInfo = this.userInfo;
+        if(groupInfo && userInfo) {
+          return groupInfo.members.some(member => {
+            return member.pk === userInfo.pk;
+          });
+        }
+        return false;
+      },
+      isAuthor() {
+        let userInfo = this.userInfo;
+        if(userInfo) {
+          return this.groupInfo.author.pk === userInfo.pk;
+        }
+        return false;
+      },
+      isJoinable() {
+        return this.isLogin && !this.isMember && !this.isAuthor;
+      },
+    },
     methods: {
+      groupJoin() {
+        let url = this.url.GROUP_JOIN + this.groupId + '/join/';
+        let token = sessionStorage.getItem('token');
+        this.$http.post(url, null, {headers: {'Authorization': `Token ${token}`}})
+          .then(response => {
+            if(response.status === 200) {
+              if(response.data.joined) {
+                alert('모임 가입이 완료되었습니다.');
+                location.reload();
+              }
+            }
+          })
+          .catch(error => {
+            console.log('error:', error.response);
+          }); 
+      },
       getGroupInfo() {
-        this.$http.get('/group/7/')
+        let url = this.url.GROUP_DETAIL + this.groupId + '/';
+        this.$http.get(url)
           .then(response => {
             if(response.status === 200) {
               this.groupInfo = response.data;
@@ -86,6 +131,7 @@
     img
       display: block
       margin: 0 auto
+      width: 100%
       max-width: 640px
     p
       padding: 1rem 2rem

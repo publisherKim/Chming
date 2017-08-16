@@ -1,35 +1,72 @@
 <template lang="pug">
   .group-list-container
     main-header
-    h2 {{headerName}}
+    div(v-if="isMyGroupList && !isEmptyOpenGroups")
+      h2 내가 개설한 모임
+      ul.group-list
+        li.list_item(v-for="group in userInfo.open_groups")
+          .group-info_wrap
+            .group-image_wrap
+              img(:src="group.image", alt="group.name")
+            a.group-description_link(href @click.prevent="changeRoute(group.pk)")
+              span.group_name(aria-label="모임명") {{group.name}}
+              span.group_description(aria-label="모임 설명") {{group.description}}
+              span.group_member(aria-label="모임멤버") 모임멤버 {{group.member_count}}명
+              hobby-icon.group_hobby-icon(iconClass="fa-car")
+    h2 {{title}}
     ul.group-list
-      li.list_item
+      li.list_item(v-for="group in groupList")
         .group-info_wrap
           .group-image_wrap
-            img(src="../../assets/logo.png", alt="")
-          a.group-description_link(href @click.prevent="changeRoute(1)")
-            span.group_name(aria-label="모임명") 분당 쉐보레 스파크 모임
-            span.group_description(aria-label="모임 설명") 분당구 경차사랑 스파크 모임입니다.dsa asdasd ad asd asd asd 
-            span.group_member(aria-label="모임멤버") 모임멤버 58명
+            img(:src="group.image", alt="group.name")
+          a.group-description_link(href @click.prevent="changeRoute(group.pk)")
+            span.group_name(aria-label="모임명") {{group.name}}
+            span.group_description(aria-label="모임 설명") {{group.description}}
+            span.group_member(aria-label="모임멤버") 모임멤버 {{group.member_count}}명
             hobby-icon.group_hobby-icon(iconClass="fa-car")
 </template>
 
 <script>
 import MainHeader from '@/components/common/Header';
 import HobbyIcon from '@/components/common/HobbyIcon';
+import { mapGetters } from 'vuex';
 
 export default {
-  created() {
-    this.headerName = (this.$route.name === 'user_myGroupList') ? '내 모임' : '관심모임';
-  },
   components: {
     MainHeader,
     HobbyIcon,
   },
+  created() {
+    this.isMyGroupList && (this.title = '내가 가입한 모임');
+    this.isLikeGroupList && (this.title = '내가 좋아요한 모임');
+  },
   data() {
     return {
-      headerName: null
+      title: '',
     };
+  },
+  computed: {
+    ...mapGetters(['userInfo']),
+    isMyGroupList() {
+      return this.$route.name === 'user_myGroupList';
+    },
+    isLikeGroupList() {
+      return this.$route.name === 'user_myLikeGroupList';
+    },
+    isEmptyOpenGroups() {
+      let userInfo = this.userInfo;
+      if(userInfo) {
+        return userInfo.open_groups.length === 0;
+      }
+      return true;
+    },
+    groupList() {
+      let userInfo = this.userInfo;
+      if(userInfo) {
+        return this.isMyGroupList ? userInfo.joined_groups : userInfo.like_groups;
+      }
+      return [];
+    },
   },
   methods: {
     changeRoute(id) {
@@ -45,10 +82,6 @@ export default {
   @import "~chming"
   
   $list-item-height: 8rem
-  // $my-group-header-color
-  // $my-group-header-background-color
-  // $my-group-list-color
-  // $my-group-list-background-color
 
   .group-list-container
     background: $my-group-list-background-color

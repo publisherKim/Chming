@@ -23,19 +23,16 @@
           )
             ul.region-list
               li.region-list-item(v-if="category.si === region.si" v-for="region in regionList")
-                button(type="button" @click="searchGroupByRegion(region)") {{ region.dong }}
+                button(type="button" @click="setLocation(region)") {{ region.dong }}
 </template>
 
 <script>
 import FilterHeader from '@/components/filter/Header';
-import { mapGetters, mapActions } from 'vuex';
+import { mapGetters, mapMutations, mapActions } from 'vuex';
 
 export default {
   components: {
-    FilterHeader
-  },
-  created() {
-    this.regionList.length === 0 && this.getRegionList();
+    FilterHeader,
   },
   data() {
     return {
@@ -43,7 +40,7 @@ export default {
     };
   },
   methods: {
-    ...mapActions(['getRegionList']),
+    ...mapMutations(['setLocation']),
     changeTabContents(index) {
       this.activeSection = index;
     },

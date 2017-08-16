@@ -16,9 +16,9 @@ export default {
     },
   },
   mutations: {
-    setRegionList(state, regionList) {
+    setRegionList(state, {regionList, commit}) {
       state.regionList = regionList;
-
+      commit('setLocation', regionList[4]);
       state.regionCategoryList = regionList.filter(function(item, pos, array) {
         return !pos || item.si !== array[pos - 1].si;
       });
@@ -29,7 +29,7 @@ export default {
       http.get(getters.url.REGION_LIST)
         .then(response => {
           if(response.status === 200) {
-            commit('setRegionList', response.data);
+            commit('setRegionList', {regionList: response.data, commit});
           }
         })
         .catch(error => {

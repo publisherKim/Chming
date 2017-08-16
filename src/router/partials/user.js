@@ -75,8 +75,8 @@ export default {
       component: UserGroupList,
     },
     {
-      path: 'myFavoriteList',
-      name: 'user_myFavoriteList',
+      path: 'myLikeGroupList',
+      name: 'user_myLikeGroupList',
       component: UserGroupList,
     },
   ],

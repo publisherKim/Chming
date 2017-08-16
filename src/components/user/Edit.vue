@@ -93,7 +93,7 @@
           )
         .form_hobby-wrap
           button.hobby_button(
-            @click="changeRoute({name: 'user_edit_hobby', params: {prev: 'user_edit'}})"
+            @click="changeRoute({name: 'user_edit_hobby', params: {prev: 'user_edit', hobby: userEditInfo.hobby}})"
             ref="hobby"
             type="button"
           ) 관심사 설정
