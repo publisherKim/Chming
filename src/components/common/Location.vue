@@ -1,11 +1,11 @@
 <template lang="pug">
   .user-location-container
-    h3.title 나의 지역을 지도에서 선택해주세요
+    h3.title {{`${title}을 지도에서 선택해주세요`}}
     form.user-location_search-form(onsubmit="return false;" autocomplete="off")
       input(@keyup.enter="searchLocation" v-model.trim="searchString" type="text" id="keyword" placeholder="지역찾기")
       button.search-form_button(@click="searchLocation" type="button" aria-label="검색")
         i.fa.fa-search(aria-hidden='true')
-      ul.result_list(v-if="searchResult.length !== 0")
+      ul.result_list(v-if="searchString && searchResult.length !== 0")
         li.list_item(v-for="item in searchResult")
           a(href @click.prevent="setMapCenter(item)") {{ item.place_name }}
         li.list_item
@@ -32,6 +32,14 @@
         next({name: 'main'});
       }
     },
+    created() {
+      let routeName = this.$route.name;
+
+      (routeName === 'user_join_location' || routeName === 'user_edit_location')
+        && (this.title = '나의 지역');
+      (routeName === 'group_create_location' || routeName === 'group_edit_location')
+        && (this.title = '모임 활동지역');
+    },
     mounted() {
       this.$maps.event.addListener(this.map, 'click', this.mapClickHandler);
     },
@@ -45,6 +53,7 @@
     },
     data() {
       return {
+        title: '',
         searchString: '',
         searchResult: [],
         selectedMarker: null,

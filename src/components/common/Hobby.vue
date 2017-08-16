@@ -30,8 +30,7 @@
       }
     },
     created() {
-      this.hobbyList.length === 0 && this.getHobbyList();
-      if(this.$route.params.prev) {
+      if(this.$route.params.hobby) {
         this.selectedList = this.$route.params.hobby;
       }
     },
@@ -54,7 +53,6 @@
       }      
     },
     methods: {
-      ...mapActions(['getHobbyList']),
       hobbyValidate(){
         if(this.selectedList.length === 0){
           alert('관심사는 1개이상 선택해주세요 제발');

@@ -29,7 +29,7 @@
       li.list_menu
         a(href @click.prevent="changeRoute({name: 'user_myGroupList'})") 내모임
       li.list_menu
-        a(href @click.prevent="changeRoute({name: 'user_myFavoriteList'})") 관심모임
+        a(href @click.prevent="changeRoute({name: 'user_myLikeGroupList'})") 관심모임
       li.list_menu
         a(href @click.prevent="changeRoute({name: 'group_create'})") 모임개설
       li.list_menu

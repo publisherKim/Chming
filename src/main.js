@@ -14,8 +14,8 @@ Vue.use(map, {
     height: 35,
   },
   initLocation: {
-    lat: 37.50415875922816,
-    lng: 127.0256049101885,
+    lat: 37.515309,
+    lng: 127.02105,
   },
   searchOptions: {
     page: 1,

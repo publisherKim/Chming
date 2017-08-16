@@ -18,7 +18,7 @@ export default {
   component: Group,
   children: [
     {
-      path: 'info',
+      path: 'info/:id',
       name: 'group_info',
       component: GroupInfo,
       children: [
@@ -40,17 +40,17 @@ export default {
       ],
     },   
     {
-      path: 'board/viewArticle',
+      path: 'board/:id/viewArticle/:articleId',
       name: 'group_viewArticle',
       component: GroupViewArticle,
     },
     {
-      path: 'board/editArticle',
+      path: 'board/:id/editArticle/:articleId',
       name: 'group_editArticle',
-      component: GroupEditArticle,
+      component: GroupWriteArticle,
     },
     {
-      path: 'board/writeArticle',
+      path: 'board/:id/writeArticle/:articleId',
       name: 'group_writeArticle',
       component: GroupWriteArticle,
     },
@@ -72,7 +72,7 @@ export default {
       ],
     },
     {
-      path: 'edit',
+      path: 'edit/:id',
       name: 'group_edit',
       component: GroupEdit,
       children: [

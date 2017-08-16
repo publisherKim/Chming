@@ -63,6 +63,7 @@
         button.hobby_button(
           @click="changeRoute({name: 'group_create_hobby', params: {prev: 'group_create', hobby: [group.hobby]}})"
           @blur="checkEmpty('hobby')"
+          ref="hobby"
           type="button"
         ) 관심사 설정
           i.fa.fa-cog(aria-hidden='true') 
@@ -156,12 +157,12 @@
         }
         if(this.isEmptyGroupAddrss || !group.address){
           this.checkEmpty('address');
-          refs.address().focus();
+          refs.address.focus();
           return false;
         }
         if(this.isEmptyGroupHobby || !group.hobby){
           this.checkEmpty('hobby');
-          refs.hobby().focus();
+          refs.hobby.focus();
           return false;
         }
 
@@ -174,7 +175,9 @@
 
         this.$http.post(this.url.GROUP_REGISTER, formData, {headers: {Authorization: `Token ${token}`}}).
           then(response => {
-            if(response.status === 200) {
+            if(response.status === 201) {
+              alert('모임 생성이 완료되었습니다.');
+              this.changeRoute({name: 'group_info_home'});
               console.log(response);
             } else {
               console.log(response);
