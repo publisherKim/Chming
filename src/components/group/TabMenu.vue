@@ -2,19 +2,19 @@
   ul.tab-menu-list
     li
       button(
-        @click="changeRoute('/group/info/home/1')" 
+        @click="changeRoute('/group/info/home/')" 
         :class="{'is-active': routeName==='group_info_home'}" 
         type="button"
       ) 정보
     li
       button(
-        @click="changeRoute('/group/info/board/1')" 
+        @click="changeRoute('/group/info/board/')" 
         :class="{'is-active': routeName==='group_info_board'}" 
         type="button"
       ) 게시판
     li
       button(
-        @click="changeRoute('/group/info/album/1')" 
+        @click="changeRoute('/group/info/album/')" 
         :class="{'is-active': routeName==='group_info_album'}" 
         type="button"
       ) 사진첩    

@@ -28,6 +28,11 @@ export default {
           component: GroupHome,
         },
         {
+          path: 'board',
+          name: 'group_info_board',
+          component: GroupBoard,
+        },        
+        {
           path: 'album',
           name: 'group_info_album',
           component: GroupAlbum,

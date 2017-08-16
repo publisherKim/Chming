@@ -34,8 +34,7 @@
 
   export default {
     created() {
-      let data = this.getGroupInfo();
-      console.log(data);
+      this.getGroupInfo();
     },
     components: {
       BoardList
