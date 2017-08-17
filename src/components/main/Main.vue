@@ -1,6 +1,5 @@
 <template lang="pug">
   .main-container
-    loading-modal
     main-header
     main-filter
     main-map.main-map
@@ -8,7 +7,6 @@
 </template>
 
 <script>
-  import LoadingModal from '@/components/common/LoadingModal';
   import MainHeader from '@/components/common/Header';
   import MainFilter from '@/components/filter/Filter';
   import MainMap from '@/components/common/Map';
@@ -32,14 +30,13 @@
     },
     name: 'Main',
     components: {
-      LoadingModal,
       MainMap,
       MainFilter,
       MainHeader,
       GroupListSlider,
     },
     methods: {
-      ...mapActions(['getGroupList']),
+      ...mapActions(['getGroupList', 'getGroupDetailList']),
       ...mapMutations(['setMyLocation', 'setActiveFilter']),
     },
   };

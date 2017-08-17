@@ -159,7 +159,7 @@
   import Vue from 'vue';
   import BackButton from '@/components/common/BackButton';
   import MessageBox from '@/components/common/MessageBox';
-  import { mapGetters } from 'vuex';
+  import { mapGetters, mapMutations } from 'vuex';
 
   let emailRegexp = /^(?:(?:[\w`~!#$%^&*\-=+;:{}'|,?\/]+(?:(?:\.(?:"(?:\\?[\w`~!#$%^&*\-=+;:{}'|,?\/\.()<>\[\] @]|\\"|\\\\)*"|[\w`~!#$%^&*\-=+;:{}'|,?\/]+))*\.[\w`~!#$%^&*\-=+;:{}'|,?\/]+)?)|(?:"(?:\\?[\w`~!#$%^&*\-=+;:{}'|,?\/\.()<>\[\] @]|\\"|\\\\)+"))@(?:[a-zA-Z\d\-]+(?:\.[a-zA-Z\d\-]+)*|\[\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\])$/;
   let passwordRegexp = /^(?=.{8,})(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).*$/;
@@ -202,6 +202,7 @@
       };
     },
     methods: {
+      ...mapMutations(['setIsLoading']),
       checkEmail() {
         this.checkEmpty('email');
         this.emailValidate && this.checkDuplicateEmail();
@@ -227,6 +228,7 @@
         if(!this.joinValidate()) return;
 
         let formData = Vue.setFormData(this.userJoinInfo);
+        this.setIsLoading(true);
         this.$http.post(this.url.JOIN, formData).
           then(response => {
             if(response.status === 201) {
@@ -238,6 +240,9 @@
           })
           .catch(error => {
             console.log('error.response: ', error.response);
+          })
+          .finally(() => {
+            this.setIsLoading(false);
           });
       },
       joinValidate() {
@@ -269,6 +274,7 @@
         return true;
       },
       checkDuplicateEmail() {
+        this.setIsLoading(true);
         this.$http.get(this.url.VALIDATE_EMAIL, {
           params: {
             email: this.userJoinInfo.email
@@ -286,6 +292,9 @@
         })
         .catch(error => {
           console.log(error.response);
+        })
+        .finally(() => {
+          this.setIsLoading(false);
         });
       },
     },

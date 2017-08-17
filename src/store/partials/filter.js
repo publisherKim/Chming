@@ -2,26 +2,31 @@
 export default {
   state: {
     activeFilter: null,
-    location: null,
-    sort: '거리순',
-    hobby: [],
-    radius: 0.5,
+    filterOption: {
+      location: {},
+      sort: '거리순',
+      hobby: [],
+      radius: 0.5,
+    },
   },
   getters: {
     activeFilter(state) {
       return state.activeFilter;
     },
     location(state) {
-      return state.location;
+      return state.filterOption.location;
     },
     sort(state) {
-      return state.sort;
+      return state.filterOption.sort;
     },
     hobby(state) {
-      return state.hobby;
+      return state.filterOption.hobby;
     },
     radius(state) {
-      return state.radius;
+      return state.filterOption.radius;
+    },
+    filterOption(state) {
+      return state.filterOption;
     },
   },
   mutations: {
@@ -29,16 +34,19 @@ export default {
       state.activeFilter = filter;
     },
     setLocation(state, location) {
-      state.location = location;
+      state.filterOption.location = location;
     },
     setSort(state, sort) {
-      state.sort = sort;
+      state.filterOption.sort = sort;
     },
     setHobby(state, hobby) {
-      state.hobby = hobby;
+      state.filterOption.hobby = hobby;
     },
     setRadius(state, radius) {
-      state.radius = radius;
+      state.filterOption.radius = radius;
+    },
+    setFilterOption(state, filterOption) {
+      state.filterOption = filterOption;
     },
   },
 };

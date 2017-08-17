@@ -128,7 +128,7 @@
   import BackButton from '@/components/common/BackButton';
   import MessageBox from '@/components/common/MessageBox';
   import Vue from 'vue';
-  import { mapGetters, mapActions } from 'vuex';
+  import { mapGetters, mapMutations, mapActions } from 'vuex';
 
   let passwordRegexp = /^(?=.{8,})(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).*$/;
 
@@ -160,6 +160,7 @@
       MessageBox,
     },
     methods: {
+      ...mapMutations(['setIsLoading']),
       ...mapActions(['getUserProfile']),
       changeRoute(route) {
         this.$router.push(route);
@@ -174,6 +175,7 @@
         userEditInfo.password === '' && delete userEditInfo.password;
 
         let formData = Vue.setFormData(userEditInfo);
+        this.setIsLoading(true);
         this.$http.put(this.url.USER_PROFILE, formData, {headers: {'Authorization': `Token ${token}`}}).
           then(response => {
             if(response.status === 200) {
@@ -186,6 +188,9 @@
           })
           .catch(error => {
             console.log('error.response: ', error.response);
+          })
+          .finally(() => {
+            this.setIsLoading(false);
           });
       },
       editValidate() {

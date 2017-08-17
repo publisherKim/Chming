@@ -59,7 +59,7 @@
   import BackButton from '@/components/common/BackButton';
   import MessageBox from '@/components/common/MessageBox';
   import Vue from 'vue';
-  import { mapGetters } from 'vuex';
+  import { mapGetters, mapMutations } from 'vuex';
 
   export default {
     created() {
@@ -90,6 +90,7 @@
       },
     },
     methods: {
+      ...mapMutations(['setIsLoading']),
       fileUpload(e) {
         let file = e.target.files[0];
         this.group.image = file;
@@ -117,6 +118,7 @@
       getGroupInfo() {
         let groupId = this.$route.params.id;
         let url = this.url.GROUP_DETAIL + groupId + '/';
+        this.setIsLoading(true);
         this.$http.get(url)
           .then(response => {
             if(response.status === 200) {
@@ -126,7 +128,10 @@
           })
           .catch(error => {
             console.log('error:', error.response);
-          });        
+          })
+          .finally(() => {
+            this.setIsLoading(false);
+          });
       },
       edit() {
         if(!this.editValidate()) return;
@@ -139,6 +144,7 @@
         let formData = Vue.setFormData(group);
         let groupId = this.$route.params.id;
         let url = this.url.GROUP_EDIT + groupId + '/edit/';
+        this.setIsLoading(true);
         this.$http.put(url, formData, {headers: {'Authorization': `Token ${token}`}}).
           then(response => {
             if(response.status === 200) {
@@ -150,6 +156,9 @@
           })
           .catch(error => {
             console.log('error.response: ', error.response);
+          })
+          .finally(() => {
+            this.setIsLoading(false);
           });
       },      
     },
