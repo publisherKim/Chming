@@ -11,6 +11,7 @@ export default {
       MAIN_GROUP_LIST: '/group/',
       GROUP_DETAIL: '/group/',
       GROUP_DETAIL_LIST: '/group/detail/',
+      GROUP_DETAIL_REGISTER: `/group/${this.groupId}/post/create/`,
       GROUP_EDIT: '/group/',
       GROUP_JOIN: '/group/',
       GROUP_LIST: '/group/all/',
@@ -22,5 +23,5 @@ export default {
     url(state) {
       return state.url;
     },
-  },
+  }
 };

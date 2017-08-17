@@ -9,7 +9,7 @@
       p.address {{groupInfo.address}}
     .home_news-wrap
       h3.title 새소식
-      board-list(:boardList="[]")
+      board-list(:boardList="groupInfo.notice")
     button.home_join(v-if="isJoinable" @click="groupJoin" type="button") 가입하기
     button.home_modify(v-if="isAuthor" @click="changeRoute({name: 'group_edit'})" type="button") 수정하기
     .home_member-wrap
@@ -46,6 +46,7 @@
           // 비동기 통신 후 groupInfo를 받아오기 때문에, 최초 groupInfo.author 값이 null로 처리되지 않도록 설정
           author: {},
           members: [],
+          notice: []
         },
       };
     },
