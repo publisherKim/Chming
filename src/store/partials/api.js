@@ -10,7 +10,11 @@ export default {
       GROUP_REGISTER: '/group/register/',
       MAIN_GROUP_LIST: '/group/',
       GROUP_DETAIL: '/group/',
+<<<<<<< HEAD
       GROUP_DETAIL_LIST: '/group/detail/',
+=======
+      GROUP_DETAIL_REGISTER: `/group/${this.groupId}/post/create/`,
+>>>>>>> 8fc46470f48b29c67144198c74ab1dbd9d53bc94
       GROUP_EDIT: '/group/',
       GROUP_JOIN: '/group/',
       GROUP_LIST: '/group/all/',
@@ -22,5 +26,5 @@ export default {
     url(state) {
       return state.url;
     },
-  },
+  }
 };

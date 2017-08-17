@@ -173,8 +173,8 @@
         let formData = Vue.setFormData(this.group);
         let token = sessionStorage.getItem('token');
 
-        this.$http.post(this.url.GROUP_REGISTER, formData, {headers: {Authorization: `Token ${token}`}}).
-          then(response => {
+        this.$http.post(this.url.GROUP_REGISTER, formData, {headers: {Authorization: `Token ${token}`}})
+          .then(response => {
             if(response.status === 201) {
               alert('모임 생성이 완료되었습니다.');
               this.changeRoute({name: 'group_info_home'});
