@@ -26,6 +26,7 @@ export default {
   },
   actions: {
     getRegionList({getters, commit}) {
+      commit('setIsLoading', true);
       http.get(getters.url.REGION_LIST)
         .then(response => {
           if(response.status === 200) {
@@ -34,6 +35,9 @@ export default {
         })
         .catch(error => {
           console.log('error.response:', error.response);
+        })
+        .finally(() => {
+          commit('setIsLoading', false);
         });
     },
   }

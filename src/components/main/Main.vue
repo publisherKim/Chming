@@ -1,5 +1,6 @@
 <template lang="pug">
   .main-container
+    loading-modal
     main-header
     main-filter
     main-map.main-map
@@ -7,39 +8,41 @@
 </template>
 
 <script>
-import MainHeader from '@/components/common/Header';
-import MainFilter from '@/components/filter/Filter';
-import MainMap from '@/components/common/Map';
-import GroupListSlider from '@/components/main/GroupListSlider';
-import {mapMutations, mapActions} from 'vuex';
+  import LoadingModal from '@/components/common/LoadingModal';
+  import MainHeader from '@/components/common/Header';
+  import MainFilter from '@/components/filter/Filter';
+  import MainMap from '@/components/common/Map';
+  import GroupListSlider from '@/components/main/GroupListSlider';
+  import {mapMutations, mapActions} from 'vuex';
 
-let watchPosition = window.navigator.geolocation.watchPosition;
+  let watchPosition = window.navigator.geolocation.watchPosition;
 
-export default {
-  beforeRouteLeave (to, from, next) {
-    this.setActiveFilter(null);
-    next();
-  },
-  mounted() {
-    // let watchID = navigator.geolocation.watchPosition(function(position) {
-      // console.log(position.coords.latitude, position.coords.longitude);
+  export default {
+    beforeRouteLeave (to, from, next) {
+      this.setActiveFilter(null);
+      next();
+    },
+    mounted() {
+      // let watchID = navigator.geolocation.watchPosition(function(position) {
+        // console.log(position.coords.latitude, position.coords.longitude);
 
-      // map.setCenter(new Vue.maps.LatLng(37.508352837, 127.0307565127));
-    // });
-    this.getGroupList();
-  },
-  name: 'Main',
-  components: {
-    MainMap,
-    MainFilter,
-    MainHeader,
-    GroupListSlider,
-  },
-  methods: {
-    ...mapActions(['getGroupList']),
-    ...mapMutations(['setMyLocation', 'setActiveFilter']),
-  },
-};
+        // map.setCenter(new Vue.maps.LatLng(37.508352837, 127.0307565127));
+      // });
+      this.getGroupList();
+    },
+    name: 'Main',
+    components: {
+      LoadingModal,
+      MainMap,
+      MainFilter,
+      MainHeader,
+      GroupListSlider,
+    },
+    methods: {
+      ...mapActions(['getGroupList']),
+      ...mapMutations(['setMyLocation', 'setActiveFilter']),
+    },
+  };
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

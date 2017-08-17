@@ -3,9 +3,11 @@ import axios from 'axios';
 import App from './App';
 import router from './router';
 import store from './store';
+import _finally from 'promise.prototype.finally';
 import chming from './utils/chming';
 import map from './utils/map';
 import markerImage from './assets/marker.svg';
+
 
 Vue.use(chming);
 Vue.use(map, {
@@ -24,6 +26,7 @@ Vue.use(map, {
   markerImage: markerImage,
 });
 
+_finally.shim();
 axios.defaults.baseURL = 'http://chming.jeongmyeonghyeon.com/api';
 // axios.defaults.baseURL = 'https://chming-6e62d.firebaseio.com/';
 Vue.prototype.$http = axios;

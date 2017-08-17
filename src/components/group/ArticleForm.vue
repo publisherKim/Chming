@@ -5,9 +5,7 @@
         id="notice" 
         type="checkbox"
       )
-      label(
-        for="notice"
-      ) 공지
+      label(for="notice") 공지
       input(
         v-model="board.title"
         @blur="checkEmpty('title')" 
@@ -56,7 +54,7 @@
           )
       .write-article_decision-wrap
         button(
-          @click="changeRoute($route.query.page)" 
+          @click="changeRoute({name: 'group_info_board', params: {id: groupId}})" 
           type="button"
         ) 취소
         button(
@@ -91,6 +89,9 @@
       isEmptyBoardContent() {
         return this.board.content === '';
       },
+      groupId() {
+        return this.$route.params.id;
+      },
     },
     methods: {
       changeRoute(route) {
@@ -116,12 +117,14 @@
       createPost() {
         //if(!this.groupValidate()) return;
         let formData = Vue.setFormData(this.board);
-        console.log(formData);
         let token = sessionStorage.getItem('token');
 
-        this.$http.post('/group/7/post/create/', formData, {headers: {Authorization: `Token ${token}`}}).
+        let url = `/group/${this.groupId}/post/create/`;
+        this.$http.post(url, formData, {headers: {Authorization: `Token ${token}`}}).
           then(response => {
-            if(response.status === 200) {
+            if(response.status === 201) {
+              alert('게시글이 작성되었습니다');
+              this.changeRoute({name: 'group_info_board', params: {id: this.groupId}});
               console.log(response);
             } else {
               console.log(response);

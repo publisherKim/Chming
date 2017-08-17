@@ -18,6 +18,7 @@ export default {
   },
   actions: {
     login({getters, commit}, loginInfo) {
+      commit('setIsLoading', true);
       http.post(getters.url.LOGIN, loginInfo)
         .then(response => {
           if(response.status === 200) {
@@ -32,9 +33,13 @@ export default {
             alert('이메일/비밀번호를 확인해주세요');
           }
           console.log('error:', error.response);
+        })
+        .finally(() => {
+          commit('setIsLoading', false);
         });
     },
     getUserProfile({getters, commit}, token){
+      commit('setIsLoading', true);
       http.get(getters.url.USER_PROFILE, {headers: {'Authorization': `Token ${token}`}})
         .then(response => {
           if(response.status === 200) {
@@ -46,11 +51,16 @@ export default {
           if(error.response.statusText === 'Unauthorized') {
             sessionStorage.removeItem('token');
           }
+        })
+        .finally(() => {
+          commit('setIsLoading', false);
         });
     },
     logout({getters, commit}){
       let token = sessionStorage.getItem('token');
 
+      commit('setIsLoading', true);
+      console.log('ddddddddddddddddddddddddddddddd');
       http.post(getters.url.LOGOUT, null, {
         headers: {'Authorization': `Token ${token}`}
       })
@@ -62,6 +72,9 @@ export default {
         })
         .catch(error => {
           console.log('error:', error.response);
+        })
+        .finally(() => {
+          commit('setIsLoading', false);
         });
     },
   }
