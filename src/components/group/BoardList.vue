@@ -2,26 +2,13 @@
   .board-list-container
     p.empty(v-if="boardList.length === 0") 게시글을 작성해 주세요. 모임이 더욱 풍성해집니다.
     ul(v-else)
-      //- li.list_item(v-if="boardList[0].post_type === true")
-      //-   a(@click.prevent="changeRoute(1)" href="" role="button")
-      //-     h4.item_title 
-      //-       span.notice 공지
-      //-       | {{boardList[0].title}}
-      //-     p.item_contents {{boardList[0].contents}}
-      //-   span.item_like
-      //-     i.fa.fa-thumbs-up(aria-hidden="true")
-      //-     span {{boardList[0].post_like_count}}
-      //-   span.item_comment
-      //-     i.fa.fa-comment(aria-hidden="true")
-      //-     span {{boardList[0].comments_count}}
       li.list_item(v-for="board in boardList")
         .item_author(v-if="!board.post_type")
-          img.author_image(:src="board.author.profile_image" :alt="board.author.username")
+          img.author_image(:src="board.author.profile_img" :alt="board.author.username")
           p.author_name {{board.author.username}}
           p.author_date {{board.modified_date ? board.modified_date : board.created_date}}
         a(
           @click="changeRoute({name: 'group_viewArticle', params: {id: groupId, articleId: board.pk}, query: {page}})"
-          href="#none"
           role="button"
         )
           h4.item_title(v-if="board.post_type") 
@@ -36,6 +23,7 @@
         span.item_comment
           i.fa.fa-comment(aria-hidden="true")
           span {{board.comments_count}}
+        img.item_preview-image(:src="board.post_img")
 </template>
 
 <script>
@@ -115,4 +103,10 @@
     .author_date
       display: block
       padding-left: 5rem
+  .item_preview-image
+    position: absolute
+    top: 4.5rem
+    right: 2rem
+    max-width: 4rem
+    max-height: 4rem
 </style>
