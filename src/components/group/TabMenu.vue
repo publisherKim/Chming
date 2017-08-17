@@ -2,20 +2,20 @@
   ul.tab-menu-list
     li
       button(
-        @click="changeRoute('/group/info/home/')" 
-        :class="{'is-active': routeName==='group_info_home'}" 
+        @click="changeRoute({name: 'group_info_home', params: {id: groupId}})" 
+        :class="{'is-active': routeName === 'group_info_home'}" 
         type="button"
       ) 정보
     li
       button(
-        @click="changeRoute('/group/info/board/')" 
-        :class="{'is-active': routeName==='group_info_board'}" 
+        @click="changeRoute({name: 'group_info_board', params: {id: groupId}})" 
+        :class="{'is-active': routeName === 'group_info_board'}" 
         type="button"
       ) 게시판
     li
       button(
-        @click="changeRoute('/group/info/album/')" 
-        :class="{'is-active': routeName==='group_info_album'}" 
+        @click="changeRoute({name: 'group_info_album', params: {id: groupId}})" 
+        :class="{'is-active': routeName ===' group_info_album'}" 
         type="button"
       ) 사진첩    
 </template>
@@ -25,11 +25,14 @@
     computed:{
       routeName(){
         return this.$route.name;
-      }
+      },
+      groupId() {
+        return this.$route.params.id;
+      },
     },
     methods: {
-      changeRoute(name) {
-        this.$router.push(name);
+      changeRoute(route) {
+        this.$router.push(route);
       }
     }
   };

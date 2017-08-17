@@ -1,5 +1,6 @@
 <template lang="pug">
   .group-list-container
+    loading-modal
     main-header
     div(v-if="isMyGroupList && !isEmptyOpenGroups")
       h2 내가 개설한 모임
@@ -27,53 +28,55 @@
 </template>
 
 <script>
-import MainHeader from '@/components/common/Header';
-import HobbyIcon from '@/components/common/HobbyIcon';
-import { mapGetters } from 'vuex';
+  import LoadingModal from '@/components/common/LoadingModal';
+  import MainHeader from '@/components/common/Header';
+  import HobbyIcon from '@/components/common/HobbyIcon';
+  import { mapGetters } from 'vuex';
 
-export default {
-  components: {
-    MainHeader,
-    HobbyIcon,
-  },
-  created() {
-    this.isMyGroupList && (this.title = '내가 가입한 모임');
-    this.isLikeGroupList && (this.title = '내가 좋아요한 모임');
-  },
-  data() {
-    return {
-      title: '',
-    };
-  },
-  computed: {
-    ...mapGetters(['userInfo']),
-    isMyGroupList() {
-      return this.$route.name === 'user_myGroupList';
+  export default {
+    components: {
+      LoadingModal,
+      MainHeader,
+      HobbyIcon,
     },
-    isLikeGroupList() {
-      return this.$route.name === 'user_myLikeGroupList';
+    created() {
+      this.isMyGroupList && (this.title = '내가 가입한 모임');
+      this.isLikeGroupList && (this.title = '내가 좋아요한 모임');
     },
-    isEmptyOpenGroups() {
-      let userInfo = this.userInfo;
-      if(userInfo) {
-        return userInfo.open_groups.length === 0;
-      }
-      return true;
+    data() {
+      return {
+        title: '',
+      };
     },
-    groupList() {
-      let userInfo = this.userInfo;
-      if(userInfo) {
-        return this.isMyGroupList ? userInfo.joined_groups : userInfo.like_groups;
-      }
-      return [];
+    computed: {
+      ...mapGetters(['userInfo']),
+      isMyGroupList() {
+        return this.$route.name === 'user_myGroupList';
+      },
+      isLikeGroupList() {
+        return this.$route.name === 'user_myLikeGroupList';
+      },
+      isEmptyOpenGroups() {
+        let userInfo = this.userInfo;
+        if(userInfo) {
+          return userInfo.open_groups.length === 0;
+        }
+        return true;
+      },
+      groupList() {
+        let userInfo = this.userInfo;
+        if(userInfo) {
+          return this.isMyGroupList ? userInfo.joined_groups : userInfo.like_groups;
+        }
+        return [];
+      },
     },
-  },
-  methods: {
-    changeRoute(id) {
-      this.$router.push({name: 'group_info_home', params: {id}});
+    methods: {
+      changeRoute(id) {
+        this.$router.push({name: 'group_info_home', params: {id}});
+      },
     },
-  },
-};
+  };
 </script>
 
 

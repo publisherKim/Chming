@@ -7,6 +7,7 @@ import map from './partials/map';
 import filter from './partials/filter';
 import hobby from './partials/hobby';
 import region from './partials/region';
+import loading from './partials/loading';
 
 Vue.use(Vuex);
 
@@ -19,5 +20,6 @@ export default new Vuex.Store({
     filter,
     hobby,
     region,
+    loading,
   },
 });

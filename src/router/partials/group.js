@@ -37,11 +37,6 @@ export default {
           name: 'group_info_album',
           component: GroupAlbum,
         },
-        {
-          path: 'board',
-          name: 'group_info_board',
-          component: GroupBoard,
-        },
       ],
     },   
     {
@@ -55,7 +50,7 @@ export default {
       component: GroupWriteArticle,
     },
     {
-      path: 'board/:id/writeArticle/:articleId',
+      path: 'board/:id/writeArticle',
       name: 'group_writeArticle',
       component: GroupWriteArticle,
     },

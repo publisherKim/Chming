@@ -32,6 +32,7 @@ export default {
   },
   actions: {
     getHobbyList({getters, commit}) {
+      commit('setIsLoading', true);
       http.get(getters.url.HOBBY_LIST)
         .then(response => {
           if(response.status === 200) {
@@ -40,6 +41,9 @@ export default {
         })
         .catch(error => {
           console.log('error.response:', error.response);
+        })
+        .finally(() => {
+          commit('setIsLoading', false);
         });
     },
   }

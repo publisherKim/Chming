@@ -1,7 +1,7 @@
 <template lang="pug">
   .board-list-container
-    p.empty(v-if="boardList.legnth === 0") 게시글을 작성해 주세요. 모임이 더욱 풍성해 진답니다.
-    ul(v-if="boardList.length !== 0")
+    p.empty(v-if="boardList.length === 0") 게시글을 작성해 주세요. 모임이 더욱 풍성해집니다.
+    ul(v-else)
       //- li.list_item(v-if="boardList[0].post_type === true")
       //-   a(@click.prevent="changeRoute(1)" href="" role="button")
       //-     h4.item_title 
@@ -19,7 +19,11 @@
           img.author_image(:src="board.author.profile_image" :alt="board.author.username")
           p.author_name {{board.author.username}}
           p.author_date {{board.modified_date ? board.modified_date : board.created_date}}
-        a(@click="changeRoute({name: 'group_viewArticle', params: {id: 7, articleId: board.pk}})" href="#none" role="button")
+        a(
+          @click="changeRoute({name: 'group_viewArticle', params: {id: groupId, articleId: board.pk}, query: {page}})"
+          href="#none"
+          role="button"
+        )
           h4.item_title(v-if="board.post_type") 
             span.notice 공지
             | {{boardList[0].title}}
@@ -39,14 +43,22 @@
     props: {
       boardList : {
         type: Array,
-        required: true
-      }
+        required: true,
+      },
+      page: {
+        tyep: Number,
+      },
+    },
+    computed: {
+      groupId() {
+        return this.$route.params.id;
+      },
     },
     methods: {
-      changeRoute(id) {
-        this.$router.push({name: 'group_viewArticle', params: {num: id}});
+      changeRoute(route) {
+        this.$router.push(route);
       }
-    }
+    },
   };
 </script>
 

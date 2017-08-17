@@ -60,6 +60,7 @@ export default {
 
       // let formData = Vue.setFormData(options);
 
+      commit('setIsLoading', true);
       http.get(getters.url.MAIN_GROUP_LIST, {
         params: options,
       })
@@ -80,10 +81,15 @@ export default {
         .catch(error => {
           console.log('error:', error);
           console.log('error:', error.response);
+        })
+        .finally(() => {
+          commit('setIsLoading', false);
         });
     },
     getGroupDetail({getters, commit}, group) {
       let url = `${getters.url.GROUP_DETAIL}${group.pk}/`;
+
+      commit('setIsLoading', true);
       http.get(url)
         .then(response => {
           if(response.status === 200) {
@@ -93,6 +99,9 @@ export default {
         .catch(error => {
           console.log('error:', error);
           console.log('error:', error.response);
+        })
+        .finally(() => {
+          commit('setIsLoading', false);
         });
     },
   },

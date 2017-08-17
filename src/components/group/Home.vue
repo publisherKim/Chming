@@ -1,5 +1,6 @@
 <template lang="pug">
   .home-container
+    loading-modal
     .introduce-home-wrap
       img(
         :src="groupInfo.image" 
@@ -9,7 +10,7 @@
       p.address {{groupInfo.address}}
     .home_news-wrap
       h3.title 새소식
-      board-list
+      board-list(:boardList="[]")
     button.home_join(v-if="isJoinable" @click="groupJoin" type="button") 가입하기
     button.home_modify(v-if="isAuthor" @click="changeRoute({name: 'group_edit'})" type="button") 수정하기
     .home_member-wrap
@@ -29,15 +30,17 @@
 </template>
 
 <script>
+  import LoadingModal from '@/components/common/LoadingModal';
   import BoardList from '@/components/group/BoardList';
-  import { mapGetters } from 'vuex';
+  import { mapGetters, mapMutations } from 'vuex';
 
   export default {
     created() {
       this.getGroupInfo();
     },
     components: {
-      BoardList
+      LoadingModal,
+      BoardList,
     },
     data() {   
       return {
@@ -76,9 +79,12 @@
       },
     },
     methods: {
+      ...mapMutations(['setIsLoading']),
       groupJoin() {
         let url = this.url.GROUP_JOIN + this.groupId + '/join/';
         let token = sessionStorage.getItem('token');
+
+        this.setIsLoading(true);
         this.$http.post(url, null, {headers: {'Authorization': `Token ${token}`}})
           .then(response => {
             if(response.status === 200) {
@@ -90,10 +96,15 @@
           })
           .catch(error => {
             console.log('error:', error.response);
-          }); 
+          })
+          .finally(() => {
+            this.setIsLoading(false);
+          });
       },
       getGroupInfo() {
         let url = this.url.GROUP_DETAIL + this.groupId + '/';
+
+        this.setIsLoading(true);
         this.$http.get(url)
           .then(response => {
             if(response.status === 200) {
@@ -103,7 +114,10 @@
           })
           .catch(error => {
             console.log('error:', error.response);
-          });        
+          })
+          .finally(() => {
+            this.setIsLoading(false);
+          });     
       },
       changeRoute(name){
         this.$router.push(name);

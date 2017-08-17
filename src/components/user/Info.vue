@@ -1,5 +1,6 @@
 <template lang="pug">
   .user-info-container
+    loading-modal
     .user-info_profile
       img.profile_image(:src="userImage" alt="_userInfo.username")
       .profile-wrap
@@ -38,53 +39,55 @@
 </template>
 
 <script>
-import BackButton from '@/components/common/BackButton';
-import { mapGetters, mapActions } from 'vuex';
-import HobbyIcon from '@/components/common/HobbyIcon';
-import blankUserImage from '@/assets/user.svg';
+  import LoadingModal from '@/components/common/LoadingModal';
+  import BackButton from '@/components/common/BackButton';
+  import { mapGetters, mapActions } from 'vuex';
+  import HobbyIcon from '@/components/common/HobbyIcon';
+  import blankUserImage from '@/assets/user.svg';
 
-export default {
-  beforeRouteEnter (to, from, next) {
-    let token = sessionStorage.getItem('token');
-    !token && next({name: 'main'});
-    token && next();
-  },
-  components: {
-    BackButton,
-    HobbyIcon,
-  },
-  methods: {
-    ...mapActions(['logout']),
-    changeRoute(route) {
-      this.$router.push(route);
+  export default {
+    beforeRouteEnter (to, from, next) {
+      let token = sessionStorage.getItem('token');
+      !token && next({name: 'main'});
+      token && next();
     },
-  },
-  computed: {
-    ...mapGetters(['userInfo']),
-    userBirth() {
-      let userInfo = this._userInfo;
-      if(this.userInfo) {
-        return `${userInfo.birth_year}.${userInfo.birth_month}.${userInfo.birth_day}`;
-      }
+    components: {
+      LoadingModal,
+      BackButton,
+      HobbyIcon,
     },
-    userImage() {
-      let userInfo = this._userInfo;
+    methods: {
+      ...mapActions(['logout']),
+      changeRoute(route) {
+        this.$router.push(route);
+      },
+    },
+    computed: {
+      ...mapGetters(['userInfo']),
+      userBirth() {
+        let userInfo = this._userInfo;
+        if(this.userInfo) {
+          return `${userInfo.birth_year}.${userInfo.birth_month}.${userInfo.birth_day}`;
+        }
+      },
+      userImage() {
+        let userInfo = this._userInfo;
 
-      let userImage = userInfo.profile_img;
-      return !userImage ? blankUserImage : userImage;
+        let userImage = userInfo.profile_img;
+        return !userImage ? blankUserImage : userImage;
+      },
+      _userInfo() {
+        if(this.userInfo) return this.userInfo;
+        else return {};
+      },
     },
-    _userInfo() {
-      if(this.userInfo) return this.userInfo;
-      else return {};
+    watch: {
+      userInfo(newVal) {
+        // userInfo 값이 바뀌었을 때(로그인 후 유저정보 null 처리시) 메인으로 라우팅
+        !newVal && this.changeRoute({name: 'main'});
+      },
     },
-  },
-  watch: {
-    userInfo(newVal) {
-      // userInfo 값이 바뀌었을 때(로그인 후 유저정보 null 처리시) 메인으로 라우팅
-      !newVal && this.changeRoute({name: 'main'});
-    },
-  },
-};
+  };
 </script>
 
 <style lang="sass" scoped>
