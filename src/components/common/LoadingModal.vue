@@ -17,7 +17,7 @@
   @import "~chming"
 
   .loading-modal-container
-    position: absolute
+    position: fixed
     display: block
     top: 0
     left: 0

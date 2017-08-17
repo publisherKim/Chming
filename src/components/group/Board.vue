@@ -1,6 +1,5 @@
 <template lang="pug">
   .board-container
-    loading-modal
     board-list(:boardList="boardList" :page="page")
     button.confirm(
       @click="changeRoute({name: 'group_writeArticle'})" 
@@ -9,7 +8,6 @@
 </template>
 
 <script>
-  import LoadingModal from '@/components/common/LoadingModal';
   import BoardList from '@/components/group/BoardList';
   import { mapMutations } from 'vuex';
 
@@ -18,7 +16,6 @@
       this.getBoardList();
     },
     components: {
-      LoadingModal,
       BoardList,
     },
     data() {

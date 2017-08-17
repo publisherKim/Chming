@@ -1,6 +1,5 @@
 <template lang="pug">
   .home-container
-    loading-modal
     .introduce-home-wrap
       img(
         :src="groupInfo.image" 
@@ -30,7 +29,6 @@
 </template>
 
 <script>
-  import LoadingModal from '@/components/common/LoadingModal';
   import BoardList from '@/components/group/BoardList';
   import { mapGetters, mapMutations } from 'vuex';
 
@@ -39,7 +37,6 @@
       this.getGroupInfo();
     },
     components: {
-      LoadingModal,
       BoardList,
     },
     data() {   

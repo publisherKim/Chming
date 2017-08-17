@@ -10,6 +10,7 @@ export default {
       GROUP_REGISTER: '/group/register/',
       MAIN_GROUP_LIST: '/group/',
       GROUP_DETAIL: '/group/',
+      GROUP_DETAIL_LIST: '/group/detail/',
       GROUP_EDIT: '/group/',
       GROUP_JOIN: '/group/',
       GROUP_LIST: '/group/all/',

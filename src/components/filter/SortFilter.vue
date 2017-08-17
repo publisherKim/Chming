@@ -1,29 +1,43 @@
 <template lang="pug">
   .sort-filter-container
-    filter-header      
+    filter-header(filter="sort" :sort="selectedSort")
     .sort-filter_header-wrap
       h2 정렬
     .sort-filter_content-wrap
-      button.is-active(type="button" @click="") 거리순
-      button(type="button" @click="") 인원순
-      button(type="button" @click="") 좋아요순
+      button(
+        v-for="sortItem in sortItems"
+        :class="{'is-active': sortItem === selectedSort}"
+        @click="setSelectedSort(sortItem)"
+        type="button"
+      ) {{sortItem}}
     
 </template>
 
 <script>
   import FilterHeader from '@/components/filter/Header';
+  import { mapGetters } from 'vuex';
 
   export default {
+    created() {
+      this.selectedSort = this.sort;
+    },
     components: {
-      FilterHeader
+      FilterHeader,
     },
     data() {
       return {
-
+        sortItems: ['거리순', '인원순', '좋아요순'],
+        selectedSort: null,
       };
     },
     methods: {
-
+      setSelectedSort(sortItem) {
+        console.log('sortItem:', sortItem);
+        this.selectedSort = sortItem;
+      },
+    },
+    computed: {
+      ...mapGetters(['sort']),
     },
   };
 </script>

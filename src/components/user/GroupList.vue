@@ -1,6 +1,5 @@
 <template lang="pug">
   .group-list-container
-    loading-modal
     main-header
     div(v-if="isMyGroupList && !isEmptyOpenGroups")
       h2 내가 개설한 모임
@@ -28,14 +27,12 @@
 </template>
 
 <script>
-  import LoadingModal from '@/components/common/LoadingModal';
   import MainHeader from '@/components/common/Header';
   import HobbyIcon from '@/components/common/HobbyIcon';
   import { mapGetters } from 'vuex';
 
   export default {
     components: {
-      LoadingModal,
       MainHeader,
       HobbyIcon,
     },

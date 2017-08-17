@@ -1,6 +1,6 @@
 <template lang="pug">
   .location-container
-    filter-header
+    filter-header(filter="location" :selectedLocation="selectedLocation")
     .location-wrap
       h2 지역 선택 메뉴
       ul.location-list(role="tablist")
@@ -23,7 +23,11 @@
           )
             ul.region-list
               li.region-list-item(v-if="category.si === region.si" v-for="region in regionList")
-                button(type="button" @click="setLocation(region)") {{ region.dong }}
+                button(
+                  @click="setSelectedLocation(region)" 
+                  :class="{'is-active' : region === selectedLocation}" 
+                  type="button"
+                ) {{ region.dong }}
 </template>
 
 <script>
@@ -31,12 +35,16 @@ import FilterHeader from '@/components/filter/Header';
 import { mapGetters, mapMutations, mapActions } from 'vuex';
 
 export default {
+  created() {
+    this.selectedLocation = this.location;
+  },
   components: {
     FilterHeader,
   },
   data() {
     return {
       activeSection: 0,
+      selectedLocation: null,
     };
   },
   methods: {
@@ -44,12 +52,12 @@ export default {
     changeTabContents(index) {
       this.activeSection = index;
     },
-    searchGroupByRegion(region) {
-      console.log('region:', region);
+    setSelectedLocation(region) {
+      this.selectedLocation = region;
     },
   },
   computed: {
-    ...mapGetters(['regionList', 'regionCategoryList']),
+    ...mapGetters(['regionList', 'regionCategoryList', 'location']),
   },
 };
 </script>

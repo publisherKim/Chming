@@ -1,10 +1,12 @@
 <template lang="pug">
   #app
+    loading-modal
     router-view
 </template>
 
 <script>
   import { mapActions } from 'vuex';
+  import LoadingModal from '@/components/common/LoadingModal';
 
   export default {
     created() {
@@ -15,6 +17,9 @@
       if(token !== null) {
         this.getUserProfile(token);
       }
+    },
+    components: {
+      LoadingModal,
     },
     methods: {
       ...mapActions(['getUserProfile', 'getRegionList', 'getHobbyList']),

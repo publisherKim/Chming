@@ -1,6 +1,5 @@
 <template lang="pug">
   .join-user-container
-    loading-modal
     h3.title 로그인
     form.join-user_form
       p        
@@ -52,7 +51,6 @@
 </template>
 
 <script>
-  import LoadingModal from '@/components/common/LoadingModal';
   import BackButton from '../common/BackButton';
   import MessageBox from '@/components/common/MessageBox';
   import Vue from 'vue';
@@ -68,7 +66,6 @@
       !token && next();
     },
     components: {
-      LoadingModal,
       BackButton,
       MessageBox
     },

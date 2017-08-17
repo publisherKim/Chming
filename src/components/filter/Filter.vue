@@ -3,9 +3,9 @@
     .location-filter-wrap
       .location-filter
         h2 지금 보고있는 지역은
-        button(@click="viewFilter('location')" type="button") 서현/야탑 &dtrif;
+        button(@click="viewFilter('location')" type="button") {{filterOption.location.dong}} &dtrif;
       .filter-button-wrap
-        button.sort-button(@click="viewFilter('sort')" type="button") 거리순 &dtrif;
+        button.sort-button(@click="viewFilter('sort')" type="button") {{filterOption.sort}} &dtrif;
         button.hobby-button(@click="viewFilter('hobby')" type="button") 관심사 &dtrif;
         button.mylocation-button(@click="viewFilter('mylocation')" type="button" aria-label="내 주변 검색")
           i.fa.fa-street-view(aria-hidden='true')
@@ -36,7 +36,7 @@
       },
     },
     computed: {
-      ...mapGetters(['activeFilter']),
+      ...mapGetters(['activeFilter', 'filterOption']),
     },
   };
 </script>

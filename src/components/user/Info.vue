@@ -1,6 +1,5 @@
 <template lang="pug">
   .user-info-container
-    loading-modal
     .user-info_profile
       img.profile_image(:src="userImage" alt="_userInfo.username")
       .profile-wrap
@@ -39,7 +38,6 @@
 </template>
 
 <script>
-  import LoadingModal from '@/components/common/LoadingModal';
   import BackButton from '@/components/common/BackButton';
   import { mapGetters, mapActions } from 'vuex';
   import HobbyIcon from '@/components/common/HobbyIcon';
@@ -52,7 +50,6 @@
       token && next();
     },
     components: {
-      LoadingModal,
       BackButton,
       HobbyIcon,
     },
