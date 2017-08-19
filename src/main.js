@@ -7,6 +7,7 @@ import _finally from 'promise.prototype.finally';
 import chming from './utils/chming';
 import map from './utils/map';
 import markerImage from './assets/marker.svg';
+import VueScroll from 'vue-scroll';
 
 
 Vue.use(chming);
@@ -26,7 +27,9 @@ Vue.use(map, {
   markerImage: markerImage,
 });
 
-_finally.shim();
+Vue.use(VueScroll);
+
+_finally.shim(); 
 axios.defaults.baseURL = 'http://chming.jeongmyeonghyeon.com/api';
 // axios.defaults.baseURL = 'https://chming-6e62d.firebaseio.com/';
 Vue.prototype.$http = axios;

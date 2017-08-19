@@ -1,6 +1,5 @@
 import Vuex from 'vuex';
 import Vue from 'vue';
-import VueScroll from 'vue-scroll';
 import api from './partials/api';
 import user from './partials/user';
 import group from './partials/group';
@@ -12,7 +11,6 @@ import loading from './partials/loading';
 
 
 Vue.use(Vuex);
-Vue.use(VueScroll);
 
 export default new Vuex.Store({
   modules: {

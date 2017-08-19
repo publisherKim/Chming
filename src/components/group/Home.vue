@@ -136,7 +136,7 @@
         this.setIsLoading(true);
         this.$http.post(url, null, {headers: {Authorization: `Token ${token}`}})
           .then(response => {
-            this.getGroupInfo();
+            if(response.status === 200) this.getGroupInfo(); 
           })
           .catch(error => {
             console.log('error: ', error);

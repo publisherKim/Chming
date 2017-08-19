@@ -93,5 +93,5 @@
     .album-list
       +container()
     .list-item
-      +span(6)
+      +span(2)
 </style>

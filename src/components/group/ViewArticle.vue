@@ -23,7 +23,7 @@
           span 목록
       .column
         a.edit_modify(
-            @click.prevent="changeRoute({name: 'group_editArticle', params: {id: groupId, articleId: articleId}})" 
+            @click.prevent="editArticle" 
             role="button"
           )
           i.fa.fa-pencil-square-o(aria-hidden='true')
@@ -37,7 +37,10 @@
           span 삭제
     .detail-view_comment-wrap
       .column
-        a.edit_like(role="button")
+        a.edit_like(
+          @click.prevent="favoriteViewToggle"
+          role="button"
+        )
           i.fa.fa-thumbs-up(aria-hidden="true")
           span 좋아요
       .column
@@ -47,28 +50,43 @@
         )
           i.fa.fa-comment(aria-hidden="true")
           span 댓글
-    .detail-view_like-wrap(v-if="!boardDetail.post_like_count")
+    .detail-view_like-wrap(v-if="boardDetail.post_like_count")
       p.number-like 
         i.fa.fa-thumbs-up(aria-hidden="true")
-        span.num {{boardDetail.post_like_count}}
+        span.num {{boardDetail.post_like_count}} 
         | 명이 좋아하셨습니다.
-    .detail-view_author-comment-wrap(
-      v-if="" 
-      v-for="comment in boardDetail.comment_set"
-    )
-      img.author-comment_img(src="../../assets/mingu.jpeg" alt="profile")
-      p.author-comment_name comment.author
-      p.author-comment_date comment.created_date
-      p.author-comment_contents comment.content
+    .detail-view_author-comment-wrap(v-if="boardDetail.comment_set")
+      .comment-list(v-for="comment in boardDetail.comment_set")
+        img.author-comment_img(
+          src="../../assets/mingu.jpeg" 
+          alt="profile"
+        )
+        p.author-comment_name {{comment.author}}
+        p.author-comment_date {{comment.created_date}}
+        p.author-comment_contents {{comment.content}}
+        a.author-comment_delete(
+          @click.prevent="deleteCommentContent(comment)"
+          role="button"
+        )
+          i.fa.fa-trash(aria-hidden="true" aria-label="덧글 삭제")
     .detail-view_rewrite-wrap(:class="{'active' : isShow}")
       form
-        input(type="text" placehold="댓글을 달아주세요" aria-label="댓글쓰기")
-        button 확인        
+        input(
+          v-model.trim="content"
+          ref="content"
+          type="text" 
+          placehold="댓글을 달아주세요" 
+          aria-label="댓글쓰기"
+        )
+        button(
+          @click="createContent"
+          type="button"
+        ) 확인        
 </template>
 
 <script>
   import GroupHeader from '@/components/common/Header';
-  import { mapMutations } from 'vuex';
+  import { mapGetters, mapMutations } from 'vuex';
 
   export default {
     created() {
@@ -86,9 +104,11 @@
           comment_set: null
         },
         isShow: false,
+        content : ''
       };
     },
     computed: {
+      ...mapGetters(['userInfo']),
       groupId() {
         return this.$route.params.id;
       },
@@ -101,11 +121,34 @@
       changeRoute(route) {
         this.$router.push(route);
       },
-      changeContent(num) {
-        this.$router.push({ name: 'group_editArticle', query: {num: num} });
-      },
       toggle() {
         this.isShow = !this.isShow;
+      },
+      editArticle() {
+        if(this.articleId !== this.userInfo.pk) return alert('본인인 쓴글이 맞나 확인해 주세요.');
+        this.changeRoute({name: 'group_editArticle', params: {id: this.groupId, articleId: this.articleId}});
+      },
+      createContent(){
+        let url = `/group/${this.groupId}/post/${this.articleId}/comment/create/`;
+        let token = sessionStorage.getItem('token');
+        this.setIsLoading(true);
+        this.$http.post(url, {content: `${this.content}`}, {headers: {Authorization: `Token ${token}`}})
+          .then(response => {
+            console.log(111);
+            if(response.status === 201) {
+              this.content = '';
+              this.getBoardDetail();
+              this.toggle();
+              alert('댓글 작성이 등록되었습니다.');
+            }
+          })
+          .catch(error => {
+            console.log('error.response: ', error.response);
+          })
+          .finally(() => {
+            this.setIsLoading(false);
+          });
+        // this.toggle();
       },
       getBoardDetail() {
         let url = `/group/${this.groupId}/post/${this.articleId}/`;
@@ -117,7 +160,6 @@
         })
           .then(response => {
             if(response.status === 200) {
-              console.log(response);
               this.boardDetail = response.data;
             }
           })
@@ -129,6 +171,7 @@
           });
       },
       deleteBoardDetail(){
+        if(this.articleId !== this.userInfo.pk) return alert('본인인 쓴글이 맞나 확인해 주세요.');
         let url = `/group/${this.groupId}/post/${this.articleId}/delete/`;
         let token = sessionStorage.getItem('token');
         this.setIsLoading(true);
@@ -147,7 +190,46 @@
             this.setIsLoading(false);
           });
       },
-      
+      deleteCommentContent(comment) {
+        if( comment.author !== this.userInfo.pk) return alert('수정권한이 없습니다.');
+
+        let url = `/group/${this.groupId}/post/comment/${comment.pk}/delete/`;
+        let token = sessionStorage.getItem('token');
+        this.setIsLoading(true);
+        this.$http.delete(url, {headers: {Authorization: `Token ${token}`}})
+          .then( response => {
+            if( response.status === 200){
+              alert('덧글이 삭제 되었습니다.');
+              this.getBoardDetail();
+            }
+          })
+          .catch(error => {
+            console.log('error: ', error);
+            console.log('error.response: ', error.response);
+          })
+          .finally(() => {
+            this.setIsLoading(false);
+          });
+      },
+      favoriteViewToggle() {
+        let url = `/group/${this.groupId}/post/${this.articleId}/like_toggle/`;
+        let token = sessionStorage.getItem('token');
+        this.setIsLoading(true);
+        this.$http.post(url, null, {headers: {Authorization: `Token ${token}`}})
+          .then(response => {
+            if(response.status === 200){
+              console.log(response);
+              this.getBoardDetail();
+            }
+          })
+          .catch(error => {
+            console.log('error: ', error);
+            console.log('error message:', error.response);
+          })
+          .finally(() => {
+            this.setIsLoading(false);
+          });
+      }      
     }
   };
 </script>
@@ -188,6 +270,11 @@
     padding: 1rem 2rem
     border-top: solid 1px $viewArticle-color
 
+  .comment-list
+    position: relative
+    padding: 1rem 0
+    border-bottom: 1px solid $viewArticle-color
+
   .author_img, 
   .author-comment_img
       float: left
@@ -207,7 +294,10 @@
     width: 100%
   .author-comment_contents
     margin-top: 1rem
-
+  .author-comment_delete
+    position: absolute
+    top: 1rem
+    right: 2rem
   .detail-view_rewrite-wrap
     position: fixed
     bottom: 0
@@ -227,7 +317,9 @@
     button
       +action-button()
       margin-left: 0.5rem
-
+  .number-like
+    i, .num
+      color: $groupFavorite
   +mobile
     .detail-view_comment-wrap
       +container()
