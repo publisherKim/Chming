@@ -34,12 +34,13 @@
       ...mapGetters(['center']),
     },
     methods: {
-      ...mapMutations(['setMap', 'setCenter']),
+      ...mapMutations(['setMap', 'setCenter', 'setIsMapMoving']),
       setCenterInMap() {
         this.map.setCenter(this.center);
       },
       mapDragEndHandler() {
         this.setCenter(this.map.getCenter());
+        this.setIsMapMoving(true);
       },
     },
   };
@@ -47,5 +48,4 @@
 
 <style lang="sass" scoped>
   @import "~chming"
-  
 </style>

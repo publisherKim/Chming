@@ -18,9 +18,15 @@ export default {
   mutations: {
     setRegionList(state, {regionList, commit}) {
       state.regionList = regionList;
-      commit('setLocation', regionList[4]);
-      state.regionCategoryList = regionList.filter(function(item, pos, array) {
-        return !pos || item.si !== array[pos - 1].si;
+
+      // 시 기준으로 오름차순 정렬
+      regionList.sort(function(region1, region2) {
+        return region1.si > region2.si;
+      });
+
+      // 시 배열 생성(unique - 중복제거)
+      state.regionCategoryList = regionList.filter(function(region, pos, array) {
+        return !pos || region.si !== array[pos - 1].si;
       });
     },
   },

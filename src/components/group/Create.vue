@@ -125,6 +125,7 @@
       }
     },    
     methods: {
+      ...mapMutations(['setIsLoading']),
       changeRoute(route) {
         this.$router.push(route);
       },
@@ -173,6 +174,7 @@
         let formData = Vue.setFormData(this.group);
         let token = sessionStorage.getItem('token');
 
+        this.setIsLoading(true);
         this.$http.post(this.url.GROUP_REGISTER, formData, {headers: {Authorization: `Token ${token}`}})
           .then(response => {
             if(response.status === 201) {
@@ -185,6 +187,9 @@
           })
           .catch(error => {
             console.log('error.response: ', error.response);
+          })
+          .finally(() => {
+            this.setIsLoading(false);
           });
       },
     },

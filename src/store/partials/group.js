@@ -6,43 +6,52 @@ let http = axios;
 export default {
   state: {
     groupList: [],
-    groupDetailList: [],
+    activeSlide: 0,
   },
   getters: {
     groupList(state) {
       return state.groupList;
     },
-    groupDetailList(state) {
-      return state.groupDetailList;
+    activeSlide(state) {
+      return state.activeSlide;
     },
   },
   mutations: {
     setGroupList(state, groupList) {
       state.groupList = groupList;
     },
-    arrangeGroupByDistance(state, {commit, getters, options}) {
-      let LatLng = Vue.maps.LatLng;
-
+    arrangeGroupList(state, {commit, getters}) {
       let groupList = state.groupList;
-      let basePosition = new LatLng(options.lat, options.lng);
 
-      groupList.forEach(function(group, index) {
-        let line = Vue.maps.getPolyline();
-        group.position = new LatLng(group.lat, group.lng);
-        line.setPath([basePosition, group.position]);
-        group.distance = Math.round(line.getLength());
-      });
+      if(groupList.length !== 0) {
 
-      groupList.sort(function(group1, group2) {
-        return group1.distance - group2.distance;
-      });
+        let LatLng = Vue.maps.LatLng;
+        let options = getters.filterOptions;
+        let basePosition = new LatLng(options.lat, options.lng);
 
+        let arrange = null;
+        let sort = options.sort;
+        (sort === '거리순' || !sort) && (arrange = 'distance');
+        (sort === '인원순') && (arrange = 'member_count');
+        (sort === '좋아요순') && (arrange = 'like_users_count');
 
-      getters.map.setCenter(basePosition);
-      commit('setCenter', basePosition);
+        groupList.forEach(function(group, index) {
+          group.position = new LatLng(group.lat, group.lng);
+          let line = Vue.maps.getPolyline();
+          line.setPath([basePosition, group.position]);
+          group.distance = Math.round(line.getLength());
+        });
+
+        let ascend = -1;
+        arrange === 'distance' && (ascend = 1);
+
+        groupList.sort(function(group1, group2) {
+          return ascend * (group1[arrange] - group2[arrange]);
+        });
+      }
     },
-    setGroupDetailList(state, groupDetailList) {
-      state.groupDetailList = groupDetailList;
+    setActiveSlide(state, activeSlide) {
+      state.activeSlide = activeSlide;
     },
   },
   actions: {
@@ -50,16 +59,9 @@ export default {
     //  - 현재위치 경도
     //  - 반경 ( meter 단위 )
     //  - 로그인 한 유저의 관심사 리스트 { 관심사명 }
-    getGroupList({getters, commit, dispatch}, options) {
-      if(!options) {
-        let defaultLocation = Vue.maps.getDefaultLocation();
-        options = {
-          lat: defaultLocation.ib,
-          lng: defaultLocation.hb,
-        };
-      }
-
-      // let formData = Vue.setFormData(options);
+    getGroupList({getters, commit, dispatch}) {
+      let options = getters.filterOptions;
+      options.hobby === '' && delete options.hobby;
 
       commit('setIsLoading', true);
       http.get(getters.url.MAIN_GROUP_LIST, {
@@ -70,162 +72,33 @@ export default {
             let data = response.data;
             if(data.length !== 0) {
               commit('setGroupList', data);
-              commit('arrangeGroupByDistance', {commit, getters, options});
-              commit('setMarker', getters);
-              commit('setMarkerNumber', getters);
-            } else {
-              alert('검색 결과가 없습니다.');
+              dispatch('arrangeGroupList');
             }
           }
         })
         .catch(error => {
           console.log('error:', error);
           console.log('error:', error.response);
+          if(error.response.data.result === '검색결과가 없습니다.') {
+            alert('검색 결과가 없습니다.');
+          }
         })
         .finally(() => {
           commit('setIsLoading', false);
         });
     },
-    getGroupDetailList({getters, commit}, options) {
-      if(!options) {
-        let defaultLocation = Vue.maps.getDefaultLocation();
-        options = {
-          lat: defaultLocation.ib,
-          lng: defaultLocation.hb,
-          page: 1,
-        };
+    arrangeGroupList({commit, getters}) {
+      commit('arrangeGroupList', {commit, getters});
+      // 지도에 마커가 존재한다면 모두 제거
+      if(getters.markers.length !== 0) {
+        commit('removeMarkers');
+        commit('removeMarkerTexts');
+        commit('setMarkersEmpty');
       }
-
-      let url = `${getters.url.GROUP_DETAIL_LIST}/`;
-      commit('setIsLoading', true);
-      http.get(url, {
-        params: options,
-      })
-        .then(response => {
-          if(response.status === 200) {
-            commit('setGroupDetailList', response.data.results);
-          }
-        })
-        .catch(error => {
-          console.log('error:', error);
-          console.log('error:', error.response);
-        })
-        .finally(() => {
-          commit('setIsLoading', false);
-        });
+      commit('setMarker', {commit, getters});
+      commit('setMarkerNumber', getters);
+      commit('setActiveSlide', 0);
+      commit('setIsMapMoving', false);
     },
   },
 };
-
-
-
-
-
-// import Vue from 'vue';
-// import axios from 'axios';
-
-// let http = axios;
-
-// export default {
-//   state: {
-//     groupList: [],
-//     groupDetail: null,
-//   },
-//   getters: {
-//     groupList(state) {
-//       return state.groupList;
-//     },
-//     groupDetail(state) {
-//       return state.groupDetail;
-//     },
-//   },
-//   mutations: {
-//     setGroupList(state, groupList) {
-//       state.groupList = groupList;
-//     },
-//     arrangeGroupByDistance(state, {getters, options}) {
-//       let LatLng = Vue.maps.LatLng;
-
-//       let groupList = state.groupList;
-//       let basePosition = new LatLng(options.lat, options.lng);
-
-//       groupList.forEach(function(group, index) {
-//         let line = Vue.maps.getPolyline();
-//         group.position = new LatLng(group.lat, group.lng);
-//         line.setPath([basePosition, group.position]);
-//         group.distance = Math.round(line.getLength());
-//       });
-
-//       groupList.sort(function(group1, group2) {
-//         return group1.distance - group2.distance;
-//       });
-
-//       getters.map.setCenter(basePosition);
-//     },
-//     setGroupDetail(state, groupDetail) {
-//       state.groupDetail = groupDetail;
-//     },
-//   },
-//   actions: {
-//     //  - 현재위치 위도
-//     //  - 현재위치 경도
-//     //  - 반경 ( meter 단위 )
-//     //  - 로그인 한 유저의 관심사 리스트 { 관심사명 }
-//     getGroupList({getters, commit, dispatch}, options) {
-//       if(!options) {
-//         let defaultLocation = Vue.maps.getDefaultLocation();
-//         options = {
-//           lat: defaultLocation.ib,
-//           lng: defaultLocation.hb,
-//           hobby: '축구',
-//         };
-//       }
-
-//       // let formData = Vue.setFormData(options);
-
-//       commit('setIsLoading', true);
-//       http.get(getters.url.MAIN_GROUP_LIST, {
-//         params: options,
-//       })
-//         .then(response => {
-//           if(response.status === 200) {
-//             let data = response.data;
-//             if(data.length !== 0) {
-//               commit('setGroupList', data);
-//               commit('arrangeGroupByDistance', {getters, options});
-//               dispatch('getGroupDetail', data[0]);
-//               commit('setMarker', getters);
-//               commit('setMarkerNumber', getters);
-//             } else {
-//               alert('검색 결과가 없습니다.');
-//             }
-//           }
-//         })
-//         .catch(error => {
-//           console.log('error:', error);
-//           console.log('error:', error.response);
-//         })
-//         .finally(() => {
-//           commit('setIsLoading', false);
-//         });
-//     },
-//     getGroupDetail({getters, commit}, group) {
-//       let url = `${getters.url.GROUP_DETAIL}${group.pk}/`;
-
-//       commit('setIsLoading', true);
-//       http.get(url)
-//         .then(response => {
-//           if(response.status === 200) {
-//             commit('setGroupDetail', response.data);
-//           }
-//         })
-//         .catch(error => {
-//           console.log('error:', error);
-//           console.log('error:', error.response);
-//         })
-//         .finally(() => {
-//           commit('setIsLoading', false);
-//         });
-//     },
-//   },
-// };

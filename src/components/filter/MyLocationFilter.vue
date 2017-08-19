@@ -1,22 +1,43 @@
 <template lang="pug">
   .mylocation-container
-    filter-header(filter="myLocation")
+    filter-header(filter="myLocation" :selectedRadius="selectedRadius")
     .mylocation_header-wrap
       h2 내 위치에서 검색 반경 선택
     .mylocation_content-wrap
-      button.is-active(type="button" @click="") 500m
-      button(type="button" @click="") 1km
-      button(type="button" @click="") 1.5km
+      button(
+        v-for="radiusItem in radiusItems"
+        :class="{'is-active': radiusItem === selectedRadius}"
+        @click="setSelectedRadius(radiusItem)"
+        type="button"
+      ) {{radiusItem}}
       //- span(aria-label="반경") 500m
       //- .range-slider slider
 </template>
 
 <script>
   import FilterHeader from '@/components/filter/Header';
+  import { mapGetters } from 'vuex';
 
   export default {
+    created() {
+      this.selectedRadius = this.radius;
+    },
     components: {
       FilterHeader
+    },
+    data() {
+      return {
+        radiusItems: ['500m', '1km', '1.5km'],
+        selectedRadius: null,
+      };
+    },
+    methods: {
+      setSelectedRadius(radiusItem) {
+        this.selectedRadius = radiusItem;
+      },
+    },
+    computed: {
+      ...mapGetters(['radius']),
     },
   };
 </script>
@@ -28,7 +49,6 @@
   
   .mylocation-container
     width: 100%
-    z-index: 10
     background: $filter-panel-background-color
     text-align: center
     h2

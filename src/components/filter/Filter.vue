@@ -3,9 +3,9 @@
     .location-filter-wrap
       .location-filter
         h2 지금 보고있는 지역은
-        button(@click="viewFilter('location')" type="button") {{filterOption.location.dong}} &dtrif;
+        button(@click="viewFilter('location')" type="button") {{location.dong}} &dtrif;
       .filter-button-wrap
-        button.sort-button(@click="viewFilter('sort')" type="button") {{filterOption.sort}} &dtrif;
+        button.sort-button(@click="viewFilter('sort')" type="button") {{sort}} &dtrif;
         button.hobby-button(@click="viewFilter('hobby')" type="button") 관심사 &dtrif;
         button.mylocation-button(@click="viewFilter('mylocation')" type="button" aria-label="내 주변 검색")
           i.fa.fa-street-view(aria-hidden='true')
@@ -31,12 +31,13 @@
       viewFilter(filter) {
         this.setActiveFilter(filter + '-filter');
 
+        // 현재 Active된 Filter를 다시 한번 클릭 했을 때의 처리
         let refFilter = this.$refs.filter;
         refFilter && refFilter.$options._componentTag.includes(filter) && this.setActiveFilter(null);
       },
     },
     computed: {
-      ...mapGetters(['activeFilter', 'filterOption']),
+      ...mapGetters(['activeFilter', 'location', 'sort']),
     },
   };
 </script>
@@ -45,7 +46,9 @@
   @import "~chming"
 
   .filter-container
+    height: $filter-container-height
     background: $filter-background-color
+
   .location-filter-wrap
     position: relative
     padding: 0 2rem
@@ -97,23 +100,20 @@
     position: absolute
     bottom: 0
     left: 0
+    z-index: 40
 
   .sort-filter_content-wrap button,
   .hobby_list label
       color: $base-theme-color
 
   +mobile
-    .filter-container
-      height: $mobile-filter-container-height  
     .filter-button-wrap
       margin-right: 2rem
     .mylocation-button
-      top: $mobile-filter-container-height + 1.5rem
+      top: $filter-container-height + 1.5rem
   +desktop
-    .filter-container
-      height: $desktop-filter-container-height
     .mylocation-button
-      top: $desktop-filter-container-height + 2rem
+      top: $filter-container-height + 2rem
     .filter-button-wrap
       margin-right: 2rem
 </style>

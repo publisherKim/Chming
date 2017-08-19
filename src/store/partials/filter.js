@@ -1,12 +1,15 @@
+import Vue from 'vue';
 
 export default {
   state: {
     activeFilter: null,
-    filterOption: {
-      location: {},
+    filterOptions: {
+      location: {
+        dong: '신사동',
+      },
       sort: '거리순',
       hobby: [],
-      radius: 0.5,
+      radius: '500m',
     },
   },
   getters: {
@@ -14,19 +17,40 @@ export default {
       return state.activeFilter;
     },
     location(state) {
-      return state.filterOption.location;
+      return state.filterOptions.location;
     },
     sort(state) {
-      return state.filterOption.sort;
+      return state.filterOptions.sort;
     },
     hobby(state) {
-      return state.filterOption.hobby;
+      return state.filterOptions.hobby;
     },
     radius(state) {
-      return state.filterOption.radius;
+      return state.filterOptions.radius;
     },
-    filterOption(state) {
-      return state.filterOption;
+    filterOptions(state) {
+      let radius = state.filterOptions.radius;
+      let unit = radius.includes('km') ? 1 : 0.001;
+      radius = parseFloat(radius) * unit;
+
+      let location = state.filterOptions.location;
+      if(!location.lat) {
+        let defaultLocation = Vue.maps.getDefaultLocation();
+        location = {
+          lat: defaultLocation.lat,
+          lng: defaultLocation.lng,
+        };
+      }
+
+      let options = {
+        lat: location.lat,
+        lng: location.lng,
+        distance_limit: radius,
+        hobby: state.filterOptions.hobby.toString(),
+        sort: state.filterOptions.sort,
+      };
+
+      return options;
     },
   },
   mutations: {
@@ -34,19 +58,19 @@ export default {
       state.activeFilter = filter;
     },
     setLocation(state, location) {
-      state.filterOption.location = location;
+      state.filterOptions.location = location;
     },
     setSort(state, sort) {
-      state.filterOption.sort = sort;
+      state.filterOptions.sort = sort;
     },
     setHobby(state, hobby) {
-      state.filterOption.hobby = hobby;
+      state.filterOptions.hobby = hobby;
     },
     setRadius(state, radius) {
-      state.filterOption.radius = radius;
+      state.filterOptions.radius = radius;
     },
-    setFilterOption(state, filterOption) {
-      state.filterOption = filterOption;
+    setFilterOptions(state, filterOptions) {
+      state.filterOptions = filterOptions;
     },
   },
 };

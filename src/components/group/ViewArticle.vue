@@ -1,6 +1,5 @@
 <template lang="pug">
   .board_detail-view-container
-    loading-modal
     group-header
     .detail-view_author-wrap
       img.author_img(src="../../assets/mingu.jpeg" alt="profile")
@@ -67,7 +66,6 @@
 </template>
 
 <script>
-  import LoadingModal from '@/components/common/LoadingModal';
   import GroupHeader from '@/components/common/Header';
   import { mapMutations } from 'vuex';
 
@@ -76,7 +74,6 @@
       this.getBoardDetail();
     },    
     components: {
-      LoadingModal,
       GroupHeader
     },
     data (){

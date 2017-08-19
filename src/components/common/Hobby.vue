@@ -16,7 +16,7 @@
   import BackButton from '@/components/common/BackButton';
   import MessageBox from '@/components/common/MessageBox';
   import Vue from 'vue';
-  import { mapGetters, mapActions } from 'vuex';
+  import { mapGetters, mapMutations, mapActions } from 'vuex';
 
   export default {
     beforeRouteEnter (to, from, next) {
@@ -33,6 +33,9 @@
       if(this.$route.params.hobby) {
         this.selectedList = this.$route.params.hobby;
       }
+      if(this.$route.name === 'main') {
+        this.selectedList = this.hobby.slice();
+      }
     },
     components: {
       BackButton,
@@ -44,7 +47,7 @@
       };
     },
     computed: {
-      ...mapGetters(['userInfo', 'hobbyList', 'hobbyCategoryList']),
+      ...mapGetters(['userInfo', 'hobbyList', 'hobbyCategoryList', 'hobby']),
       isRouteMain() {
         return this.$route.name === 'main';
       },
@@ -53,6 +56,7 @@
       }      
     },
     methods: {
+      ...mapMutations(['setHobby']),
       hobbyValidate(){
         if(this.selectedList.length === 0){
           alert('관심사는 1개이상 선택해주세요 제발');
@@ -70,7 +74,10 @@
       selectedList(newValue) {
         if( (this.$route.name === 'group_create_hobby'|| this.$route.name === 'group_edit_hobby') && newValue.length === 2 ) {
           newValue = newValue.shift();
-        } 
+        }
+        if(this.$route.name === 'main') {
+          this.setHobby(newValue.slice());
+        }
       }  
     }
   };
