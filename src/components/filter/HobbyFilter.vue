@@ -27,7 +27,6 @@ export default {
 
   .hobby-container
     width: 100%
-    z-index: 10
 
   .hobby_title
     +a11y-hidden

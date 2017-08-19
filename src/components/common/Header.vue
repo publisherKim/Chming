@@ -38,6 +38,8 @@
   .header-container
     position: relative
     background: $main-header-background-color
+    height: $main-header-container-height
+    
   .header_title
     position: absolute
     +align-vertical-middle()   
@@ -73,10 +75,4 @@
       font-size: 2rem
       line-height: 3rem
 
-  +mobile()
-    .header-container
-      height: $mobile-main-header-container-height
-  +desktop()
-    .header-container
-      height: $desktop-main-header-container-height
 </style>

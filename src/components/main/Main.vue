@@ -3,6 +3,7 @@
     main-header
     main-filter
     main-map.main-map
+    button.search(v-if="isMapMoving" @click="searchThisLocation") 이 지역 검색하기
     group-list-slider.slider
 </template>
 
@@ -11,11 +12,13 @@
   import MainFilter from '@/components/filter/Filter';
   import MainMap from '@/components/common/Map';
   import GroupListSlider from '@/components/main/GroupListSlider';
-  import {mapMutations, mapActions} from 'vuex';
+  import Vue from 'vue';
+  import {mapGetters, mapMutations, mapActions} from 'vuex';
 
   let watchPosition = window.navigator.geolocation.watchPosition;
 
   export default {
+
     beforeRouteLeave (to, from, next) {
       this.setActiveFilter(null);
       next();
@@ -36,8 +39,32 @@
       GroupListSlider,
     },
     methods: {
-      ...mapActions(['getGroupList', 'getGroupDetailList']),
-      ...mapMutations(['setMyLocation', 'setActiveFilter']),
+      ...mapActions(['getGroupList']),
+      ...mapMutations(['setActiveFilter', 'setLocation']),
+
+      searchThisLocation() {
+        this.getLocationInfo(this.center);
+      },
+      getLocationInfo(position) {
+        let geocoder = Vue.maps.getGeocoder();
+        console.log(position);
+
+        let lat = position.getLat();
+        let lng = position.getLng();
+        geocoder.coord2RegionCode(lng, lat, (result, status) => {
+          if(status === Vue.maps.services.Status.OK) {
+            this.setLocation({
+              dong: result[0].region_3depth_name,
+              lat,
+              lng
+            });
+            this.getGroupList();
+          }   
+        });
+      },
+    },
+    computed: {
+      ...mapGetters(['isMapMoving', 'activeFilter', 'center']),
     },
   };
 </script>
@@ -46,18 +73,18 @@
 <style lang="sass" scoped>
   @import "~chming"
 
-  +mobile
-    $header-height-px: rem-to-px($mobile-base-root-font-size, $mobile-main-header-container-height)
-    $filter-height-px: rem-to-px($mobile-base-root-font-size, $mobile-filter-container-height)
-    $header-filter-height: $header-height-px + $filter-height-px
-    .main-map
-      +container()
-      height: calc(100vh - #{$header-filter-height})
-  +desktop
-    $header-height-px: rem-to-px($desktop-base-root-font-size, $desktop-main-header-container-height)
-    $filter-height-px: rem-to-px($desktop-base-root-font-size, $desktop-filter-container-height)
-    $header-filter-height: $header-height-px + $filter-height-px
-    .main-map
-      +container()
-      height: calc(100vh - #{$header-filter-height})
+  .main-map
+    +container()
+    height: calc(100vh - #{$main-header-container-height} - #{$filter-container-height})
+  .search
+    position: absolute
+    z-index: 30
+    bottom: 3rem
+    background: $base-theme-color
+    color: $base-theme-color2
+    border: 0
+    border-radius: 2px
+    padding: 0.5rem 1rem
+    +align-horizontal-middle
+
 </style>

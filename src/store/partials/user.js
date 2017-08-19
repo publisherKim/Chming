@@ -60,7 +60,6 @@ export default {
       let token = sessionStorage.getItem('token');
 
       commit('setIsLoading', true);
-      console.log('ddddddddddddddddddddddddddddddd');
       http.post(getters.url.LOGOUT, null, {
         headers: {'Authorization': `Token ${token}`}
       })

@@ -1,6 +1,6 @@
 <template lang="pug">
   .sort-filter-container
-    filter-header(filter="sort" :sort="selectedSort")
+    filter-header(filter="sort" :selectedSort="selectedSort")
     .sort-filter_header-wrap
       h2 정렬
     .sort-filter_content-wrap
@@ -32,7 +32,6 @@
     },
     methods: {
       setSelectedSort(sortItem) {
-        console.log('sortItem:', sortItem);
         this.selectedSort = sortItem;
       },
     },
@@ -49,7 +48,6 @@
   
   .sort-filter-container
     width: 100%
-    z-index: 10
     background: #fff
     text-align: center
   .sort-filter_header-wrap

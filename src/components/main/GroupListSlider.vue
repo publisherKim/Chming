@@ -1,9 +1,9 @@
 <template lang="pug">
-  .group-list-slider-container(v-if="groupList.length !== 0 && !activeFilter")
+  .group-list-slider-container(v-if="isActiveGroupSlide")
     h2 검색된 그룹 정보 리스트
     ul.group-list
       transition(:name="transition" mode="out-in")
-        li.list_item(:key="index" v-for="(group, index) in groupList" v-if="index === count")
+        li.list_item(:key="index" v-for="(group, index) in groupList" v-if="index === activeSlide")
           .group-image_wrap
             img(:src="group.image", alt="")
           a.group-description_link(href @click.prevent="changeRoute(group.pk)")
@@ -26,38 +26,45 @@
       return {
         count: 0,
         transition: '',
+        isNewCenter: false,
       };
     },
     components: {
       HobbyIcon,
     },
     methods: {
-      ...mapMutations(['setCenter']),
+      ...mapMutations(['setCenter', 'setActiveSlide']),
       changeRoute(id) {
         this.$router.push({name: 'group_info_home', params: {id}});
       },
       nextGroup() {
-        this.count = (this.count + 1) % this.groupListLength;
+
+        this.setActiveSlide((this.activeSlide + 1) % this.groupListLength);
+        // this.count = (this.count + 1) % this.groupListLength;
         this.transition = 'slide-next';
 
-        let position = this.groupList[this.count].position;
+        let position = this.groupList[this.activeSlide].position;
         this.map.panTo(position);
         this.setCenter(position);
       },
       prevGroup() {
-        this.count = (this.count - 1 + this.groupListLength) % this.groupListLength;
+        this.setActiveSlide((this.activeSlide - 1 + this.groupListLength) % this.groupListLength);
+        // this.count = (this.count - 1 + this.groupListLength) % this.groupListLength;
         this.transition = 'slide-prev';
-        let position = this.groupList[this.count].position;
+        let position = this.groupList[this.activeSlide].position;
         this.map.panTo(position);
         this.setCenter(position);
       },
     },
     computed: {
-      ...mapGetters(['map', 'groupList', 'activeFilter']),
+      ...mapGetters(['map', 'groupList', 'activeFilter', 'isMapMoving', 'activeSlide']),
       groupListLength() {
         return this.groupList.length;
       },
-    }
+      isActiveGroupSlide() {
+        return !this.isMapMoving && this.groupList.length !== 0 && !this.activeFilter;
+      },
+    },
   };
 </script>
 

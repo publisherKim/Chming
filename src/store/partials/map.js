@@ -7,7 +7,9 @@ export default {
   state: {
     map: null,
     center: null,
+    isMapMoving: false,
     markers: [],
+    markerTexts: [],
   },
   getters: {
     map(state) {
@@ -19,16 +21,25 @@ export default {
     center(state) {
       return state.center;
     },
+    isMapMoving(state) {
+      return state.isMapMoving;
+    },
   },
   mutations: {
     setMap(state, map) {
       state.map = map;
     },
-    setMarker(state, getters) {
+    setMarker(state, {commit, getters}) {
+      let groupList = getters.groupList;
+      let bounds = new Vue.maps.LatLngBounds();
+      let event = Vue.maps.event;
 
-      state.markers = getters.groupList.map((group, index) => {
+      state.markers = groupList.map((group, index) => {
         let map = state.map;
         let position = new Vue.maps.LatLng(group.lat, group.lng);
+
+        // 지도 범위 재설정(bounds 객체에 마커가 표시되어야할 좌표값을 확장 시킴)
+        bounds.extend(position);
 
         // 마커 생성 및 표시
         let marker = new Vue.maps.Marker({
@@ -38,14 +49,30 @@ export default {
           image: Vue.maps.getMarkerImage(), // 마커 이미지 
         });
 
+        // 마커 이벤트 리스너 추가
+        event.addListener(marker, 'click', () => {
+          commit('setActiveSlide', index);
+          let position = getters.groupList[index].position;
+          getters.map.panTo(position);
+          commit('setCenter', position);
+          commit('setIsMapMoving', false);
+        });
+
         return marker;
       });
+      // 지도 범위 재설정 (중심좌표와 지도 레벨 변경될 수 있음)
+      getters.map.setBounds(bounds);
+      getters.map.setCenter(groupList[0].position);
+      commit('setCenter', groupList[0].position);
     },
     setCenter(state, center) {
       state.center = center;
     },
+    setIsMapMoving(state, isMapMoving) {
+      state.isMapMoving = isMapMoving;
+    },
     setMarkerNumber(state, getters) {
-      getters.groupList.forEach((group, index) => {
+      state.markerTexts = getters.groupList.map((group, index) => {
         let map = state.map;
         let position = new Vue.maps.LatLng(group.lat, group.lng);
 
@@ -62,7 +89,21 @@ export default {
 
         // 커스텀 오버레이를 지도에 표시합니다
         customOverlay.setMap(map);
+        return customOverlay;
       });
+    },
+    removeMarkers(state) {
+      state.markers.forEach(marker => {
+        marker.setMap(null);
+      });
+    },
+    removeMarkerTexts(state) {
+      state.markerTexts.forEach(markerText => {
+        markerText.setMap(null);
+      });
+    },
+    setMarkersEmpty(state) {
+      state.markers = [];
     },
     
   },
