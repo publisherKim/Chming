@@ -6,7 +6,16 @@
         alt="groupIntroduce"
       ) 
       p {{groupInfo.description}}
-      p.address {{groupInfo.address}}
+      p {{groupInfo.address}}
+      a.introduce-home_like(
+        :class="{'is-active': likeToggle}"
+        @click.prevent="favoriteGroupToggle"
+      )
+        i.fa(
+          :class="likeToggle ? 'fa-heart' : 'fa-heart-o'"
+          aria-hidden="true"
+          aria-label="관심모임"
+        )
     .home_news-wrap
       h3.title 새소식
       board-list(:boardList="groupInfo.notice")
@@ -14,7 +23,7 @@
     button.home_modify(v-if="isAuthor" @click="changeRoute({name: 'group_edit'})" type="button") 수정하기
     .home_member-wrap
       h3.title 모임멤버 
-        span.member-number {{groupInfo.member_count+1}} 명
+        span.member-number {{groupInfo.member_count}} 명
       ul.member-list
         li.list-item
           img(
@@ -48,6 +57,7 @@
           members: [],
           notice: []
         },
+        likeToggle: false
       };
     },
     computed: {
@@ -101,13 +111,16 @@
       },
       getGroupInfo() {
         let url = this.url.GROUP_DETAIL + this.groupId + '/';
-
         this.setIsLoading(true);
         this.$http.get(url)
           .then(response => {
             if(response.status === 200) {
+              let like_users = response.data.like_users;
               this.groupInfo = response.data;
               console.log(this.groupInfo);
+              this.likeToggle = like_users.some((item)=> {
+                return item.pk === this.userInfo.pk;
+              });
             }
           })
           .catch(error => {
@@ -116,6 +129,22 @@
           .finally(() => {
             this.setIsLoading(false);
           });     
+      },
+      favoriteGroupToggle() {
+        let url = `/group/${this.groupId}/like_toggle/`;
+        let token = sessionStorage.getItem('token');
+        this.setIsLoading(true);
+        this.$http.post(url, null, {headers: {Authorization: `Token ${token}`}})
+          .then(response => {
+            this.getGroupInfo();
+          })
+          .catch(error => {
+            console.log('error: ', error);
+            console.log('error message:', error.response);
+          })
+          .finally(() => {
+            this.setIsLoading(false);
+          });
       },
       changeRoute(name){
         this.$router.push(name);
@@ -139,6 +168,16 @@
         margin-left: 1rem 
 
   .introduce-home-wrap
+    position: relative
+    .introduce-home_like
+      position: absolute
+      right: 2rem
+      bottom: 6rem
+      &.is-active
+        i, span 
+          color: $groupFavorite
+
+        
     img
       display: block
       margin: 0 auto

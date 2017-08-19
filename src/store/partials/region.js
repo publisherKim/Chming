@@ -18,7 +18,7 @@ export default {
   mutations: {
     setRegionList(state, {regionList, commit}) {
       state.regionList = regionList;
-      commit('setLocation', regionList[4]);
+      commit('setLocation', regionList[0]);
       state.regionCategoryList = regionList.filter(function(item, pos, array) {
         return !pos || item.si !== array[pos - 1].si;
       });

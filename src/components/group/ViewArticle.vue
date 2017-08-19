@@ -6,8 +6,9 @@
       img.author_img(src="../../assets/mingu.jpeg" alt="profile")
       p.author_name {{boardDetail.author.username}}
       p.author_date {{boardDetail.modified_date ? boardDetail.modified_date : boardDetail.created_date}}
-      p.notice(v-if="boardDetail.post_type") 공지사항
+      p.notice {{boardDetail.post_type ? '공지사항' : '일반글'}}
     .detail-view_content-wrap
+      h3.content_title {{boardDetail.title}}
       pre {{boardDetail.content}}
       img.content_photo(
         v-if="boardDetail.post_img"
