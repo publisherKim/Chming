@@ -15,7 +15,7 @@
     li
       button(
         @click="changeRoute({name: 'group_info_album', params: {id: groupId}})" 
-        :class="{'is-active': routeName ===' group_info_album'}" 
+        :class="{'is-active': routeName ==='group_info_album'}" 
         type="button"
       ) 사진첩    
 </template>
