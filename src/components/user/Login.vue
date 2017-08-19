@@ -33,7 +33,7 @@
         message-box(
           v-if="isEmptyPassword" 
           :classList="['fa-check-circle-o', 'warning']" 
-          message="비밀번호 입력해주세요."
+          :message="message.PASSWORDINPUT"
         )
         message-box(
           v-if="password" 
@@ -76,13 +76,13 @@
       };
     },
     computed: {
-      ...mapGetters(['userInfo']),
+      ...mapGetters(['userInfo', 'message']),
       emailValidate() {
         if(emailRegexp.test(this.email)) {
-          this.emailValidationMessage = '올바른 이메일 주소입니다.';
+          this.emailValidationMessage = this.message.USEREMAILOK;
           return true;
         } else {
-          this.emailValidationMessage = '올바른 이메일 주소를 입력해주세요';
+          this.emailValidationMessage = this.message.USEREMAILALLRIGHT;
           return false;
         }
       },
@@ -91,10 +91,10 @@
       },
       passwordValidate() {
         if(passwordRegexp.test(this.password)) {
-          this.passwordValidationMessage = '올바른 패스워드 형식입니다.';
+          this.passwordValidationMessage = this.message.PASSWORDTYPE;
           return true;
         } else {
-          this.passwordValidationMessage = '대문자, 소문자, 숫자를 포함해야합니다.';
+          this.passwordValidationMessage = this.message.PASSWORDRULE;
           return false;
         }
       },

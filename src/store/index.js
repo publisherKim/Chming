@@ -8,7 +8,7 @@ import filter from './partials/filter';
 import hobby from './partials/hobby';
 import region from './partials/region';
 import loading from './partials/loading';
-
+import message from './partials/message.js';
 
 Vue.use(Vuex);
 
@@ -22,5 +22,6 @@ export default new Vuex.Store({
     hobby,
     region,
     loading,
+    message
   },
 });

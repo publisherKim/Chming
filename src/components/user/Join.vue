@@ -15,7 +15,7 @@
           message-box(
             v-if="isEmptyUsername"
             :classList="['fa-check-circle-o', 'warning']"
-            message="이름을 입력해주세요."
+            :message="message.USERNAME"
           )
         p.form_email-wrap
           input.form_email(
@@ -30,7 +30,7 @@
           message-box(
             v-if="isEmptyEmail"
             :classList="['fa-check-circle-o', 'warning']"
-            message="이메일 입력해주세요."
+            :message="message.USEREMAIL"
           )
           message-box(
             v-if="userJoinInfo.email && !emailValidate"
@@ -134,7 +134,7 @@
         message-box(
           v-if="isEmptyHobby"
           :classList="['fa-check-circle-o', 'warning']"
-          message="관심사를 선택 해주세요"
+          :message="message.USERHOBBY"
         )
         .form_location-wrap
           button.location_button(
@@ -148,7 +148,7 @@
         message-box(
           v-if="isEmptyAddress"
           :classList="['fa-check-circle-o', 'warning']"
-          message="지역을 선택해주세요"
+          :message="message.USERLOCATION"
         )
         button.form_confirm(@click="join" type="button") 완료
     router-view.hobby-container
@@ -200,6 +200,45 @@
           lng: null,
         },
       };
+    },
+    computed: {
+      ...mapGetters(['url', 'message']),
+      emailValidate() {
+        if(!emailRegexp.test(this.userJoinInfo.email)) {
+          this.emailValidationMessage = this.message.USEREMAILALLRIGHT;
+          return false;
+        } else {
+          return true;
+        }
+      },
+      passwordValidate() {
+        if(passwordRegexp.test(this.userJoinInfo.password)) {
+          this.passwordValidationMessage = '올바른 패스워드 형식입니다.';
+          return true;
+        } else {
+          this.passwordValidationMessage = '대문자, 소문자, 숫자를 포함해야합니다.';
+          return false;
+        }
+      },
+      isEmptyUsername() {
+        return this.userJoinInfo.username === '';
+      },
+      isEmptyEmail() {
+        return this.userJoinInfo.email === '';
+      },
+      isEmptyPassword() {
+        return this.userJoinInfo.password === '';
+      },
+      isEmptyHobby() {
+        let hobby = this.userJoinInfo.hobby;
+        return hobby && hobby.length === 0;
+      },
+      isEmptyAddress() {
+        return this.userJoinInfo.address === '';
+      },
+      prevRoute() {
+        return this.$route.params.prev;
+      },
     },
     methods: {
       ...mapMutations(['setIsLoading']),
@@ -282,11 +321,11 @@
         })
         .then(response => {
           if(response.data.is_valid) {
-            this.emailDuplicateMessage = '사용할 수 있는 이메일 입니다.';
+            this.emailDuplicateMessage = this.message.USEREMAILOK;
             this.isEmailDuplicated = false;
           }
           else {
-            this.emailDuplicateMessage = '중복된 이메일입니다.';
+            this.emailDuplicateMessage = this.message.UESEREMAILDUPLICATE;
             this.isEmailDuplicated = true;
           }
         })
@@ -317,46 +356,7 @@
         },
         deep: true,
       },
-    },
-    computed: {
-      ...mapGetters(['url']),
-      emailValidate() {
-        if(!emailRegexp.test(this.userJoinInfo.email)) {
-          this.emailValidationMessage = '올바른 이메일 주소를 입력해주세요';
-          return false;
-        } else {
-          return true;
-        }
-      },
-      passwordValidate() {
-        if(passwordRegexp.test(this.userJoinInfo.password)) {
-          this.passwordValidationMessage = '올바른 패스워드 형식입니다.';
-          return true;
-        } else {
-          this.passwordValidationMessage = '대문자, 소문자, 숫자를 포함해야합니다.';
-          return false;
-        }
-      },
-      isEmptyUsername() {
-        return this.userJoinInfo.username === '';
-      },
-      isEmptyEmail() {
-        return this.userJoinInfo.email === '';
-      },
-      isEmptyPassword() {
-        return this.userJoinInfo.password === '';
-      },
-      isEmptyHobby() {
-        let hobby = this.userJoinInfo.hobby;
-        return hobby && hobby.length === 0;
-      },
-      isEmptyAddress() {
-        return this.userJoinInfo.address === '';
-      },
-      prevRoute() {
-        return this.$route.params.prev;
-      },
-    },
+    }
   };
 </script>
 

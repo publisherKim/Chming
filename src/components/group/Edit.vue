@@ -12,7 +12,7 @@
       message-box(
         v-if="isEmptyGroupDescription"
         :classList="['fa-check-circle-o', 'warning']"
-        message="그룹설명을 입력해주세요."
+        :message="message.GROUPDESCRIPTION"
       )
       .form_file-upload-wrap
         input#upload(
@@ -81,7 +81,7 @@
       };
     },
     computed: {
-      ...mapGetters(['url']),
+      ...mapGetters(['url', 'message']),
       isEmptyGroupDescription() {
         return this.group.description === '';
       },    
