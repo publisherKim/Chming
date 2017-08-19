@@ -115,9 +115,15 @@ export default {
     setMarkersEmpty(state) {
       state.markers = [];
     },
-    
   },
   actions: {
-    
+    resetMarkers({commit, state}) {
+      // 지도에 마커가 존재한다면 모두 제거
+      if(state.markers.length !== 0) {
+        commit('removeMarkers');
+        commit('removeMarkerTexts');
+        commit('setMarkersEmpty');
+      }
+    },
   }
 };
