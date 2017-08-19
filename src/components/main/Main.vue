@@ -40,14 +40,13 @@
     },
     methods: {
       ...mapActions(['getGroupList']),
-      ...mapMutations(['setActiveFilter', 'setLocation']),
+      ...mapMutations(['setActiveFilter', 'setLocation', 'setMarkerCluster']),
 
       searchThisLocation() {
-        this.getLocationInfo(this.center);
+        this.getGroupListInCurrentLocation(this.center);
       },
-      getLocationInfo(position) {
+      getGroupListInCurrentLocation(position) {
         let geocoder = Vue.maps.getGeocoder();
-        console.log(position);
 
         let lat = position.getLat();
         let lng = position.getLng();

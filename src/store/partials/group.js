@@ -63,6 +63,13 @@ export default {
       let options = getters.filterOptions;
       options.hobby === '' && delete options.hobby;
 
+      // 지도에 마커가 존재한다면 모두 제거
+      if(getters.markers.length !== 0) {
+        commit('removeMarkers');
+        commit('removeMarkerTexts');
+        commit('setMarkersEmpty');
+      }
+
       commit('setIsLoading', true);
       http.get(getters.url.MAIN_GROUP_LIST, {
         params: options,
@@ -73,15 +80,14 @@ export default {
             if(data.length !== 0) {
               commit('setGroupList', data);
               dispatch('arrangeGroupList');
+            } else {
+              alert('검색 결과가 없습니다.');
             }
           }
         })
         .catch(error => {
           console.log('error:', error);
           console.log('error:', error.response);
-          if(error.response.data.result === '검색결과가 없습니다.') {
-            alert('검색 결과가 없습니다.');
-          }
         })
         .finally(() => {
           commit('setIsLoading', false);
@@ -89,14 +95,9 @@ export default {
     },
     arrangeGroupList({commit, getters}) {
       commit('arrangeGroupList', {commit, getters});
-      // 지도에 마커가 존재한다면 모두 제거
-      if(getters.markers.length !== 0) {
-        commit('removeMarkers');
-        commit('removeMarkerTexts');
-        commit('setMarkersEmpty');
-      }
       commit('setMarker', {commit, getters});
       commit('setMarkerNumber', getters);
+      // commit('setMarkerCluster');
       commit('setActiveSlide', 0);
       commit('setIsMapMoving', false);
     },

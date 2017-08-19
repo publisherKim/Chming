@@ -5,6 +5,7 @@
 </template>
 
 <script>
+  import Vue from 'vue';
   import { mapGetters, mapMutations, mapActions } from 'vuex';
 
   export default {
@@ -30,13 +31,19 @@
     },
     methods: {
       ...mapActions(['getGroupList', 'arrangeGroupList']),
-      ...mapMutations(['setActiveFilter', 'setLocation', 'setSort', 'setRadius']),
+      ...mapMutations(['setActiveFilter', 'setLocation', 'setSort', 'setRadius', 'setCenter']),
       setFilter(filter) {
         if(filter === 'sort') {
           this.setSort(this.selectedSort);
           this.arrangeGroupList();
         } else {
-          (filter === 'location') && this.setLocation(this.selectedLocation);
+          if(filter === 'location') {
+            let location = this.selectedLocation;
+            this.setLocation(location);
+            let position = new Vue.maps.LatLng(location.lat, location.lng);
+            this.setCenter(position);
+            this.map.setCenter(position);
+          }
           (filter === 'myLocation') && this.setRadius(this.selectedRadius);
 
           this.getGroupList();
@@ -46,7 +53,7 @@
       },
     },
     computed: {
-      ...mapGetters(['location', 'filterOptions']),
+      ...mapGetters(['location', 'filterOptions', 'map']),
     },
   };
 </script>
