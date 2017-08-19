@@ -5,7 +5,7 @@
 </template>
 
 <script>
-  import { mapGetters, mapMutations } from 'vuex';
+  import { mapGetters, mapMutations, mapActions } from 'vuex';
 
   export default {
     props: {
@@ -19,34 +19,34 @@
       selectedSort: {
         type: String,
       },
-      selectedHobby: {
-        type: Array,
-      },
-      selectedMyLocation: {
+      selectedRadius: {
         type: String,
       },
     },
+    data() {
+      return {
+        options: null,
+      };
+    },
     methods: {
-      ...mapMutations(['setActiveFilter', 'setLocation', 'setSort']),
+      ...mapActions(['getGroupList', 'arrangeGroupList']),
+      ...mapMutations(['setActiveFilter', 'setLocation', 'setSort', 'setRadius']),
       setFilter(filter) {
-        if(filter === 'location') {
-          this.setLocation(this.selectedLocation);
-        }
-        if(filter === 'myLocation') {
-          console.log('');
-        }
-        if(filter === 'hobby') {
-          console.log('');
-        }
         if(filter === 'sort') {
-          console.log('this.selectedSort:', this.selectedSort);
           this.setSort(this.selectedSort);
+          this.arrangeGroupList();
+        } else {
+          (filter === 'location') && this.setLocation(this.selectedLocation);
+          (filter === 'myLocation') && this.setRadius(this.selectedRadius);
+
+          this.getGroupList();
         }
+
         this.setActiveFilter(null);
       },
     },
     computed: {
-      ...mapGetters(['location']),
+      ...mapGetters(['location', 'filterOptions']),
     },
   };
 </script>
