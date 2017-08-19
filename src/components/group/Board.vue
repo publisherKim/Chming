@@ -69,9 +69,9 @@
           });
       },
       onScroll(e, position){
-        let scollTop = Math.ceil(position.scrollTop);
-        if(scollTop >= this.scrollBottom){
-          this.page = this.page+1;
+        let scrollTop = Math.ceil(position.scrollTop);
+        if(scrollTop >= this.scrollBottom){
+          this.page++;
           this.getBoardList();
         }
       } 

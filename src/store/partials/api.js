@@ -12,6 +12,7 @@ export default {
       GROUP_DETAIL: '/group/',
       GROUP_DETAIL_LIST: '/group/detail/',
       GROUP_DETAIL_REGISTER: `/group/${this.groupId}/post/create/`,
+      GROUP_SEARCH: '/group/search/',
       GROUP_EDIT: '/group/',
       GROUP_JOIN: '/group/',
       GROUP_LIST: '/group/all/',

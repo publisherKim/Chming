@@ -9,7 +9,7 @@
         )
         label(for="notice") 공지
         input(
-          v-model="board.title"
+          v-model.trim="board.title"
           @blur="checkEmpty('title')" 
           ref="title"
           type="text" 
@@ -22,7 +22,7 @@
           message="제목을 잊어버리셨군요? 잊지말아주세용 &^&"
         )
         textarea(
-          v-model="board.content"
+          v-model.trim="board.content"
           @blur="checkEmpty('content')"
           ref="content"
           palceholder="내용을 작성해 주세요" 

@@ -6,7 +6,7 @@
         p 이메일 : {{userEditInfo.email}}
         p
           input.form_name(
-            v-model="userEditInfo.username"
+            v-model.trim="userEditInfo.username"
             ref="username"
             type="text"
             placeholder="이름"
@@ -19,7 +19,7 @@
           )
         p
           input.form_password(
-            v-model="userEditInfo.password"
+            v-model.trim="userEditInfo.password"
             ref="password"
             type="password"
             placeholder="비밀번호(대소문자, 숫자 포함 8글자 이상)"
@@ -171,7 +171,7 @@
         let token = sessionStorage.getItem('token');
 
         let userEditInfo = this.userEditInfo;
-        Vue.isString(userEditInfo.profile_img) && delete userEditInfo.profile_img;
+        (this.userEditInfo.profile_img === this.userInfo.profile_img) && delete userEditInfo.profile_img;
         userEditInfo.password === '' && delete userEditInfo.password;
 
         let formData = Vue.setFormData(userEditInfo);

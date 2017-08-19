@@ -4,27 +4,63 @@
       a(href @click.prevent="changeRoute({name: 'main'})")
         img.header_logo-image(src="../../assets/logo.svg" alt="취밍")
     form.header_search-form(autocomplete="off")
-      input(type="text" id="keyword" placeholder="지역, 모임 또는 관심사")
-      button.search-form_button(type="submit" aria-label="검색")
+      input(v-model.trim="searchString" type="text" id="search" placeholder="지역, 모임 또는 관심사")
+      select(v-model="searchType" aria-label="검색 조건")
+        option(value='all') 전체
+        option(value='address') 지역
+        option(value='group') 모임
+        option(value='hobby') 관심사
+      button.search-form_button(@click.prevent="search" aria-label="검색")
         i.fa.fa-search(aria-hidden='true')
     main-menu
 </template>
 
 <script>
   import MainMenu from '@/components/common/Menu';
+  import { mapGetters, mapMutations } from 'vuex';
 
   export default {
     data() {  
       return {
+        searchString: '',
+        searchType: 'all',
       };
     },
     components: {
       MainMenu,
     },
     methods: {
+      ...mapMutations(['setIsLoading']),
       changeRoute(route) {
         this.$router.push(route);
       },
+      search() {
+        if(this.searchString === '') {
+          alert('검색어를 입력해주세요');
+          return;
+        }
+
+        this.setIsLoading(true);
+        this.$http.get(this.url.GROUP_SEARCH, {
+          params: {
+            search: this.searchString,
+            search_type: 'group',
+          },
+        })
+          .then(response => {
+            console.log(response);
+          })
+          .catch(error => {
+            console.log('error:', error);
+            console.log('error.response:', error.response);
+          })
+          .finally(() => {
+            this.setIsLoading(false);
+          });
+      },
+    },
+    computed: {
+      ...mapGetters(['url']),
     },
   };
 </script>
