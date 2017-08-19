@@ -13,9 +13,9 @@
         )
           h4.item_title(v-if="board.post_type") 
             span.notice 공지
-            | {{boardList[0].title}}
-          p.item_contents {{boardList[0].contents}}
-          h4.item_title {{board.title}}
+            | {{board.title}}
+          p.item_contents {{board.contents}}
+          h4.item_title(v-if="!board.post_type") {{board.title}}
           p.item_contents {{board.content}}
         span.item_like
           i.fa.fa-thumbs-up(aria-hidden="true")
@@ -45,13 +45,17 @@
     methods: {
       changeRoute(route) {
         this.$router.push(route);
-      }
+      }    
     },
   };
 </script>
 
 <style lang="sass" scoped>
   @import "~chming"
+  .board-container
+    .board-list-container
+      overflow-y: scroll
+      height: calc(100vh - 16rem)
 
   .empty 
     padding: 2rem

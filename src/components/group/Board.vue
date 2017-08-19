@@ -1,6 +1,11 @@
 <template lang="pug">
   .board-container
-    board-list(:boardList="boardList" :page="page")
+    board-list(
+      ref="boardList"
+      :boardList="boardList" 
+      :page="page" 
+      v-scroll="onScroll"
+    )
     button.confirm(
       @click="changeRoute({name: 'group_writeArticle'})" 
       type="button"
@@ -15,6 +20,10 @@
     created() {
       this.getBoardList();
     },
+    updated() {
+      let boardWrapperTarget = this.$refs.boardList.$el;
+      this.scrollBottom = boardWrapperTarget.scrollHeight - boardWrapperTarget.clientHeight;
+    },
     components: {
       BoardList,
     },
@@ -22,12 +31,16 @@
       return {
         boardList: [],
         page: 1,
+        scrollBottom: 0,
       };
     },
     computed: {
       groupId() {
         return this.$route.params.id;
       },
+      currentScrollPosition() {
+        return this.position;
+      }
     },
     methods: {
       ...mapMutations(['setIsLoading']),
@@ -36,7 +49,6 @@
       },
       getBoardList() {
         let url = `/group/${this.groupId}/post/`;
-
         this.setIsLoading(true);
         this.$http.get(url, {
           params: {
@@ -45,17 +57,23 @@
         })
           .then(response => {
             if(response.status === 200) {
-              this.boardList = response.data.results;
-              console.log('notice modify: ', response.data.results.length);
+              this.boardList.push(...response.data.results);
             }
           })
           .catch(error => {
-            console.log(error);
+            console.log('error', error);
+            console.log('error-message', error.response);
           })
           .finally(() => {
             this.setIsLoading(false);
           });
-      }
+      },
+      onScroll(e, position){
+        if(position.scrollTop === this.scrollBottom){
+          this.page = this.page+1;
+          this.getBoardList();
+        }
+      } 
     },
   };
 </script>
@@ -64,6 +82,7 @@
   @import "~chming"
 
   .confirm 
+
     display: block
     margin: 2rem auto
     +action-button(8rem, 3rem)

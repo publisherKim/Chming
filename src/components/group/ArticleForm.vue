@@ -84,6 +84,7 @@
     data() {
       return {
         uploadSrc: '',
+        originPostImage: '',
         board: {
           post_type: false,
           title: null,
@@ -154,6 +155,7 @@
         this.setIsLoading(true);
         this.$http.get(url)
           .then( response => {
+            this.originPostImage = response.data.post_img;
             this.board = response.data;
           })
           .catch(error => {
@@ -187,9 +189,11 @@
           });
       },
       editPost() {
-        console.log('edit');
         if(!this.boardValidate()) return;
-        let formData = Vue.setFormData(this.board);
+        let editData = this.board;
+        (this.originPostImage === editData.post_img) && delete editData.post_img;
+
+        let formData = Vue.setFormData(editData);
         let token = sessionStorage.getItem('token');
         let url = `/group/${this.groupId}/post/${this.articleId}/update/`; 
         this.setIsLoading(true);
