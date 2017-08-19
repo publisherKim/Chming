@@ -27,10 +27,10 @@
           role="button"
         ) 모임 대표 사진
           .fa.fa-picture-o(aria-hidden="true")
-          img.label_group-img(
-            v-if="groupImageSrc" 
-            :src="groupImageSrc"
-          )
+        img.label_group-img(
+          v-if="groupImageSrc" 
+          :src="groupImageSrc"
+        )
       .form_location-wrap
         button.location_button(
           @click="changeRoute({name: 'group_edit_location', params: {prev: 'group_edit'}})"
@@ -76,7 +76,8 @@
           author: {},
           hobby: []
         },
-        uploadSrc: ''
+        uploadSrc: '',
+        originGroupImage: '',
       };
     },
     computed: {
@@ -122,8 +123,10 @@
         this.$http.get(url)
           .then(response => {
             if(response.status === 200) {
-              response.data.hobby = response.data.hobby[0];
-              this.group = response.data;
+              let data = response.data;
+              data.hobby = data.hobby[0];
+              this.originGroupImage = data.image;
+              this.group = data;
             }
           })
           .catch(error => {
@@ -139,7 +142,7 @@
         let token = sessionStorage.getItem('token');
 
         let group = this.group;
-        Vue.isString(group.image) && delete group.image;
+        (this.originGroupImage === group.image) && delete group.image;
 
         let formData = Vue.setFormData(group);
         let groupId = this.$route.params.id;

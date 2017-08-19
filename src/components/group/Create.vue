@@ -3,7 +3,7 @@
     h3.title 모임 개설
     form.group-create_form
       input.form_name(
-        v-model="group.name" 
+        v-model.trim="group.name" 
         @blur="checkEmpty('name')" 
         ref="name" 
         type="text" 
@@ -16,7 +16,7 @@
         message="그룹명을 입력해주세요."
       )
       textarea.form_description(
-        v-model="group.description"
+        v-model.trim="group.description"
         @blur="checkEmpty('description')" 
         ref="description" 
         placeholder="어떤 모임인지 설명해주세요." 
@@ -40,10 +40,10 @@
           role="button"
         ) 모임 대표 사진
           .fa.fa-picture-o(aria-hidden="true")
-          img.label_group-img(
-            v-if="group.image" 
-            :src="uploadSrc"
-          )
+        img.label_group-img(
+          v-if="group.image" 
+          :src="uploadSrc"
+        )
       .form_location-wrap
         button.location_button(
           @click="changeRoute({name: 'group_create_location', params: {prev: 'group_create'}})"
@@ -179,7 +179,7 @@
           .then(response => {
             if(response.status === 201) {
               alert('모임 생성이 완료되었습니다.');
-              this.changeRoute({name: 'group_info_home'});
+              this.changeRoute({name: 'group_info_home', params: {id: response.data.pk}});
               console.log(response);
             } else {
               console.log(response);
