@@ -19,7 +19,7 @@
         message-box(
           v-if="isEmptyBoardTitle"
           :classList="['fa-check-circle-o', 'warning']"
-          message="제목을 잊어버리셨군요? 잊지말아주세용 &^&"
+          :message="message.BORARDTITLE"
         )
         textarea(
           v-model.trim="board.content"
@@ -31,7 +31,7 @@
         message-box(
           v-if="isEmptyBoardContent"
           :classList="['fa-check-circle-o', 'warning']"
-          message="게시판 내용을 풍성하게 채워주세요"
+          :message="message.BOARDCONTENT"
         )
         input(
           id="file-upload" 
@@ -94,7 +94,7 @@
       };       
     },
     computed: {
-      ...mapGetters(['url']),      
+      ...mapGetters(['url', 'message']),      
       isEmptyBoardTitle() {
         return this.board.title === '';
       },
@@ -170,8 +170,6 @@
         let formData = Vue.setFormData(this.board);
         let token = sessionStorage.getItem('token');
         let url = `/group/${this.groupId}/post/create/`;
-        console.log(this.url.GROUP_DETAIL_REGISTER);
-        console.log('url', url);
         this.setIsLoading(true);
         this.$http.post(url, formData, {headers: {Authorization: `Token ${token}`}}).
           then(response => {

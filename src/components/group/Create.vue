@@ -13,7 +13,7 @@
       message-box(
         v-if="isEmptyGroupName"
         :classList="['fa-check-circle-o', 'warning']"
-        message="그룹명을 입력해주세요."
+        :message="message.GROUPNAME"
       )
       textarea.form_description(
         v-model.trim="group.description"
@@ -25,7 +25,7 @@
       message-box(
         v-if="isEmptyGroupDescription"
         :classList="['fa-check-circle-o', 'warning']"
-        message="그룹설명을 입력해주세요."
+        :message="message.GROUPDESCRIPTION"
       )
       .form_file-upload-wrap
         input#upload(
@@ -56,7 +56,7 @@
       message-box(
         v-if="isEmptyGroupAddrss"
         :classList="['fa-check-circle-o', 'warning']"
-        message="지역을 선택해주세요"
+        :message="message.GROUPDESCRIPTION"
       )
   
       .form_hobby-wrap
@@ -110,7 +110,7 @@
       };
     },
     computed: {
-      ...mapGetters(['url']),
+      ...mapGetters(['url', 'message']),
       isEmptyGroupName() {
         return this.group.name === '';
       },

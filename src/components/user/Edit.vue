@@ -15,7 +15,7 @@
           message-box(
             v-if="isEmptyUsername"
             :classList="['fa-check-circle-o', 'warning']"
-            message="이름을 입력해주세요."
+            message="message.USERNAME"
           )
         p
           input.form_password(
@@ -104,7 +104,7 @@
         message-box(
           v-if="isEmptyHobby"
           :classList="['fa-check-circle-o', 'warning']"
-          message="관심사를 선택 해주세요"
+          :message="message.USERHOBBY"
         )
         .form_location-wrap
           button.location_button(
@@ -117,7 +117,7 @@
         message-box(
           v-if="isEmptyAddress"
           :classList="['fa-check-circle-o', 'warning']"
-          message="지역을 선택해주세요"
+          message="message.USERLOCATION"
         )
         button.form_confirm(@click="edit" type="button") 완료
       back-button(:route="{name: 'user_info'}")
@@ -224,7 +224,7 @@
       }
     },
     computed: {
-      ...mapGetters(['userInfo', 'url']),
+      ...mapGetters(['userInfo', 'url', 'message']),
       maskingPassword() {
         // let length = this.user.password.length;
         let length = 5;
@@ -241,10 +241,10 @@
         if(userEditInfo) {
           if(!userEditInfo.password) return true;
           if(passwordRegexp.test(userEditInfo.password)) {
-            this.passwordValidationMessage = '올바른 패스워드 형식입니다.';
+            this.passwordValidationMessage = this.message.PASSWORDTYPE;
             return true;
           } else {
-            this.passwordValidationMessage = '대문자, 소문자, 숫자를 포함해야합니다.';
+            this.passwordValidationMessage = this.message.PASSWORDRULE;
             return false;
           }
         }
