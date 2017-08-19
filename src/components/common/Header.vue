@@ -4,12 +4,12 @@
       a(href @click.prevent="changeRoute({name: 'main'})")
         img.header_logo-image(src="../../assets/logo.svg" alt="취밍")
     form.header_search-form(autocomplete="off")
-      input(v-model.trim="searchString" type="text" id="search" placeholder="지역, 모임 또는 관심사")
       select(v-model="searchType" aria-label="검색 조건")
-        option(value='all') 전체
+        option(value='all') 통합
         option(value='address') 지역
-        option(value='group') 모임
+        option(value='group') 모임명
         option(value='hobby') 관심사
+      input(v-model.trim="searchString" type="text" id="search" placeholder="지역, 모임 또는 관심사")
       button.search-form_button(@click.prevent="search" aria-label="검색")
         i.fa.fa-search(aria-hidden='true')
     main-menu
@@ -17,7 +17,7 @@
 
 <script>
   import MainMenu from '@/components/common/Menu';
-  import { mapGetters, mapMutations } from 'vuex';
+  import { mapMutations, mapActions } from 'vuex';
 
   export default {
     data() {  
@@ -31,6 +31,7 @@
     },
     methods: {
       ...mapMutations(['setIsLoading']),
+      ...mapActions(['searchGroups']),
       changeRoute(route) {
         this.$router.push(route);
       },
@@ -40,27 +41,11 @@
           return;
         }
 
-        this.setIsLoading(true);
-        this.$http.get(this.url.GROUP_SEARCH, {
-          params: {
-            search: this.searchString,
-            search_type: 'group',
-          },
-        })
-          .then(response => {
-            console.log(response);
-          })
-          .catch(error => {
-            console.log('error:', error);
-            console.log('error.response:', error.response);
-          })
-          .finally(() => {
-            this.setIsLoading(false);
-          });
+        this.searchGroups({
+          search: this.searchString,
+          search_type: this.searchType,
+        });
       },
-    },
-    computed: {
-      ...mapGetters(['url']),
     },
   };
 </script>
@@ -94,13 +79,20 @@
     margin-left: $img-width + $side-space
     width: calc(100% - 9.7rem)
     height: 3rem
+    select
+      position: absolute
+      left: 3rem
+      width: 6rem
+      +align-vertical-middle
+      color: inherit
+      border: 0
     input
       display: inline-block
       width: calc(100% - 6.3rem)
-      padding-left: 1rem
+      padding-left: 7.5rem
       margin: 0 $side-space
       vertical-align: top
-      line-height: 3rem
+      height: 100%
       border: none
     i
       color: $main-header-icon-color

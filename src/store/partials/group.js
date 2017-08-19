@@ -63,12 +63,7 @@ export default {
       let options = getters.filterOptions;
       options.hobby === '' && delete options.hobby;
 
-      // 지도에 마커가 존재한다면 모두 제거
-      if(getters.markers.length !== 0) {
-        commit('removeMarkers');
-        commit('removeMarkerTexts');
-        commit('setMarkersEmpty');
-      }
+      dispatch('resetMarkers');
 
       commit('setIsLoading', true);
       http.get(getters.url.MAIN_GROUP_LIST, {
@@ -81,6 +76,7 @@ export default {
               commit('setGroupList', data);
               dispatch('arrangeGroupList');
             } else {
+              commit('setGroupList', null);
               alert('검색 결과가 없습니다.');
             }
           }
@@ -88,6 +84,35 @@ export default {
         .catch(error => {
           console.log('error:', error);
           console.log('error:', error.response);
+        })
+        .finally(() => {
+          commit('setIsLoading', false);
+        });
+    },
+    searchGroups({commit, getters, dispatch}, options) {
+
+      dispatch('resetMarkers');
+
+      commit('setIsLoading', true);
+      http.get(getters.url.GROUP_SEARCH, {
+        params: options,
+      })
+        .then(response => {
+          if(response.status === 200) {
+            let data = response.data;
+            if(data.length !== 0) {
+              commit('setGroupList', data);
+              dispatch('arrangeGroupList');
+            } else {
+              commit('setGroupList', []);
+              alert('검색 결과가 없습니다.');
+            }
+          }
+        })
+        .catch(error => {
+          console.log('error:', error);
+          console.log('error.response:', error.response);
+          commit('setGroupList', []);
         })
         .finally(() => {
           commit('setIsLoading', false);
