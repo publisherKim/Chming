@@ -99,5 +99,10 @@ export default {
 
       return formData;
     };
+    Vue.isFileValidate = function(file) {
+      let isExceed5MB = file.size > 1024 * 1024 * 5;
+      let isImage = file.type.split('/')[0] === 'image';
+      return !isExceed5MB && isImage;
+    };
   },
 };

@@ -81,19 +81,20 @@
     height: 3rem
     select
       position: absolute
-      left: 3rem
+      left: 2.5rem
       width: 6rem
       +align-vertical-middle
       color: inherit
       border: 0
+      border-right: 1px solid #ccc
     input
       display: inline-block
       width: calc(100% - 6.3rem)
-      padding-left: 7.5rem
+      padding-left: 7rem
       margin: 0 $side-space
       vertical-align: top
       height: 100%
-      border: none
+      border: 1px solid $base-theme-color
     i
       color: $main-header-icon-color
     button

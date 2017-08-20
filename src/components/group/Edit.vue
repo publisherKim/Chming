@@ -94,11 +94,15 @@
       ...mapMutations(['setIsLoading']),
       fileUpload(e) {
         let file = e.target.files[0];
-        this.group.image = file;
         let reader = new FileReader();
         reader.readAsDataURL(file);
-        reader.onload = f => {
-          this.uploadSrc = f.srcElement.result;
+        reader.onload = e => {
+          if(Vue.isFileValidate(file)) {
+            this.group.image = file;
+            this.uploadSrc = e.target.result;
+          } else {
+            alert('이미지 파일이면서 5MB 이하만 업로드 가능합니다.');
+          }
         };
       },
       changeRoute(route) {
