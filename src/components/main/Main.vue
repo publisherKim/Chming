@@ -16,7 +16,7 @@
   import {mapGetters, mapMutations, mapActions} from 'vuex';
 
   export default {
-    beforeRouteLeave (to, from, next) {
+    beforeRouteLeave(to, from, next) {
       this.setActiveFilter(null);
       next();
     },

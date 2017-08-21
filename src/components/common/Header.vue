@@ -2,7 +2,7 @@
   .header-container
     h1.header_title
       a(href @click.prevent="changeRoute({name: 'main'})")
-        img.header_logo-image(src="../../assets/logo.svg" alt="취밍")
+        img.header_logo-image(src="../../assets/logo/logo_mobile.svg" alt="취밍")
     form.header_search-form(autocomplete="off")
       select(v-model="searchType" aria-label="검색 조건")
         option(value='all') 통합
@@ -53,7 +53,7 @@
 <style lang="sass" scoped>
   @import "~chming"
 
-  $img-width: 2.3rem
+  $img-width: 3.3rem
   $side-space: 2rem
 
   .header-container
@@ -82,7 +82,7 @@
     height: 3rem
     select
       position: absolute
-      left: 2.5rem
+      left: 2rem
       width: 5.5rem
       +align-vertical-middle
       font-size: 1.2rem
@@ -94,7 +94,7 @@
       display: inline-block
       width: calc(100% - 6.3rem)
       padding-left: 6.5rem
-      margin: 0 $side-space
+      margin: 0 1.5rem
       vertical-align: top
       height: 100%
       border: 1px solid $base-theme-color

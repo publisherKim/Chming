@@ -2,9 +2,9 @@
   .intro-container
     .intro_header-wrap
       h2 모임 
-        span.strong No.2
+        span.strong No.1
         |  서비스
-        img.point(src="../../assets/logo/LogoTextWhite.svg")
+        img.point(src="../../assets/logo/logo_intro.svg")
       p 같은 관심사로 오프라인 동호회 
       p 이제 여가시간을 의미있게 보내요.
       button.header_main(
@@ -13,7 +13,7 @@
       ) 모임 이용하기
       button.header_view(
         @click="showMovie"
-      ) intro 영상시청
+      ) 튜토리얼 영상
 
     .intro_video-wrap(
       @click.self="closeMovie"
@@ -83,6 +83,8 @@
       color: #fff
       background: none
       border: none
+    .strong
+      color: $base-point-color
 
   .intro_header-wrap
     position: absolute
