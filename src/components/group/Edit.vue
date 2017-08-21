@@ -109,7 +109,6 @@
         let group = this.group;
         
         if(this.isEmptyGroupDescription || !group.description) {
-          console.log('test');
           refs.description.focus();
           return false;
         }

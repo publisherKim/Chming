@@ -7,7 +7,11 @@
           li(v-if="obj.category === hobby.category" v-for="hobby in hobbyList")
             input(v-model="selectedList" :id="`item${hobby.pk}`" type="checkbox" :value="hobby.category_detail")
             label(:for="`item${hobby.pk}`") {{hobby.category_detail}}   
-      
+    message-box(
+      v-if="$route.name === 'user_join_hobby' || $route.name === 'user_edit_hobby'"
+      :classList="['fa-check-circle-o', 'warning']"
+      :message="message.HOBBYMAX"      
+    )  
     button.hobby_confirm(v-if="!isRouteMain" @click="confirm" type="button") 완료
     back-button.back-button(v-if="!isRouteMain")
 </template>
@@ -47,13 +51,13 @@
       };
     },
     computed: {
-      ...mapGetters(['userInfo', 'hobbyList', 'hobbyCategoryList', 'hobby']),
+      ...mapGetters(['userInfo', 'hobbyList', 'hobbyCategoryList', 'hobby', 'message']),
       isRouteMain() {
         return this.$route.name === 'main';
       },
       isEmptyGroupHobby(){
         return this.selectedList.length === 0;
-      }      
+      }     
     },
     methods: {
       ...mapMutations(['setHobby']),
@@ -77,6 +81,9 @@
         }
         if(this.$route.name === 'main') {
           this.setHobby(newValue.slice());
+        }
+        if(newValue.length > 5){
+          newValue.pop();
         }
       }  
     }

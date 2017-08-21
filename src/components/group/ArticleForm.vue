@@ -1,6 +1,6 @@
 <template lang="pug">
   div
-    loadingModal
+    loading-modal
     form
         input(
           v-model="board.post_type"

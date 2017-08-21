@@ -15,7 +15,10 @@ export default {
       BOARDCONTENT: '게시판 내용을 풍성하게 채워주세요',
       GROUPNAME: '그룹명을 입력해주세요.',
       GROUPDESCRIPTION: '그룹설명을 입력해주세요.',
-      GROUPLOCATION: '모임지역을 선택해주세요'
+      GROUPLOCATION: '모임지역을 선택해주세요',
+      ALBUMEMPTY: '더 이상 포토 앨범이 없습니다.',
+      HOBBYMAX: '관심사는 5개까지 선택 할수 있습니다.',
+      GROUPJOIN: '그룹에 회원가입을 해야 볼 수 있습니다.'
     },
   },
   getters: {

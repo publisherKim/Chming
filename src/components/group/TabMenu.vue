@@ -8,21 +8,35 @@
       ) 정보
     li
       button(
-        @click="changeRoute({name: 'group_info_board', params: {id: groupId}})" 
+        @click="changeGroupTab({name: 'group_info_board', params: {id: groupId}})" 
         :class="{'is-active': routeName === 'group_info_board'}" 
         type="button"
       ) 게시판
     li
       button(
-        @click="changeRoute({name: 'group_info_album', params: {id: groupId}})" 
+        @click="changeGroupTab({name: 'group_info_album', params: {id: groupId}})" 
         :class="{'is-active': routeName ==='group_info_album'}" 
         type="button"
       ) 사진첩
 </template>
 
 <script>
+  import { mapGetters, mapMutations } from 'vuex';
+
   export default {
+    created() {
+      this.getMembers();
+    },
+    mounted() {  
+    },
+    data() {
+      return {
+        isMember: false,
+        members: null
+      };
+    },
     computed:{
+      ...mapGetters(['url', 'userInfo', 'message']),
       routeName(){
         return this.$route.name;
       },
@@ -31,9 +45,37 @@
       },
     },
     methods: {
+      ...mapMutations(['setIsLoading']),
       changeRoute(route) {
         this.$router.push(route);
-      }
+      },
+      changeGroupTab(route){
+        if(!this.isMember) return alert(this.message.GROUPJOIN);
+        this.changeRoute(route);
+      },
+      getMembers() {
+        let url = this.url.GROUP_DETAIL + this.groupId + '/';
+        this.setIsLoading(true);
+        this.$http.get(url)
+          .then(response => {
+            if(response.status === 200) {
+              this.members = response.data.members;
+              this.isMember = this.members.some((item)=> {
+                return item.pk === this.userInfo.pk;
+              });
+            }
+            if(!this.isMember) {
+              alert(this.message.GROUPJOIN);
+              this.changeRoute({name: 'group_info_home', params: {id: this.groupId}});
+            }
+          })
+          .catch(error => {
+            console.log('error:', error.response);
+          })
+          .finally(() => {
+            this.setIsLoading(false);
+          });     
+      }      
     }
   };
 </script>
