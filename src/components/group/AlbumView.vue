@@ -13,7 +13,13 @@
       @click="viewAlbum(1)"
       type="button"
     )
-      i.fa.fa-angle-right(aria-label="이전사진")    
+      i.fa.fa-angle-right(aria-label="이전사진")
+
+    button.close-modal-button(
+      @click="closeModal"
+      type="button" 
+    )
+      i.fa.fa-times(aria-hidden="true")
 </template>
 
 <script>
@@ -79,6 +85,7 @@
       left: 50%
       transform: translate(-50%, -50%)      
       width: 100%
+      max-width: 400px
   .prev-button, .next-button
     position: absolute
     transform: translateY(-50%)
@@ -93,4 +100,21 @@
   .next-button
     top: 50%
     right: 1rem
+
+  .close-modal-button
+    position: absolute
+    top: 2rem
+    right: 2rem
+    padding: 0 5px
+    border: 0
+    background: none
+    font-size: 1.7rem
+    text-align: center
+    i
+      color: $base-theme-color2
+  
+  +desktop
+    .view-album
+      max-width: 50%
+      max-height: 50%
 </style>

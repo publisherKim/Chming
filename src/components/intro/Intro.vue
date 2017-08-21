@@ -1,0 +1,160 @@
+<template lang="pug">
+  .intro-container
+    .intro_header-wrap
+      h2 모임 
+        span.strong No.2
+        |  서비스
+        img.point(src="../../assets/logo/LogoTextWhite.svg")
+      p 같은 관심사로 오프라인 동호회 
+      p 이제 여가시간을 의미있게 보내요.
+      button.header_main(
+        @click="changeRoute({name: 'main'})"
+        type="button"
+      ) 모임 이용하기
+      button.header_view(
+        @click="showMovie"
+      ) intro 영상시청
+
+    .intro_video-wrap(
+      @click.self="closeMovie"
+      v-if="isMovieShow"
+    )
+      video( 
+        controls="controls" 
+        class="video-stream" 
+        x-webkit-airplay="allow" 
+        data-youtube-id="N9oxmRT2YWw"
+        width="100%" 
+        src="../../assets/sample.mp4"
+      )
+      button.close-modal-button(
+        @click="closeMovie"
+        type="button" 
+      )
+        i.fa.fa-times(aria-hidden="true")
+    .intro_bottom-wrap
+      button.bottom_check-intro(
+        @click="closeIsIntro"
+        type="button"
+      ) 다시 보지않기
+</template>
+
+<script>
+  export default {
+    beforeCreate() {
+      localStorage.setItem('showIntro', true);
+    },
+    data() {
+      return {
+        isMovieShow: false
+      };
+    },
+    methods: {
+      changeRoute(route) {
+        this.$router.push(route);
+      },
+      closeIsIntro() {
+        localStorage.setItem('showIntro', false);
+        this.changeRoute({name: 'main'});
+      },
+      showMovie() {
+        this.isMovieShow = !this.isMovieShow;
+      },
+      closeMovie() {
+        console.log('test');
+        this.isMovieShow = !this.isMovieShow;
+      }      
+    },
+  };
+</script>
+
+<style lang="sass" scoped>
+  @import "~chming"
+
+  .intro-container
+    height: 100vh
+    background: linear-gradient(-45deg, #66cdcc 0%, $base-theme-color 100%)
+    button
+      +action-button
+      padding: 1rem
+    .intro_view
+      width: 100%
+      text-align: center
+      color: #fff
+      background: none
+      border: none
+
+  .intro_header-wrap
+    position: absolute
+    top: 50%
+    left: 50%
+    transform: translate(-50%, -50%)
+    width: 100%
+    text-align: center
+    h2
+      font-size: 2rem
+      color: #fff
+    .point
+      margin: 3rem auto
+      display: block
+      width: 70%
+      font-size: 3rem
+    p
+      margin: 0 auto
+      width: calc(100% - 8rem)
+      text-align: center
+      color: #fff
+    
+    .header_main, .header_view
+      margin: 3rem 0.5rem
+      padding: 1rem 2rem
+      color: #fff
+      background: none
+      border-radius: 2rem
+      border-color: #fff
+
+  .intro_video-wrap
+    position: absolute
+    top: 0
+    left: 0
+    width: 100%
+    height: 100vh
+    background: #000
+    background: rgba(0, 0, 0, 0.5)
+    z-index: 2
+    video
+      position: absolute
+      top: 50%
+      left: 50%
+      transform: translate(-50%, -50%)
+    .close-modal-button
+      position: absolute
+      top: 1rem
+      right: 1rem
+      padding: 0 5px
+      border: 0
+      background: none
+      font-size: 1.7rem
+      text-align: center
+      i
+        color: $base-theme-color2
+        
+  .intro_bottom-wrap
+    position: fixed
+    bottom: 0
+    width: 100%
+
+    .bottom_check-intro
+      display: block
+      width: 100%
+      color: #fff
+      background: none
+      border: none
+
+  +mobile
+    video
+      width: 100%    
+  +desktop
+    video
+      width: 80%
+</style>
