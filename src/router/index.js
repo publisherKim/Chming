@@ -3,7 +3,6 @@ import Router from 'vue-router';
 
 // Intro
 import introRoutes from './partials/intro';
-
 // Main
 import mainRoutes from './partials/main';
 // User

@@ -41,7 +41,6 @@
   import BackButton from '@/components/common/BackButton';
   import { mapGetters, mapActions } from 'vuex';
   import HobbyIcon from '@/components/common/HobbyIcon';
-  import blankUserImage from '@/assets/user.svg';
 
   export default {
     beforeRouteEnter (to, from, next) {
@@ -69,9 +68,7 @@
       },
       userImage() {
         let userInfo = this._userInfo;
-
-        let userImage = userInfo.profile_img;
-        return !userImage ? blankUserImage : userImage;
+        return userInfo.profile_img;
       },
       _userInfo() {
         if(this.userInfo) return this.userInfo;
