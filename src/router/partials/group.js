@@ -3,9 +3,9 @@ import Group from '@/components/group/Group';
 import GroupInfo from '@/components/group/Info';
 import GroupHome from '@/components/group/Home';
 import GroupBoard from '@/components/group/Board';
-import GroupViewArticle from '@/components/group/ViewArticle';
-import GroupEditArticle from '@/components/group/EditArticle';
-import GroupWriteArticle from '@/components/group/WriteArticle';
+import GroupArticleView from '@/components/group/ArticleView';
+import GroupArticleEdit from '@/components/group/ArticleEdit';
+import GroupArticleWrite from '@/components/group/ArticleWrite';
 import GroupAlbum from '@/components/group/Album';
 import GroupCreate from '@/components/group/Create';
 import GroupHobby from '@/components/common/Hobby';
@@ -40,19 +40,19 @@ export default {
       ],
     },   
     {
-      path: 'board/:id/viewArticle/:articleId',
-      name: 'group_viewArticle',
-      component: GroupViewArticle,
+      path: 'board/:id/articleView/:articleId',
+      name: 'group_articleView',
+      component: GroupArticleView,
     },
     {
-      path: 'board/:id/editArticle/:articleId',
-      name: 'group_editArticle',
-      component: GroupWriteArticle,
+      path: 'board/:id/articleEdit/:articleId',
+      name: 'group_articleEdit',
+      component: GroupArticleWrite,
     },
     {
-      path: 'board/:id/writeArticle',
-      name: 'group_writeArticle',
-      component: GroupWriteArticle,
+      path: 'board/:id/articleWrite',
+      name: 'group_articleWrite',
+      component: GroupArticleWrite,
     },
     {
       path: 'create',

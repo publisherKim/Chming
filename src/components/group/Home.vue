@@ -1,21 +1,26 @@
 <template lang="pug">
   .home-container
     .introduce-home-wrap
-      img(
+      img.group-image(
         :src="groupInfo.image" 
         alt="groupIntroduce"
-      ) 
-      p {{groupInfo.description}}
-      p {{groupInfo.address}}
-      a.introduce-home_like(
-        :class="{'is-active': likeToggle}"
-        @click.prevent="favoriteGroupToggle"
       )
-        i.fa(
-          :class="likeToggle ? 'fa-heart' : 'fa-heart-o'"
-          aria-hidden="true"
-          aria-label="관심모임"
+      .group-info-wrap
+        p.group-description(aria-label="모임 소개") {{groupInfo.description}}
+        p.group-address(aria-label="모임 주요 활동지역")
+          i.fa.fa-map-marker(aria-hidden='true')
+          | {{groupInfo.address}}
+        a.introduce-home_like(
+          :class="{'is-active': likeToggle}"
+          @click.prevent="favoriteGroupToggle"
+          :title="likeToggleLabel"
+          :aria-label="likeToggleLabel"
         )
+          i.fa(
+            :class="likeToggle ? 'fa-heart' : 'fa-heart-o'"
+            aria-hidden="true"
+            aria-label="관심모임"
+          )
     .home_news-wrap
       h3.title 새소식
       board-list(:boardList="groupInfo.notice")
@@ -23,18 +28,18 @@
     button.home_modify(v-if="isAuthor" @click="changeRoute({name: 'group_edit'})" type="button") 수정하기
     .home_member-wrap
       h3.title 모임멤버 
-        span.member-number {{groupInfo.member_count}} 명
+        span.member-number(aria-label="모임 인원수") {{groupInfo.member_count}} 명
       ul.member-list
-        li.list-item
+        li.member-list-item
           img(
             :src="groupInfo.author.profile_img" 
             :alt="groupInfo.author.username"
           )
-          span.item-name {{groupInfo.author.username}}
-          span.item-position 모임장
-        li.list-item(v-for="member in groupInfo.members")
+          span.author-name(aria-label="모임장 이름") {{groupInfo.author.username}}
+          span.author-position(aria-label="모임장 여부") 모임장
+        li.member-list-item(v-for="member in groupInfo.members")
           img(:src="member.profile_img" :alt="member.username")
-          span.item-name {{member.username}}
+          span.member-name {{member.username}}
 </template>
 
 <script>
@@ -84,6 +89,9 @@
       },
       isJoinable() {
         return this.isLogin && !this.isMember && !this.isAuthor;
+      },
+      likeToggleLabel() {
+        return this.likeToggle ? '모임 좋아요 취소' : '모임 좋아요';
       },
     },
     methods: {
@@ -155,44 +163,44 @@
 
 <style lang="sass" scoped>
   @import "~chming"
-  .home-container
-    li
-      +clearfix()
-      +side-space()
-      position: relative
-      padding: 1.5rem 2rem
-      border-bottom: solid 1px #ccc
-      img 
-        float: leff        
-      span 
-        margin-left: 1rem 
+  .member-list-item
+    +clearfix()
+    position: relative
+    padding: 1.5rem 2rem
+    border-bottom: solid 1px #ccc
+    img 
+      +circle()
+      float: left        
+    span 
+      margin-left: 1rem 
 
-  .introduce-home-wrap
+  .group-image
+    display: block
+    margin: 0 auto
+    width: 100%
+    max-width: 640px
+
+  .group-info-wrap
     position: relative
     .introduce-home_like
       position: absolute
       right: 2rem
-      bottom: 6rem
+      top: 1rem
+      font-size: 1.6rem
       &.is-active
         i, span 
-          color: $groupFavorite
+          color: $group-like-color
+    .group-description,
+    .group-address
+      padding: 1rem 4rem 1rem 2rem
+      // line-height: 2.6rem
+      i
+        margin-right: 1rem
 
-        
-    img
-      display: block
-      margin: 0 auto
-      width: 100%
-      max-width: 640px
-    p
-      padding: 1rem 2rem
-      line-height: 2.6rem
   .title
     +sub-title_group()
   .member-number
     color: $group-home-member-number-color
-  .list-item
-    img
-      +circle()
 
   .home_join,
   .home_modify
@@ -200,6 +208,18 @@
     display: block
     margin: 1rem auto
     padding: 0.5rem 1rem
-  .item-position
-    float: right      
+  
+  .author-name,
+  .member-name,
+  .author-position
+    font-weight: bold
+
+  .author-name,
+  .member-name,
+    position: absolute
+    +align-vertical-middle
+
+  .author-position
+    float: right
+    color: $base-point-color
 </style>

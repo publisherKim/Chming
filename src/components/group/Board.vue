@@ -7,7 +7,7 @@
       v-scroll="onScroll"
     )
     button.confirm(
-      @click="changeRoute({name: 'group_writeArticle'})" 
+      @click="changeRoute({name: 'group_articleWrite'})" 
       type="button"
     ) 글쓰기
 </template>

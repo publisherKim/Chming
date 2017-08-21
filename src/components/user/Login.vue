@@ -20,7 +20,7 @@
           v-if="email" 
           :classList="['fa-check-circle-o', emailValidate ? 'info' : 'warning']"
           :message="emailValidationMessage"
-        )       
+        )
       p  
         input.form_password(
           v-model="password" 

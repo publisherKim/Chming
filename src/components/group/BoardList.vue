@@ -4,26 +4,34 @@
     ul(v-else)
       li.list_item(v-for="board in boardList")
         .item_author(v-if="!board.post_type")
-          img.author_image(:src="board.author.profile_img" :alt="board.author.username")
-          p.author_name {{board.author.username}}
-          p.author_date {{board.modified_date ? board.modified_date : board.created_date}}
+          img.author_image(
+            :src="board.author.profile_img"
+            :alt="board.author.username"
+          )
+          p.author_name(aria-label="글쓴이") {{board.author.username}}
+          p.author_date(aria-label="글 작성일자") {{board.modified_date ? board.modified_date : board.created_date}}
         a(
-          @click="changeRoute({name: 'group_viewArticle', params: {id: groupId, articleId: board.pk}, query: {page}})"
+          @click="viewArticle(board)"
           role="button"
+          aria-label="작성글 보기"
         )
           h4.item_title(v-if="board.post_type") 
             span.notice 공지
             | {{board.title}}
-          p.item_contents {{board.contents}}
+          p.item_contents(aria-label="공지 내용") {{board.contents}}
           h4.item_title(v-if="!board.post_type") {{board.title}}
-          p.item_contents {{board.content}}
+          p.item_contents(aria-label="글 내용") {{board.content}}
         span.item_like
           i.fa.fa-thumbs-up(aria-hidden="true")
-          span {{board.post_like_count}}
+          span(aria-label="게시글 좋아요 수") {{board.post_like_count}}
         span.item_comment
           i.fa.fa-comment(aria-hidden="true")
-          span {{board.comments_count}}
-        img.item_preview-image(:src="board.post_img")
+          span(aria-label="게시글 댓글 수") {{board.comments_count}}
+        img.item_preview-image(
+          v-if="board.post_img"
+          :src="board.post_img"
+          :alt="board.title"
+        )
 </template>
 
 <script>
@@ -47,9 +55,20 @@
     },
     methods: {
       changeRoute(route) {
-        if(!this.isMember) return alert(this.validateMessages.GROUP_ACCESS);
         this.$router.push(route);
-      }    
+      },
+      viewArticle(board) {
+        this.changeRoute({
+          name: 'group_articleView',
+          params: {
+            id: this.groupId,
+            articleId: board.pk,
+          },
+          query: {
+            page: this.page,
+          },
+        });
+      },
     },
   };
 </script>
@@ -66,13 +85,11 @@
     text-align: center
   .list_item
     +clearfix()
-    +side-space()
     position: relative
-    padding : 2rem
+    padding: 1.5rem 2rem
     border-bottom: solid 1px #ccc
   .item_title
     width: calc(100% - 6rem)
-    font-size: 1.4rem
     +fit-text-in-box()
   .notice
     display: inline-block
@@ -83,12 +100,12 @@
     background: $base-point-color
   .item_contents
     margin-top: 0.5rem
-    font-size: 1.2rem
+    font-size: 1.3rem
     color: #666
     +fit-text-in-box()
   .item_like, .item_comment
     position: absolute
-    top: 1.8rem
+    top: 1rem
     span
       margin-left: 0.5rem
   .item_like
@@ -105,16 +122,17 @@
       float: left
       max-width: 4rem
       max-height: 4rem
-      border: solid 1px #ccc
       border-radius: 50%
     .author_name,
     .author_date
       display: block
       padding-left: 5rem
+    .author_date
+      font-size: 1.3rem
   .item_preview-image
     position: absolute
-    top: 4.5rem
+    top: 3.5rem
     right: 2rem
-    max-width: 4rem
-    max-height: 4rem
+    max-width: 3.5rem
+    max-height: 3.5rem
 </style>

@@ -2,88 +2,97 @@
   div
     loading-modal
     form
-        input(
-          v-model="board.post_type"
-          id="notice" 
-          type="checkbox"
-        )
-        label(for="notice") 공지
-        input(
-          v-model.trim="board.title"
-          @blur="checkEmpty('title')" 
-          ref="title"
-          type="text" 
-          placeholder="제목을 입력해주세요" 
-          aria-role="제목 작성"
-        )
-        message-box(
-          v-if="isEmptyBoardTitle"
-          :classList="['fa-check-circle-o', 'warning']"
-          :message="validateMessage.BOARD_TITLE_EMPTY"
-        )
-        textarea(
-          v-model.trim="board.content"
-          @blur="checkEmpty('content')"
-          ref="content"
-          palceholder="내용을 작성해 주세요" 
-          aria-role="내용 작성"
-        )
-        message-box(
-          v-if="isEmptyBoardContent"
-          :classList="['fa-check-circle-o', 'warning']"
-          :message="validateMessage.BOARD_CONTENT_EMPTY"
-        )
-        input(
-          id="file-upload" 
+      input(
+        v-model="board.post_type"
+        id="notice" 
+        type="checkbox"
+      )
+      label(for="notice") 공지
+      input(
+        v-model.trim="board.title"
+        @blur="checkEmpty('title')" 
+        ref="title"
+        type="text" 
+        placeholder="제목을 입력해주세요" 
+        aria-label="게시글 제목 작성"
+      )
+      message-box(
+        v-if="isEmptyBoardTitle"
+        :classList="['fa-check-circle-o', 'warning']"
+        :message="validateMessage.BOARD_TITLE_EMPTY"
+      )
+      textarea(
+        v-model.trim="board.content"
+        @blur="checkEmpty('content')"
+        ref="content"
+        placeholder="내용을 작성해 주세요" 
+        aria-label="게시글 작성"
+      )
+      message-box(
+        v-if="isEmptyBoardContent"
+        :classList="['fa-check-circle-o', 'warning']"
+        :message="validateMessage.BOARD_CONTENT_EMPTY"
+      )
+      .form_file-upload-wrap
+        input#upload(
+          @change="fileUpload"
           type="file"
         )
-        .form_file-upload-wrap
-          input#upload(
-            @change="fileUpload" 
-            type="file"
-          )
-          label.file-upload_label(
-            for="upload"
-            ref="fileUpload" 
-            @keyup.enter="$refs.fileUpload.click()" 
-            tabindex="0" 
+        label.file-upload_label(
+          for="upload"
+          ref="fileUpload" 
+          @keyup.enter="$refs.fileUpload.click()" 
+          tabindex="0" 
+        ) 사진 올리기
+          .fa.fa-picture-o(aria-hidden="true")
+        .upload-file-wrapper(v-if="uploadImageName")
+          a.upload-file-name(
+            href
             role="button"
-          ) 추억 그림 올리기
-            .fa.fa-picture-o(aria-hidden="true")
-            img.label_group-img(
-              v-if="board.post_img" 
-              :src="userImageSrc"
-            )
-        .write-article_decision-wrap
-          button(
-            @click="changeRoute({name: 'group_info_board', params: {id: groupId}})" 
-            type="button"
-          ) 취소
-          button(
-            @click="isArticleWrite ? createPost() : editPost()" 
-            type="button"
-          ) 확인
+            @click.prevent="isOpenImageModal = true"
+            aria-label="업로드 이미지명(미리보려면 클릭해주세요)"
+          ) {{uploadImageName}}
+          button.delete-image-button(@click="deleteUploadImage" type="button")
+            i.fa.fa-times(aria-hidden="true")
+      .write-article_decision-wrap
+        button(
+          @click="changeRoute({name: 'group_info_board', params: {id: groupId}})" 
+          type="button"
+        ) 취소
+        button(
+          @click="isArticleWrite ? createPost() : editPost()" 
+          type="button"
+        ) 확인
+      modal-image(
+        @closeModal="isOpenImageModal = false"
+        v-if="isOpenImageModal"
+        :imageSrc="uploadSrc"
+      )
 </template>
 
 <script>
   import LoadingModal from '@/components/common/LoadingModal'; 
   import MessageBox from '@/components/common/MessageBox';
+  import ModalImage from '@/components/common/ModalImage';
   import Vue from 'vue';
   import { mapGetters, mapMutations } from 'vuex';
 
   export default {
     created() {
-      if(this.$route.name === 'group_editArticle') {
+      if(this.$route.name === 'group_articleEdit') {
         this.getPostDetail(); 
       }
     },
     components: {
       MessageBox,
-      LoadingModal
+      LoadingModal,
+      ModalImage,
     },
     data() {
       return {
+        uploadImageName: null,
         uploadSrc: '',
+        isOpenImageModal: false,
         originPostImage: '',
         board: {
           post_type: false,
@@ -108,7 +117,7 @@
         return this.$route.params.articleId;
       },
       isArticleWrite() {
-        return this.$route.name === 'group_writeArticle';
+        return this.$route.name === 'group_articleWrite';
       },
       userImageSrc() {
         if(this.uploadSrc) return this.uploadSrc;
@@ -126,12 +135,22 @@
       },       
       fileUpload(e) {
         let file = e.target.files[0];
-        this.board.post_img = file;
         let reader = new FileReader();
         reader.readAsDataURL(file);
-        reader.onload = f => {
-          this.uploadSrc = f.srcElement.result;
+        reader.onload = e => {
+          if(Vue.isFileValidate(file)) {
+            this.board.post_img = file;
+            this.uploadSrc = e.target.result;
+            this.uploadImageName = `[${file.name}]`;
+          } else {
+            alert('이미지 파일이면서 5MB 이하만 업로드 가능합니다.');
+          }
         };
+      },
+      deleteUploadImage() {
+        this.board.post_img = '';
+        this.uploadSrc = '';
+        this.uploadImageName = null;
       },
       boardValidate(field) {
         let refs = this.$refs;
@@ -200,7 +219,7 @@
             if(response.status === 200) {
               console.log(response);
               alert('게시글이 수정되었습니다');
-              this.changeRoute({name: 'group_viewArticle', params: {id: this.groupId, articleId: this.articleId}}); 
+              this.changeRoute({name: 'group_articleView', params: {id: this.groupId, articleId: this.articleId}}); 
             }
           })
           .catch(error => {
@@ -242,6 +261,18 @@
       cursor: pointer
     label[for="file-upload"]::hover
       +is-active()
+  
+  .upload-file-wrapper
+    display: inline-block
+    .delete-image-button
+      padding: 0 5px
+      border: 0
+      background: none
+      text-align: center
+      i
+        color: $base-theme-color3
+    .upload-file-name
+      padding-left: 1.5rem
   
   .write-article_decision-wrap
     margin-top: 2rem

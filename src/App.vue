@@ -1,7 +1,7 @@
 <template lang="pug">
   #app
     loading-modal
-    router-view(:name="routeName")
+    router-view
 </template>
 
 <script>
