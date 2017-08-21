@@ -27,6 +27,8 @@
 </template>
 
 <script>
+  import { mapGetters } from 'vuex';
+
   export default {
     props: {
       boardList : {
@@ -38,12 +40,14 @@
       },
     },
     computed: {
+      ...mapGetters(['message']),
       groupId() {
         return this.$route.params.id;
       },
     },
     methods: {
       changeRoute(route) {
+        if(!this.isMember) return alert(this.message.GROUPJOIN);
         this.$router.push(route);
       }    
     },

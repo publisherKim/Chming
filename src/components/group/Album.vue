@@ -4,14 +4,23 @@
     v-scroll="onScroll"
   )
     ul.album-list
-      li.list-item(v-for="album in albumList")
+      li.list-item(v-for="(album, index) in albumList")
         .album_image-wrap
-          img(:src="album.post_img", alt="유저가 올린 사진 입니다.")
+          a.image_modal-big(@click.prevent="viewAlbum(index)")
+            img(:src="album.post_img", alt="유저가 올린 사진 입니다.")
+    album-view(
+      v-if="imageKey !== null"
+      :isActiveProp="isActive" 
+      :albumListProp="albumList" 
+      :imageKeyProp="imageKey"
+      @closeModal="imageKey=null"
+    )
 </template>
 
 <script>
+  import AlbumView from '@/components/group/AlbumView';
   import { mapMutations } from 'vuex';
-  
+
   export default {
     created() {
       this.getAlbumList();
@@ -19,6 +28,9 @@
     updated() {
       let albumWrapperTarget = this.$refs.albumList;
       this.scrollBottom = albumWrapperTarget.scrollHeight - albumWrapperTarget.clientHeight;
+    },
+    components: {
+      AlbumView
     },
     computed: {
       groupId() {
@@ -30,6 +42,8 @@
         albumList: [],
         page: 1,
         scrollBottom: 0,
+        isActive: false,
+        imageKey: null
       };
     },
     methods: {
@@ -52,6 +66,10 @@
           .finally( () => {
             this.setIsLoading(false);
           });
+      },
+      viewAlbum(index) {
+        this.imageKey = index;
+        this.isActive = !this.isActive;
       },
       onScroll(e, position){
         if(position.scrollTop === this.scrollBottom){

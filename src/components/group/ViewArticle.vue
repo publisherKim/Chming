@@ -61,7 +61,7 @@
           src="../../assets/mingu.jpeg" 
           alt="profile"
         )
-        p.author-comment_name {{comment.author}}
+        p.author-comment_name {{comment.author.username}}
         p.author-comment_date {{comment.created_date}}
         p.author-comment_contents {{comment.content}}
         a.author-comment_delete(
@@ -125,7 +125,8 @@
         this.isShow = !this.isShow;
       },
       editArticle() {
-        if(this.articleId !== this.userInfo.pk) return alert('본인인 쓴글이 맞나 확인해 주세요.');
+        console.log(this.boardDetail.author.pk, this.userInfo.pk);
+        if(this.boardDetail.author.pk !== this.userInfo.pk) return alert('본인인 쓴글이 맞나 확인해 주세요.');
         this.changeRoute({name: 'group_editArticle', params: {id: this.groupId, articleId: this.articleId}});
       },
       createContent(){
