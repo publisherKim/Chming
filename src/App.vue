@@ -1,7 +1,7 @@
 <template lang="pug">
   #app
     loading-modal
-    router-view(:name="routeName")
+    router-view
 </template>
 
 <script>
@@ -9,11 +9,11 @@
   import LoadingModal from '@/components/common/LoadingModal';
 
   export default {
-    beforeCreate() {
-      let showIntro = localStorage.getItem('showIntro');
-      showIntro && (this.routeName = 'intro');
-    },
     created() {
+      this.checkShowIntro();
+      
+      if(this.routeName === 'intro') return;
+
       this.getRegionList();
       this.getHobbyList();
 
@@ -32,6 +32,13 @@
     },
     methods: {
       ...mapActions(['getUserProfile', 'getRegionList', 'getHobbyList']),
+      checkShowIntro() {
+        let showIntro = localStorage.getItem('showIntro');
+        if(showIntro === null || showIntro === 'true') {
+          localStorage.setItem('showIntro', true);
+          this.$router.push({name: 'intro'});
+        }        
+      }
     }
   };
 </script>
