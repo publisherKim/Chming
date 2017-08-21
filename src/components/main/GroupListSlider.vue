@@ -3,7 +3,7 @@
     h2 검색된 그룹 정보 리스트
     ul.group-list
       transition(:name="transition" mode="out-in")
-        li.list_item(:key="index" v-for="(group, index) in groupList" v-if="index === activeSlide")
+        li.list_item(:key="index" v-if="index === activeSlide" v-for="(group, index) in groupList")
           .group-image_wrap
             img(:src="group.image", alt="")
           a.group-description_link(href @click.prevent="changeRoute(group.pk)")
@@ -110,12 +110,15 @@
     float: left
     position: relative
     height: 100%
+    width: 100%
     +align-vertical-middle
     width: $list-item-height
     overflow: hidden
     img
       position: relative
       height: 80%
+      width: auto
+      border: 0
       // border-radius: 0.5rem
       // border: 0.5px solid $group-list-slider-border-color
       +align-center()

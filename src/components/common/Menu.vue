@@ -34,5 +34,7 @@
     font-size: 2rem
     height: 3rem
     i
+      display: block
+      line-height: 3rem
       color: $main-header-icon-color
 </style>

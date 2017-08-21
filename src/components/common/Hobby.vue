@@ -55,20 +55,24 @@
       isRouteMain() {
         return this.$route.name === 'main';
       },
-      isEmptyGroupHobby(){
-        return this.selectedList.length === 0;
-      }     
     },
     methods: {
       ...mapMutations(['setHobby']),
-      hobbyValidate(){
+      validateHobby(){
         if(this.selectedList.length === 0){
-          alert('관심사는 1개이상 선택해주세요 제발');
+          alert('관심사는 1개 이상 선택해주세요.');
+          return false;
         }
+        return true;
       },
       confirm() {
-        this.hobbyValidate();
-        this.changeRoute({name: this.$route.params.prev, params: {hobby: this.selectedList}});
+        if(!this.validateHobby()) return;
+        this.changeRoute({
+          name: this.$route.params.prev,
+          params: {
+            hobby: this.selectedList
+          }
+        });
       },
       changeRoute(route) {
         this.$router.push(route);

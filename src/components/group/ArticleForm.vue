@@ -19,7 +19,7 @@
         message-box(
           v-if="isEmptyBoardTitle"
           :classList="['fa-check-circle-o', 'warning']"
-          :message="message.BORARDTITLE"
+          :message="validateMessage.BOARD_TITLE_EMPTY"
         )
         textarea(
           v-model.trim="board.content"
@@ -31,7 +31,7 @@
         message-box(
           v-if="isEmptyBoardContent"
           :classList="['fa-check-circle-o', 'warning']"
-          :message="message.BOARDCONTENT"
+          :message="validateMessage.BOARD_CONTENT_EMPTY"
         )
         input(
           id="file-upload" 
@@ -94,7 +94,7 @@
       };       
     },
     computed: {
-      ...mapGetters(['url', 'message']),      
+      ...mapGetters(['url', 'validateMessage']),      
       isEmptyBoardTitle() {
         return this.board.title === '';
       },

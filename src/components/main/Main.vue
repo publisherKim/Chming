@@ -15,20 +15,12 @@
   import Vue from 'vue';
   import {mapGetters, mapMutations, mapActions} from 'vuex';
 
-  let watchPosition = window.navigator.geolocation.watchPosition;
-
   export default {
-
     beforeRouteLeave (to, from, next) {
       this.setActiveFilter(null);
       next();
     },
     mounted() {
-      // let watchID = navigator.geolocation.watchPosition(function(position) {
-        // console.log(position.coords.latitude, position.coords.longitude);
-
-        // map.setCenter(new Vue.maps.LatLng(37.508352837, 127.0307565127));
-      // });
       this.getGroupList();
     },
     name: 'Main',

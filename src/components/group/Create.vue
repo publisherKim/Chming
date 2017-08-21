@@ -13,7 +13,7 @@
       message-box(
         v-if="isEmptyGroupName"
         :classList="['fa-check-circle-o', 'warning']"
-        :message="message.GROUPNAME"
+        :message="validateMessage.GROUP_NAME_EMPTY"
       )
       textarea.form_description(
         v-model.trim="group.description"
@@ -25,7 +25,7 @@
       message-box(
         v-if="isEmptyGroupDescription"
         :classList="['fa-check-circle-o', 'warning']"
-        :message="message.GROUPDESCRIPTION"
+        :message="validateMessage.GROUP_DESCRIPTION_EMPTY"
       )
       .form_file-upload-wrap
         input#upload(
@@ -40,13 +40,18 @@
           role="button"
         ) 모임 대표 사진
           .fa.fa-picture-o(aria-hidden="true")
-        img.label_group-img(
-          v-if="group.image" 
-          :src="uploadSrc"
-        )
+        .upload-file-wrapper(v-if="uploadImageName")
+          a.upload-file-name(
+            href
+            role="button"
+            @click.prevent="isOpenImageModal = true"
+            aria-label="업로드 이미지명(미리보려면 클릭해주세요)"
+          ) {{uploadImageName}}
+          button.delete-image-button(@click="deleteUploadImage" type="button")
+            i.fa.fa-times(aria-hidden="true")
       .form_location-wrap
         button.location_button(
-          @click="changeRoute({name: 'group_create_location', params: {prev: 'group_create'}})"
+          @click="setGroupLocation"
           @blur="checkEmpty('address')"
           ref="address" 
           type="button"
@@ -56,12 +61,12 @@
       message-box(
         v-if="isEmptyGroupAddrss"
         :classList="['fa-check-circle-o', 'warning']"
-        :message="message.GROUPDESCRIPTION"
+        :message="validateMessage.GROUP_LOCATION_EMPTY"
       )
   
       .form_hobby-wrap
         button.hobby_button(
-          @click="changeRoute({name: 'group_create_hobby', params: {prev: 'group_create', hobby: [group.hobby]}})"
+          @click="setGroupHobby"
           @blur="checkEmpty('hobby')"
           ref="hobby"
           type="button"
@@ -80,24 +85,33 @@
       ) 완료
     router-view.hobby-container
     back-button(:route={name: 'user_info'})
+    modal-image(
+      @closeModal="isOpenImageModal = false"
+      v-if="isOpenImageModal"
+      :imageSrc="uploadSrc"
+    )
 </template>
 
 <script>
   import GroupHeader from '@/components/common/Header';
   import BackButton from '@/components/common/BackButton';
   import MessageBox from '@/components/common/MessageBox';
+  import ModalImage from '@/components/common/ModalImage';
   import Vue from 'vue';
-  import { mapGetters, mapMutations } from 'vuex';
+  import { mapGetters, mapMutations, mapActions } from 'vuex';
 
   export default {
     components: {
       GroupHeader,
       BackButton,
-      MessageBox
+      MessageBox,
+      ModalImage,
     },
     data(){
       return {
+        uploadImageName: null,
         uploadSrc: '',
+        isOpenImageModal: false,
         group: {
           name: null,
           description: null,
@@ -110,7 +124,7 @@
       };
     },
     computed: {
-      ...mapGetters(['url', 'message']),
+      ...mapGetters(['url', 'validateMessage']),
       isEmptyGroupName() {
         return this.group.name === '';
       },
@@ -126,22 +140,50 @@
     },    
     methods: {
       ...mapMutations(['setIsLoading']),
+      ...mapActions(['getUserProfile']),
       changeRoute(route) {
         this.$router.push(route);
       },
       fileUpload(e) {
         let file = e.target.files[0];
-        this.group.image = file;
         let reader = new FileReader();
         reader.readAsDataURL(file);
-        reader.onload = f => {
-          this.uploadSrc = f.srcElement.result;
+        reader.onload = e => {
+          if(Vue.isFileValidate(file)) {
+            this.group.image = file;
+            this.uploadSrc = e.target.result;
+            this.uploadImageName = `[${file.name}]`;
+          } else {
+            alert('이미지 파일이면서 5MB 이하만 업로드 가능합니다.');
+          }
         };
+      },
+      deleteUploadImage() {
+        this.group.image = '';
+        this.uploadSrc = '';
+        this.uploadImageName = null;
       },
       checkEmpty(field) {
         let group = this.group;
         group[field] === null && (group[field] = '');
-      },      
+      },
+      setGroupLocation() {
+        this.changeRoute({
+          name: 'group_create_location',
+          params: {
+            prev: 'group_create'
+          }
+        });
+      },
+      setGroupHobby() {
+        this.changeRoute({
+          name: 'group_create_hobby',
+          params: {
+            prev: 'group_create',
+            hobby: this.group.hobby ? [this.group.hobby] : [],
+          },
+        });
+      },
       groupValidate(field) {
         let refs = this.$refs;
         let group = this.group;
@@ -178,8 +220,9 @@
         this.$http.post(this.url.GROUP_REGISTER, formData, {headers: {Authorization: `Token ${token}`}})
           .then(response => {
             if(response.status === 201) {
-              alert('모임 생성이 완료되었습니다.');
+              this.getUserProfile(sessionStorage.getItem('token'));
               this.changeRoute({name: 'group_info_home', params: {id: response.data.pk}});
+              alert('모임 생성이 완료되었습니다.');
               console.log(response);
             } else {
               console.log(response);
@@ -228,6 +271,18 @@
   
   .form_description
     +text-input(100%, 100px)
+
+  .upload-file-wrapper
+    display: inline-block
+    .delete-image-button
+      padding: 0 5px
+      border: 0
+      background: none
+      text-align: center
+      i
+        color: $base-theme-color3
+    .upload-file-name
+      padding-left: 1.5rem
 
   .form_file-upload-wrap,
   .form_hobby-wrap,
