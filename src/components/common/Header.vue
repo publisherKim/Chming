@@ -72,6 +72,7 @@
     img
       width: $img-width
       height: 3rem
+      border: 0
 
   .header_search-form
     +align-vertical-middle()
@@ -82,26 +83,29 @@
     select
       position: absolute
       left: 2.5rem
-      width: 6rem
+      width: 5.5rem
       +align-vertical-middle
+      font-size: 1.2rem
       color: inherit
       border: 0
       border-right: 1px solid #ccc
+      background: none
     input
       display: inline-block
       width: calc(100% - 6.3rem)
-      padding-left: 7rem
+      padding-left: 6.5rem
       margin: 0 $side-space
       vertical-align: top
       height: 100%
       border: 1px solid $base-theme-color
     i
+      display: block
+      line-height: 3rem
       color: $main-header-icon-color
     button
       display: inline-block
       background: none
       border: none
       font-size: 2rem
-      line-height: 3rem
-
+      height: 3rem
 </style>

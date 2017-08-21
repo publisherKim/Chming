@@ -15,7 +15,7 @@
           message-box(
             v-if="isEmptyUsername"
             :classList="['fa-check-circle-o', 'warning']"
-            message="message.USERNAME"
+            :message="validateMessage.USER_NAME_EMPTY"
           )
         p
           input.form_password(
@@ -87,10 +87,16 @@
             tabindex="0"
           ) 프로필 사진
             i.fa.fa-picture-o(aria-hidden="true")
-          img(
-            v-if="userImageSrc" 
-            :src="userImageSrc"
-          )
+          .upload-file-wrapper(v-if="imageName")
+            a.upload-file-name(
+              href
+              role="button"
+              @click.prevent="isOpenImageModal = true"
+              aria-label="업로드 이미지명(미리보려면 클릭해주세요)"
+            ) {{imageName}}
+            button.delete-image-button(@click="deleteUploadImage" type="button")
+              i.fa.fa-times(aria-hidden="true")
+
         .form_hobby-wrap
           button.hobby_button(
             @click="changeRoute({name: 'user_edit_hobby', params: {prev: 'user_edit', hobby: userEditInfo.hobby}})"
@@ -104,7 +110,7 @@
         message-box(
           v-if="isEmptyHobby"
           :classList="['fa-check-circle-o', 'warning']"
-          :message="message.USERHOBBY"
+          :message="validateMessage.USER_HOBBY_EMPTY"
         )
         .form_location-wrap
           button.location_button(
@@ -117,16 +123,22 @@
         message-box(
           v-if="isEmptyAddress"
           :classList="['fa-check-circle-o', 'warning']"
-          message="message.USERLOCATION"
+          :message="validateMessage.USER_LOCATION_EMPTY"
         )
         button.form_confirm(@click="edit" type="button") 완료
-      back-button(:route="{name: 'user_info'}")
     router-view.hobby-container
+    back-button(:route="{name: 'user_info'}")
+    modal-image(
+      @closeModal="isOpenImageModal = false"
+      v-if="isOpenImageModal"
+      :imageSrc="imageSrc"
+    )
 </template>
 
 <script>
   import BackButton from '@/components/common/BackButton';
   import MessageBox from '@/components/common/MessageBox';
+  import ModalImage from '@/components/common/ModalImage';
   import Vue from 'vue';
   import { mapGetters, mapMutations, mapActions } from 'vuex';
 
@@ -148,9 +160,10 @@
     },
     data() {  
       return {
-        isMap: false,
         maxYear: new Date().getFullYear(),
-        uploadSrc: '',
+        isOpenImageModal: false,
+        uploadImageName: null,
+        uploadSrc: null,
         passwordValidationMessage: '',
         userEditInfo: {},
       };
@@ -158,6 +171,7 @@
     components: {
       BackButton,
       MessageBox,
+      ModalImage,
     },
     methods: {
       ...mapMutations(['setIsLoading']),
@@ -221,21 +235,20 @@
           if(Vue.isFileValidate(file)) {
             this.userEditInfo.profile_img = file;
             this.uploadSrc = e.target.result;
+            this.uploadImageName = `[${file.name}]`;
           } else {
             alert('이미지 파일이면서 5MB 이하만 업로드 가능합니다.');
           }
         };
       },
+      deleteUploadImage() {
+        this.userEditInfo.profile_img = '';
+        this.uploadSrc = '';
+        this.uploadImageName = '';
+      },
     },
     computed: {
-      ...mapGetters(['userInfo', 'url', 'message']),
-      maskingPassword() {
-        // let length = this.user.password.length;
-        let length = 5;
-        let masking = '';
-        while(length--) masking += '*';
-        return masking;
-      },
+      ...mapGetters(['userInfo', 'url', 'validateMessage']),
       userImageSrc() {
         if(this.uploadSrc) return this.uploadSrc;
         else return this.userEditInfo.profile_img;
@@ -245,10 +258,10 @@
         if(userEditInfo) {
           if(!userEditInfo.password) return true;
           if(passwordRegexp.test(userEditInfo.password)) {
-            this.passwordValidationMessage = this.message.PASSWORDTYPE;
+            this.passwordValidationMessage = this.validateMessage.USER_PASSWORD_OK;
             return true;
           } else {
-            this.passwordValidationMessage = this.message.PASSWORDRULE;
+            this.passwordValidationMessage = this.validateMessage.USER_PASSWORD_NOT_OK;
             return false;
           }
         }
@@ -262,6 +275,18 @@
       },
       isEmptyAddress() {
         return this.userEditInfo.address === '';
+      },
+      imageName() {
+        if(this.uploadImageName !== null) return this.uploadImageName;
+        else {
+          if(this.userInfo) {
+            return decodeURI(this.userInfo.profile_img).split('?')[0].split('/').pop();
+          }
+        }
+      },
+      imageSrc() {
+        if(this.uploadSrc !== null) return this.uploadSrc;
+        else return this.userInfo.profile_img;
       },
     },
     watch: {
@@ -302,6 +327,18 @@
   .title
     +sub-page-title
 
+  .upload-file-wrapper
+    display: inline-block
+    .delete-image-button
+      padding: 0 5px
+      border: 0
+      background: none
+      text-align: center
+      i
+        color: $base-theme-color3
+    .upload-file-name
+      padding-left: 1.5rem
+
   .user-edit_form
     .hobby-list, .location-address
       margin-top: 0.5rem
@@ -340,9 +377,6 @@
   .form_hobby-wrap,
   .form_location-wrap
     margin-top: 1.5rem
-    & .fa
-      margin-left: 1rem
-      font-size: 1.5rem
 
   .form_file-upload-wrap
     img 
@@ -362,6 +396,9 @@
     font-weight: bold
     background: none
     border: 0
+    & .fa
+      margin-left: 1rem
+      font-size: 1.5rem
 
   .form_confirm
     display: block

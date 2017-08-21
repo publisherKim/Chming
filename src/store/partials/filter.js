@@ -30,7 +30,7 @@ export default {
     },
     filterOptions(state) {
       let radius = state.filterOptions.radius;
-      let unit = radius.includes('km') ? 1 : 0.001;
+      let unit = (radius.indexOf('km') === 0) ? 1 : 0.001;
       radius = parseFloat(radius) * unit;
 
       let location = state.filterOptions.location;

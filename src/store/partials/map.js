@@ -125,5 +125,11 @@ export default {
         commit('setMarkersEmpty');
       }
     },
+    setCenterInMap({getters, commit}) {
+      let options = getters.filterOptions;
+      let position = new Vue.maps.LatLng(options.lat, options.lng);
+      commit('setCenter', position);
+      getters.map.setCenter(position);
+    },
   }
 };

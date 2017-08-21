@@ -1,3 +1,4 @@
+import 'es6-promise/auto';
 import Vue from 'vue';
 import axios from 'axios';
 import App from './App';
@@ -9,33 +10,39 @@ import map from './utils/map';
 import markerImage from './assets/marker.svg';
 import VueScroll from 'vue-scroll';
 
+const init = function() {
+  Vue.use(chming);
+  Vue.use(map, {
+    markerImageSize: {
+      width: 24,
+      height: 35,
+    },
+    initLocation: {
+      lat: 37.515309,
+      lng: 127.02105,
+    },
+    searchOptions: {
+      page: 1,
+      size: 10,
+    },
+    markerImage: markerImage,
+  });
 
-Vue.use(chming);
-Vue.use(map, {
-  markerImageSize: {
-    width: 24,
-    height: 35,
-  },
-  initLocation: {
-    lat: 37.515309,
-    lng: 127.02105,
-  },
-  searchOptions: {
-    page: 1,
-    size: 10,
-  },
-  markerImage: markerImage,
-});
+  // VueScroll 플로그인 로드
+  Vue.use(VueScroll);
 
-Vue.use(VueScroll);
+  // Promise finally 플로그인 로드
+  _finally.shim(); 
 
-_finally.shim(); 
-axios.defaults.baseURL = 'http://chming.jeongmyeonghyeon.com/api';
-// axios.defaults.baseURL = 'https://chming-6e62d.firebaseio.com/';
-Vue.prototype.$http = axios;
-Vue.config.productionTip = false;
+  // axios baseURL 세팅 및 Vue prototype 객체의 $http에 참조
+  axios.defaults.baseURL = 'http://chming.jeongmyeonghyeon.com/api';
+  Vue.prototype.$http = axios;
 
-/* eslint-disable no-new */
+  Vue.config.productionTip = false;
+};
+
+init();
+
 new Vue({
   el: '#app',
   store,

@@ -15,7 +15,7 @@
           message-box(
             v-if="isEmptyUsername"
             :classList="['fa-check-circle-o', 'warning']"
-            :message="message.USERNAME"
+            :message="validateMessage.USER_NAME_EMPTY"
           )
         p.form_email-wrap
           input.form_email(
@@ -30,7 +30,7 @@
           message-box(
             v-if="isEmptyEmail"
             :classList="['fa-check-circle-o', 'warning']"
-            :message="message.USEREMAIL"
+            :message="validateMessage.USER_EMAIL_EMPTY"
           )
           message-box(
             v-if="userJoinInfo.email && !emailValidate"
@@ -110,7 +110,7 @@
             tabindex="0"
           ) 여
         .form_file-upload-wrap
-          input#upload(@change="fileUpload" type="file")
+          input#upload(ref="file" @change="fileUpload" type="file")
           label.file-upload_label(
             @keyup.enter="$refs.fileLabel.click()"
             ref="fileLabel"
@@ -118,7 +118,15 @@
             tabindex="0"
           ) 프로필 사진
             i.fa.fa-picture-o(aria-hidden="true")
-          img(v-if="userJoinInfo.profile_img" :src="uploadSrc") 
+          .upload-file-wrapper(v-if="uploadImageName")
+            a.upload-file-name(
+              href
+              role="button"
+              @click.prevent="isOpenImageModal = true"
+              aria-label="업로드 이미지명(미리보려면 클릭해주세요)"
+            ) {{uploadImageName}}
+            button.delete-image-button(@click="deleteUploadImage" type="button")
+              i.fa.fa-times(aria-hidden="true")
           
         .form_hobby-wrap
           button.hobby_button(
@@ -128,13 +136,13 @@
             type="button"
           ) 관심사 설정
             i.fa.fa-cog(aria-hidden='true')
-          ul.hobby-list(v-if="userJoinInfo.hobby && userJoinInfo.hobby.length !== 0")
+          ul.hobby-list(v-if="userJoinInfo.hobby && userJoinInfo.hobby.length !== 0" aria-label="선택 관심사")
             li.list_item(v-for="hobby in userJoinInfo.hobby")
               img(src="" :alt="hobby")
         message-box(
           v-if="isEmptyHobby"
           :classList="['fa-check-circle-o', 'warning']"
-          :message="message.USERHOBBY"
+          :message="validateMessage.USER_HOBBY_EMPTY"
         )
         .form_location-wrap
           button.location_button(
@@ -144,21 +152,27 @@
             type="button"
           ) 지역 선택
             i.fa.fa-map-marker(aria-hidden='true')
-          p.location-address {{ userJoinInfo.address }}
+          p.location-address(aria-label="선택 지역명") {{ userJoinInfo.address }}
         message-box(
           v-if="isEmptyAddress"
           :classList="['fa-check-circle-o', 'warning']"
-          :message="message.USERLOCATION"
+          :message="validateMessage.USER_LOCATION_EMPTY"
         )
         button.form_confirm(@click="join" type="button") 완료
     router-view.hobby-container
     back-button(:route="{name: 'user_login'}")
+    modal-image(
+      @closeModal="isOpenImageModal = false"
+      v-if="isOpenImageModal"
+      :imageSrc="uploadSrc"
+    )
 </template>
 
 <script>
   import Vue from 'vue';
   import BackButton from '@/components/common/BackButton';
   import MessageBox from '@/components/common/MessageBox';
+  import ModalImage from '@/components/common/ModalImage';
   import { mapGetters, mapMutations } from 'vuex';
 
   let emailRegexp = /^(?:(?:[\w`~!#$%^&*\-=+;:{}'|,?\/]+(?:(?:\.(?:"(?:\\?[\w`~!#$%^&*\-=+;:{}'|,?\/\.()<>\[\] @]|\\"|\\\\)*"|[\w`~!#$%^&*\-=+;:{}'|,?\/]+))*\.[\w`~!#$%^&*\-=+;:{}'|,?\/]+)?)|(?:"(?:\\?[\w`~!#$%^&*\-=+;:{}'|,?\/\.()<>\[\] @]|\\"|\\\\)+"))@(?:[a-zA-Z\d\-]+(?:\.[a-zA-Z\d\-]+)*|\[\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\])$/;
@@ -172,13 +186,16 @@
     },
     components: {
       BackButton,
-      MessageBox
+      MessageBox,
+      ModalImage,
     },
     data() {  
       return {
         imgSrc: false,  
         isMap: false,
+        isOpenImageModal: false,
         maxYear: new Date().getFullYear(),
+        uploadImageName: null,
         uploadSrc: '',
         emailValidationMessage: '',
         emailDuplicateMessage: '',
@@ -202,10 +219,10 @@
       };
     },
     computed: {
-      ...mapGetters(['url', 'message']),
+      ...mapGetters(['url', 'validateMessage']),
       emailValidate() {
         if(!emailRegexp.test(this.userJoinInfo.email)) {
-          this.emailValidationMessage = this.message.USEREMAILALLRIGHT;
+          this.emailValidationMessage = this.validateMessage.USER_EMAIL_NOT_OK;
           return false;
         } else {
           return true;
@@ -213,10 +230,10 @@
       },
       passwordValidate() {
         if(passwordRegexp.test(this.userJoinInfo.password)) {
-          this.passwordValidationMessage = '올바른 패스워드 형식입니다.';
+          this.passwordValidationMessage = this.validateMessage.USER_PASSWORD_OK;
           return true;
         } else {
-          this.passwordValidationMessage = '대문자, 소문자, 숫자를 포함해야합니다.';
+          this.passwordValidationMessage = this.validateMessage.USER_PASSWORD_NOT_OK;
           return false;
         }
       },
@@ -262,10 +279,16 @@
           if(Vue.isFileValidate(file)) {
             this.userJoinInfo.profile_img = file;
             this.uploadSrc = e.target.result;
+            this.uploadImageName = `[${file.name}]`;
           } else {
             alert('이미지 파일이면서 5MB 이하만 업로드 가능합니다.');
           }
         };
+      },
+      deleteUploadImage() {
+        this.userJoinInfo.profile_img = '';
+        this.uploadSrc = '';
+        this.uploadImageName = null;
       },
       join() {
         if(!this.joinValidate()) return;
@@ -325,11 +348,11 @@
         })
         .then(response => {
           if(response.data.is_valid) {
-            this.emailDuplicateMessage = this.message.USEREMAILOK;
+            this.emailDuplicateMessage = this.validateMessage.USER_EMAIL_OK;
             this.isEmailDuplicated = false;
           }
           else {
-            this.emailDuplicateMessage = this.message.UESEREMAILDUPLICATE;
+            this.emailDuplicateMessage = this.validateMessage.USER_EMAIL_DUPLICATE;
             this.isEmailDuplicated = true;
           }
         })
@@ -388,6 +411,18 @@
       float: left
       margin-right: 1rem
 
+  .upload-file-wrapper
+    display: inline-block
+    .delete-image-button
+      padding: 0 5px
+      border: 0
+      background: none
+      text-align: center
+      i
+        color: $base-theme-color3
+    .upload-file-name
+      padding-left: 1.5rem
+      
   .user-join_form
     .hobby-list, .location-address
       margin-top: 0.5rem
@@ -428,9 +463,6 @@
   .form_hobby-wrap,
   .form_location-wrap
     margin-top: 1.5rem
-    & .fa
-      margin-left: 1rem
-      font-size: 1.5rem
   
   .form_file-upload-wrap
     input
@@ -447,6 +479,9 @@
     font-weight: bold
     background: none
     border: 0
+    & .fa
+      margin-left: 1rem
+      font-size: 1.5rem
 
   .form_confirm
     display: block

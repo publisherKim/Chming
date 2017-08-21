@@ -33,7 +33,7 @@
         message-box(
           v-if="isEmptyPassword" 
           :classList="['fa-check-circle-o', 'warning']" 
-          :message="message.PASSWORDINPUT"
+          :message="validateMessage.USER_PASSWORD_EMPTY"
         )
         message-box(
           v-if="password" 
@@ -76,13 +76,13 @@
       };
     },
     computed: {
-      ...mapGetters(['userInfo', 'message']),
+      ...mapGetters(['userInfo', 'validateMessage']),
       emailValidate() {
         if(emailRegexp.test(this.email)) {
-          this.emailValidationMessage = this.message.USEREMAILOK;
+          this.emailValidationMessage = this.validateMessage.USER_EMAIL_OK;
           return true;
         } else {
-          this.emailValidationMessage = this.message.USEREMAILALLRIGHT;
+          this.emailValidationMessage = this.validateMessage.USER_EMAIL_NOT_OK;
           return false;
         }
       },
@@ -91,10 +91,10 @@
       },
       passwordValidate() {
         if(passwordRegexp.test(this.password)) {
-          this.passwordValidationMessage = this.message.PASSWORDTYPE;
+          this.passwordValidationMessage = this.validateMessage.USER_PASSWORD_OK;
           return true;
         } else {
-          this.passwordValidationMessage = this.message.PASSWORDRULE;
+          this.passwordValidationMessage = this.validateMessage.USER_PASSWORD_NOT_OK;
           return false;
         }
       },

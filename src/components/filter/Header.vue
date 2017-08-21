@@ -40,9 +40,6 @@
           if(filter === 'location') {
             let location = this.selectedLocation;
             this.setLocation(location);
-            let position = new Vue.maps.LatLng(location.lat, location.lng);
-            this.setCenter(position);
-            this.map.setCenter(position);
           }
           (filter === 'myLocation') && this.setRadius(this.selectedRadius);
 

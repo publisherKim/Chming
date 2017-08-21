@@ -90,8 +90,8 @@
 <style lang="sass" scoped>
   @import "~chming"
 
-  $profile-height: 15rem
-  $menu-height: 6rem
+  $profile-height: 14rem
+  $menu-height: 5.5rem
 
   .user-info-container
     width: 100%

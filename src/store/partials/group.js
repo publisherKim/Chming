@@ -76,7 +76,8 @@ export default {
               commit('setGroupList', data);
               dispatch('arrangeGroupList');
             } else {
-              commit('setGroupList', null);
+              commit('setGroupList', []);
+              dispatch('setCenterInMap', options);
               alert('검색 결과가 없습니다.');
             }
           }

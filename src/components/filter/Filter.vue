@@ -33,7 +33,7 @@
 
         // 현재 Active된 Filter를 다시 한번 클릭 했을 때의 처리
         let refFilter = this.$refs.filter;
-        refFilter && refFilter.$options._componentTag.includes(filter) && this.setActiveFilter(null);
+        refFilter && (refFilter.$options._componentTag.indexOf(filter) === 0) && this.setActiveFilter(null);
       },
     },
     computed: {
