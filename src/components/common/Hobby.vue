@@ -10,7 +10,7 @@
     message-box(
       v-if="$route.name === 'user_join_hobby' || $route.name === 'user_edit_hobby'"
       :classList="['fa-check-circle-o', 'warning']"
-      :message="message.HOBBYMAX"      
+      :message="validateMessage.USER_HOBBY_MAX"      
     )  
     button.hobby_confirm(v-if="!isRouteMain" @click="confirm" type="button") 완료
     back-button.back-button(v-if="!isRouteMain")
@@ -51,7 +51,7 @@
       };
     },
     computed: {
-      ...mapGetters(['userInfo', 'hobbyList', 'hobbyCategoryList', 'hobby', 'message']),
+      ...mapGetters(['userInfo', 'hobbyList', 'hobbyCategoryList', 'hobby', 'validateMessage']),
       isRouteMain() {
         return this.$route.name === 'main';
       },

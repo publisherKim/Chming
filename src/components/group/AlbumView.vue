@@ -37,7 +37,7 @@
       };
     },
     computed: {
-      ...mapGetters(['message'])
+      ...mapGetters(['validateMessage'])
     },
     methods: {
       closeModal() {
@@ -45,7 +45,7 @@
       },
       viewAlbum(num) {
         if(!this.albumListProp[this.imageIndex + num]) {
-          alert(this.message.ALBUMEMPTY);
+          alert(this.validateMessage.GROUP_ALBUM_EMPTY);
           return;
         }
         this.imageIndex += num;

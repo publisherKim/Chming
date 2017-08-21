@@ -33,6 +33,9 @@
     right: 2rem
     font-size: 2rem
     height: 3rem
+    .menu_hambuger
+      &:hover
+        text-decoration: none
     i
       display: block
       line-height: 3rem

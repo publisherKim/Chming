@@ -36,7 +36,7 @@
       };
     },
     computed:{
-      ...mapGetters(['url', 'userInfo', 'message']),
+      ...mapGetters(['url', 'userInfo', 'validateMessage']),
       routeName(){
         return this.$route.name;
       },
@@ -50,9 +50,12 @@
         this.$router.push(route);
       },
       changeGroupTab(route){
-        if(!this.isMember) return alert(this.message.GROUPJOIN);
+        if(!this.isMember) return alert(this.validateMessage.GROUP_ACCESS);
         this.changeRoute(route);
       },
+      // isMember() {
+
+      // },
       getMembers() {
         let url = this.url.GROUP_DETAIL + this.groupId + '/';
         this.setIsLoading(true);
@@ -65,7 +68,7 @@
               });
             }
             if(!this.isMember) {
-              alert(this.message.GROUPJOIN);
+              alert(this.validateMessage.GROUP_ACCESS);
               this.changeRoute({name: 'group_info_home', params: {id: this.groupId}});
             }
           })

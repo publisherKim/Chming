@@ -40,14 +40,14 @@
       },
     },
     computed: {
-      ...mapGetters(['message']),
+      ...mapGetters(['validateMessage']),
       groupId() {
         return this.$route.params.id;
       },
     },
     methods: {
       changeRoute(route) {
-        if(!this.isMember) return alert(this.message.GROUPJOIN);
+        if(!this.isMember) return alert(this.validateMessages.GROUP_ACCESS);
         this.$router.push(route);
       }    
     },
