@@ -1,6 +1,6 @@
 // Main
 import Main from '@/components/main/Main';
-import Intro from '@/components/intro/Intro';
+import Intro from '@/components/main/Intro';
 
 export default {
   path: '/',
