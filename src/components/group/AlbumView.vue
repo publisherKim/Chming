@@ -92,7 +92,7 @@
     background: none
     border: none
     i
-      font-size: 14rem
+      font-size: 7rem
       color: #fff
   .prev-button
     top: 50%

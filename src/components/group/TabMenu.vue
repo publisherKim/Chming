@@ -27,12 +27,10 @@
     created() {
       this.getMembers();
     },
-    mounted() {  
-    },
     data() {
       return {
-        isMember: false,
-        members: null
+        authorId: null,
+        groupInfo: {},
       };
     },
     computed:{
@@ -43,6 +41,21 @@
       groupId() {
         return this.$route.params.id;
       },
+      isAuthorized() {
+        return this.isMember || this.isAuthor;
+      },
+      isAuthor() {
+        let userInfo = this.userInfo;
+        if(userInfo) {
+          return this.groupInfo.author.pk === this.userInfo.pk;
+        }
+        return false;
+      },
+      isMember() {
+        return this.groupInfo.members.some(member => {
+          return member.pk === this.userInfo.pk;
+        });
+      },
     },
     methods: {
       ...mapMutations(['setIsLoading']),
@@ -50,26 +63,17 @@
         this.$router.push(route);
       },
       changeGroupTab(route){
-        if(!this.isMember) return alert(this.validateMessage.GROUP_ACCESS);
+        if(!this.isAuthorized) return alert(this.validateMessage.GROUP_ACCESS);
         this.changeRoute(route);
       },
-      // isMember() {
-
-      // },
       getMembers() {
         let url = this.url.GROUP_DETAIL + this.groupId + '/';
         this.setIsLoading(true);
         this.$http.get(url)
           .then(response => {
             if(response.status === 200) {
-              this.members = response.data.members;
-              this.isMember = this.members.some((item)=> {
-                return item.pk === this.userInfo.pk;
-              });
-            }
-            if(!this.isMember) {
-              alert(this.validateMessage.GROUP_ACCESS);
-              this.changeRoute({name: 'group_info_home', params: {id: this.groupId}});
+              this.groupInfo = response.data;
+              this.checkAuthorization();
             }
           })
           .catch(error => {
@@ -78,7 +82,11 @@
           .finally(() => {
             this.setIsLoading(false);
           });     
-      }      
+      },
+      checkAuthorization() {
+        (this.routeName !== 'group_info_home' && !this.isAuthorized) &&
+            this.changeRoute({name: 'group_info_home', params: {id: this.groupId}});
+      },
     }
   };
 </script>

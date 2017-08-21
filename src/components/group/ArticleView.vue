@@ -2,16 +2,17 @@
   .board_detail-view-container
     group-header
     .detail-view_author-wrap
-      img.author_img(src="../../assets/mingu.jpeg" alt="profile")
-      p.author_name {{boardDetail.author.username}}
-      p.author_date {{boardDetail.modified_date ? boardDetail.modified_date : boardDetail.created_date}}
+      img.author_img(src="../../assets/mingu.jpeg" :alt="boardDetail.author.username")
+      p.author_name(aria-label="글쓴이") {{boardDetail.author.username}}
+      p.author_date(aria-label="글 작성일자") {{boardDetail.modified_date ? boardDetail.modified_date : boardDetail.created_date}}
       p.notice {{boardDetail.post_type ? '공지사항' : '일반글'}}
     .detail-view_content-wrap
-      h3.content_title {{boardDetail.title}}
-      pre {{boardDetail.content}}
+      h3.content_title(aria-label="글 제목") {{boardDetail.title}}
+      pre(aria-label="글 내용") {{boardDetail.content}}
       img.content_photo(
         v-if="boardDetail.post_img"
         :src="boardDetail.post_img"
+        :alt="boardDetail.title"
       )
     .detail-view_edit-wrap
       .column 
@@ -20,38 +21,38 @@
           role="button"
         )
           i.fa.fa-list(aria-hidden="true")
-          span 목록
+          | 목록
       .column
         a.edit_modify(
             @click.prevent="editArticle" 
             role="button"
           )
           i.fa.fa-pencil-square-o(aria-hidden='true')
-          span 수정
+          | 수정
       .column
         a.edit_delete(
           @click.prevent="deleteBoardDetail"
           role="button"
         )
           i.fa.fa-trash(aria-hidden="true")
-          span 삭제
+          | 삭제
     .detail-view_comment-wrap
       .column
         a.edit_like(
-          @click.prevent="favoriteViewToggle"
+          @click.prevent="likeArticleToggle"
           role="button"
         )
           i.fa.fa-thumbs-up(aria-hidden="true")
-          span 좋아요
+          | 좋아요
       .column
         a.edit_comment(
-          @click="toggle"
+          @click="toggleCommentInput"
           role="button"
         )
           i.fa.fa-comment(aria-hidden="true")
-          span 댓글
+          | 댓글
     .detail-view_like-wrap(v-if="boardDetail.post_like_count")
-      p.number-like 
+      p.number-like(aria-label="좋아요한 인원수")
         i.fa.fa-thumbs-up(aria-hidden="true")
         span.num {{boardDetail.post_like_count}} 
         | 명이 좋아하셨습니다.
@@ -61,15 +62,16 @@
           src="../../assets/mingu.jpeg" 
           alt="profile"
         )
-        p.author-comment_name {{comment.author.username}}
-        p.author-comment_date {{comment.created_date}}
-        p.author-comment_contents {{comment.content}}
+        p.author-comment_name(aria-label="댓글 작성자") {{comment.author.username}}
+        p.author-comment_date(aria-label="댓글 작성일자") {{comment.created_date}}
+        p.author-comment_contents(aria-label="댓글 내용") {{comment.content}}
         a.author-comment_delete(
-          @click.prevent="deleteCommentContent(comment)"
+          v-if="comment.author.pk === userInfo.pk"
+          @click.prevent="deleteComment(comment.pk)"
           role="button"
         )
-          i.fa.fa-trash(aria-hidden="true" aria-label="덧글 삭제")
-    .detail-view_rewrite-wrap(:class="{'active' : isShow}")
+          i.fa.fa-trash(aria-hidden="true" aria-label="댓글 삭제")
+    .detail-view_comment-input-wrap(:class="{'active' : isCommentInputShow}")
       form
         input(
           v-model.trim="content"
@@ -79,9 +81,8 @@
           aria-label="댓글쓰기"
         )
         button(
-          @click="createContent"
-          type="button"
-        ) 확인        
+          @click.prevent="createContent"
+        ) 확인
 </template>
 
 <script>
@@ -95,7 +96,7 @@
     components: {
       GroupHeader
     },
-    data (){
+    data () {
       return {
         boardDetail : {
           author: {
@@ -103,8 +104,8 @@
           },
           comment_set: null
         },
-        isShow: false,
-        content : ''
+        isCommentInputShow: false,
+        content : '',
       };
     },
     computed: {
@@ -112,30 +113,45 @@
       groupId() {
         return this.$route.params.id;
       },
-      articleId(){
+      articleId() {
         return this.$route.params.articleId;
-      }
+      },
+      isArticleAuthor() {
+        let userInfo = this.userInfo;
+        if(userInfo) {
+          return this.boardDetail.author.pk === this.userInfo.pk;
+        }
+        return false;
+      },
+      isMaster() {
+        let userInfo = this.userInfo;
+        if(userInfo) {
+          return this.boardDetail.group.author === this.userInfo.pk;
+        }
+        return false;
+      },
+      isArticleEditable() {
+        return this.isArticleAuthor || this.isMaster;
+      },
     },
     methods: {
       ...mapMutations(['setIsLoading']),
       changeRoute(route) {
         this.$router.push(route);
       },
-      toggle() {
-        this.isShow = !this.isShow;
+      toggleCommentInput() {
+        this.isCommentInputShow = !this.isCommentInputShow;
       },
       editArticle() {
-        console.log(this.boardDetail.author.pk, this.userInfo.pk);
-        if(this.boardDetail.author.pk !== this.userInfo.pk) return alert('본인인 쓴글이 맞나 확인해 주세요.');
-        this.changeRoute({name: 'group_editArticle', params: {id: this.groupId, articleId: this.articleId}});
+        if(!this.isArticleEditable) return alert('작성자만 수정할 수 있습니다.');
+        this.changeRoute({name: 'group_articleEdit', params: {id: this.groupId, articleId: this.articleId}});
       },
-      createContent(){
+      createContent() {
         let url = `/group/${this.groupId}/post/${this.articleId}/comment/create/`;
         let token = sessionStorage.getItem('token');
         this.setIsLoading(true);
         this.$http.post(url, {content: `${this.content}`}, {headers: {Authorization: `Token ${token}`}})
           .then(response => {
-            console.log(111);
             if(response.status === 201) {
               this.content = '';
               this.getBoardDetail();
@@ -149,7 +165,6 @@
           .finally(() => {
             this.setIsLoading(false);
           });
-        // this.toggle();
       },
       getBoardDetail() {
         let url = `/group/${this.groupId}/post/${this.articleId}/`;
@@ -171,8 +186,9 @@
             this.setIsLoading(false);
           });
       },
-      deleteBoardDetail(){
-        if(this.articleId !== this.userInfo.pk) return alert('본인인 쓴글이 맞나 확인해 주세요.');
+      deleteBoardDetail() {
+        if(!this.isArticleEditable) return alert('삭제 권한이 없습니다');
+        
         let url = `/group/${this.groupId}/post/${this.articleId}/delete/`;
         let token = sessionStorage.getItem('token');
         this.setIsLoading(true);
@@ -191,17 +207,15 @@
             this.setIsLoading(false);
           });
       },
-      deleteCommentContent(comment) {
-        if( comment.author !== this.userInfo.pk) return alert('수정권한이 없습니다.');
-
-        let url = `/group/${this.groupId}/post/comment/${comment.pk}/delete/`;
+      deleteComment(commentId) {
+        let url = `/group/${this.groupId}/post/comment/${commentId}/delete/`;
         let token = sessionStorage.getItem('token');
         this.setIsLoading(true);
         this.$http.delete(url, {headers: {Authorization: `Token ${token}`}})
           .then( response => {
             if( response.status === 200){
-              alert('덧글이 삭제 되었습니다.');
               this.getBoardDetail();
+              alert('댓글이 삭제 되었습니다.');
             }
           })
           .catch(error => {
@@ -212,7 +226,7 @@
             this.setIsLoading(false);
           });
       },
-      favoriteViewToggle() {
+      likeArticleToggle() {
         let url = `/group/${this.groupId}/post/${this.articleId}/like_toggle/`;
         let token = sessionStorage.getItem('token');
         this.setIsLoading(true);
@@ -257,15 +271,19 @@
 
   .detail-view_comment-wrap,
   .detail-view_edit-wrap,
-  .detail-view_rewrite-wrap
+  .detail-view_comment-input-wrap
     padding: 1rem 2rem
     border-top: solid 1px $viewArticle-backround-color
     background: $viewArticle-color
+    .column
+      text-align: center
     a 
       display: inline-block
       min-width: 8rem
-    i, i+span
       color: $base-theme-color2
+      i
+        margin-right: 5px
+        color: inherit
 
   .detail-view_like-wrap, .detail-view_author-comment-wrap
     padding: 1rem 2rem
@@ -278,8 +296,8 @@
 
   .author_img, 
   .author-comment_img
-      float: left
-      +circle()
+    float: left
+    +circle()
   .author_name,
   .author_date,
   .author-comment_name,
@@ -287,19 +305,22 @@
     $author-img-width : 6rem
     width: calc(100% - $author-img-width)
     margin-left: $author-img-width
-    margin-top: 0.3rem
+    // margin-top: 0.3rem
+  .author_date,
+  .author-comment_date,
+    font-size: 1.3rem
   .author_name,
   .author_date,
     color: $viewArticle-backround-color
   .content_photo
-    width: 100%
+    max-width: 100%
   .author-comment_contents
     margin-top: 1rem
   .author-comment_delete
     position: absolute
     top: 1rem
     right: 2rem
-  .detail-view_rewrite-wrap
+  .detail-view_comment-input-wrap
     position: fixed
     bottom: 0
     display: none
@@ -311,41 +332,34 @@
 
   i+span
     margin-left: 5px
-  .detail-view_rewrite-wrap
+  .detail-view_comment-input-wrap
     input
-      +text-input(calc(100% - 4rem), 2rem)
+      +text-input(calc(100% - 5rem), 2rem)
       padding: 1.2rem 1rem
     button
-      +action-button()
+      +action-button(4.5rem)
       margin-left: 0.5rem
   .number-like
     i, .num
-      color: $groupFavorite
+      color: $group-like-color
+
   +mobile
     .detail-view_comment-wrap
       +container()
       .column
         +span(2)
-        text-align: center
-      span 
-        margin-left: 5px
     .detail-view_edit-wrap
       +container()
       .column
         +span(3 of 9)
-        text-align: center
 
   +desktop
     .detail-view_comment-wrap
       +container()
       .column
         +span(6)
-        text-align: center
-      span 
-        margin-left: 5px
     .detail-view_edit-wrap
       +container()
       .column
         +span(3 of 9)
-        text-align: center
 </style>
