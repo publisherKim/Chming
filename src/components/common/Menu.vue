@@ -35,7 +35,6 @@
     i
       display: block
       position: relative
-      +align-vertical-middle
       color: $main-header-icon-color
     
 </style>

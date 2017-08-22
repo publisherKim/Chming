@@ -49,6 +49,19 @@ export default {
           image: Vue.maps.getMarkerImage(), // 마커 이미지 
         });
 
+        let iWContent = `<div style="padding:5px;">${groupList[index].name}</div>`;
+        let infowindow = new Vue.maps.InfoWindow({
+          content : iWContent
+        });
+        console.log('test: ', infowindow);
+        event.addListener(marker, 'mouseover', function() {
+          infowindow.open(map, marker);
+        });
+
+        event.addListener(marker, 'mouseout', function() {
+          infowindow.close();
+        }); 
+
         // 마커 이벤트 리스너 추가
         event.addListener(marker, 'click', () => {
           commit('setActiveSlide', index);
@@ -74,13 +87,12 @@ export default {
       state.markerTexts = getters.groupList.map((group, index) => {
         let map = state.map;
         let position = new Vue.maps.LatLng(group.lat, group.lng);
-
         // 커스텀 오버레이에 표시할 내용입니다
         // HTML 문자열 또는 Dom Element 입니다
         // let content = `<span style="position: absolute; top: -31.5px; left: -2.5px;
               // font-size: 12px; color: #3b8de0; font-weight: bold">${index+1}</span>`;
         let content = `<span onclick="daum.maps.event.trigger(markers[${index}], 'click')"
-              style="position: absolute; top: -30px; left: 1px; width: 30px;
+              style="position: absolute; top: -30px; left: 1px;
               transform: translateX(-50%); text-align: center; color: #3b8de0;
               font-size: ${index >= 10 ? '10' : '11'}px; font-weight: bold">${index+1}</span>`;
 
@@ -89,9 +101,8 @@ export default {
           position: position,
           content: content,
         });
-
-        // 커스텀 오버레이를 지도에 표시합니다
-        customOverlay.setMap(map);
+        
+        customOverlay.setMap(map);       
         return customOverlay;
       });
     },

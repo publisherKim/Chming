@@ -60,7 +60,8 @@
           // 비동기 통신 후 groupInfo를 받아오기 때문에, 최초 groupInfo.author 값이 null로 처리되지 않도록 설정
           author: {},
           members: [],
-          notice: []
+          notice: [],
+          image: 'https://s3.ap-northeast-2.amazonaws.com/chming-bucket/media/images/no_image.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAI43LUFGDQVXUPBOA%2F20170822%2Fap-northeast-2%2Fs3%2Faws4_request&X-Amz-Date=20170822T145636Z&X-Amz-Expires=3600&X-Amz-SignedHeaders=host&X-Amz-Signature=c8129e4cfd3c2eaa1ae51f3b354e5b4f6b9a003aab671154571869e4e42429fa'
         },
         likeToggle: false
       };
