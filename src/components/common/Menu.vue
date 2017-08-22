@@ -29,13 +29,11 @@
   @import "~chming"
   .hamburger-button
     display: block
-    height: 100%
     &:hover
       text-decoration: none
     i
       display: block
       position: relative
-      +align-vertical-middle
       color: $main-header-icon-color
     
 </style>

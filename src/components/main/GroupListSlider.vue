@@ -153,7 +153,6 @@
     // transform: translateY(-50%)
     background: none
     border: 0
-    padding: 0 0.5rem
     i
       font-size: 5rem
       line-height: $list-item-height
@@ -161,9 +160,9 @@
   .prev-button
     transform: translate(-100%, -50%)
     top: 50%
-    left: 0
+    left: -0.5rem
   .next-button
     transform: translate(100%, -50%)
     top: 50%
-    right: 0
+    right: -0.5rem
 </style>
