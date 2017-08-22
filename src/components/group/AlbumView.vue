@@ -98,7 +98,6 @@
     left: 50%
     transform: translate(-50%, -50%)
     width: 70%
-    height: 70%
     border-radius: 3rem
     img
       position: absolute
