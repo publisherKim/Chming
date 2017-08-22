@@ -78,7 +78,7 @@ export default {
             } else {
               commit('setGroupList', []);
               dispatch('setCenterInMap', options);
-              alert('검색 결과가 없습니다.');
+              commit('setToastMessage', '검색 결과가 없습니다.');
             }
           }
         })
@@ -106,7 +106,7 @@ export default {
               dispatch('arrangeGroupList');
             } else {
               commit('setGroupList', []);
-              alert('검색 결과가 없습니다.');
+              commit('setToastMessage', '검색 결과가 없습니다.');
             }
           }
         })

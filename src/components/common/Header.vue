@@ -17,7 +17,7 @@
 
 <script>
   import MainMenu from '@/components/common/Menu';
-  import { mapMutations, mapActions } from 'vuex';
+  import {mapMutations, mapActions} from 'vuex';
 
   export default {
     data() {  

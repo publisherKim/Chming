@@ -30,7 +30,7 @@ export default {
         .catch(error => {
           let data = error.response.data;
           if(data.non_field_errors[0] === '제공된 credentials로 로그인 할 수 없습니다.') {
-            alert('이메일/비밀번호를 확인해주세요');
+            commit('setToastMessage', '이메일/비밀번호를 확인해주세요');
           }
           console.log('error:', error.response);
         })

@@ -44,7 +44,7 @@
 
 <script>
   import BoardList from '@/components/group/BoardList';
-  import { mapGetters, mapMutations } from 'vuex';
+  import {mapGetters, mapMutations} from 'vuex';
 
   export default {
     created() {
@@ -95,7 +95,7 @@
       },
     },
     methods: {
-      ...mapMutations(['setIsLoading']),
+      ...mapMutations(['setIsLoading', 'setToastMessage']),
       groupJoin() {
         let url = this.url.GROUP_JOIN + this.groupId + '/join/';
         let token = sessionStorage.getItem('token');
@@ -105,7 +105,7 @@
           .then(response => {
             if(response.status === 200) {
               if(response.data.joined) {
-                alert('모임 가입이 완료되었습니다.');
+                this.setToastMessage('모임 가입이 완료되었습니다.');
                 location.reload();
               }
             }

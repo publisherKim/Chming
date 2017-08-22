@@ -6,7 +6,7 @@
 
 <script>
   import Vue from 'vue';
-  import { mapGetters, mapMutations, mapActions } from 'vuex';
+  import {mapGetters, mapMutations, mapActions} from 'vuex';
 
   export default {
     props: {

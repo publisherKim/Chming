@@ -29,7 +29,7 @@
 <script>
   import MainHeader from '@/components/common/Header';
   import HobbyIcon from '@/components/common/HobbyIcon';
-  import { mapGetters } from 'vuex';
+  import {mapGetters} from 'vuex';
 
   export default {
     components: {

@@ -21,7 +21,7 @@
 </template>
 
 <script>
-  import { mapGetters, mapMutations } from 'vuex';
+  import {mapGetters, mapMutations} from 'vuex';
 
   export default {
     created() {
@@ -62,12 +62,12 @@
       },
     },
     methods: {
-      ...mapMutations(['setIsLoading']),
+      ...mapMutations(['setIsLoading', 'setToastMessage']),
       changeRoute(route) {
         this.$router.push(route);
       },
       changeGroupTab(route){
-        if(!this.isAuthorized) return alert(this.validateMessage.GROUP_ACCESS);
+        if(!this.isAuthorized) return this.setToastMessage(this.validateMessage.GROUP_ACCESS);
         this.changeRoute(route);
       },
       getMembers() {

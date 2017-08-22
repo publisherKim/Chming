@@ -20,7 +20,7 @@
   import BackButton from '@/components/common/BackButton';
   import MessageBox from '@/components/common/MessageBox';
   import Vue from 'vue';
-  import { mapGetters, mapMutations, mapActions } from 'vuex';
+  import {mapGetters, mapMutations, mapActions} from 'vuex';
 
   export default {
     beforeRouteEnter (to, from, next) {
@@ -57,10 +57,10 @@
       },
     },
     methods: {
-      ...mapMutations(['setHobby']),
+      ...mapMutations(['setHobby', 'setToastMessage']),
       validateHobby(){
         if(this.selectedList.length === 0){
-          alert('관심사는 1개 이상 선택해주세요.');
+          this.setToastMessage('관심사는 1개 이상 선택해주세요.');
           return false;
         }
         return true;
