@@ -4,14 +4,14 @@
       h2 모임 
         span.strong No.1
         |  서비스
-        img.point(src="../../assets/logo/logo_intro.svg")
+        img.main-logo-image(src="../../assets/logo/logo_intro.svg")
       p 같은 관심사로 오프라인 동호회 
       p 이제 여가시간을 의미있게 보내요.
-      button.header_main(
+      button.go-main-button(
         @click="changeRoute({name: 'main'})"
         type="button"
       ) 모임 이용하기
-      button.header_view(
+      button.show-tutorial-button(
         @click="showMovie"
       ) 튜토리얼 영상
 
@@ -33,7 +33,7 @@
       )
         i.fa.fa-times(aria-hidden="true")
     .intro_bottom-wrap
-      button.bottom_check-intro(
+      button.never-show-intro-button(
         @click="closeIsIntro"
         type="button"
       ) 다시 보지않기
@@ -77,14 +77,11 @@
     button
       +action-button
       padding: 1rem
-    .intro_view
-      width: 100%
-      text-align: center
-      color: #fff
-      background: none
-      border: none
     .strong
       color: $base-point-color
+    .main-logo-image
+      margin: 4rem auto
+      display: block
 
   .intro_header-wrap
     position: absolute
@@ -96,19 +93,14 @@
     h2
       font-size: 2rem
       color: #fff
-    .point
-      margin: 3rem auto
-      display: block
-      width: 70%
-      font-size: 3rem
     p
       margin: 0 auto
       width: calc(100% - 8rem)
       text-align: center
       color: #fff
     
-    .header_main, .header_view
-      margin: 3rem 0.5rem
+    .go-main-button, .show-tutorial-button
+      margin: 4rem 0.5rem
       padding: 1rem 2rem
       color: #fff
       background: none
@@ -146,7 +138,7 @@
     bottom: 0
     width: 100%
 
-    .bottom_check-intro
+    .never-show-intro-button
       display: block
       width: 100%
       color: #fff
@@ -155,8 +147,12 @@
 
   +mobile
     video
-      width: 100%    
+      width: 100%
+    .main-logo-image
+      width: 70%
   +desktop
     video
       width: 80%
+    .main-logo-image
+      width: 50%
 </style>

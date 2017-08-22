@@ -52,9 +52,13 @@
         return false;
       },
       isMember() {
-        return this.groupInfo.members.some(member => {
-          return member.pk === this.userInfo.pk;
-        });
+        let userInfo = this.userInfo;
+        if(userInfo) {
+          return this.groupInfo.members.some(member => {
+            return member.pk === this.userInfo.pk;
+          });
+        }
+        return false;
       },
     },
     methods: {

@@ -1,5 +1,5 @@
 <template lang="pug">
-  div.menu-wrap
+  div.menu-container
     a.menu_hambuger(href role="button" @click.prevent="viewMenu")
       i.fa.fa-bars(aria-hidden="true")
 </template>
@@ -28,16 +28,5 @@
 <style lang="sass" scoped>
   @import "~chming"
   .menu-wrap
-    +align-vertical-middle()
-    position: absolute
-    right: 2rem
-    font-size: 2rem
-    height: 3rem
-    .menu_hambuger
-      &:hover
-        text-decoration: none
-    i
-      display: block
-      line-height: 3rem
-      color: $main-header-icon-color
+    
 </style>
