@@ -32,7 +32,7 @@
 
 <script>
 import FilterHeader from '@/components/filter/Header';
-import { mapGetters, mapMutations, mapActions } from 'vuex';
+import {mapGetters, mapMutations, mapActions} from 'vuex';
 
 export default {
   created() {

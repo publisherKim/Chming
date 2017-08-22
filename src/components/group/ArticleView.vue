@@ -87,7 +87,7 @@
 
 <script>
   import GroupHeader from '@/components/common/Header';
-  import { mapGetters, mapMutations } from 'vuex';
+  import {mapGetters, mapMutations} from 'vuex';
 
   export default {
     created() {
@@ -135,7 +135,7 @@
       },
     },
     methods: {
-      ...mapMutations(['setIsLoading']),
+      ...mapMutations(['setIsLoading', 'setToastMessage']),
       changeRoute(route) {
         this.$router.push(route);
       },
@@ -143,7 +143,7 @@
         this.isCommentInputShow = !this.isCommentInputShow;
       },
       editArticle() {
-        if(!this.isArticleEditable) return alert('작성자만 수정할 수 있습니다.');
+        if(!this.isArticleEditable) return this.setToastMessage('작성자만 수정할 수 있습니다.');
         this.changeRoute({name: 'group_articleEdit', params: {id: this.groupId, articleId: this.articleId}});
       },
       createContent() {
@@ -156,7 +156,7 @@
               this.content = '';
               this.getBoardDetail();
               this.toggle();
-              alert('댓글 작성이 등록되었습니다.');
+              this.setToastMessage('댓글 작성이 등록되었습니다.');
             }
           })
           .catch(error => {
@@ -187,7 +187,7 @@
           });
       },
       deleteBoardDetail() {
-        if(!this.isArticleEditable) return alert('삭제 권한이 없습니다');
+        if(!this.isArticleEditable) return this.setToastMessage('삭제 권한이 없습니다');
         
         let url = `/group/${this.groupId}/post/${this.articleId}/delete/`;
         let token = sessionStorage.getItem('token');
@@ -196,7 +196,7 @@
           .then( response => {
             if( response.status === 200){
               console.log(response);
-              alert('게시글이 삭제 되었습니다.');
+              this.setToastMessage('게시글이 삭제 되었습니다.');
               this.changeRoute({name: 'group_info_board'});
             }
           })
@@ -215,7 +215,7 @@
           .then( response => {
             if( response.status === 200){
               this.getBoardDetail();
-              alert('댓글이 삭제 되었습니다.');
+              this.setToastMessage('댓글이 삭제 되었습니다.');
             }
           })
           .catch(error => {

@@ -1,11 +1,11 @@
 <template lang="pug">
-  div.menu-wrap
-    a.menu_hambuger(href role="button" @click.prevent="viewMenu")
+  div
+    a.hamburger-button(href role="button" @click.prevent="viewMenu")
       i.fa.fa-bars(aria-hidden="true")
 </template>
 
 <script>
-  import { mapGetters } from 'vuex';
+  import {mapGetters} from 'vuex';
 
   export default {
     methods: {
@@ -27,17 +27,15 @@
 
 <style lang="sass" scoped>
   @import "~chming"
-  .menu-wrap
-    +align-vertical-middle()
-    position: absolute
-    right: 2rem
-    font-size: 2rem
-    height: 3rem
-    .menu_hambuger
-      &:hover
-        text-decoration: none
+  .hamburger-button
+    display: block
+    height: 100%
+    &:hover
+      text-decoration: none
     i
       display: block
-      line-height: 3rem
+      position: relative
+      +align-vertical-middle
       color: $main-header-icon-color
+    
 </style>

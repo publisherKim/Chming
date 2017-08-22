@@ -98,7 +98,7 @@
   import MessageBox from '@/components/common/MessageBox';
   import ModalImage from '@/components/common/ModalImage';
   import Vue from 'vue';
-  import { mapGetters, mapMutations, mapActions } from 'vuex';
+  import {mapGetters, mapMutations, mapActions} from 'vuex';
 
   export default {
     components: {
@@ -139,7 +139,7 @@
       }
     },    
     methods: {
-      ...mapMutations(['setIsLoading']),
+      ...mapMutations(['setIsLoading', 'setToastMessage']),
       ...mapActions(['getUserProfile']),
       changeRoute(route) {
         this.$router.push(route);
@@ -154,7 +154,7 @@
             this.uploadSrc = e.target.result;
             this.uploadImageName = `[${file.name}]`;
           } else {
-            alert('이미지 파일이면서 5MB 이하만 업로드 가능합니다.');
+            this.setToastMessage('이미지 파일이면서 5MB 이하만 업로드 가능합니다.');
           }
         };
       },
@@ -222,7 +222,7 @@
             if(response.status === 201) {
               this.getUserProfile(sessionStorage.getItem('token'));
               this.changeRoute({name: 'group_info_home', params: {id: response.data.pk}});
-              alert('모임 생성이 완료되었습니다.');
+              this.setToastMessage('모임 생성이 완료되었습니다.');
               console.log(response);
             } else {
               console.log(response);

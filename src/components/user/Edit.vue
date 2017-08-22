@@ -140,7 +140,7 @@
   import MessageBox from '@/components/common/MessageBox';
   import ModalImage from '@/components/common/ModalImage';
   import Vue from 'vue';
-  import { mapGetters, mapMutations, mapActions } from 'vuex';
+  import {mapGetters, mapMutations, mapActions} from 'vuex';
 
   let passwordRegexp = /^(?=.{8,})(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).*$/;
 
@@ -174,7 +174,7 @@
       ModalImage,
     },
     methods: {
-      ...mapMutations(['setIsLoading']),
+      ...mapMutations(['setIsLoading', 'setToastMessage']),
       ...mapActions(['getUserProfile']),
       changeRoute(route) {
         this.$router.push(route);
@@ -195,7 +195,7 @@
             if(response.status === 200) {
               this.getUserProfile(sessionStorage.getItem('token'));
               this.changeRoute({name: 'user_info'});
-              alert('정보수정이 완료되었습니다.');
+              this.setToastMessage('정보수정이 완료되었습니다.');
             } else {
               console.log(response);
             }
@@ -237,7 +237,7 @@
             this.uploadSrc = e.target.result;
             this.uploadImageName = `[${file.name}]`;
           } else {
-            alert('이미지 파일이면서 5MB 이하만 업로드 가능합니다.');
+            this.setToastMessage('이미지 파일이면서 5MB 이하만 업로드 가능합니다.');
           }
         };
       },

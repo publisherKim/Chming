@@ -1,6 +1,6 @@
 <template lang="pug">
   .header-container
-    h1.header_title
+    h1.header-title
       a(href @click.prevent="changeRoute({name: 'main'})")
         img.header_logo-image(src="../../assets/logo/logo_mobile.svg" alt="취밍")
     form.header_search-form(autocomplete="off")
@@ -12,12 +12,12 @@
       input(v-model.trim="searchString" type="text" id="search" placeholder="지역, 모임 또는 관심사")
       button.search-form_button(@click.prevent="search" aria-label="검색")
         i.fa.fa-search(aria-hidden='true')
-    main-menu
+    main-menu.menu-container
 </template>
 
 <script>
   import MainMenu from '@/components/common/Menu';
-  import { mapMutations, mapActions } from 'vuex';
+  import {mapMutations, mapActions} from 'vuex';
 
   export default {
     data() {  
@@ -30,14 +30,14 @@
       MainMenu,
     },
     methods: {
-      ...mapMutations(['setIsLoading']),
+      ...mapMutations(['setIsLoading', 'setToastMessage']),
       ...mapActions(['searchGroups']),
       changeRoute(route) {
         this.$router.push(route);
       },
       search() {
         if(this.searchString === '') {
-          alert('검색어를 입력해주세요');
+          this.setToastMessage('검색어를 입력해주세요.');
           return;
         }
 
@@ -55,57 +55,70 @@
 
   $img-width: 3.3rem
   $side-space: 2rem
+  $icon-width: 2rem
 
   .header-container
     position: relative
     background: $main-header-background-color
     height: $main-header-container-height
     
-  .header_title
-    position: absolute
-    +align-vertical-middle()   
-    left: $side-space
-    display: inline-block
-    line-height: 1rem
+  .header-title
+    margin-left: $side-space
+    float: left
+    height: 100%
     a
-      display: inline-block
+      position: relative
+      display: block
+      height: 100%
     img
+      position: relative
+      display: block
+      +align-vertical-middle
       width: $img-width
-      height: 3rem
       border: 0
 
   .header_search-form
-    +align-vertical-middle()
-    position: absolute
-    margin-left: $img-width + $side-space
-    width: calc(100% - 9.7rem)
-    height: 3rem
+    position: relative
+    float: left
+    width: calc(100% - 10.3rem)
+    height: 100%
     select
       position: absolute
+      +align-vertical-middle
       left: 2rem
       width: 5.5rem
-      +align-vertical-middle
+      z-index: 10
       font-size: 1.2rem
       color: inherit
       border: 0
       border-right: 1px solid #ccc
       background: none
     input
-      display: inline-block
-      width: calc(100% - 6.3rem)
+      position: relative
+      +align-vertical-middle
+      width: calc(100% - 5rem)
       padding-left: 6.5rem
-      margin: 0 1.5rem
+      margin-left: 1.5rem
+      height: 3rem
       vertical-align: top
-      height: 100%
       border: 1px solid $base-theme-color
-    i
-      display: block
-      line-height: 3rem
-      color: $main-header-icon-color
-    button
+    .search-form_button
       display: inline-block
+      width: $icon-width
+      margin-left: 1.5rem
       background: none
       border: none
       font-size: 2rem
-      height: 3rem
+      height: 100%
+      i
+        display: block
+        color: $main-header-icon-color
+  
+  .menu-container
+    display: inline-block
+    width: $icon-width
+    margin-left: 1.5rem
+    font-size: 2rem
+    height: 100%
+   
 </style>

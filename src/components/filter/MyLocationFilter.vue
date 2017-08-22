@@ -16,7 +16,7 @@
 
 <script>
   import FilterHeader from '@/components/filter/Header';
-  import { mapGetters } from 'vuex';
+  import {mapGetters} from 'vuex';
 
   export default {
     created() {

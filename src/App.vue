@@ -1,12 +1,14 @@
 <template lang="pug">
   #app
+    toast-message
     loading-modal
     router-view
 </template>
 
 <script>
-  import { mapActions } from 'vuex';
+  import {mapActions} from 'vuex';
   import LoadingModal from '@/components/common/LoadingModal';
+  import ToastMessage from '@/components/common/ToastMessage';
 
   export default {
     created() {
@@ -24,6 +26,7 @@
     },
     components: {
       LoadingModal,
+      ToastMessage,
     },
     data() {
       return {

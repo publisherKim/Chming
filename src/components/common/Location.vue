@@ -19,7 +19,7 @@
 <script>
   import UserMap from '@/components/common/Map';
   import BackButton from '@/components/common/BackButton';
-  import { mapGetters } from 'vuex';
+  import {mapGetters, mapMutations} from 'vuex';
   
   export default {
     beforeRouteEnter (to, from, next) {
@@ -66,6 +66,7 @@
       };
     },
     methods: {
+      ...mapMutations(['setToastMessage']),
       confirm() {
         let prevRoute = this.$route.params.prev;
         this.changeRoute({name: prevRoute, params: {position: this.position}});  
@@ -75,7 +76,7 @@
       },
       searchLocation() {
         let searchString = this.searchString;
-        !searchString && window.alert('검색할 지역을 입력해주세요.');
+        !searchString && this.setToastMessage('검색할 지역을 입력해주세요.');
 
         if(searchString) {
           let ps = this.$maps.getPlaces();

@@ -173,7 +173,7 @@
   import BackButton from '@/components/common/BackButton';
   import MessageBox from '@/components/common/MessageBox';
   import ModalImage from '@/components/common/ModalImage';
-  import { mapGetters, mapMutations } from 'vuex';
+  import {mapGetters, mapMutations} from 'vuex';
 
   let emailRegexp = /^(?:(?:[\w`~!#$%^&*\-=+;:{}'|,?\/]+(?:(?:\.(?:"(?:\\?[\w`~!#$%^&*\-=+;:{}'|,?\/\.()<>\[\] @]|\\"|\\\\)*"|[\w`~!#$%^&*\-=+;:{}'|,?\/]+))*\.[\w`~!#$%^&*\-=+;:{}'|,?\/]+)?)|(?:"(?:\\?[\w`~!#$%^&*\-=+;:{}'|,?\/\.()<>\[\] @]|\\"|\\\\)+"))@(?:[a-zA-Z\d\-]+(?:\.[a-zA-Z\d\-]+)*|\[\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\])$/;
   let passwordRegexp = /^(?=.{8,})(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).*$/;
@@ -258,7 +258,7 @@
       },
     },
     methods: {
-      ...mapMutations(['setIsLoading']),
+      ...mapMutations(['setIsLoading', 'setToastMessage']),
       checkEmail() {
         this.checkEmpty('email');
         this.emailValidate && this.checkDuplicateEmail();
@@ -281,7 +281,7 @@
             this.uploadSrc = e.target.result;
             this.uploadImageName = `[${file.name}]`;
           } else {
-            alert('이미지 파일이면서 5MB 이하만 업로드 가능합니다.');
+            this.setToastMessage('이미지 파일이면서 5MB 이하만 업로드 가능합니다.');
           }
         };
       },
@@ -298,7 +298,7 @@
         this.$http.post(this.url.JOIN, formData).
           then(response => {
             if(response.status === 201) {
-              alert('회원가입이 완료되었습니다.');
+              this.setToastMessage('회원가입이 완료되었습니다.');
               this.changeRoute({name: 'user_login'});
             } else {
               console.log(response);

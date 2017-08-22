@@ -39,7 +39,7 @@
 
 <script>
   import BackButton from '@/components/common/BackButton';
-  import { mapGetters, mapActions } from 'vuex';
+  import {mapGetters, mapActions} from 'vuex';
   import HobbyIcon from '@/components/common/HobbyIcon';
 
   export default {
