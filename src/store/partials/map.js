@@ -78,7 +78,7 @@ export default {
         // HTML 문자열 또는 Dom Element 입니다
         // let content = `<span style="position: absolute; top: -31.5px; left: -2.5px;
               // font-size: 12px; color: #3b8de0; font-weight: bold">${index+1}</span>`;
-        let content = `<span style="position: absolute; top: -30px; left: 1px; width: 30px;
+        let content = `<span style="position: absolute; top: -30px; left: 1px;
               transform: translateX(-50%); text-align: center; color: #3b8de0;
               font-size: ${index >= 10 ? '10' : '11'}px; font-weight: bold">${index+1}</span>`;
 

@@ -1,25 +1,27 @@
 <template lang="pug">
-  .album-modal-container(
-    @click.self="closeModal"
-  )
-    .view-album
-      img(:src="albumListProp[imageIndex].post_img")
-    button.prev-button(
-      @click="viewAlbum(-1)"
-      type="button"
+  transition(name="bounce")
+    .album-modal-container(
+      @click.self="closeModal"
     )
-      i.fa.fa-angle-left(aria-label="이전사진")
-    button.next-button(
-      @click="viewAlbum(1)"
-      type="button"
-    )
-      i.fa.fa-angle-right(aria-label="이전사진")
+      .view-album
+        img(:src="albumListProp[imageIndex].post_img")
 
-    button.close-modal-button(
-      @click="closeModal"
-      type="button" 
-    )
-      i.fa.fa-times(aria-hidden="true")
+      button.prev-button(
+        @click="viewAlbum(-1)"
+        type="button"
+      )
+        i.fa.fa-angle-left(aria-label="이전사진")
+      button.next-button(
+        @click="viewAlbum(1)"
+        type="button"
+      )
+        i.fa.fa-angle-right(aria-label="이전사진")
+
+      button.close-modal-button(
+        @click="closeModal"
+        type="button" 
+      )
+        i.fa.fa-times(aria-hidden="true")
 </template>
 
 <script>
@@ -41,6 +43,7 @@
     data() {
       return {
         imageIndex: null,
+        show: true,
       };
     },
     computed: {
@@ -65,6 +68,20 @@
 
 <style lang="sass" scoped>
   @import "~chming"
+
+  .bounce-enter-active 
+    animation: bounce-in .5s
+  .bounce-leave-active 
+    animation: bounce-in .5s reverse
+
+  @keyframes bounce-in 
+    0%
+      transform: scale(0)
+    50% 
+      transform: scale(1.5)
+    100% 
+      transform: scale(1)
+      
   .album-modal-container
     position: fixed
     top: 0
@@ -82,6 +99,7 @@
     transform: translate(-50%, -50%)
     width: 70%
     height: 70%
+    border-radius: 3rem
     img
       position: absolute
       top: 50%
@@ -89,6 +107,9 @@
       transform: translate(-50%, -50%)      
       width: 100%
       max-width: 400px
+      border-radius: 3rem
+      border: solid 3px #ccc
+
   .prev-button, .next-button
     position: absolute
     transform: translateY(-50%)
