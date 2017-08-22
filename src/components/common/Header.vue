@@ -9,7 +9,7 @@
         option(value='address') 지역
         option(value='group') 모임명
         option(value='hobby') 관심사
-      input(v-model.trim="searchString" type="text" id="search" placeholder="지역, 모임 또는 관심사")
+      input(v-model.trim="searchString" type="text" aria-label="검색 필드" placeholder="지역, 모임 또는 관심사")
       button.search-form_button(@click.prevent="search" aria-label="검색")
         i.fa.fa-search(aria-hidden='true')
     main-menu.menu-container
@@ -29,6 +29,11 @@
     components: {
       MainMenu,
     },
+    computed: {
+      isRouteMain() {
+        return this.$route.name === 'main';
+      },
+    },
     methods: {
       ...mapMutations(['setIsLoading', 'setToastMessage']),
       ...mapActions(['searchGroups']),
@@ -40,6 +45,8 @@
           this.setToastMessage('검색어를 입력해주세요.');
           return;
         }
+
+        !this.isRouteMain && this.changeRoute({name: 'main'});
 
         this.searchGroups({
           search: this.searchString,

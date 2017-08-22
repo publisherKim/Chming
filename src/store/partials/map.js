@@ -60,6 +60,7 @@ export default {
 
         return marker;
       });
+      window.markers = state.markers;
       // 지도 범위 재설정 (중심좌표와 지도 레벨 변경될 수 있음)
       getters.map.setBounds(bounds);
     },
@@ -78,7 +79,8 @@ export default {
         // HTML 문자열 또는 Dom Element 입니다
         // let content = `<span style="position: absolute; top: -31.5px; left: -2.5px;
               // font-size: 12px; color: #3b8de0; font-weight: bold">${index+1}</span>`;
-        let content = `<span style="position: absolute; top: -30px; left: 1px; width: 30px;
+        let content = `<span onclick="daum.maps.event.trigger(markers[${index}], 'click')"
+              style="position: absolute; top: -30px; left: 1px; width: 30px;
               transform: translateX(-50%); text-align: center; color: #3b8de0;
               font-size: ${index >= 10 ? '10' : '11'}px; font-weight: bold">${index+1}</span>`;
 

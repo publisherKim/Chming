@@ -44,7 +44,7 @@
 
 <script>
   import BoardList from '@/components/group/BoardList';
-  import {mapGetters, mapMutations} from 'vuex';
+  import {mapGetters, mapMutations, mapActions} from 'vuex';
 
   export default {
     created() {
@@ -96,7 +96,9 @@
     },
     methods: {
       ...mapMutations(['setIsLoading', 'setToastMessage']),
+      ...mapActions(['getUserProfile']),
       groupJoin() {
+        if(!confirm('모임에 가입하시겠습니까?')) return;
         let url = this.url.GROUP_JOIN + this.groupId + '/join/';
         let token = sessionStorage.getItem('token');
 
@@ -106,7 +108,7 @@
             if(response.status === 200) {
               if(response.data.joined) {
                 this.setToastMessage('모임 가입이 완료되었습니다.');
-                location.reload();
+                this.getUserProfile(sessionStorage.getItem('token'));
               }
             }
           })
@@ -139,12 +141,17 @@
           });     
       },
       favoriteGroupToggle() {
+        if(!this.isLogin) return this.setToastMessage('로그인을 해주세요');
+
         let url = `/group/${this.groupId}/like_toggle/`;
         let token = sessionStorage.getItem('token');
         this.setIsLoading(true);
         this.$http.post(url, null, {headers: {Authorization: `Token ${token}`}})
           .then(response => {
-            if(response.status === 200) this.getGroupInfo(); 
+            if(response.status === 200) {
+              this.getUserProfile(sessionStorage.getItem('token'));
+              this.getGroupInfo();
+            }
           })
           .catch(error => {
             console.log('error: ', error);

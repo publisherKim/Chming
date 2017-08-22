@@ -36,12 +36,14 @@
     position: fixed
     display: block
     +align-horizontal-middle
+    max-width: 80%
     bottom: 30%
-    z-index: 1000
-    padding: 0.5rem 2rem
+    z-index: 2000
     background: rgba(0, 0, 0, 0.5)
     border-radius: 1rem
     .message
+      display: block
+      padding: 0.5rem 2rem
       color: #fff
   
   .fade-out-enter-active,
