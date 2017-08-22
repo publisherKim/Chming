@@ -33,6 +33,8 @@ export default {
 
   .hobby_content-wrap
     background: $filter-panel-background-color
+    max-height: 300px
+    overflow-y: scroll
 
   .hobby-filter-wrap
     width: 100%

@@ -16,11 +16,6 @@
           :classList="['fa-check-circle-o', 'warning']" 
           message="이메일 입력해주세요."
         )
-        message-box(
-          v-if="email" 
-          :classList="['fa-check-circle-o', emailValidate ? 'info' : 'warning']"
-          :message="emailValidationMessage"
-        )
       p  
         input.form_password(
           v-model="password" 
@@ -34,11 +29,6 @@
           v-if="isEmptyPassword" 
           :classList="['fa-check-circle-o', 'warning']" 
           :message="validateMessage.USER_PASSWORD_EMPTY"
-        )
-        message-box(
-          v-if="password" 
-          :classList="['fa-check-circle-o', passwordValidate ? 'info' : 'warning']" 
-          :message="passwordValidationMessage"
         )
       button.login-button(@click.prevent="userLogin") 확인
     ul.join-user_find-list
@@ -55,8 +45,6 @@
   import MessageBox from '@/components/common/MessageBox';
   import Vue from 'vue';
   import {mapGetters, mapActions} from 'vuex';
-  let emailRegexp = /^(?:(?:[\w`~!#$%^&*\-=+;:{}'|,?\/]+(?:(?:\.(?:"(?:\\?[\w`~!#$%^&*\-=+;:{}'|,?\/\.()<>\[\] @]|\\"|\\\\)*"|[\w`~!#$%^&*\-=+;:{}'|,?\/]+))*\.[\w`~!#$%^&*\-=+;:{}'|,?\/]+)?)|(?:"(?:\\?[\w`~!#$%^&*\-=+;:{}'|,?\/\.()<>\[\] @]|\\"|\\\\)+"))@(?:[a-zA-Z\d\-]+(?:\.[a-zA-Z\d\-]+)*|\[\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\])$/;
-  let passwordRegexp = /^(?=.{8,})(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).*$/;
 
   export default {
     beforeRouteEnter (to, from, next) {
@@ -77,26 +65,8 @@
     },
     computed: {
       ...mapGetters(['userInfo', 'validateMessage']),
-      emailValidate() {
-        if(emailRegexp.test(this.email)) {
-          this.emailValidationMessage = this.validateMessage.USER_EMAIL_OK;
-          return true;
-        } else {
-          this.emailValidationMessage = this.validateMessage.USER_EMAIL_NOT_OK;
-          return false;
-        }
-      },
       isEmptyEmail() {
         return this.email === '';
-      },
-      passwordValidate() {
-        if(passwordRegexp.test(this.password)) {
-          this.passwordValidationMessage = this.validateMessage.USER_PASSWORD_OK;
-          return true;
-        } else {
-          this.passwordValidationMessage = this.validateMessage.USER_PASSWORD_NOT_OK;
-          return false;
-        }
       },
       isEmptyPassword() {
         return this.password === '';
@@ -110,12 +80,12 @@
       loginValidate() {
         let refs = this.$refs;
         
-        if(this.isEmptyEmail || !this.emailValidate) {
+        if(this.isEmptyEmail) {
           this.checkEmpty('email');
           refs.email.focus();
           return false;
         }
-        if(this.isEmptyPassword || !this.passwordValidate) {
+        if(this.isEmptyPassword) {
           this.checkEmpty('password');
           refs.password.focus();
           return false;

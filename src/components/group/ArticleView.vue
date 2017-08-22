@@ -188,6 +188,7 @@
       },
       deleteBoardDetail() {
         if(!this.isArticleEditable) return this.setToastMessage('삭제 권한이 없습니다');
+        if(!confirm('게시글을 삭제하시겠습니까?')) return;
         
         let url = `/group/${this.groupId}/post/${this.articleId}/delete/`;
         let token = sessionStorage.getItem('token');
@@ -208,6 +209,8 @@
           });
       },
       deleteComment(commentId) {
+        if(!confirm('댓글을 삭제하시겠습니까?')) return;
+        
         let url = `/group/${this.groupId}/post/comment/${commentId}/delete/`;
         let token = sessionStorage.getItem('token');
         this.setIsLoading(true);

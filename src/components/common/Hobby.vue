@@ -97,6 +97,9 @@
 <style lang="sass" scoped>
   @import "~chming"
 
+  .hobby-wrap
+  
+
   .title
     padding: 3px 0
     color: $hobby-color
