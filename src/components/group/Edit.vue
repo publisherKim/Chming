@@ -71,7 +71,7 @@
   import MessageBox from '@/components/common/MessageBox';
   import ModalImage from '@/components/common/ModalImage';
   import Vue from 'vue';
-  import { mapGetters, mapMutations } from 'vuex';
+  import {mapGetters, mapMutations} from 'vuex';
 
   export default {
     created() {
@@ -114,7 +114,7 @@
       },
     },
     methods: {
-      ...mapMutations(['setIsLoading']),
+      ...mapMutations(['setIsLoading', 'setToastMessage']),
       fileUpload(e) {
         let file = e.target.files[0];
         let reader = new FileReader();
@@ -125,7 +125,7 @@
             this.uploadSrc = e.target.result;
             this.uploadImageName = `[${file.name}]`;
           } else {
-            alert('이미지 파일이면서 5MB 이하만 업로드 가능합니다.');
+            this.setToastMessage('이미지 파일이면서 5MB 이하만 업로드 가능합니다.');
           }
         };
       },
@@ -200,7 +200,7 @@
           then(response => {
             if(response.status === 200) {
               this.changeRoute({name: 'group_info_home'});
-              alert('그룹정보수정이 완료되었습니다.');
+              this.setToastMessage('그룹정보수정이 완료되었습니다.');
             } else {
               console.log(response);
             }

@@ -3,7 +3,7 @@
 </template>
 
 <script>
-  import { mapGetters, mapMutations } from 'vuex';
+  import {mapGetters, mapMutations} from 'vuex';
   import Vue from 'vue';
 
   export default {

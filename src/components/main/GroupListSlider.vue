@@ -19,7 +19,7 @@
 
 <script>
   import HobbyIcon from '@/components/common/HobbyIcon';
-  import { mapGetters, mapMutations, mapActions } from 'vuex';
+  import {mapGetters, mapMutations, mapActions} from 'vuex';
 
   export default {
     data() {

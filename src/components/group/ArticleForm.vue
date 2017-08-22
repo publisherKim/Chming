@@ -75,7 +75,7 @@
   import MessageBox from '@/components/common/MessageBox';
   import ModalImage from '@/components/common/ModalImage';
   import Vue from 'vue';
-  import { mapGetters, mapMutations } from 'vuex';
+  import {mapGetters, mapMutations} from 'vuex';
 
   export default {
     created() {
@@ -125,7 +125,7 @@
       },
     },
     methods: {
-      ...mapMutations(['setIsLoading']),
+      ...mapMutations(['setIsLoading', 'setToastMessage']),
       changeRoute(route) {
         this.$router.push(route);
       },      
@@ -143,7 +143,7 @@
             this.uploadSrc = e.target.result;
             this.uploadImageName = `[${file.name}]`;
           } else {
-            alert('이미지 파일이면서 5MB 이하만 업로드 가능합니다.');
+            this.setToastMessage('이미지 파일이면서 5MB 이하만 업로드 가능합니다.');
           }
         };
       },
@@ -193,7 +193,7 @@
         this.$http.post(url, formData, {headers: {Authorization: `Token ${token}`}}).
           then(response => {
             if(response.status === 201) {
-              alert('게시글이 작성되었습니다');
+              this.setToastMessage('게시글이 작성되었습니다');
               this.changeRoute({name: 'group_info_board', params: {id: this.groupId}});
               console.log(response);
             }
@@ -218,7 +218,7 @@
           then(response => {
             if(response.status === 200) {
               console.log(response);
-              alert('게시글이 수정되었습니다');
+              this.setToastMessage('게시글이 수정되었습니다');
               this.changeRoute({name: 'group_articleView', params: {id: this.groupId, articleId: this.articleId}}); 
             }
           })

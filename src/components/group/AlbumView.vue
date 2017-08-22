@@ -23,7 +23,8 @@
 </template>
 
 <script>
-  import { mapGetters } from 'vuex';
+  import {mapGetters, mapMutations} from 'vuex';
+
   export default {
     created() {
       this.imageIndex = this.imageKeyProp;
@@ -43,15 +44,17 @@
       };
     },
     computed: {
-      ...mapGetters(['validateMessage'])
+      ...mapGetters(['validateMessage']),
     },
     methods: {
+      ...mapMutations(['setToastMessage']),
+      
       closeModal() {
         this.$emit('closeModal');
       },
       viewAlbum(num) {
         if(!this.albumListProp[this.imageIndex + num]) {
-          alert(this.validateMessage.GROUP_ALBUM_EMPTY);
+          this.setToastMessage(this.validateMessage.GROUP_ALBUM_EMPTY);
           return;
         }
         this.imageIndex += num;
