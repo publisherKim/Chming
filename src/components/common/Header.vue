@@ -75,12 +75,12 @@
     height: 100%
     a
       position: relative
+      top: 50%
+      transform: translateY(-50%)
       display: block
-      height: 100%
     img
       position: relative
       display: block
-      +align-vertical-middle
       width: $img-width
       border: 0
 
@@ -110,22 +110,28 @@
       vertical-align: top
       border: 1px solid $base-theme-color
     .search-form_button
+      position: relative
+      top: 50%
+      transform: translateY(-50%)
+      margin-left: 0.5rem
+      padding: 0 0.5rem
       display: inline-block
       width: $icon-width
-      margin-left: 1.5rem
       background: none
       border: none
       font-size: 2rem
-      height: 100%
       i
         display: block
+        width: $icon-width
         color: $main-header-icon-color
   
   .menu-container
+    position: relative
+    top: 50%
+    transform: translateY(-50%)  
     display: inline-block
     width: $icon-width
     margin-left: 1.5rem
     font-size: 2rem
-    height: 100%
    
 </style>
