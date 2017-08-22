@@ -12,7 +12,7 @@
       input(v-model.trim="searchString" type="text" id="search" placeholder="지역, 모임 또는 관심사")
       button.search-form_button(@click.prevent="search" aria-label="검색")
         i.fa.fa-search(aria-hidden='true')
-    main-menu.menu-wrap
+    main-menu.menu-container
 </template>
 
 <script>
@@ -30,14 +30,14 @@
       MainMenu,
     },
     methods: {
-      ...mapMutations(['setIsLoading']),
+      ...mapMutations(['setIsLoading', 'setToastMessage']),
       ...mapActions(['searchGroups']),
       changeRoute(route) {
         this.$router.push(route);
       },
       search() {
         if(this.searchString === '') {
-          alert('검색어를 입력해주세요');
+          this.setToastMessage('검색어를 입력해주세요.');
           return;
         }
 
@@ -80,7 +80,7 @@
   .header_search-form
     position: relative
     float: left
-    width: calc(100% - 5.5rem - 2rem - 2rem - 3rem)
+    width: calc(100% - 10.3rem)
     height: 100%
     select
       position: absolute
@@ -112,21 +112,13 @@
       height: 100%
       i
         display: block
-        line-height: 3rem
         color: $main-header-icon-color
   
-  .menu-wrap
+  .menu-container
     display: inline-block
     width: $icon-width
-    margin-left: $side-space
+    margin-left: 1.5rem
     font-size: 2rem
     height: 100%
-    .menu_hambuger
-      display: block
-      height: 100%
-      &:hover
-        text-decoration: none
-    i
-      display: block
-      color: $main-header-icon-color
+   
 </style>

@@ -8,6 +8,7 @@ import filter from './partials/filter';
 import hobby from './partials/hobby';
 import region from './partials/region';
 import loading from './partials/loading';
+import toastmessage from './partials/toastmessage.js';
 import constants from './partials/constants.js';
 
 Vue.use(Vuex);
@@ -22,6 +23,7 @@ export default new Vuex.Store({
     hobby,
     region,
     loading,
+    toastmessage,
     constants,
   },
 });
