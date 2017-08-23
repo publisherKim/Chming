@@ -11,6 +11,7 @@
           i.fa.fa-map-marker(aria-hidden='true')
           | {{groupInfo.address}}
         a.introduce-home_like(
+          v-if="!isAuthor"
           :class="{'is-active': likeToggle}"
           @click.prevent="favoriteGroupToggle"
           :title="likeToggleLabel"
@@ -23,7 +24,7 @@
           )
     .home_news-wrap
       h3.title 새소식
-      board-list(:boardList="groupInfo.notice")
+      board-list(:isReadable="isMember || isAuthor" :boardList="groupInfo.notice")
     button.home_join(v-if="isJoinable" @click="groupJoin" type="button") 가입하기
     button.home_modify(v-if="isAuthor" @click="changeRoute({name: 'group_edit'})" type="button") 수정하기
     .home_member-wrap

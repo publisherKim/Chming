@@ -35,7 +35,7 @@
 </template>
 
 <script>
-  import {mapGetters} from 'vuex';
+  import {mapGetters, mapMutations} from 'vuex';
 
   export default {
     props: {
@@ -44,7 +44,10 @@
         required: true,
       },
       page: {
-        tyep: Number,
+        type: Number,
+      },
+      isReadable: {
+        type: Boolean,
       },
     },
     computed: {
@@ -52,12 +55,17 @@
       groupId() {
         return this.$route.params.id;
       },
+      isGroupHome() {
+        return this.$route.name === 'group_info_home';
+      },
     },
     methods: {
+      ...mapMutations(['setToastMessage']),
       changeRoute(route) {
         this.$router.push(route);
       },
       viewArticle(board) {
+        if(this.isGroupHome && !this.isReadable) return this.setToastMessage('접근 권한이 없습니다.');
         this.changeRoute({
           name: 'group_articleView',
           params: {

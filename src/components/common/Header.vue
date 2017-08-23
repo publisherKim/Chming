@@ -9,7 +9,7 @@
         option(value='address') 지역
         option(value='group') 모임명
         option(value='hobby') 관심사
-      input(v-model.trim="searchString" type="text" aria-label="검색 필드" placeholder="지역, 모임 또는 관심사")
+      input(v-model.trim="searchString" type="text" aria-label="검색 필드" placeholder="지역, 모임, 관심사")
       button.search-form_button(@click.prevent="search" aria-label="검색")
         i.fa.fa-search(aria-hidden='true')
     main-menu.menu-container
@@ -62,7 +62,7 @@
 
   $img-width: 3.3rem
   $side-space: 2rem
-  $icon-width: 2rem
+  $icon-width: 3rem
 
   .header-container
     position: relative
@@ -87,7 +87,7 @@
   .header_search-form
     position: relative
     float: left
-    width: calc(100% - 10.3rem)
+    width: calc(100% - 10.8rem)
     height: 100%
     select
       position: absolute
@@ -103,7 +103,7 @@
     input
       position: relative
       +align-vertical-middle
-      width: calc(100% - 5rem)
+      width: calc(100% - 5.5rem)
       padding-left: 6.5rem
       margin-left: 1.5rem
       height: 3rem
@@ -113,8 +113,8 @@
       position: relative
       top: 50%
       transform: translateY(-50%)
-      margin-left: 0.5rem
-      padding: 0 0.5rem
+      margin-left: 1rem
+      padding: 0.5rem
       display: inline-block
       width: $icon-width
       background: none
@@ -122,7 +122,6 @@
       font-size: 2rem
       i
         display: block
-        width: $icon-width
         color: $main-header-icon-color
   
   .menu-container
@@ -131,7 +130,7 @@
     transform: translateY(-50%)  
     display: inline-block
     width: $icon-width
-    margin-left: 1.5rem
+    margin-left: 1rem
     font-size: 2rem
    
 </style>
