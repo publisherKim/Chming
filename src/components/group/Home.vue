@@ -32,14 +32,24 @@
         span.member-number(aria-label="모임 인원수") {{groupInfo.member_count}} 명
       ul.member-list
         li.member-list-item
-          img(
-            :src="groupInfo.author.profile_img" 
-            :alt="groupInfo.author.username"
-          )
+          .profile-image-wrap
+            img(
+              ref="profile_image0"
+              @load="imageSizeJudge(0)"
+              :src="groupInfo.author.profile_img" 
+              :alt="groupInfo.author.username"
+            )
           span.author-name(aria-label="모임장 이름") {{groupInfo.author.username}}
           span.author-position(aria-label="모임장 여부") 모임장
-        li.member-list-item(v-for="member in groupInfo.members")
-          img(:src="member.profile_img" :alt="member.username")
+        li.member-list-item(v-for="(member, index) in groupInfo.members")
+          .profile-image-wrap
+            img(
+              :ref="`profile_image${index+1}`"
+              @load="imageSizeJudge(index+1)"
+              src="member.image"
+              :src="member.profile_img" 
+              :alt="member.username"
+            )
           span.member-name {{member.username}}
 </template>
 
@@ -61,11 +71,13 @@
         groupInfo: {
           // 비동기 통신 후 groupInfo를 받아오기 때문에, 최초 groupInfo.author 값이 null로 처리되지 않도록 설정
           author: {},
-          members: [],
+          members: [{
+            profile_img: defaultImage
+          }],
           notice: [],
           image: defaultImage
         },
-        likeToggle: false
+        likeToggle: false,
       };
     },
     computed: {
@@ -112,12 +124,11 @@
               if(response.data.joined) {
                 this.setToastMessage('모임 가입이 완료되었습니다.');
                 location.reload();
-                // this.getUserProfile(sessionStorage.getItem('token'));
-                // this.getGroupInfo();
               }
             }
           })
           .catch(error => {
+            console.log('error: ', error);
             console.log('error:', error.response);
           })
           .finally(() => {
@@ -138,6 +149,7 @@
             }
           })
           .catch(error => {
+            console.log('error: ', error);
             console.log('error:', error.response);
           })
           .finally(() => {
@@ -167,21 +179,26 @@
       },
       changeRoute(name){
         this.$router.push(name);
+      },
+      imageSizeJudge(index) {
+        const img = this.$refs[`profile_image${index}`][0];
+        let bigWidth = img.naturalWidth - img.naturalHeight > 0;
+
+        if(!bigWidth) {
+          img.classList.add('fit-width');
+        }
       }
     },
   };
 </script>
 
 <style lang="sass" scoped>
-  @import "~chming"
+  @import "~chming"  
   .member-list-item
     +clearfix()
     position: relative
     padding: 1.5rem 2rem
-    border-bottom: 0.5px solid #ccc
-    img 
-      +circle()
-      float: left        
+    border-bottom: 0.5px solid #ccc       
     span 
       margin-left: 1rem 
 
@@ -233,4 +250,11 @@
   .author-position
     float: right
     color: $base-point-color
+
+  .profile-image-wrap
+    +circle(4rem, 4rem)
+    img 
+      +profileImagePosition(auto, 100%)
+    .fit-width
+      +profileImagePosition(100%, auto)
 </style>

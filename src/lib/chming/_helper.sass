@@ -120,8 +120,21 @@
 @function rem-to-px($font-size, $rem)
 	@return $font-size * strip-unit($rem)
 
-@mixin circle($width: 40px, $height: 40px, $border-radius:50%)
+@mixin circle($width: auto, $height: auto, $border-radius: 50%)
+  position: relative
+  float: left
+  overflow: hidden
   width: $width
   height: $height
+  border: solid 1px #ccc
   border-radius: $border-radius
+
+@mixin profileImagePosition($width: 100%, $height: auto)
+  width: $width
+  height: $height
+  position: absolute
+  top: 50%
+  left: 50%
+  transform: translate(-50%, -50%)
+
 

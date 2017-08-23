@@ -2,7 +2,13 @@
   .board_detail-view-container
     group-header
     .detail-view_author-wrap
-      img.author_img(:src="boardDetail.author.profile_img" :alt="boardDetail.author.username")
+      .profile-image-wrap
+        img.author_img(
+          ref="profile_image0"
+          @load="imageSizeJudge(0)"
+          :src="boardDetail.author.profile_img" 
+          :alt="boardDetail.author.username"
+        )
       p.author_name(aria-label="글쓴이") {{boardDetail.author.username}}
       p.author_date(aria-label="글 작성일자") {{boardDetail.modified_date ? boardDetail.modified_date : boardDetail.created_date}}
       p.notice {{boardDetail.post_type ? '공지사항' : '일반글'}}
@@ -59,17 +65,19 @@
     .detail-view_comment-header
       span.comment-number(aria-label="댓글 수") 댓글 {{boardDetail.comments_count}}
       a.comment-arrange(
-        href
         @click.prevent="arrangeCommentByCreateDate"
         aria-label="최신순 정렬"
       ) 최신순 보기
 
     .detail-view_author-comment-wrap(v-if="boardDetail.comment_set && boardDetail.comment_set.length")
-      .comment-list(v-for="comment in boardDetail.comment_set")
-        img.author-comment_img(
-          :src="comment.author.profile_img" 
-          alt="profile"
-        )
+      .comment-list(v-for="(comment, index) in boardDetail.comment_set")
+        .profile-image-wrap
+          img.author-comment_img(
+            :ref="`profile_image${index+1}`"
+            @load="imageSizeJudge(index+1)"
+            :src="comment.author.profile_img" 
+            alt="profile"
+          )
         p.author-comment_name(aria-label="댓글 작성자") {{comment.author.username}}
         p.author-comment_date(aria-label="댓글 작성일자") {{comment.created_date}}
         p.author-comment_contents(aria-label="댓글 내용") {{comment.content}}
@@ -89,13 +97,14 @@
           aria-label="댓글쓰기"
         )
         button(
-          @click.prevent="createContent"
+          @click.prevent="createComment"
         ) 확인
 </template>
 
 <script>
   import GroupHeader from '@/components/common/Header';
   import {mapGetters, mapMutations} from 'vuex';
+  import defaultImage from '@/assets/default.png';
 
   export default {
     created() {
@@ -111,7 +120,7 @@
             username : null
           },
           comment_set: null,
-          post_img: 'https://s3.ap-northeast-2.amazonaws.com/chming-bucket/media/images/no_image.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAI43LUFGDQVXUPBOA%2F20170822%2Fap-northeast-2%2Fs3%2Faws4_request&X-Amz-Date=20170822T145636Z&X-Amz-Expires=3600&X-Amz-SignedHeaders=host&X-Amz-Signature=c8129e4cfd3c2eaa1ae51f3b354e5b4f6b9a003aab671154571869e4e42429fa'         
+          post_img: defaultImage      
         },
         isCommentInputShow: false,
         content : '',
@@ -155,7 +164,7 @@
         if(!this.isArticleEditable) return this.setToastMessage('수정 권한이 없습니다.');
         this.changeRoute({name: 'group_articleEdit', params: {id: this.groupId, articleId: this.articleId}});
       },
-      createContent() {
+      createComment() {
         let url = `/group/${this.groupId}/post/${this.articleId}/comment/create/`;
         let token = sessionStorage.getItem('token');
         this.setIsLoading(true);
@@ -164,7 +173,7 @@
             if(response.status === 201) {
               this.content = '';
               this.getBoardDetail();
-              this.toggle();
+              this.toggleCommentInput();
               this.setToastMessage('댓글 작성이 등록되었습니다.');
             }
           })
@@ -261,6 +270,15 @@
           return detail1.created_date < detail2.created_date;
         });
       },
+      imageSizeJudge(index) {
+        const $profileImage = this.$refs[`profile_image${index}`];
+        const img = index === 0 ?  $profileImage : $profileImage[0];
+        const bigWidth = img.naturalWidth - img.naturalHeight > 0;
+
+        if(!bigWidth) {
+          img.classList.add('fit-width');
+        }
+      }
     }
   };
 </script>
@@ -301,6 +319,11 @@
         margin-right: 5px
         color: inherit
 
+  .board_detail-view-container
+    .detail-view_comment-input-wrap
+      background: rgba(255, 255, 255, 0.5) !important
+      z-index: 100
+      
   .detail-view_like-wrap,
   .detail-view_comment-header
     padding: 1rem 2rem
@@ -318,10 +341,6 @@
     padding: 1rem 2rem
     border-bottom: 0.5px solid #ccc
 
-  .author_img, 
-  .author-comment_img
-    float: left
-    +circle()
   .author_name,
   .author_date,
   .author-comment_name,
@@ -366,6 +385,14 @@
   .number-like
     i, .num
       color: $group-like-color
+
+  .profile-image-wrap
+    +circle(4rem, 4rem)
+    z-index: 1
+    img 
+      +profileImagePosition(auto, 100%)
+    .fit-width
+      +profileImagePosition(100%, auto)
 
   +mobile
     .detail-view_comment-wrap

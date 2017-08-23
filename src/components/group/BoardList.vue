@@ -2,12 +2,15 @@
   .board-list-container
     p.empty(v-if="boardList.length === 0") 게시글을 작성해 주세요. 모임이 더욱 풍성해집니다.
     ul(v-else)
-      li.list_item(v-for="board in boardList" :class="{note: board.post_type}")
+      li.list_item(v-for="(board, index) in boardList" :class="{note: board.post_type}")
         .item_author(v-if="!board.post_type")
-          img.author_image(
-            :src="board.author.profile_img"
-            :alt="board.author.username"
-          )
+          .profile-image-wrap
+            img.author_image(
+              :ref="`profile_image${index}`"
+              @load="imageSizeJudge(index)"
+              :src="board.author.profile_img"
+              :alt="board.author.username"
+            )
           p.author_name(aria-label="글쓴이") {{board.author.username}}
           p.author_date(aria-label="글 작성일자") {{board.modified_date ? board.modified_date : board.created_date}}
         a(
@@ -77,6 +80,14 @@
           },
         });
       },
+      imageSizeJudge(index) {
+        const img = this.$refs[`profile_image${index}`][0];
+        const bigWidth = img.naturalWidth - img.naturalHeight > 0;
+
+        if(!bigWidth) {
+          img.classList.add('fit-width');
+        }
+      }
     },
   };
 </script>
@@ -96,8 +107,6 @@
     position: relative
     padding: 1.5rem 2rem
     border-bottom: 0.5px solid #ccc
-    &:last-of-type
-      border-bottom: 0
   .article-title
     width: calc(100% - 7rem)
     +fit-text-in-box()
@@ -129,9 +138,6 @@
       color: #666
   .item_author
     +clearfix
-    .author_image
-      float: left
-      +circle()
     .author_name,
     .author_date
       display: block
@@ -149,4 +155,12 @@
   .note
     .item_preview-image
       bottom: 1rem
+
+  .profile-image-wrap
+    +circle(4rem, 4rem)
+    z-index: 1
+    img 
+      +profileImagePosition(auto, 100%)
+    .fit-width
+      +profileImagePosition(100%, auto)
 </style>
