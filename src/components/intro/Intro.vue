@@ -61,7 +61,6 @@
         this.isMovieShow = !this.isMovieShow;
       },
       closeMovie() {
-        console.log('test');
         this.isMovieShow = !this.isMovieShow;
       }      
     },

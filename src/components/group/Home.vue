@@ -132,7 +132,6 @@
             if(response.status === 200) {
               let like_users = response.data.like_users;
               this.groupInfo = response.data;
-              console.log(this.groupInfo);
               this.likeToggle = like_users.some((item)=> {
                 return item.pk === this.userInfo.pk;
               });

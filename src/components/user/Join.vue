@@ -300,8 +300,6 @@
             if(response.status === 201) {
               this.setToastMessage('회원가입이 완료되었습니다.');
               this.changeRoute({name: 'user_login'});
-            } else {
-              console.log(response);
             }
           })
           .catch(error => {

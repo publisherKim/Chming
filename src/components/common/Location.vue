@@ -98,8 +98,6 @@
       },
       mapClickHandler(e) {
         let latlng = e.latLng;
-        // console.log('latlng:', latlng);
-
         let geocoder = this.$maps.getGeocoder();
 
         let getAddress = (result, status) => {
