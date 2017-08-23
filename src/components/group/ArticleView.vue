@@ -67,7 +67,7 @@
     .detail-view_author-comment-wrap(v-if="boardDetail.comment_set && boardDetail.comment_set.length")
       .comment-list(v-for="comment in boardDetail.comment_set")
         img.author-comment_img(
-          src="../../assets/mingu.jpeg" 
+          :src="comment.author.profile_img" 
           alt="profile"
         )
         p.author-comment_name(aria-label="댓글 작성자") {{comment.author.username}}
