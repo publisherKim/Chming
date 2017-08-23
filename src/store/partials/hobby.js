@@ -25,7 +25,7 @@ export default {
         }
       });
       state.hobbyList = hobbyList;
-      state.hobbyCategoryList = hobbyList.filter(function(item, pos, array) {
+      state.hobbyCategoryList = hobbyList.filter((item, pos, array) => {
         return !pos || item.category !== array[pos - 1].category;
       });
     },

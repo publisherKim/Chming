@@ -259,7 +259,9 @@
           });
       },
       arrangeCommentByCreateDate() {
-        // this.boardDetail.
+        this.boardDetail.comment_set.sort((detail1, detail2) => {
+          return detail1.created_date < detail2.created_date;
+        });
       },
     }
   };

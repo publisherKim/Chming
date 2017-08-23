@@ -12,7 +12,7 @@
           :aria-controls="`section${index+1}`"
           :aria-selected="(index === 0) ? 'true' : 'false'"
           @click="changeTabContents(index)"
-        ) {{ reigon.si }}
+        ) {{ reigon.level1 }}
       .tab-contents
         template(v-for="(category, index) in regionCategoryList")
           section(
@@ -22,12 +22,12 @@
             :aria-labelledby="`tab${index+1}`"
           )
             ul.region-list
-              li.region-list-item(v-if="category.si === region.si" v-for="region in regionList")
+              li.region-list-item(v-if="category.level1 === region.level1" v-for="region in regionList")
                 button(
                   @click="setSelectedLocation(region)" 
                   :class="{'is-active' : region === selectedLocation}" 
                   type="button"
-                ) {{ region.dong }}
+                ) {{ region.level2 }}
 </template>
 
 <script>

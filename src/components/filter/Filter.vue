@@ -3,7 +3,7 @@
     .location-filter-wrap
       .location-filter
         h2 지금 보고있는 지역은
-        button(@click="viewFilter('location')" type="button") {{location.dong}} &dtrif;
+        button(@click="viewFilter('location')" type="button") {{location.level2}} &dtrif;
       .filter-button-wrap
         button.sort-button(@click="viewFilter('sort')" type="button") {{sort}} &dtrif;
         button.hobby-button(@click="viewFilter('hobby')" type="button") 관심사 &dtrif;
