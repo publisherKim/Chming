@@ -97,7 +97,7 @@
           aria-label="댓글쓰기"
         )
         button(
-          @click.prevent="createContent"
+          @click.prevent="createComment"
         ) 확인
 </template>
 
@@ -164,7 +164,7 @@
         if(!this.isArticleEditable) return this.setToastMessage('수정 권한이 없습니다.');
         this.changeRoute({name: 'group_articleEdit', params: {id: this.groupId, articleId: this.articleId}});
       },
-      createContent() {
+      createComment() {
         let url = `/group/${this.groupId}/post/${this.articleId}/comment/create/`;
         let token = sessionStorage.getItem('token');
         this.setIsLoading(true);
@@ -173,7 +173,7 @@
             if(response.status === 201) {
               this.content = '';
               this.getBoardDetail();
-              this.toggle();
+              this.toggleCommentInput();
               this.setToastMessage('댓글 작성이 등록되었습니다.');
             }
           })
@@ -319,6 +319,11 @@
         margin-right: 5px
         color: inherit
 
+  .board_detail-view-container
+    .detail-view_comment-input-wrap
+      background: rgba(255, 255, 255, 0.5) !important
+      z-index: 100
+      
   .detail-view_like-wrap,
   .detail-view_comment-header
     padding: 1rem 2rem
