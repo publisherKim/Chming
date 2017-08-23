@@ -17,10 +17,12 @@ export default {
   },
   mutations: {
     setHobbyList(state, hobbyList) {
-      window.hobbyList = hobbyList;
-      const hobbyCategorySet = new window.Set();
-      hobbyList.forEach( v => {
-        hobbyCategorySet.add(v.category);
+      hobbyList.sort((a, b) => {
+        if(a.category < b.category) {
+          return -1;
+        } else {
+          return 1;
+        }
       });
       state.hobbyList = hobbyList;
       state.hobbyCategoryList = hobbyList.filter(function(item, pos, array) {
