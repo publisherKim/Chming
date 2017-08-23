@@ -53,14 +53,13 @@ export default {
         let infowindow = new Vue.maps.InfoWindow({
           content : iWContent
         });
-        console.log('test: ', infowindow);
         event.addListener(marker, 'mouseover', function() {
           infowindow.open(map, marker);
         });
 
         event.addListener(marker, 'mouseout', function() {
           infowindow.close();
-        }); 
+        });
 
         // 마커 이벤트 리스너 추가
         event.addListener(marker, 'click', () => {
