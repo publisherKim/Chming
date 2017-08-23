@@ -16,17 +16,21 @@ export default {
     },
   },
   mutations: {
-    setRegionList(state, {regionList, commit}) {
+    setRegionList(state, regionList) {
       state.regionList = regionList;
 
       // 시 기준으로 오름차순 정렬
-      regionList.sort(function(region1, region2) {
-        return region1.si > region2.si;
+      regionList.sort((a, b) => {
+        if(a.level1 < b.level1) {
+          return -1;
+        } else {
+          return 1;
+        }
       });
 
       // 시 배열 생성(unique - 중복제거)
-      state.regionCategoryList = regionList.filter(function(region, pos, array) {
-        return !pos || region.si !== array[pos - 1].si;
+      state.regionCategoryList = regionList.filter((region, pos, array) => {
+        return !pos || region.level1 !== array[pos - 1].level1;
       });
     },
   },
@@ -36,7 +40,7 @@ export default {
       http.get(getters.url.REGION_LIST)
         .then(response => {
           if(response.status === 200) {
-            commit('setRegionList', {regionList: response.data, commit});
+            commit('setRegionList', response.data);
           }
         })
         .catch(error => {

@@ -5,7 +5,7 @@ export default {
     activeFilter: null,
     filterOptions: {
       location: {
-        dong: '신사동',
+        level2: '신사동',
       },
       sort: '거리순',
       hobby: [],

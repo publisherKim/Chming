@@ -39,7 +39,6 @@
     max-width: 80%
     bottom: 30%
     z-index: 1001
-    padding: 0.5rem 2rem
     background: rgba(0, 0, 0, 0.5)
     border-radius: 1rem
     .message

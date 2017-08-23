@@ -21,7 +21,7 @@
       next();
     },
     mounted() {
-      this.getGroupList();
+      // this.getGroupList();
     },
     name: 'Main',
     components: {
@@ -45,7 +45,7 @@
         geocoder.coord2RegionCode(lng, lat, (result, status) => {
           if(status === Vue.maps.services.Status.OK) {
             this.setLocation({
-              dong: result[0].region_3depth_name,
+              level2: result[0].region_3depth_name,
               lat,
               lng
             });
