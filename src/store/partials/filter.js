@@ -3,18 +3,21 @@ import Vue from 'vue';
 export default {
   state: {
     activeFilter: null,
+    selectedHobby: [],
     filterOptions: {
       location: {
         level2: '신사동',
       },
       sort: '거리순',
       hobby: [],
-      radius: '500m',
     },
   },
   getters: {
     activeFilter(state) {
       return state.activeFilter;
+    },
+    selectedHobby(state) {
+      return state.selectedHobby;
     },
     location(state) {
       return state.filterOptions.location;
@@ -25,14 +28,7 @@ export default {
     hobby(state) {
       return state.filterOptions.hobby;
     },
-    radius(state) {
-      return state.filterOptions.radius;
-    },
     filterOptions(state) {
-      let radius = state.filterOptions.radius;
-      let unit = (radius.indexOf('km') === 0) ? 1 : 0.001;
-      radius = parseFloat(radius) * unit;
-
       let location = state.filterOptions.location;
       if(!location.lat) {
         let defaultLocation = Vue.maps.getDefaultLocation();
@@ -45,7 +41,6 @@ export default {
       let options = {
         lat: location.lat,
         lng: location.lng,
-        distance_limit: radius,
         hobby: state.filterOptions.hobby.toString(),
         sort: state.filterOptions.sort,
       };
@@ -57,6 +52,9 @@ export default {
     setActiveFilter(state, filter) {
       state.activeFilter = filter;
     },
+    setSelectedHobby(state, selectedHobby) {
+      state.selectedHobby = selectedHobby;
+    },
     setLocation(state, location) {
       state.filterOptions.location = location;
     },
@@ -65,9 +63,6 @@ export default {
     },
     setHobby(state, hobby) {
       state.filterOptions.hobby = hobby;
-    },
-    setRadius(state, radius) {
-      state.filterOptions.radius = radius;
     },
     setFilterOptions(state, filterOptions) {
       state.filterOptions = filterOptions;

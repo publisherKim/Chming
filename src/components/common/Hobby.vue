@@ -57,7 +57,7 @@
       },
     },
     methods: {
-      ...mapMutations(['setHobby', 'setToastMessage']),
+      ...mapMutations(['setSelectedHobby', 'setToastMessage']),
       validateHobby(){
         if(this.selectedList.length === 0){
           this.setToastMessage('관심사는 1개 이상 선택해주세요.');
@@ -84,7 +84,7 @@
           newValue = newValue.shift();
         }
         if(this.$route.name === 'main') {
-          this.setHobby(newValue.slice());
+          this.setSelectedHobby(newValue.slice());
         }
         if(newValue.length > 5){
           newValue.pop();

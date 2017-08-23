@@ -6,7 +6,7 @@
         alt="groupIntroduce"
       )
       .group-info-wrap
-        p.group-description(aria-label="모임 소개") {{groupInfo.description}}
+        pre.group-description(aria-label="모임 소개") {{groupInfo.description}}
         p.group-address(aria-label="모임 주요 활동지역")
           i.fa.fa-map-marker(aria-hidden='true')
           | {{groupInfo.address}}

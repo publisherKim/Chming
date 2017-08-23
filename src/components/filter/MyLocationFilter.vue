@@ -10,8 +10,6 @@
         @click="setSelectedRadius(radiusItem)"
         type="button"
       ) {{radiusItem}}
-      //- span(aria-label="반경") 500m
-      //- .range-slider slider
 </template>
 
 <script>

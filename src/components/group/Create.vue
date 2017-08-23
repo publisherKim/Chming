@@ -80,7 +80,7 @@
         message="관심사를 선택해주세요"
       ) 
       button.form_confirm(
-        @click="createGroup" 
+        @click.prevent="createGroup" 
         type="button"
       ) 완료
     router-view.hobby-container

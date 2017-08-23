@@ -3,21 +3,40 @@
     .location-filter-wrap
       .location-filter
         h2 지금 보고있는 지역은
-        button(@click="viewFilter('location')" type="button") {{location.level2}} &dtrif;
+        button(
+          @click="viewFilter('location')"
+          type="button"
+          aria-label="지역기반 모임 검색"
+        ) {{location.level2}} &dtrif;
       .filter-button-wrap
-        button.sort-button(@click="viewFilter('sort')" type="button") {{sort}} &dtrif;
-        button.hobby-button(@click="viewFilter('hobby')" type="button") 관심사 &dtrif;
-        button.mylocation-button(@click="viewFilter('mylocation')" type="button" aria-label="내 주변 검색")
+        //- button.sort-button(@click="viewFilter('sort')" type="button") {{sort}} &dtrif;
+        button.sort-button(
+          @click="viewFilter('sort')"
+          type="button"
+          aria-label="모임 정렬(거리순, 인원순, 좋아요순)"
+        ) {{sort}} &dtrif;
+        button.hobby-button(
+          @click="viewFilter('hobby')"
+          :class="{'is-active': hobby.length !== 0}"
+          type="button"
+          arai-label="관심사 기반 모임 검색"
+        ) 관심사 &dtrif;
+        button.mylocation-button(
+          @click="searchAroundMyLocation"
+          type="button"
+          aria-label="내 주변 모임 검색"
+        )
           i.fa.fa-street-view(aria-hidden='true')
     .filter(ref="filter" :is="activeFilter")
 </template>
 
 <script>
+  import Vue from 'vue';
   import SortFilter from '@/components/filter/SortFilter';
   import HobbyFilter from '@/components/filter/HobbyFilter';
   import MylocationFilter from '@/components/filter/MylocationFilter';
   import LocationFilter from '@/components/filter/LocationFilter';
-  import {mapMutations, mapGetters} from 'vuex';
+  import {mapMutations, mapGetters, mapActions} from 'vuex';
 
   export default {
     components: {
@@ -27,7 +46,8 @@
       LocationFilter,
     },
     methods: {
-      ...mapMutations(['setActiveFilter']),
+      ...mapActions(['getGroupList']),
+      ...mapMutations(['setActiveFilter', 'setLocation']),
       viewFilter(filter) {
         this.setActiveFilter(filter + '-filter');
 
@@ -35,9 +55,28 @@
         let refFilter = this.$refs.filter;
         refFilter && (refFilter.$options._componentTag.indexOf(filter) === 0) && this.setActiveFilter(null);
       },
+      searchAroundMyLocation() {
+        let watchPosition = window.navigator.geolocation.watchPosition;
+        let watchID = navigator.geolocation.watchPosition(position => {
+          let coords = position.coords;
+          let geocoder = Vue.maps.getGeocoder();
+          let lat = coords.latitude;
+          let lng = coords.longitude;
+          geocoder.coord2RegionCode(lng, lat, (result, status) => {
+            if(status === Vue.maps.services.Status.OK) {
+              this.setLocation({
+                level2: result[0].region_3depth_name,
+                lat,
+                lng
+              });
+              this.getGroupList();
+            }   
+          });
+        });
+      },
     },
     computed: {
-      ...mapGetters(['activeFilter', 'location', 'sort']),
+      ...mapGetters(['activeFilter', 'location', 'sort', 'hobby']),
     },
   };
 </script>
@@ -95,6 +134,8 @@
     background: none
     &:hover
       text-decoration: underline
+    &.is-active
+      color: $base-theme-color3
 
   .filter
     position: absolute

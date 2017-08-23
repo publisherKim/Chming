@@ -1,6 +1,6 @@
 <template lang="pug">
   .location-container
-    filter-header(filter="location" :selectedLocation="selectedLocation")
+    filter-header
     .location-wrap
       h2 지역 선택 메뉴
       ul.location-list(role="tablist")
@@ -48,12 +48,15 @@ export default {
     };
   },
   methods: {
-    ...mapMutations(['setLocation']),
+    ...mapActions(['getGroupList']),
+    ...mapMutations(['setLocation', 'setActiveFilter']),
     changeTabContents(index) {
       this.activeSection = index;
     },
     setSelectedLocation(region) {
-      this.selectedLocation = region;
+      this.setLocation(region);
+      this.getGroupList();
+      this.setActiveFilter(null);
     },
   },
   computed: {

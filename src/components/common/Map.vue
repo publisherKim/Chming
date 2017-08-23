@@ -17,7 +17,7 @@
       this.setCenter(Vue.maps.getDefaultLocation());
       let mapOption = {
         center: this.center, // 지도의 중심좌표
-        level: 4 // 지도의 확대 레벨
+        level: 5 // 지도의 확대 레벨
       };
       this.map = new this.$maps.Map(mapContainer, mapOption);
       this.setMap(this.map);
