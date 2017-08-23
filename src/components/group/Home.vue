@@ -179,7 +179,7 @@
     +clearfix()
     position: relative
     padding: 1.5rem 2rem
-    border-bottom: solid 1px #ccc
+    border-bottom: 0.5px solid #ccc
     img 
       +circle()
       float: left        

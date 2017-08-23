@@ -138,7 +138,7 @@
 
   .user-info_list
     .list_menu
-      border-bottom: 0.5px solid $user-info-menu-color
+      border-bottom: 0.5px solid $user-info-menu-border-color
       height: $menu-height
       margin: 0 2rem
       text-align: center

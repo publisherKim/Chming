@@ -2,7 +2,7 @@
   .board_detail-view-container
     group-header
     .detail-view_author-wrap
-      img.author_img(src="../../assets/mingu.jpeg" :alt="boardDetail.author.username")
+      img.author_img(:src="boardDetail.author.profile_img" :alt="boardDetail.author.username")
       p.author_name(aria-label="글쓴이") {{boardDetail.author.username}}
       p.author_date(aria-label="글 작성일자") {{boardDetail.modified_date ? boardDetail.modified_date : boardDetail.created_date}}
       p.notice {{boardDetail.post_type ? '공지사항' : '일반글'}}
@@ -56,7 +56,15 @@
         i.fa.fa-thumbs-up(aria-hidden="true")
         span.num {{boardDetail.post_like_count}} 
         | 명이 좋아하셨습니다.
-    .detail-view_author-comment-wrap(v-if="boardDetail.comment_set")
+    .detail-view_comment-header
+      span.comment-number(aria-label="댓글 수") 댓글 {{boardDetail.comments_count}}
+      a.comment-arrange(
+        href
+        @click.prevent="arrangeCommentByCreateDate"
+        aria-label="최신순 정렬"
+      ) 최신순 보기
+
+    .detail-view_author-comment-wrap(v-if="boardDetail.comment_set && boardDetail.comment_set.length")
       .comment-list(v-for="comment in boardDetail.comment_set")
         img.author-comment_img(
           src="../../assets/mingu.jpeg" 
@@ -66,7 +74,7 @@
         p.author-comment_date(aria-label="댓글 작성일자") {{comment.created_date}}
         p.author-comment_contents(aria-label="댓글 내용") {{comment.content}}
         a.author-comment_delete(
-          v-if="comment.author.pk === userInfo.pk"
+          v-if="userInfo && comment.author.pk === userInfo.pk"
           @click.prevent="deleteComment(comment.pk)"
           role="button"
         )
@@ -249,7 +257,10 @@
           .finally(() => {
             this.setIsLoading(false);
           });
-      }      
+      },
+      arrangeCommentByCreateDate() {
+        // this.boardDetail.
+      },
     }
   };
 </script>
@@ -290,14 +301,22 @@
         margin-right: 5px
         color: inherit
 
-  .detail-view_like-wrap, .detail-view_author-comment-wrap
+  .detail-view_like-wrap,
+  .detail-view_comment-header
     padding: 1rem 2rem
-    border-top: solid 1px $viewArticle-color
+    border-bottom: 1px solid #ccc
+
+  .detail-view_comment-header
+    +clearfix
+    .comment-number
+      float: left
+    .comment-arrange
+      float: right
 
   .comment-list
     position: relative
-    padding: 1rem 0
-    border-bottom: 1px solid $viewArticle-color
+    padding: 1rem 2rem
+    border-bottom: 0.5px solid #ccc
 
   .author_img, 
   .author-comment_img
