@@ -107,6 +107,7 @@
 
   .group-image_wrap
     float: left
+    overflow: hidden
     position: relative
     height: 100%
     // +align-vertical-middle
@@ -115,7 +116,8 @@
     img
       position: relative
       height: 80%
-      +align-vertical-middle
+      +align-center
+      // +align-vertical-middle
 
   .group-description_link
     float: left
