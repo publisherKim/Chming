@@ -38,7 +38,6 @@
         this.$router.push({name: 'group_info_home', params: {id}});
       },
       nextGroup() {
-
         this.setActiveSlide((this.activeSlide + 1) % this.groupListLength);
         // this.count = (this.count + 1) % this.groupListLength;
         this.transition = 'slide-next';
