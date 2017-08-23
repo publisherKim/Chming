@@ -1,7 +1,14 @@
 <template lang="pug">
   .filter-header-container
-    button.header_cancel-button(type="button" @click="setActiveFilter(null)") 취소
-    button.header_apply-button(type="button" @click="setFilter(filter)") 적용
+    button.header_cancel-button(
+      @click="setActiveFilter(null)"
+      type="button"
+    ) 취소
+    button.header_apply-button(
+      v-if="activeFilter === 'hobby-filter'"
+      @click="setFilter()"
+      type="button"
+    ) 적용
 </template>
 
 <script>
@@ -9,48 +16,22 @@
   import {mapGetters, mapMutations, mapActions} from 'vuex';
 
   export default {
-    props: {
-      filter: {
-        type: String,
-        required: true,
-      },
-      selectedLocation: {
-        type: Object,
-      },
-      selectedSort: {
-        type: String,
-      },
-      selectedRadius: {
-        type: String,
-      },
-    },
     data() {
       return {
         options: null,
       };
     },
     methods: {
-      ...mapActions(['getGroupList', 'arrangeGroupList']),
-      ...mapMutations(['setActiveFilter', 'setLocation', 'setSort', 'setRadius', 'setCenter']),
-      setFilter(filter) {
-        if(filter === 'sort') {
-          this.setSort(this.selectedSort);
-          this.arrangeGroupList();
-        } else {
-          if(filter === 'location') {
-            let location = this.selectedLocation;
-            this.setLocation(location);
-          }
-          (filter === 'myLocation') && this.setRadius(this.selectedRadius);
-
-          this.getGroupList();
-        }
-
+      ...mapActions(['getGroupList']),
+      ...mapMutations(['setActiveFilter', 'setHobby']),
+      setFilter() {
+        this.setHobby(this.selectedHobby.slice());
+        this.getGroupList();
         this.setActiveFilter(null);
       },
     },
     computed: {
-      ...mapGetters(['location', 'filterOptions', 'map']),
+      ...mapGetters(['activeFilter', 'selectedHobby']),
     },
   };
 </script>

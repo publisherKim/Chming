@@ -96,8 +96,6 @@
     position: relative
     padding: 1.5rem 2rem
     border-bottom: 0.5px solid #ccc
-    &:last-of-type
-      border-bottom: 0
   .article-title
     width: calc(100% - 7rem)
     +fit-text-in-box()

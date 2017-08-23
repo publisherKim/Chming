@@ -127,6 +127,29 @@ export default {
     setMarkersEmpty(state) {
       state.markers = [];
     },
+    setRadiusInMap(state, options) {
+      let bounds = state.map.getBounds();
+      //ib 위도, hb 경도
+      let swLatLng = bounds.getSouthWest();
+      let neLatLng = bounds.getNorthEast(); 
+
+      let line = Vue.maps.getPolyline();
+      let LatLng = Vue.maps.LatLng;
+
+      // 지도상 수직 거리(m)
+      line.setPath([new LatLng(neLatLng.ib, neLatLng.hb), new LatLng(swLatLng.ib, neLatLng.hb)]);
+      let width = Math.round(line.getLength());
+      
+      // 지도상 수평 거리(m)
+      line.setPath([new LatLng(neLatLng.ib, neLatLng.hb), new LatLng(neLatLng.ib, swLatLng.hb)]);
+      let height = Math.round(line.getLength());
+
+      // 수평거리와 수직거리중 긴 축을 기준으로 검색
+      let distance = width > height ? width : height;
+
+      // 반경이므로 /2, km 단위로 전환 *0.001
+      options.distance_limit = distance / 2 * 0.001;
+    },
   },
   actions: {
     resetMarkers({commit, state}) {

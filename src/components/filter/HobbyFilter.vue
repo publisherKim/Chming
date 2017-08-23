@@ -1,6 +1,6 @@
 <template lang="pug">
   .hobby-container
-    filter-header(filter="hobby")
+    filter-header
     h2.hobby_title 관심사 필터
     .hobby_content-wrap
       hobby.hobby-filter-wrap

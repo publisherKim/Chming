@@ -62,10 +62,15 @@ export default {
     getGroupList({getters, commit, dispatch}) {
       let options = getters.filterOptions;
       options.hobby === '' && delete options.hobby;
+
       if(!options.lat) {
         const defaultLocation = Vue.maps.getDefaultLocation();
         options.lat = defaultLocation.getLat();
         options.lng = defaultLocation.getLng();
+      }
+
+      if(!options.distance_limit) {
+        commit('setRadiusInMap', options);
       }
 
       dispatch('resetMarkers');
@@ -96,10 +101,10 @@ export default {
         });
     },
     searchGroups({commit, getters, dispatch}, options) {
+      commit('setIsLoading', true);
 
       dispatch('resetMarkers');
 
-      commit('setIsLoading', true);
       http.get(getters.url.GROUP_SEARCH, {
         params: options,
       })
@@ -116,15 +121,16 @@ export default {
           }
         })
         .catch(error => {
-          console.log('error:', error);
-          console.log('error.response:', error.response);
-          commit('setGroupList', []);
+          if(error.response.status === 500) {
+            commit('setGroupList', []);
+            commit('setToastMessage', '검색 결과가 없습니다.');
+          }
         })
         .finally(() => {
           commit('setIsLoading', false);
         });
     },
-    arrangeGroupList({commit, getters}) {
+    arrangeGroupList({dispatch, commit, getters}) {
       commit('arrangeGroupList', {commit, getters});
       commit('setMarker', {commit, getters});
       commit('setMarkerNumber', getters);

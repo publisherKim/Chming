@@ -1,6 +1,6 @@
 <template lang="pug">
   .sort-filter-container
-    filter-header(filter="sort" :selectedSort="selectedSort")
+    filter-header
     .sort-filter_header-wrap
       h2 정렬
     .sort-filter_content-wrap
@@ -15,7 +15,7 @@
 
 <script>
   import FilterHeader from '@/components/filter/Header';
-  import {mapGetters} from 'vuex';
+  import {mapGetters, mapMutations, mapActions} from 'vuex';
 
   export default {
     created() {
@@ -31,8 +31,14 @@
       };
     },
     methods: {
+      ...mapActions(['arrangeGroupList', 'resetMarkers']),
+      ...mapMutations(['setSort', 'setActiveFilter', 'setToastMessage']),
       setSelectedSort(sortItem) {
-        this.selectedSort = sortItem;
+        this.resetMarkers();
+        this.setSort(sortItem);
+        this.arrangeGroupList();
+        this.setActiveFilter(null);
+        this.setToastMessage(sortItem + '으로 정렬되었습니다.');
       },
     },
     computed: {
