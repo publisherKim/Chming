@@ -30,6 +30,7 @@
     data() {
       return {
         boardList: [],
+        albumListMax: 0,
         page: 1,
         scrollBottom: 0,
       };
@@ -58,6 +59,7 @@
           .then(response => {
             if(response.status === 200) {
               this.boardList.push(...response.data.results);
+              this.albumListMax = Math.ceil(response.data.count/10);
             }
           })
           .catch(error => {
@@ -69,8 +71,7 @@
           });
       },
       onScroll(e, position){
-        let scrollTop = Math.ceil(position.scrollTop);
-        if(scrollTop >= this.scrollBottom){
+        if(position.scrollTop >= this.scrollBottom && this.page < this.albumListMax){
           this.page++;
           this.getBoardList();
         }
