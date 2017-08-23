@@ -62,6 +62,11 @@ export default {
     getGroupList({getters, commit, dispatch}) {
       let options = getters.filterOptions;
       options.hobby === '' && delete options.hobby;
+      if(!options.lat) {
+        const defaultLocation = Vue.maps.getDefaultLocation();
+        options.lat = defaultLocation.getLat();
+        options.lng = defaultLocation.getLng();
+      }
 
       dispatch('resetMarkers');
 

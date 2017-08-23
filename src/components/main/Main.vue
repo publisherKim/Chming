@@ -21,7 +21,7 @@
       next();
     },
     mounted() {
-      // this.getGroupList();
+      this.getGroupList();
     },
     name: 'Main',
     components: {
