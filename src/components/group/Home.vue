@@ -2,7 +2,7 @@
   .home-container
     .introduce-home-wrap
       img.group-image(
-        :src="groupInfo.image" 
+        :src="`${groupInfo.image}`" 
         alt="groupIntroduce"
       )
       .group-info-wrap
@@ -46,6 +46,7 @@
 <script>
   import BoardList from '@/components/group/BoardList';
   import {mapGetters, mapMutations, mapActions} from 'vuex';
+  import defaultImage from '@/assets/default.png';
 
   export default {
     created() {
@@ -62,7 +63,7 @@
           author: {},
           members: [],
           notice: [],
-          image: 'https://s3.ap-northeast-2.amazonaws.com/chming-bucket/media/images/no_image.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAI43LUFGDQVXUPBOA%2F20170822%2Fap-northeast-2%2Fs3%2Faws4_request&X-Amz-Date=20170822T145636Z&X-Amz-Expires=3600&X-Amz-SignedHeaders=host&X-Amz-Signature=c8129e4cfd3c2eaa1ae51f3b354e5b4f6b9a003aab671154571869e4e42429fa'
+          image: defaultImage
         },
         likeToggle: false
       };

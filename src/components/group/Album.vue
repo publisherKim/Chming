@@ -20,6 +20,7 @@
 <script>
   import AlbumView from '@/components/group/AlbumView';
   import {mapMutations} from 'vuex';
+  import defaultImage from '@/assets/default.png';
 
   export default {
     created() {

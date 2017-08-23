@@ -15,7 +15,7 @@
 <script>
   import BoardList from '@/components/group/BoardList';
   import {mapMutations} from 'vuex';
-
+  
   export default {
     created() {
       this.getBoardList();
