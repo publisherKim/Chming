@@ -40,6 +40,7 @@
     data() {
       return {
         albumList: [],
+        albumListMax: 0,
         page: 1,
         scrollBottom: 0,
         isActive: false,
@@ -58,6 +59,7 @@
         })
           .then( response => {
             this.albumList.push(...response.data.results);
+            this.albumListMax = Math.ceil(response.data.count/10);
           })
           .catch( error => {
             console.log(error);
@@ -72,7 +74,7 @@
         this.isActive = !this.isActive;
       },
       onScroll(e, position){
-        if(position.scrollTop === this.scrollBottom){
+        if(position.scrollTop === this.scrollBottom && this.page < this.albumListMax){
           this.page = this.page+1;
           this.getAlbumList();
         }
