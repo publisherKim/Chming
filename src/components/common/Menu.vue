@@ -30,12 +30,15 @@
   .hamburger-button
     display: block
     height: 100%
-    &:hover
+    width: 3rem
+    padding: 0.5rem
+    &:hover,
+    &:focus
       text-decoration: none
     i
       display: block
-      position: relative
-      +align-vertical-middle
+      // position: relative
+      // +align-vertical-middle
       color: $main-header-icon-color
     
 </style>

@@ -143,7 +143,7 @@
         this.isCommentInputShow = !this.isCommentInputShow;
       },
       editArticle() {
-        if(!this.isArticleEditable) return this.setToastMessage('작성자만 수정할 수 있습니다.');
+        if(!this.isArticleEditable) return this.setToastMessage('수정 권한이 없습니다.');
         this.changeRoute({name: 'group_articleEdit', params: {id: this.groupId, articleId: this.articleId}});
       },
       createContent() {
