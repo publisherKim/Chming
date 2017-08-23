@@ -186,7 +186,6 @@
           .then(response => {
             if(response.status === 200) {
               this.boardDetail = response.data;
-              console.log(this.boardDetail);
             }
           })
           .catch(error => {
@@ -206,7 +205,6 @@
         this.$http.delete(url, {headers: {Authorization: `Token ${token}`}})
           .then( response => {
             if( response.status === 200){
-              console.log(response);
               this.setToastMessage('게시글이 삭제 되었습니다.');
               this.changeRoute({name: 'group_info_board'});
             }

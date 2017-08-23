@@ -76,7 +76,6 @@
   export default {
     created() {
       this.getGroupInfo();
-      //console.log(data);
     },
     components: {
       BackButton,
@@ -201,8 +200,6 @@
             if(response.status === 200) {
               this.changeRoute({name: 'group_info_home'});
               this.setToastMessage('그룹정보수정이 완료되었습니다.');
-            } else {
-              console.log(response);
             }
           })
           .catch(error => {

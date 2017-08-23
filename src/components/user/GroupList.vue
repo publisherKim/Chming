@@ -106,6 +106,7 @@
     border-bottom: 0.5px solid $my-group-list-border-color
 
   .group-image_wrap
+    overflow: hidden
     float: left
     position: relative
     height: 100%

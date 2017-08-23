@@ -195,7 +195,6 @@
             if(response.status === 201) {
               this.setToastMessage('게시글이 작성되었습니다');
               this.changeRoute({name: 'group_info_board', params: {id: this.groupId}});
-              console.log(response);
             }
           })
           .catch(error => {
@@ -217,7 +216,6 @@
         this.$http.put(url, formData, {headers: {Authorization: `Token ${token}`}}).
           then(response => {
             if(response.status === 200) {
-              console.log(response);
               this.setToastMessage('게시글이 수정되었습니다');
               this.changeRoute({name: 'group_articleView', params: {id: this.groupId, articleId: this.articleId}}); 
             }
