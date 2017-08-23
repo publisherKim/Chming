@@ -111,7 +111,9 @@
             if(response.status === 200) {
               if(response.data.joined) {
                 this.setToastMessage('모임 가입이 완료되었습니다.');
-                this.getUserProfile(sessionStorage.getItem('token'));
+                location.reload();
+                // this.getUserProfile(sessionStorage.getItem('token'));
+                // this.getGroupInfo();
               }
             }
           })

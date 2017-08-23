@@ -42,9 +42,11 @@
         return this.$route.params.id;
       },
       isAuthorized() {
+        console.log('authorized');
         return this.isMember || this.isAuthor;
       },
       isAuthor() {
+        console.log('author');
         let userInfo = this.userInfo;
         if(userInfo) {
           return this.groupInfo.author.pk === this.userInfo.pk;
@@ -52,6 +54,7 @@
         return false;
       },
       isMember() {
+        console.log('member');
         let userInfo = this.userInfo;
         if(userInfo) {
           return this.groupInfo.members.some(member => {

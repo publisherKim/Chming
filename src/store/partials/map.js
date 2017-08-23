@@ -59,7 +59,7 @@ export default {
 
         event.addListener(marker, 'mouseout', function() {
           infowindow.close();
-        }); 
+        });
 
         // 마커 이벤트 리스너 추가
         event.addListener(marker, 'click', () => {

@@ -15,12 +15,12 @@
           role="button"
           aria-label="작성글 보기"
         )
-          h4.item_title(v-if="board.post_type") 
+          h4.article-title(v-if="board.post_type") 
             span.notice 공지
             | {{board.title}}
-          p.item_contents(aria-label="공지 내용") {{board.contents}}
-          h4.item_title(v-if="!board.post_type") {{board.title}}
-          p.item_contents(aria-label="글 내용") {{board.content}}
+          p.article-contents(aria-label="공지 내용") {{board.contents}}
+          h4.article-title(v-if="!board.post_type") {{board.title}}
+          p.article-contents(aria-label="글 내용") {{board.content}}
         span.item_like
           i.fa.fa-thumbs-up(aria-hidden="true")
           span(aria-label="게시글 좋아요 수") {{board.post_like_count}}
@@ -96,8 +96,8 @@
     position: relative
     padding: 1.5rem 2rem
     border-bottom: solid 1px #ccc
-  .item_title
-    width: calc(100% - 6rem)
+  .article-title
+    width: calc(100% - 7rem)
     +fit-text-in-box()
   .notice
     display: inline-block
@@ -106,7 +106,7 @@
     font-weight: normal
     color: $base-action-color
     background: $base-point-color
-  .item_contents
+  .article-contents
     margin-top: 0.5rem
     font-size: 1.3rem
     color: #666
