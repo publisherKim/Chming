@@ -75,7 +75,7 @@
         this.isActive = !this.isActive;
       },
       onScroll(e, position){
-        if(position.scrollTop === this.scrollBottom && this.page < this.albumListMax){
+        if(position.scrollTop >= this.scrollBottom && this.page < this.albumListMax){
           this.page = this.page+1;
           this.getAlbumList();
         }

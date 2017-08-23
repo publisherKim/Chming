@@ -223,9 +223,6 @@
               this.getUserProfile(sessionStorage.getItem('token'));
               this.changeRoute({name: 'group_info_home', params: {id: response.data.pk}});
               this.setToastMessage('모임 생성이 완료되었습니다.');
-              console.log(response);
-            } else {
-              console.log(response);
             }
           })
           .catch(error => {

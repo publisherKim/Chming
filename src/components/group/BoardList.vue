@@ -2,7 +2,7 @@
   .board-list-container
     p.empty(v-if="boardList.length === 0") 게시글을 작성해 주세요. 모임이 더욱 풍성해집니다.
     ul(v-else)
-      li.list_item(v-for="board in boardList")
+      li.list_item(v-for="board in boardList" :class="{note: board.post_type}")
         .item_author(v-if="!board.post_type")
           img.author_image(
             :src="board.author.profile_img"
@@ -110,6 +110,7 @@
     background: $base-point-color
   .article-contents
     margin-top: 0.5rem
+    width: calc(100% - 7rem)
     font-size: 1.3rem
     color: #666
     +fit-text-in-box()
@@ -130,9 +131,7 @@
     +clearfix
     .author_image
       float: left
-      max-width: 4rem
-      max-height: 4rem
-      border-radius: 50%
+      +circle()
     .author_name,
     .author_date
       display: block
@@ -141,8 +140,13 @@
       font-size: 1.3rem
   .item_preview-image
     position: absolute
-    top: 3.5rem
+    bottom: 2rem
     right: 2rem
-    max-width: 3.5rem
-    max-height: 3.5rem
+    width: 3.5rem
+    height: 3.5rem
+  .item_preview-image
+      bottom: 2rem
+  .note
+    .item_preview-image
+      bottom: 1rem
 </style>
