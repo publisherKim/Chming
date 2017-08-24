@@ -49,7 +49,12 @@ export default {
           image: Vue.maps.getMarkerImage(), // 마커 이미지 
         });
 
-        let iWContent = `<div style="padding:5px;">${groupList[index].name}</div>`;
+        let iWContent = `
+          <div style="padding:5px;">
+            <p style="display:block;width:140px;text-align:center;text-overflow:ellipsis;white-space:nowrap;word-wrap:normal;overflow:hidden;">
+              ${groupList[index].name}
+            </p>
+          </div>`;
         let infowindow = new Vue.maps.InfoWindow({
           content : iWContent
         });

@@ -19,14 +19,13 @@
       @click.self="closeMovie"
       v-if="isMovieShow"
     )
-      video( 
-        controls="controls" 
-        class="video-stream" 
-        x-webkit-airplay="allow" 
-        data-youtube-id="N9oxmRT2YWw"
-        width="100%" 
-        src="../../assets/sample.mp4"
-      )
+      .intro-youtube-wrap
+        iframe(
+          width="100%" 
+          src="https://www.youtube.com/embed/uL-sAj36xT0" 
+          frameborder="0" 
+          allowfullscreen
+        )
       button.close-modal-button(
         @click="closeMovie"
         type="button" 
@@ -115,11 +114,19 @@
     background: #000
     background: rgba(0, 0, 0, 0.5)
     z-index: 2
-    video
+    .intro-youtube-wrap
       position: absolute
       top: 50%
       left: 50%
       transform: translate(-50%, -50%)
+      width: 56.26%
+      padding-bottom: 66.66%
+      iframe
+        position: absolute
+        top: 0
+        left: 0
+        width: 100%
+        height: 100%    
     .close-modal-button
       position: absolute
       top: 1rem
@@ -131,7 +138,7 @@
       text-align: center
       i
         color: $base-theme-color2
-        
+
   .intro_bottom-wrap
     position: fixed
     bottom: 0
