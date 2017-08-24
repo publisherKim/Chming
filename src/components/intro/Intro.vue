@@ -22,7 +22,7 @@
       .intro-youtube-wrap
         iframe(
           width="100%" 
-          src="https://www.youtube.com/embed/uL-sAj36xT0" 
+          src="https://youtu.be/89K6ZGRGX5o" 
           frameborder="0" 
           allowfullscreen
         )

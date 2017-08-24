@@ -71,7 +71,8 @@
           });
       },
       onScroll(e, position){
-        if(position.scrollTop >= this.scrollBottom && this.page < this.albumListMax){
+        let scrollTop = Math.ceil(position.scrollTop);
+        if(scrollTop >= this.scrollBottom && this.page < this.albumListMax){
           this.page++;
           this.getBoardList();
         }
