@@ -15,18 +15,8 @@
           i.fa.fa-map-marker(aria-hidden="true")
           | {{_userInfo.address}}
         ul.hobby_list
-          li.list-item(aria-label="축구")
-            hobby-icon.hobby-icon(iconClass="fa-futbol-o")
-          li.list-item(aria-label="음악")
-            hobby-icon.hobby-icon(iconClass="fa-music")
-          li.list-item(aria-label="쇼핑")
-            hobby-icon.hobby-icon(iconClass="fa-shopping-bag")
-          li.list-item(aria-label="축구")
-            hobby-icon.hobby-icon(iconClass="fa-futbol-o")
-          li.list-item(aria-label="음악")
-            hobby-icon.hobby-icon(iconClass="fa-music")
-          li.list-item(aria-label="쇼핑")
-            hobby-icon.hobby-icon(iconClass="fa-shopping-bag")
+          li.list-item(v-for="hobby in _userInfo.hobby")
+            hobby-icon(:hobby="hobby" :title="hobby")
     ul.user-info_list
       li.list_menu
         a(href @click.prevent="changeRoute({name: 'main'})") 홈
@@ -131,6 +121,7 @@
     .hobby_list
       +clearfix
       li
+        height: 2rem
         float: left
         margin-right: 0.5rem
     .profile-wrap

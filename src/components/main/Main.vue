@@ -20,6 +20,9 @@
       this.setActiveFilter(null);
       next();
     },
+    created() {
+      !this.isInitialized && this.initialize();
+    },
     mounted() {
       this.getGroupList();
     },
@@ -31,7 +34,7 @@
       GroupListSlider,
     },
     methods: {
-      ...mapActions(['getGroupList']),
+      ...mapActions(['getGroupList', 'initialize']),
       ...mapMutations(['setActiveFilter', 'setLocation', 'setMarkerCluster']),
 
       searchThisLocation() {
@@ -55,7 +58,7 @@
       },
     },
     computed: {
-      ...mapGetters(['isMapMoving', 'activeFilter', 'center']),
+      ...mapGetters(['isMapMoving', 'activeFilter', 'center', 'isInitialized']),
     },
   };
 </script>

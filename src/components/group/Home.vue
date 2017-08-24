@@ -25,7 +25,7 @@
     .home_news-wrap
       h3.title 새소식
       board-list(:isReadable="isMember || isAuthor" :boardList="groupInfo.notice")
-    button.home_join(v-if="isJoinable" @click="groupJoin" type="button") 가입하기
+    button.home_join(v-if="isJoinable || !isLogin" @click="groupJoin" type="button") 가입하기
     button.home_modify(v-if="isAuthor" @click="changeRoute({name: 'group_edit'})" type="button") 수정하기
     .home_member-wrap
       h3.title 모임멤버 
@@ -35,7 +35,7 @@
           .profile-image-wrap
             img(
               ref="profile_image0"
-              @load="imageSizeJudge(0)"
+              @load="fitImageSize(0)"
               :src="groupInfo.author.profile_img" 
               :alt="groupInfo.author.username"
             )
@@ -45,8 +45,7 @@
           .profile-image-wrap
             img(
               :ref="`profile_image${index+1}`"
-              @load="imageSizeJudge(index+1)"
-              src="member.image"
+              @load="fitImageSize(index+1)"
               :src="member.profile_img" 
               :alt="member.username"
             )
@@ -71,9 +70,7 @@
         groupInfo: {
           // 비동기 통신 후 groupInfo를 받아오기 때문에, 최초 groupInfo.author 값이 null로 처리되지 않도록 설정
           author: {},
-          members: [{
-            profile_img: defaultImage
-          }],
+          members: [],
           notice: [],
           image: defaultImage
         },
@@ -113,6 +110,7 @@
       ...mapMutations(['setIsLoading', 'setToastMessage']),
       ...mapActions(['getUserProfile']),
       groupJoin() {
+        if(!this.isLogin) return this.setToastMessage('로그인을 해주세요.');
         if(!confirm('모임에 가입하시겠습니까?')) return;
         let url = this.url.GROUP_JOIN + this.groupId + '/join/';
         let token = sessionStorage.getItem('token');
@@ -180,13 +178,16 @@
       changeRoute(name){
         this.$router.push(name);
       },
-      imageSizeJudge(index) {
-        const img = this.$refs[`profile_image${index}`][0];
+      fitImageSize(index) {
+        let img;
+        let targetImage = this.$refs[`profile_image${index}`];
+
+        index === 0 && (img = targetImage);
+        index !== 0 && (img = targetImage[0]);
+
         let bigWidth = img.naturalWidth - img.naturalHeight > 0;
 
-        if(!bigWidth) {
-          img.classList.add('fit-width');
-        }
+        !bigWidth && img.classList.add('fit-width');
       }
     },
   };
