@@ -111,7 +111,7 @@
       border: 0
 
   .user-info_profile
-    padding: 4rem 2rem 0 2rem
+    padding: 4rem 2rem 2rem 2rem
     background: $user-info-profile-background-color
     +clearfix
     .profile_image
