@@ -70,7 +70,7 @@
   @import "~chming"
 
   .intro-container
-    height: 100vh
+    min-height: 100vh
     background: linear-gradient(-45deg, #66cdcc 0%, $base-theme-color 100%)
     button
       +action-button
@@ -113,20 +113,7 @@
     height: 100vh
     background: #000
     background: rgba(0, 0, 0, 0.5)
-    z-index: 2
-    .intro-youtube-wrap
-      position: absolute
-      top: 50%
-      left: 50%
-      transform: translate(-50%, -50%)
-      width: 56.26%
-      padding-bottom: 66.66%
-      iframe
-        position: absolute
-        top: 0
-        left: 0
-        width: 100%
-        height: 100%    
+    z-index: 2    
     .close-modal-button
       position: absolute
       top: 1rem
@@ -138,6 +125,20 @@
       text-align: center
       i
         color: $base-theme-color2
+
+  .intro-youtube-wrap
+    position: absolute
+    top: 50%
+    left: 50%
+    transform: translate(-50%, -50%)
+    width: 300px
+    padding-bottom: 400px
+    iframe
+      position: absolute
+      top: 0
+      left: 0
+      width: 100%
+      height: 100%
 
   .intro_bottom-wrap
     position: fixed
@@ -152,13 +153,15 @@
       border: none
 
   +mobile
-    video
-      width: 100%
+    // .intro-youtube-wrap
+    //   max-width: 200px
     .main-logo-image
       width: 70%
   +desktop
-    video
-      width: 80%
+    .intro-youtube-wrap
+      width: 33.33%
+      padding-bottom: 44.44%
+      
     .main-logo-image
       width: 50%
 </style>

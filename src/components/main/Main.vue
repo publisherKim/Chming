@@ -66,10 +66,13 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="sass" scoped>
   @import "~chming"
+  .main-container
+    position: relative
 
   .main-map
     +container()
     height: calc(100vh - #{$main-header-container-height} - #{$filter-container-height})
+    
   .search
     position: absolute
     z-index: 30
