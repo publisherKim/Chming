@@ -108,7 +108,7 @@
   @import "~chming"
 
   .hobby-wrap
-  
+    width: 100%
 
   .title
     padding: 3px 0
