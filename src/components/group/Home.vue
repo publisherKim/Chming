@@ -118,7 +118,7 @@
         let userInfo = this.userInfo;
         if(userInfo) {
           return this.likeUsers.some((user)=> {
-            return user.pk === this.userInfo.pk;
+            return user.pk === userInfo.pk;
           });
         }
         else return false;
@@ -157,7 +157,7 @@
         this.$http.get(url)
           .then(response => {
             if(response.status === 200) {
-              this.like_users = response.data.like_users;
+              this.likeUsers = response.data.like_users;
               this.groupInfo = response.data;
             }
           })
