@@ -11,6 +11,9 @@
             span.group_description(aria-label="모임 설명") {{ group.description }}
             span.group_member(aria-label="모임멤버") 모임멤버 {{ group.member_count }}명
             hobby-icon.group_hobby-icon(:hobby="group.hobby[0]" :title="group.hobby[0]")
+            span.group-like(aria-label="모임 좋아요 수")
+              i.fa.fa-thumbs-up(aria-hidden="true")
+              | {{ group.like_users_count }}
     button.prev-button(@click="prevGroup" type="button")
       i.fa.fa-angle-left(aria-hidden="true")
     button.next-button(@click="nextGroup" type="button")
@@ -144,6 +147,14 @@
       right: -1rem
     &:hover
       text-decoration: none
+    .group-like
+      position: absolute
+      z-index: 30
+      bottom: 0.3rem
+      right: -1rem
+      i
+        margin-right: 0.3rem
+        color: $base-point-color
 
   .prev-button,
   .next-button
