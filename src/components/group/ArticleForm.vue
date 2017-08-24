@@ -3,11 +3,12 @@
     loading-modal
     form
       input(
+        v-if="isGroupAuthor"
         v-model="board.post_type"
         id="notice" 
         type="checkbox"
       )
-      label(for="notice") 공지
+      label(v-if="isGroupAuthor" for="notice") 공지
       input(
         v-model.trim="board.title"
         @blur="checkEmpty('title')" 
@@ -99,11 +100,11 @@
           title: null,
           content: null,
           post_img: ''
-        }
+        },
       };       
     },
     computed: {
-      ...mapGetters(['url', 'validateMessage']),      
+      ...mapGetters(['url', 'validateMessage', 'isGroupAuthor']),      
       isEmptyBoardTitle() {
         return this.board.title === '';
       },
@@ -125,7 +126,7 @@
       },
     },
     methods: {
-      ...mapMutations(['setIsLoading', 'setToastMessage']),
+      ...mapMutations(['setIsLoading', 'setToastMessage', '']),
       changeRoute(route) {
         this.$router.push(route);
       },      

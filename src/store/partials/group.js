@@ -7,6 +7,7 @@ export default {
   state: {
     groupList: [],
     activeSlide: 0,
+    isAuthor: false
   },
   getters: {
     groupList(state) {
@@ -15,6 +16,9 @@ export default {
     activeSlide(state) {
       return state.activeSlide;
     },
+    isGroupAuthor(state) {
+      return state.isAuthor;
+    }
   },
   mutations: {
     setGroupList(state, groupList) {
@@ -53,6 +57,9 @@ export default {
     setActiveSlide(state, activeSlide) {
       state.activeSlide = activeSlide;
     },
+    setIsAuthor(state, author) {
+      state.isAuthor = author;
+    }
   },
   actions: {
     //  - 현재위치 위도

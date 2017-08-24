@@ -196,8 +196,6 @@
               this.getUserProfile(sessionStorage.getItem('token'));
               this.changeRoute({name: 'user_info'});
               this.setToastMessage('정보수정이 완료되었습니다.');
-            } else {
-              console.log(response);
             }
           })
           .catch(error => {

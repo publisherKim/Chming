@@ -62,7 +62,7 @@
       },
     },
     methods: {
-      ...mapMutations(['setIsLoading', 'setToastMessage']),
+      ...mapMutations(['setIsLoading', 'setToastMessage', 'setIsAuthor']),
       changeRoute(route) {
         this.$router.push(route);
       },
@@ -78,6 +78,7 @@
             if(response.status === 200) {
               this.groupInfo = response.data;
               this.checkAuthorization();
+              this.setIsAuthor(this.isAuthor);
             }
           })
           .catch(error => {

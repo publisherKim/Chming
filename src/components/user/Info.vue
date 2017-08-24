@@ -1,7 +1,13 @@
 <template lang="pug">
   .user-info-container
     .user-info_profile
-      img.profile_image(:src="userImage" alt="_userInfo.username")
+      .profile-image-wrap
+        img(
+          ref="profile_image"
+          @load="imageSizeJudge"
+          :src="userImage" 
+          :alt="_userInfo.username"
+        )
       .profile-wrap
         span.profile_name(aria-label="이름") {{_userInfo.username}}
         span.profile_birth(aria-label="생년월일") {{userBirth}}
@@ -57,6 +63,14 @@
       changeRoute(route) {
         this.$router.push(route);
       },
+      imageSizeJudge(index) {
+        const img = this.$refs.profile_image;
+        let bigWidth = img.width - img.height > 0;
+        console.log(img);
+        if(!bigWidth) {
+          img.classList.add('fit-width');
+        }
+      }
     },
     computed: {
       ...mapGetters(['userInfo']),
@@ -113,7 +127,6 @@
     .profile_image
       float: left
       position: relative
-      +align-vertical-middle
       border-radius: 1000px
     .hobby_list
       +clearfix
@@ -124,7 +137,6 @@
       float: left
       position: relative
       margin-left: 2rem
-      +align-vertical-middle
       span
         font-size: 1.5rem
       .profile_name
@@ -153,24 +165,11 @@
           background: $user-info-menu-background-hover-color
           text-decoration: none
           color: $user-info-menu-hover-color
-  
-  +mobile
-    $profile-image-height: $profile-height - 7rem
-    .user-info_profile
-      height: $profile-height
-    .profile_image
-      height: $profile-image-height
-      width: $profile-image-height
-    .profile-wrap
-      width: calc(100% - #{$profile-image-height} - 2rem)
-  +desktop
-    $profile-height: $profile-height + 2rem
-    $profile-image-height: $profile-height - 9rem
-    .user-info_profile
-      height: $profile-height
-    .profile_image
-      height: $profile-image-height
-      width: $profile-image-height
-    .profile-wrap
-      width: calc(100% - #{$profile-image-height} -2rem)
+
+  .profile-image-wrap
+    +circle(6.5rem, 6.5rem)
+    img 
+      +profileImagePosition(auto, 100%)
+    .fit-width
+      +profileImagePosition(100%, auto)
 </style>

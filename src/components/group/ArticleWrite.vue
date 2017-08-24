@@ -7,7 +7,7 @@
 <script>
   import GroupHeader from '@/components/common/Header';
   import ArticleForm from '@/components/group/ArticleForm';
-
+  
   export default {
     components: {
       GroupHeader,
