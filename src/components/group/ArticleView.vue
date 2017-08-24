@@ -23,6 +23,7 @@
     .detail-view_edit-wrap
       .column 
         a.edit_list(
+          href
           @click.prevent="changeRoute({name: 'group_info_board'}, {params: {id: groupId}})" 
           role="button"
         )
@@ -30,13 +31,15 @@
           | 목록
       .column
         a.edit_modify(
+          href
             @click.prevent="editArticle" 
             role="button"
-          )
+        )
           i.fa.fa-pencil-square-o(aria-hidden='true')
           | 수정
       .column
         a.edit_delete(
+          href
           @click.prevent="deleteBoardDetail"
           role="button"
         )
@@ -45,6 +48,7 @@
     .detail-view_comment-wrap
       .column
         a.edit_like(
+          href
           @click.prevent="likeArticleToggle"
           role="button"
         )
@@ -52,7 +56,8 @@
           | 좋아요
       .column
         a.edit_comment(
-          @click="toggleCommentInput"
+          href
+          @click.prevent="toggleCommentInput"
           role="button"
         )
           i.fa.fa-comment(aria-hidden="true")
@@ -65,6 +70,8 @@
     .detail-view_comment-header
       span.comment-number(aria-label="댓글 수") 댓글 {{boardDetail.comments_count}}
       a.comment-arrange(
+        href
+        role="button"
         @click.prevent="arrangeCommentByCreateDate"
         aria-label="최신순 정렬"
       ) 최신순 보기

@@ -53,7 +53,16 @@
     computed: {
       ...mapGetters(['userInfo', 'hobbyList', 'hobbyCategoryList', 'hobby', 'validateMessage']),
       isRouteMain() {
-        return this.$route.name === 'main';
+        return this.routeName === 'main';
+      },
+      isRouteUserJoin() {
+        return this.routeName === 'user_join_hobby';
+      },
+      isRouteUserEdit() {
+        return this.routeName === 'user_edit_hobby';
+      },
+      routeName() {
+        return this.$route.name;
       },
     },
     methods: {
@@ -83,11 +92,12 @@
         if( (this.$route.name === 'group_create_hobby'|| this.$route.name === 'group_edit_hobby') && newValue.length === 2 ) {
           newValue = newValue.shift();
         }
-        if(this.$route.name === 'main') {
+        if(this.isRouteMain) {
           this.setSelectedHobby(newValue.slice());
         }
         if(newValue.length > 5){
           newValue.pop();
+          (this.isRouteMain || this.isRouteUserJoin || this.isRouteUserEdit) && this.setToastMessage('관심사 5개까지 선택 가능합니다.');
         }
       }  
     }

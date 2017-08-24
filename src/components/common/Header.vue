@@ -2,7 +2,10 @@
   .header-container
     h1.header-title
       a(href @click.prevent="changeRoute({name: 'main'})")
-        img.header_logo-image(src="../../assets/logo/logo_mobile.svg" alt="취밍")
+        //- img.header_logo-image(src="../../assets/logo/logo_mobile.svg" alt="취밍")
+        picture
+          source(media="(min-width: 840px)" :srcset="desktopLogo")
+          img.header_logo-image(src="../../assets/logo/logo_mobile.svg" alt="취밍")
     form.header_search-form(autocomplete="off")
       select(v-model="searchType" aria-label="검색 조건")
         option(value='all') 통합
@@ -18,12 +21,14 @@
 <script>
   import MainMenu from '@/components/common/Menu';
   import {mapMutations, mapActions} from 'vuex';
+  import desktopLogo from '@/assets/logo/logo_desktop.svg';
 
   export default {
     data() {  
       return {
         searchString: '',
         searchType: 'all',
+        desktopLogo,
       };
     },
     components: {
@@ -60,7 +65,6 @@
 <style lang="sass" scoped>
   @import "~chming"
 
-  $img-width: 3.3rem
   $side-space: 2rem
   $icon-width: 3rem
 
@@ -78,16 +82,14 @@
       top: 50%
       transform: translateY(-50%)
       display: block
-    img
+    .header_logo-image
       position: relative
       display: block
-      width: $img-width
       border: 0
 
   .header_search-form
     position: relative
     float: left
-    width: calc(100% - 10.8rem)
     height: 100%
     select
       position: absolute
@@ -132,5 +134,17 @@
     width: $icon-width
     margin-left: 1rem
     font-size: 2rem
-   
+  
+  +mobile
+    $img-width: 3.3rem
+    .header_logo-image
+      width: $img-width
+    .header_search-form
+      width: calc(100% - (#{$img-width} + 7.5rem))
+  +desktop
+    $img-width: 7rem
+    .header_logo-image
+      width: $img-width
+    .header_search-form
+      width: calc(100% - (#{$img-width} + 7.5rem))
 </style>

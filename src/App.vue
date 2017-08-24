@@ -16,30 +16,31 @@
       
       if(this.routeName === 'intro') return;
 
-      this.getRegionList();
-      this.getHobbyList();
+      this.initialize();
+      // this.getRegionList();
+      // this.getHobbyList();
 
-      let token = sessionStorage.getItem('token');
-      if(token !== null) {
-        this.getUserProfile(token);
-      }
+      // let token = sessionStorage.getItem('token');
+      // if(token !== null) {
+      //   this.getUserProfile(token);
+      // }
     },
     components: {
       LoadingModal,
       ToastMessage,
     },
-    data() {
-      return {
-        routeName: 'main',
-      };
+    computed: {
+      routeName() {
+        return this.$route.name;
+      },
     },
     methods: {
-      ...mapActions(['getUserProfile', 'getRegionList', 'getHobbyList']),
+      ...mapActions(['getUserProfile', 'getRegionList', 'getHobbyList', 'initialize']),
       checkShowIntro() {
         let showIntro = localStorage.getItem('showIntro');
         if(showIntro === null || showIntro === 'true') {
           localStorage.setItem('showIntro', true);
-          this.$router.push({name: 'intro'});
+          this.routeName === 'main' && this.$router.push({name: 'intro'});
         }        
       }
     }
@@ -49,6 +50,7 @@
 <style lang="sass">
   @import "~chming"
   +spoqa('./assets/fonts/SpoqaHanSans')
+  +hobby-icon('./assets')
 
   +mobile
     html
