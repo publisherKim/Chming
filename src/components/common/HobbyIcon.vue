@@ -23,7 +23,7 @@
         let hobby = this.hobbyList.filter(hobbyItem => {
           return hobbyItem.category_detail === this.hobby;
         });
-        return hobby[0].category;
+        return hobby[0] && hobby[0].category;
       },
       iconClass() {
         switch(this.hobbyCategory) {

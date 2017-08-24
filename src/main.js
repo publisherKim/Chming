@@ -18,8 +18,8 @@ const init = function() {
       height: 35,
     },
     initLocation: {
-      lat: 37.515309,
-      lng: 127.02105,
+      lat: 37.51464774535222,
+      lng: 127.01871998962301,
     },
     searchOptions: {
       page: 1,

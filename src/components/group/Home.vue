@@ -6,6 +6,13 @@
         alt="groupIntroduce"
       )
       .group-info-wrap
+        p.group-name-wrap
+          hobby-icon.group_hobby-icon(
+            v-if="groupInfo.hobby"
+            :hobby="groupInfo.hobby[0]"
+            :title="groupInfo.hobby[0]"
+          )
+          span.group-name(aria-labe="그룹명") {{groupInfo.name}}
         pre.group-description(aria-label="모임 소개") {{groupInfo.description}}
         p.group-address(aria-label="모임 주요 활동지역")
           i.fa.fa-map-marker(aria-hidden='true')
@@ -56,12 +63,14 @@
   import BoardList from '@/components/group/BoardList';
   import {mapGetters, mapMutations, mapActions} from 'vuex';
   import defaultImage from '@/assets/default.png';
+  import HobbyIcon from '@/components/common/HobbyIcon';
 
   export default {
     created() {
       this.getGroupInfo();
     },
     components: {
+      HobbyIcon,
       BoardList,
     },
     data() {   
@@ -74,7 +83,7 @@
           notice: [],
           image: defaultImage
         },
-        likeToggle: false,
+        likeUsers: [],
       };
     },
     computed: {
@@ -104,6 +113,15 @@
       },
       likeToggleLabel() {
         return this.likeToggle ? '모임 좋아요 취소' : '모임 좋아요';
+      },
+      likeToggle() {
+        let userInfo = this.userInfo;
+        if(userInfo) {
+          return this.likeUsers.some((user)=> {
+            return user.pk === this.userInfo.pk;
+          });
+        }
+        else return false;
       },
     },
     methods: {
@@ -139,11 +157,8 @@
         this.$http.get(url)
           .then(response => {
             if(response.status === 200) {
-              let like_users = response.data.like_users;
+              this.like_users = response.data.like_users;
               this.groupInfo = response.data;
-              this.likeToggle = like_users.some((item)=> {
-                return item.pk === this.userInfo.pk;
-              });
             }
           })
           .catch(error => {
@@ -217,13 +232,26 @@
       top: 1rem
       font-size: 1.6rem
       &.is-active
-        i, span 
+        i, span
           color: $group-like-color
     .group-description,
-    .group-address
+    .group-address,
+    .group-name-wrap
       padding: 1rem 4rem 1rem 2rem
       // line-height: 2.6rem
       i
+        margin-right: 1rem
+    .group-name-wrap
+      border-bottom: 0.5px solid #ccc
+      position: relative
+      .group-name
+        display: block
+        padding-left: 3.5rem
+        +fit-text-in-box()
+
+      .group_hobby-icon
+        position: absolute
+        +align-vertical-middle
         margin-right: 1rem
 
   .title
