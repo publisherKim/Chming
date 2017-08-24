@@ -12,7 +12,7 @@
               span.group_name(aria-label="모임명") {{group.name}}
               span.group_description(aria-label="모임 설명") {{group.description}}
               span.group_member(aria-label="모임멤버") 모임멤버 {{group.member_count}}명
-              hobby-icon.group_hobby-icon(iconClass="fa-car")
+              hobby-icon.group_hobby-icon(:hobby="group.hobby" :title="group.hobby")
     h2 {{title}}
     ul.group-list
       li.list_item(v-for="group in groupList")
@@ -23,7 +23,7 @@
             span.group_name(aria-label="모임명") {{group.name}}
             span.group_description(aria-label="모임 설명") {{group.description}}
             span.group_member(aria-label="모임멤버") 모임멤버 {{group.member_count}}명
-            hobby-icon.group_hobby-icon(iconClass="fa-car")
+            hobby-icon.group_hobby-icon(:hobby="group.hobby"  :title="group.hobby")
 </template>
 
 <script>

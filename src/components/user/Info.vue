@@ -4,7 +4,7 @@
       .profile-image-wrap
         img(
           ref="profile_image"
-          @load="imageSizeJudge"
+          @load="fitImageSize"
           :src="userImage" 
           :alt="_userInfo.username"
         )
@@ -53,10 +53,9 @@
       changeRoute(route) {
         this.$router.push(route);
       },
-      imageSizeJudge(index) {
+      fitImageSize(index) {
         const img = this.$refs.profile_image;
         let bigWidth = img.width - img.height > 0;
-        console.log(img);
         if(!bigWidth) {
           img.classList.add('fit-width');
         }
