@@ -48,23 +48,24 @@ export default {
           // title: group.name + '\n' + group.description, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
           image: Vue.maps.getMarkerImage(), // 마커 이미지 
         });
+        
+        // 웹 호버콘텐츠
+        let iWContent = `
+          <div style="padding:5px;">
+            <p style="display:block;width:140px;text-align:center;text-overflow:ellipsis;white-space:nowrap;word-wrap:normal;overflow:hidden;">
+              ${groupList[index].name}
+            </p>
+          </div>`;
+        let infowindow = new Vue.maps.InfoWindow({
+          content : iWContent
+        });
+        event.addListener(marker, 'mouseover', function() {
+          infowindow.open(map, marker);
+        });
 
-        // let iWContent = `
-        //   <div style="padding:5px;">
-        //     <p style="display:block;width:140px;text-align:center;text-overflow:ellipsis;white-space:nowrap;word-wrap:normal;overflow:hidden;">
-        //       ${groupList[index].name}
-        //     </p>
-        //   </div>`;
-        // let infowindow = new Vue.maps.InfoWindow({
-        //   content : iWContent
-        // });
-        // event.addListener(marker, 'mouseover', function() {
-        //   infowindow.open(map, marker);
-        // });
-
-        // event.addListener(marker, 'mouseout', function() {
-        //   infowindow.close();
-        // });
+        event.addListener(marker, 'mouseout', function() {
+          infowindow.close();
+        });
 
         // 마커 이벤트 리스너 추가
         event.addListener(marker, 'click', () => {

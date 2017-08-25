@@ -22,8 +22,8 @@
       .intro-youtube-wrap
         iframe(
           width="100%" 
-          src="https://youtu.be/89K6ZGRGX5o" 
-          frameborder="0" 
+          src="https://www.youtube.com/embed/JbdWYK5rIKA?autoplay=1" 
+          frameborder="0"
           allowfullscreen
         )
       button.close-modal-button(
