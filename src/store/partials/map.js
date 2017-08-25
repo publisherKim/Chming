@@ -28,6 +28,9 @@ export default {
   mutations: {
     setMap(state, map) {
       state.map = map;
+      // 지도 확대 축소를 제어할 수 있는  줌 컨트롤을 생성합니다
+      const zoomControl = new Vue.maps.ZoomControl();
+      map.addControl(zoomControl, Vue.maps.ControlPosition.LEFT);
     },
     setMarker(state, {commit, getters}) {
       let groupList = getters.groupList;
