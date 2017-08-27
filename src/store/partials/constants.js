@@ -19,9 +19,6 @@ export default {
       GROUP_ALBUM_EMPTY: '더 이상 포토 앨범이 없습니다.',
       USER_HOBBY_MAX: '관심사는 5개까지 선택 할 수 있습니다.',
       GROUP_ACCESS: '모임가입을 해주세요.',
-      // ALBUMEMPTY: '더 이상 포토 앨범이 없습니다.',
-      // HOBBYMAX: '관심사는 5개까지 선택 할수 있습니다.',
-      // GROUPJOIN: '그룹에 회원가입을 해야 볼 수 있습니다.',
     },
   },
   getters: {

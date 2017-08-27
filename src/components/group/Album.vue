@@ -19,12 +19,18 @@
 
 <script>
   import AlbumView from '@/components/group/AlbumView';
-  import {mapMutations} from 'vuex';
+  import {mapGetters, mapMutations} from 'vuex';
   import defaultImage from '@/assets/default.png';
 
   export default {
+    beforeRouteEnter (to, from, next) {
+      let token = sessionStorage.getItem('token');
+      !token && next({name: 'main'});
+      token && next();
+    },
     created() {
-      this.getAlbumList();
+      if(!this.isAccessible) this.goToGroupHome();
+      else this.getAlbumList();
     },
     updated() {
       let albumWrapperTarget = this.$refs.albumList;
@@ -32,11 +38,6 @@
     },
     components: {
       AlbumView
-    },
-    computed: {
-      groupId() {
-        return this.$route.params.id;
-      },
     },
     data() {
       return {
@@ -48,8 +49,33 @@
         imageKey: null
       };
     },
+    computed: {
+      ...mapGetters(['userInfo']),
+      groupId() {
+        return this.$route.params.id;
+      },
+      isAccessible() {
+        let userInfo = this.userInfo;
+        let groupId = this.groupId;
+        if(userInfo) {
+          let isJoinedGroup = userInfo.joined_groups.some(group => {
+            return Number(groupId) === group.pk;
+          });
+          let isOpenGroup = userInfo.open_groups.some(group => {
+            return Number(groupId) === group.pk;
+          });
+          return isJoinedGroup || isOpenGroup;
+        } else return false;
+      },
+    },
     methods: {
       ...mapMutations(['setIsLoading']),
+      changeRoute(route) {
+        this.$router.push(route);
+      },
+      goToGroupHome() {
+        this.changeRoute({name: 'group_info_home', params: {id: this.groupId}});
+      },
       getAlbumList() { 
         let url = `/group/${this.groupId}/post/img/`;
         this.setIsLoading(true);

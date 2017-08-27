@@ -5,7 +5,7 @@
       .profile-image-wrap
         img.author_img(
           ref="profile_image0"
-          @load="imageSizeJudge(0)"
+          @load="fitImageSize(0)"
           :src="boardDetail.author.profile_img" 
           :alt="boardDetail.author.username"
         )
@@ -81,7 +81,7 @@
         .profile-image-wrap
           img.author-comment_img(
             :ref="`profile_image${index+1}`"
-            @load="imageSizeJudge(index+1)"
+            @load="fitImageSize(index+1)"
             :src="comment.author.profile_img" 
             alt="profile"
           )
@@ -114,11 +114,17 @@
   import defaultImage from '@/assets/default.png';
 
   export default {
+    beforeRouteEnter (to, from, next) {
+      let token = sessionStorage.getItem('token');
+      !token && next({name: 'main'});
+      token && next();
+    },
     created() {
-      this.getBoardDetail();
+      if(!this.isAccessible) this.goToGroupHome();
+      else this.getBoardDetail();
     },    
     components: {
-      GroupHeader
+      GroupHeader,
     },
     data () {
       return {
@@ -158,11 +164,24 @@
       isArticleEditable() {
         return this.isArticleAuthor || this.isMaster;
       },
+      isAccessible() {
+        let userInfo = this.userInfo;
+        let groupId = this.groupId;
+        if(userInfo) {
+          let isJoinedGroup = userInfo.joined_groups.some(group => {
+            return Number(groupId) === group.pk;
+          });
+          return isJoinedGroup || this.isMaster;
+        } else return false;
+      },
     },
     methods: {
       ...mapMutations(['setIsLoading', 'setToastMessage']),
       changeRoute(route) {
         this.$router.push(route);
+      },
+      goToGroupHome() {
+        this.changeRoute({name: 'group_info_home', params: {id: this.groupId}});
       },
       toggleCommentInput() {
         this.isCommentInputShow = !this.isCommentInputShow;
@@ -277,7 +296,7 @@
           return detail1.created_date < detail2.created_date;
         });
       },
-      imageSizeJudge(index) {
+      fitImageSize(index) {
         const $profileImage = this.$refs[`profile_image${index}`];
         const img = index === 0 ?  $profileImage : $profileImage[0];
         const bigWidth = img.naturalWidth - img.naturalHeight > 0;
