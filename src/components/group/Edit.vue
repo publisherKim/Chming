@@ -74,8 +74,14 @@
   import {mapGetters, mapMutations} from 'vuex';
 
   export default {
+    beforeRouteEnter (to, from, next) {
+      let token = sessionStorage.getItem('token');
+      !token && next({name: 'main'});
+      token && next();
+    },
     created() {
-      this.getGroupInfo();
+      if(!this.isAccessible) this.goToGroupHome();
+      else this.getGroupInfo(); 
     },
     components: {
       BackButton,
@@ -96,6 +102,9 @@
     },
     computed: {
       ...mapGetters(['url', 'validateMessage']),
+      groupId() {
+        return this.$route.params.id;
+      },
       isEmptyGroupDescription() {
         return this.group.description === '';
       },    
@@ -111,9 +120,25 @@
         if(this.uploadSrc !== null) return this.uploadSrc;
         else return this.group.image;
       },
+      isAccessible() {
+        let userInfo = this.userInfo;
+        let groupId = this.groupId;
+        if(userInfo) {
+          let isJoinedGroup = userInfo.joined_groups.some(group => {
+            return Number(groupId) === group.pk;
+          });
+          let isOpenGroup = userInfo.open_groups.some(group => {
+            return Number(groupId) === group.pk;
+          });
+          return isJoinedGroup || isOpenGroup;
+        } else return false;
+      },
     },
     methods: {
       ...mapMutations(['setIsLoading', 'setToastMessage']),
+      goToGroupHome() {
+        this.changeRoute({name: 'group_info_home', params: {id: this.groupId}});
+      },
       fileUpload(e) {
         let file = e.target.files[0];
         let reader = new FileReader();

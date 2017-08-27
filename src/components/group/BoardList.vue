@@ -7,7 +7,7 @@
           .profile-image-wrap
             img.author_image(
               :ref="`profile_image${index}`"
-              @load="imageSizeJudge(index)"
+              @load="fitImageSize(index)"
               :src="board.author.profile_img"
               :alt="board.author.username"
             )
@@ -80,12 +80,11 @@
           },
         });
       },
-      imageSizeJudge(index) {
+      fitImageSize(index) {
         const img = this.$refs[`profile_image${index}`][0];
-        const bigWidth = img.naturalWidth - img.naturalHeight > 0;
-
-        if(!bigWidth) {
-          img.classList.add('fit-width');
+        if(img) {
+          const bigWidth = img.naturalWidth - img.naturalHeight > 0;
+          !bigWidth && img.classList.add('fit-width');
         }
       }
     },

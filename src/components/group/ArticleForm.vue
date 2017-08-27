@@ -79,10 +79,14 @@
   import {mapGetters, mapMutations} from 'vuex';
 
   export default {
+    beforeRouteEnter (to, from, next) {
+      let token = sessionStorage.getItem('token');
+      !token && next({name: 'main'});
+      token && next();
+    },
     created() {
-      if(this.$route.name === 'group_articleEdit') {
-        this.getPostDetail(); 
-      }
+      if(!this.isAccessible) this.goToGroupHome();
+      else (this.$route.name === 'group_articleEdit') && this.getPostDetail(); 
     },
     components: {
       MessageBox,
@@ -104,7 +108,7 @@
       };       
     },
     computed: {
-      ...mapGetters(['url', 'validateMessage', 'isGroupAuthor']),      
+      ...mapGetters(['url', 'validateMessage', 'isGroupAuthor', 'userInfo']),      
       isEmptyBoardTitle() {
         return this.board.title === '';
       },
@@ -124,16 +128,32 @@
         if(this.uploadSrc) return this.uploadSrc;
         else return this.board.post_img;
       },
+      isAccessible() {
+        let userInfo = this.userInfo;
+        let groupId = this.groupId;
+        if(userInfo) {
+          let isJoinedGroup = userInfo.joined_groups.some(group => {
+            return Number(groupId) === group.pk;
+          });
+          let isOpenGroup = userInfo.open_groups.some(group => {
+            return Number(groupId) === group.pk;
+          });
+          return isJoinedGroup || isOpenGroup;
+        } else return false;
+      },
     },
     methods: {
-      ...mapMutations(['setIsLoading', 'setToastMessage', '']),
+      ...mapMutations(['setIsLoading', 'setToastMessage']),
       changeRoute(route) {
         this.$router.push(route);
-      },      
+      },
+      goToGroupHome() {
+        this.changeRoute({name: 'group_info_home', params: {id: this.groupId}});
+      },
       checkEmpty(field) {
         let board = this.board;
         board[field] === null && (board[field] = '');
-      },       
+      },
       fileUpload(e) {
         let file = e.target.files[0];
         let reader = new FileReader();

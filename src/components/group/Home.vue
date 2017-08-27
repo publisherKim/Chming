@@ -200,9 +200,10 @@
         index === 0 && (img = targetImage);
         index !== 0 && (img = targetImage[0]);
 
-        let bigWidth = img.naturalWidth - img.naturalHeight > 0;
-
-        !bigWidth && img.classList.add('fit-width');
+        if(img) {
+          let bigWidth = img.naturalWidth - img.naturalHeight > 0;
+          !bigWidth && img.classList.add('fit-width');
+        }
       }
     },
   };
