@@ -2,27 +2,60 @@
   .join-user-container
     h3.title 로그인
     form.join-user_form
+      p        
+        input.form_email(
+          v-model="email" 
+          @blur="checkEmpty('email')" 
+          ref="email" 
+          type="email" 
+          placeholder="이메일" 
+          aria-label="이메일"
+        )
+        message-box(
+          v-if="isEmptyEmail" 
+          :classList="['fa-check-circle-o', 'warning']" 
+          message="이메일 입력해주세요."
+        )
       p  
-        input.form_email(v-model="email" type="email" placeholder="이메일" aria-label="이메일")
-      p  
-        input.form_password(v-model="password" type="password" placeholder="비밀번호" aria-label="비밀번호")
-      button.login-button(@click.prevent="login") 확인
+        input.form_password(
+          v-model="password" 
+          @blur="checkEmpty('password')" 
+          ref="password"
+          type="password" 
+          placeholder="비밀번호(대소문자, 숫자 포함 8글자 이상)" 
+          aria-label="비밀번호"
+        )
+        message-box(
+          v-if="isEmptyPassword" 
+          :classList="['fa-check-circle-o', 'warning']" 
+          :message="validateMessage.USER_PASSWORD_EMPTY"
+        )
+      button.login-button(@click.prevent="userLogin") 확인
     ul.join-user_find-list
       li
         a(href @click.prevent="") 아이디 / 비밀번호 찾기
       li
-        a(href @click.prevent="changeRoute('user_join')") 회원가입
-    cancel-button(route="main")
+        a(href @click.prevent="changeRoute({name: 'user_join'})") 회원가입
+    back-button(:route="{name: 'main'}")
 
 </template>
 
 <script>
-  import CancelButton from '../common/CancelButton';
-  import { mapGetters, mapMutations } from 'vuex';
+  import BackButton from '../common/BackButton';
+  import MessageBox from '@/components/common/MessageBox';
+  import Vue from 'vue';
+  import {mapGetters, mapActions} from 'vuex';
 
   export default {
+    beforeRouteEnter (to, from, next) {
+      let token = sessionStorage.getItem('token');
+
+      token && next({name: 'main'});
+      !token && next();
+    },
     components: {
-      CancelButton,
+      BackButton,
+      MessageBox
     },
     data() {
       return {
@@ -30,47 +63,66 @@
         password: null,
       };
     },
+    computed: {
+      ...mapGetters(['userInfo', 'validateMessage']),
+      isEmptyEmail() {
+        return this.email === '';
+      },
+      isEmptyPassword() {
+        return this.password === '';
+      }            
+    },    
     methods: {
-      ...mapMutations(['setToken']),
-      login() {
-        this.$http.post(this.getUrl + '/member/login/', {
-          username: this.email,
-          password: this.password,
-        })
-          .then(response => {
-            if(response.status === 200) {
-              this.setToken(response.data.token);
-              this.changeRoute('main');
-            } else {
-              console.log('통신 실패');
-            }
-          })
-          .catch(error => {
-            console.alert('서버와의 통신에 실패했습니다.');
-          });
+      ...mapActions(['login']),
+      checkEmpty(field) {
+        this[field] === null && (this[field] = '');
+      },
+      loginValidate() {
+        let refs = this.$refs;
+        
+        if(this.isEmptyEmail) {
+          this.checkEmpty('email');
+          refs.email.focus();
+          return false;
+        }
+        if(this.isEmptyPassword) {
+          this.checkEmpty('password');
+          refs.password.focus();
+          return false;
+        }
+        return true;
       },
       changeRoute(route) {
-        this.$router.push({ name: route });
+        this.$router.push(route);
+      },
+      userLogin() {
+        if(!this.loginValidate()) return;
+
+        this.login({
+          email: this.email,
+          password: this.password,
+        });
       },
     },
-    computed: {
-      ...mapGetters(['getUrl']),
+    watch: {
+      userInfo(newData) {
+        // userInfo 값이 바뀌었을 때(로그인 후 유저정보 수신시) 메인으로 라우팅
+        newData !== null && this.changeRoute({name: 'main'});
+      }
     },
   };
 </script>
 
 <style lang="sass" scoped>
   @import "~chming"
-  
+
   .join-user-container
     +span(width 100% nest)
-    // background: #e1e1e1
-    background: #fff
-    border: 1px solid #ccc
+    background: $user-login-background-color
     min-height: 100vh
-    padding: 3rem
+    padding: 3.5rem
     h3.title
-      +sub-title
+      +sub-page-title
 
   p
     margin-top: 1.5rem
@@ -85,7 +137,7 @@
       bottom: -1.5rem
       right: 0
       transform: translateY(100%)
-      +confirm-button(5rem, 4rem)
+      +action-button(5rem, 4rem)
 
   .join-user_find-list
     margin-top: 1.5rem
@@ -95,6 +147,5 @@
   .form_confirm
     display: block
     margin: 2rem auto
-    +confirm-button(5rem, 3rem)
-
+    +action-button(5rem, 3rem)
 </style>

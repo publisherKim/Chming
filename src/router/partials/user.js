@@ -2,14 +2,13 @@
 import User from '@/components/user/User';
 import UserLogin from '@/components/user/Login';
 import UserJoin from '@/components/user/Join';
-import UserInterest from '@/components/common/Interest';
+import UserHobby from '@/components/common/Hobby';
 import UserLocation from '@/components/common/Location';
 import UserEdit from '@/components/user/Edit';
 import UserInfo from '@/components/user/Info';
 import UserFindId from '@/components/user/FindId';
 import UserFindPw from '@/components/user/FindPw';
-import UserMyGroupList from '@/components/user/MyGroupList';
-import UserMyFavoriteList from '@/components/user/MyFavoriteList';
+import UserGroupList from '@/components/user/GroupList';
 
 export default {
   path: '/user',
@@ -27,9 +26,9 @@ export default {
       component: UserJoin,
       children: [
         {
-          path: 'interest',
-          name: 'user_join_interest',
-          component: UserInterest,
+          path: 'hobby',
+          name: 'user_join_hobby',
+          component: UserHobby,
         },
         {
           path: 'location',
@@ -44,9 +43,9 @@ export default {
       component: UserEdit,
       children: [
         {
-          path: 'interest',
-          name: 'user_edit_interest',
-          component: UserInterest,
+          path: 'hobby',
+          name: 'user_edit_hobby',
+          component: UserHobby,
         },
         {
           path: 'location',
@@ -56,7 +55,7 @@ export default {
       ],
     },
     {
-      path: 'info/:id',
+      path: 'info',
       name: 'user_info',
       component: UserInfo,
     },
@@ -71,14 +70,14 @@ export default {
       component: UserFindPw,
     },
     {
-      path: 'myGroupList/:id',
+      path: 'myGroupList',
       name: 'user_myGroupList',
-      component: UserMyGroupList,
+      component: UserGroupList,
     },
     {
-      path: 'myFavoriteList/:id',
-      name: 'user_myFavoriteList',
-      component: UserMyFavoriteList,
+      path: 'myLikeGroupList',
+      name: 'user_myLikeGroupList',
+      component: UserGroupList,
     },
   ],
 };

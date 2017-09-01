@@ -1,6 +1,5 @@
-import Vue from 'vue';
 
-const chming = {
+export default {
   install: (Vue, options) => {
 
     let toString = Array.prototype.toString;
@@ -49,7 +48,7 @@ const chming = {
         };
       } else {
         return function(obj, callback) {
-          for(var i = 0, l = obj.length; i < l; i++) {
+          for(let i = 0, l = obj.length; i < l; i++) {
             callback(obj[i], i, obj);
           }
         };
@@ -66,12 +65,44 @@ const chming = {
 
       // 2. 객체
       if(this.isObject(obj)) {
-        for( var prop in obj ) {
+        for( let prop in obj ) {
           obj.hasOwnProperty(prop) && callback(prop, obj[prop], obj);
         }
       }
     };
+    Vue.mixin = function() {
+      var args = this.makeArray(arguments);
+      for(var i=0, l=args.length; i<l; i++) {
+        if(!this.isObject(args[i]) && !this.isFunction(args[i])) {
+          throw '전달인자로 객체만 허용합니다.';
+        }
+      }
+      var mixin_obj = args.shift();
+      var next = args.shift();
+      do {
+        for(var prop in next) {
+          if(next.hasOwnProperty(prop)) {
+            mixin_obj[prop] = next[prop];
+          }
+        }
+        next = args.shift();
+      } while ( next );
+
+      return mixin_obj;
+    };
+    Vue.setFormData = function(obj) {
+      let formData = new FormData();
+
+      Vue.each(obj, function(key, value) {
+        formData.append(key, obj[key]);
+      });
+
+      return formData;
+    };
+    Vue.isFileValidate = function(file) {
+      let isExceed5MB = file.size > 1024 * 1024 * 5;
+      let isImage = file.type.split('/')[0] === 'image';
+      return !isExceed5MB && isImage;
+    };
   },
 };
-
-Vue.use(chming);

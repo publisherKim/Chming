@@ -1,73 +1,102 @@
 <template lang="pug">
   .user-info-container
-    edit-button.edit-button(route="user_edit")     
-    button.logout-button(type="button" @click="logout")
-      i.fa.fa-sign-out(aria-hidden="true")  
-    .user-info_profile-wrap
-      img.profile_image(src="../../assets/logo.svg" alt="userName")
-      ul.profile_list
-        li.list_item 홍길동
-        li.list_item 1999.
-        li.list_item 01.
-        li.list_item 01
-      p.profile_location 경기도 성남시 서현동 
-    .user-info_interest-wrap
-      h3.title 관심사
-      .interest_list
-        li.list-item 배드민턴
-    .user-info_group-wrap
-      ul.group_list
-        li
-          a(href @click.prevent="changeRoute('user_myGroupList')") 내모임
-        li
-          a(href @click.prevent="changeRoute('user_myFavoriteList')") 관심모임
-        li
-          a(href @click.prevent="changeRoute('group_create')") 모임개설
-    cancel-button.button-close
+    .user-info_profile
+      .profile-image-wrap
+        img(
+          ref="profile_image"
+          @load="fitImageSize"
+          :src="userImage" 
+          :alt="_userInfo.username"
+        )
+      .profile-wrap
+        span.profile_name(aria-label="이름") {{_userInfo.username}}
+        span.profile_birth(aria-label="생년월일") {{userBirth}}
+        span.profile_location(aria-label="주소")
+          i.fa.fa-map-marker(aria-hidden="true")
+          | {{_userInfo.address}}
+        ul.hobby_list
+          li.list-item(v-for="hobby in _userInfo.hobby")
+            hobby-icon(:hobby="hobby" :title="hobby")
+    ul.user-info_list
+      li.list_menu
+        a(href @click.prevent="changeRoute({name: 'main'})") 홈
+      li.list_menu
+        a(href @click.prevent="changeRoute({name: 'user_edit'})") 정보수정
+      li.list_menu
+        a(href @click.prevent="changeRoute({name: 'user_myGroupList'})") 내모임
+      li.list_menu
+        a(href @click.prevent="changeRoute({name: 'user_myLikeGroupList'})") 관심모임
+      li.list_menu
+        a(href @click.prevent="changeRoute({name: 'group_create'})") 모임개설
+      li.list_menu
+        a(href @click.prevent="logout") 로그아웃
+    back-button(:route={name: 'main'})
 </template>
 
 <script>
-import EditButton from '@/components/common/EditButton';
-import CancelButton from '@/components/common/CancelButton';
-import { mapGetters } from 'vuex';
+  import BackButton from '@/components/common/BackButton';
+  import {mapGetters, mapActions} from 'vuex';
+  import HobbyIcon from '@/components/common/HobbyIcon';
 
-export default {
-  components: {
-    EditButton,
-    CancelButton
-  },
-  methods: {
-    changeRoute(route) {
-      (route === 'group_create') && this.$router.push({ name: route });
-      (route !== 'group_create') && this.$router.push({ name: route, params: { id: 1 } });
+  export default {
+    beforeRouteEnter (to, from, next) {
+      let token = sessionStorage.getItem('token');
+      !token && next({name: 'main'});
+      token && next();
     },
-    logout() {
-      this.$http.post(this.getUrl + '/member/login/', {
-        username: 'testuser01@ex.com',
-        password: '1111111a'
-      })
-        .then(response => {
-
-        })
-        .catch(error => {
-
-        });
+    components: {
+      BackButton,
+      HobbyIcon,
     },
-  },
-  computed: {
-    ...mapGetters(['getUrl']),
-  }
-};
+    methods: {
+      ...mapActions(['logout']),
+      changeRoute(route) {
+        this.$router.push(route);
+      },
+      fitImageSize(index) {
+        const img = this.$refs.profile_image;
+        let bigWidth = img.width - img.height > 0;
+        if(!bigWidth) {
+          img.classList.add('fit-width');
+        }
+      }
+    },
+    computed: {
+      ...mapGetters(['userInfo']),
+      userBirth() {
+        let userInfo = this._userInfo;
+        if(this.userInfo) {
+          return `${userInfo.birth_year}.${userInfo.birth_month}.${userInfo.birth_day}`;
+        }
+      },
+      userImage() {
+        let userInfo = this._userInfo;
+        return userInfo.profile_img;
+      },
+      _userInfo() {
+        if(this.userInfo) return this.userInfo;
+        else return {};
+      },
+    },
+    watch: {
+      userInfo(newVal) {
+        // userInfo 값이 바뀌었을 때(로그인 후 유저정보 null 처리시) 메인으로 라우팅
+        !newVal && this.changeRoute({name: 'main'});
+      },
+    },
+  };
 </script>
 
 <style lang="sass" scoped>
   @import "~chming"
 
+  $profile-height: 14rem
+  $menu-height: 5.5rem
+
   .user-info-container
     width: 100%
     height: 100vh
-    padding: 3rem
-    background: #fff
+    background: $user-info-background-color
     .edit-button
       position: absolute
       top: 4rem
@@ -78,45 +107,59 @@ export default {
       right: 3rem
       font-size: 1.7rem
       background: none
-      border: 0  
+      border: 0
 
-  .user-info_profile-wrap
+  .user-info_profile
+    padding: 4rem 2rem 2rem 2rem
+    background: $user-info-profile-background-color
     +clearfix
-    img
+    .profile_image
       float: left
-      width: 10rem
-      height: 10rem
-    
-  .profile_list
-    float: left
-    width: calc(100% - 12rem)
-    margin-left: 2rem
-    +clearfix
-    li 
+      position: relative
+      border-radius: 1000px
+    .hobby_list
+      +clearfix
+      li
+        height: 2rem
+        float: left
+        margin-right: 0.5rem
+    .profile-wrap
       float: left
+      position: relative
+      margin-left: 2rem
+      span
+        font-size: 1.5rem
+      .profile_name
+        margin-right: 1rem
 
-  .profile_location
-    float: left
-    margin-left: 2rem
+    .profile_location
+      display: block
+      margin: 0.6rem 0
+      i
+        margin-right: 1rem
 
-  .user-info_interest-wrap
-    margin-top: 2rem
-    
-  .group_list
-    +clearfix
-    margin-top: 1rem
-    padding-top: 3rem  
-    border-top: solid 1px #000
-    li
-      float: left
-      width: 33.33%
+  .user-info_list
+    .list_menu
+      border-bottom: 0.5px solid $user-info-menu-border-color
+      height: $menu-height
+      margin: 0 2rem
       text-align: center
-    a
-      display: inline-block
-      width: 6rem
-      height: 6rem
-      line-height: 6rem
-      border-radius: 100%
-      background: red
-    
+      font-size: 1.7rem
+      line-height: $menu-height
+      color: $user-info-menu-color
+      font-weight: bold
+      & > a
+        display: block
+        line-height: $menu-height
+        &:hover
+          background: $user-info-menu-background-hover-color
+          text-decoration: none
+          color: $user-info-menu-hover-color
+
+  .profile-image-wrap
+    +circle(6.5rem, 6.5rem)
+    img 
+      +profileImagePosition(auto, 100%)
+    .fit-width
+      +profileImagePosition(100%, auto)
 </style>

@@ -1,3 +1,7 @@
+*
+  font-family: $base-font-family
+  color: $base-color
+
 html
   box-sizing: border-box
   overflow-y: scroll
@@ -7,7 +11,6 @@ body
   font-size: $base-font-size
   line-height: $leading-scale
   // font-family: $base-font-family
-  color: $base-color
 
 h1, h2, h3, h4, h5, h6 
   margin: 0
@@ -25,9 +28,9 @@ a
   text-decoration: none
   color: inherit
   cursor: pointer
-a:hover
-  text-decoration: underline
 
+a:hover, a:focus
+  text-decoration: underline
 *,
 *::before,
 *::after
@@ -39,6 +42,7 @@ fieldset
   border: 0
 
 button
+  box-sizing: border-box
   font-size: inherit
   color: inherit
   cursor: pointer
@@ -52,3 +56,6 @@ ul
 textarea, input
   font-family: inherit
   font-size: $base-font-size
+
+pre
+  margin: 0

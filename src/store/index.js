@@ -1,49 +1,31 @@
-import Vue from 'vue';
 import Vuex from 'vuex';
+import Vue from 'vue';
+import api from './partials/api';
+import user from './partials/user';
+import group from './partials/group';
+import map from './partials/map';
+import filter from './partials/filter';
+import hobby from './partials/hobby';
+import region from './partials/region';
+import loading from './partials/loading';
+import toastmessage from './partials/toastmessage.js';
+import constants from './partials/constants.js';
+import init from './partials/init.js';
 
 Vue.use(Vuex);
 
-let maps = window.daum.maps;
-let imageSrc = 'http://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png';
-let imageSize = new maps.Size(24, 35);
-
 export default new Vuex.Store({
-  state: {
-    url: 'http://chming.jeongmyeonghyeon.com/api',
-    token: null,
-    userInfo: {
-      
-    },
-    mapUtils: {
-      markerImage: new maps.MarkerImage(imageSrc, imageSize),
-      places: new maps.services.Places(),
-      geocoder: new maps.services.Geocoder(),
-    },
-    map: null,
+  modules: {
+    api,
+    user,
+    group,
+    map,
+    filter,
+    hobby,
+    region,
+    loading,
+    toastmessage,
+    constants,
+    init,
   },
-  getters: {
-    getUrl(state) {
-      return state.url;
-    },
-    getToken(state) {
-      return state.token;
-    },
-    getMap(state) {
-      return state.map;
-    },
-    mapUtils(state) {
-      return state.mapUtils;
-    },
-  },
-  mutations: {
-    setMap(state, map) {
-      state.map = map;
-    },
-    setToken(state, token) {
-      state.token = token;
-    },
-  },
-  actions: {
-
-  }
 });
